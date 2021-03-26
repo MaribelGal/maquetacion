@@ -1,0 +1,21 @@
+body {
+    margin: 0;
+    display: flex;
+    flex-flow: column nowrap;
+    font-family: 'Open Sans',sans-serif;
+    background-color:  lightsteelblue;
+}
+
+header {
+    background-color: darkslategray;
+    color: floralwhite;
+    padding: 1%;
+}
+
+.main {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 2%;
+    justify-content: space-around;
+    color: floralwhite;
+}
