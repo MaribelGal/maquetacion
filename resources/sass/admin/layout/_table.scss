@@ -1,7 +1,3 @@
-$color-principal: 
-$color-secundario: hsl(180, 25%, 25%);
-
-
 .tabla{
     width: 65%;
     min-width: 30em;
@@ -18,7 +14,7 @@ $color-secundario: hsl(180, 25%, 25%);
 }
 
 .admin-tabla th{
-    background-color: $color-secundario;
+    background-color: hsl(180, 25%, 25%);
     color: white;
     padding: 1em 0 1em 0;
     border-bottom: .4em solid #ddd;
@@ -53,7 +49,7 @@ $color-secundario: hsl(180, 25%, 25%);
 .boton-editar, .boton-eliminar {
     border: none;
     background: none;
-    color: $color-secundario;
+    color: hsl(180, 25%, 25%);
 } 
 
 .boton-editar:hover, .boton-eliminar:hover {

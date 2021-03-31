@@ -1,13 +1,16 @@
 const { default: axios } = require("axios");
+const { isError } = require("lodash");
 
 const formularios = document.querySelectorAll(".admin-formulario");
 const botonGuardar = document.getElementById("boton-guardar");
 //const tablas = document.querySelectorAll(".");
 const tabla = document.getElementById("tabla");
 
-botonGuardar.addEventListener("click", (event) => {
+const errorTitulo = document.getElementById("error-titulo");
+const errorDescripcion = document.getElementById("error-descripcion");
 
-    event.preventDefault();
+botonGuardar.addEventListener("click", (event) => {
+    console.log(event);
 
     formularios.forEach(formulario => {
 
@@ -20,20 +23,24 @@ botonGuardar.addEventListener("click", (event) => {
         }*/
 
         let url = formulario.action;
+        console.log(formulario.action);
 
         let enviarPeticionPost = async () => {
             try {
                 await axios.post(url, datosFormulario).then(respuesta => {
-                    console.log(tabla);
                     formulario.id.value = respuesta.data.id;
                     tabla.innerHTML = respuesta.data.table;
+
                 });
 
             } catch (error) {
-                console.log(error);
+                if (error.response.status == '422') {
+                    errorTitulo.textContent = error.response.data.errors.titulo;
+
+                    errorDescripcion.textContent = error.response.data.errors.description;
+                }
             }
         }
-
         enviarPeticionPost();
 
     });

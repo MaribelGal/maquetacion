@@ -21,7 +21,9 @@ class FaqController extends Controller
     public function index()
     {
 
-        $view = View::make('admin.faqs.index')->with('faq', $this->faq)->with('faqs', $this->faq->get());
+        $view = View::make('admin.faqs.index')
+        ->with('faq', $this->faq)
+        ->with('faqs', $this->faq->where('active', 1)->get());
         
 
         if(request()->ajax()) {
@@ -63,7 +65,7 @@ class FaqController extends Controller
     }
 
     public function store(FaqRequest $request)
-    {            
+    {   
         $faq = $this->faq->updateOrCreate([
             'id' => request('id')],[
             'titulo' => request('titulo'), //name del input
@@ -72,7 +74,7 @@ class FaqController extends Controller
         ]);
 
         $view = View::make('admin.faqs.index')
-        ->with('faqs', $this->faq->get())
+        ->with('faqs', $this->faq->where('active', 1)->get())
         ->with('faq', $faq)
         ->renderSections();        
 
@@ -81,54 +83,44 @@ class FaqController extends Controller
             'form' => $view['form'],
             'id' => $faq->id,
         ]);
+
+        $request->messages();
     }
 
     public function show(Faq $faq)
     {
-        if (! Auth::guard('web')->user()->canAtLeast(['faqs','edit'])){
-            return Auth::guard('web')->user()->redirectPermittedSection();
-        }
-      
-        $this->locale->setParent(slug_helper($faq->category->name));
-        $locale = $this->locale->show($faq->id);
-
         $view = View::make('admin.faqs.index')
         ->with('faq', $faq)
-        ->with('locale', $locale)
-        ->with('crud_permissions', $this->crud_permissions);   
+        ->with('faqs', $this->faq->where('active', 1)->get());   
         
         if(request()->ajax()) {
+
             $sections = $view->renderSections(); 
     
             return response()->json([
                 'form' => $sections['form'],
+                'table' => $sections['table']
             ]); 
         }
                 
         return $view;
     }
+    
+
 
     public function destroy(Faq $faq)
     {
-        if (! Auth::guard('web')->user()->canAtLeast(['faqs','remove'])){
-            return Auth::guard('web')->user()->redirectPermittedSection();
-        }
-
-        $faq->delete();
-        $this->locale->setParent(slug_helper($faq->category->name));
-        $this->locale->delete($faq->id);
-
-        $message = \Lang::get('admin/faqs.faq-delete');
+        $faq->active = 0;
+        $faq->save();
 
         $view = View::make('admin.faqs.index')
-            ->with('faqs', $this->faq->get())
-            ->with('crud_permissions', $this->crud_permissions)
+            ->with('faq', $this->faq)
+            ->with('faqs', $this->faq->where('active', 1)->get())
             ->renderSections();
         
         return response()->json([
             'table' => $view['table'],
-            'form' => $view['form'],
-            'message' => $message,
+            'form' => $view['form']
         ]);
     }
 

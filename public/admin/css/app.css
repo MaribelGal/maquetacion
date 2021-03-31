@@ -67,6 +67,12 @@ header {
   color: white;
 }
 
+.formulario span {
+  color: red;
+  font-size: 0.8em;
+  text-align: end;
+}
+
 .tabla {
   width: 65%;
   min-width: 30em;
@@ -82,7 +88,7 @@ header {
 }
 
 .admin-tabla th {
-  background-color: darkslategray;
+  background-color: #305050;
   color: white;
   padding: 1em 0 1em 0;
   border-bottom: 0.4em solid #ddd;
@@ -117,7 +123,7 @@ header {
 .boton-editar, .boton-eliminar {
   border: none;
   background: none;
-  color: darkslategray;
+  color: #305050;
 }
 
 .boton-editar:hover, .boton-eliminar:hover {

@@ -28,7 +28,7 @@ class FaqRequest extends FormRequest
     public function rules() 
     {
         return [
-            'titulo' => 'required',
+            'titulo' => 'required|min:2',
             'description' => 'required',
         ];
     }
@@ -37,6 +37,7 @@ class FaqRequest extends FormRequest
     {
         return [
             'titulo.required' => 'El titulo es obligatorio',
+            'titulo.min' => 'El titulo debe tener mas de dos caracteres',
             'description.required' => 'Debe añadir una descripción',
         ];
     }

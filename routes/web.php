@@ -14,10 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-// Route::get('/admin/faqs', function () {
+// Route::get('/faqs', function () {
 //     return view('/admin/faqs/index');
 // });
 
+
+Route::get('/faqs', 'App\Http\Controllers\Front\FaqController@index');
 
 Route::group(['prefix' => 'admin'], function () {
     // Route::get('/faqs/json', 'App\Http\Controllers\Admin\FaqController@indexJson')->name('faqs_json');
@@ -25,9 +27,10 @@ Route::group(['prefix' => 'admin'], function () {
         'names' => [
             'index' => 'faqs', //Llamada de tipo get. Muestra todo
             'create' => 'faqs_create',
-            'store' => 'faqs_store', //Llamda de tipo post. Edita y guarda
+            'store' => 'faqs_store', //Llamada de tipo post. Edita y guarda
             'destroy' => 'faqs_destroy', //Llamada de tipo delete.
             'show' => 'faqs_show', //Muestra una cosa
         ]
     ]);
 }); 
+

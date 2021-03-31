@@ -6,11 +6,12 @@
     @yield('header') 
 
 <div class="main">
-    <div class='formulario'>
+    
+    <div class='formulario' id="formulario">
         @yield('form') 
     </div>
 
-    <div class='tabla' id="tabla">
+   <div class='tabla' id="tabla">
         @yield('table') 
     </div>
 </div>

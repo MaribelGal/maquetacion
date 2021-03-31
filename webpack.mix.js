@@ -11,5 +11,10 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/admin/js').version()
-    .sass('resources/sass/app.scss', 'public/admin/css');
+mix.js('resources/js/admin/app.js', 'public/admin/js').version()
+    .sass('resources/sass/admin/app.scss', 'public/admin/css').version()
+    .js('resources/js/front/desktop/app.js', 'public/front/desktop/js').version()
+    .sass('resources/sass/front/desktop/app.scss', 'public/front/desktop/css').version()
+    .js('resources/js/front/mobile/app.js', 'public/front/mobile/js').version()
+    .sass('resources/sass/front/mobile/app.scss', 'public/front/mobile/css').version();
+
