@@ -1,0 +1,59 @@
+.admin-tabla{
+    width: 100%;
+    background-color: white;
+    color: darkslategray;
+    border-collapse: collapse;
+    border: none;
+    table-layout: fixed;
+}
+
+.admin-tabla th{
+    background-color: hsl(180, 25%, 25%);
+    color: white;
+    padding: 1em 0 1em 0;
+    border-bottom: .4em solid #ddd;
+}
+
+.admin-tabla td{
+    border-bottom: .05em solid #ddd;
+    padding: .7em .5em;
+    word-wrap: break-word;
+    hyphens: auto;
+
+}
+
+.admin-tabla tr:nth-child(odd) {
+    background: #EBEBEB;
+}
+
+.admin-tabla tr:nth-child(even) {
+    background: #FFF;
+}
+
+.boton-editar, .boton-eliminar {
+    border: none;
+    background: hsla(0, 0%, 0%, 0.124);
+    border-radius: 10%;
+    margin-bottom: 5%;
+    padding: 2% 0;
+    color: hsl(180, 25%, 25%);
+} 
+
+.boton-editar svg, .boton-eliminar svg{
+    width: 1.5em;
+}
+
+.admin-tabla-idcolumna{
+    width: 10%;
+}
+.admin-tabla-accionescolumna{
+    width: 10%;
+}
+
+.admin-tabla-titulocolumna{
+    width: 40%;
+}
+
+.admin-tabla-descripcioncolumna{
+    width: 40%;
+}

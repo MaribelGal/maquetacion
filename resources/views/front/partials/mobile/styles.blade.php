@@ -1,1 +1,0 @@
-<link href="{{ mix('/front/mobile/css/app.css') }}" rel="stylesheet">

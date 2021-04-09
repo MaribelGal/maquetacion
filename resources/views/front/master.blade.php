@@ -11,11 +11,7 @@
 
         <title>FAQs</title>
 
-        @if (Agent::isMobile())
-            @include("front.partials.mobile.styles")
-        @else
-            @include("front.partials.desktop.styles")
-        @endif
+        @include("front.partials.styles")
  
     </head>
 
@@ -32,10 +28,7 @@
     </body>
 
 
-    @if (Agent::isMobile())
-        @include("front.partials.mobile.js")
-    @else
-        @include("front.partials.desktop.js")
-    @endif
+
+    @include("front.partials.js")
 
 </html>

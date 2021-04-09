@@ -1,1 +1,9 @@
-<script src="/admin/js/app.js"></script>
+
+
+@if ($agent->isMobile())
+    <script src="/admin/mobile/js/app.js"></script>
+@else 
+    <script src="/admin/desktop/js/app.js"></script>
+@endif
+
+

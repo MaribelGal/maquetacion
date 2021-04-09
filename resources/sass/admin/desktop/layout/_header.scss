@@ -1,0 +1,25 @@
+header {
+    position: relative;
+    border-bottom: $gris solid .15em;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    align-items: center;
+    justify-content: space-between;
+    z-index: 3;
+    
+}
+
+.header-logo{
+    background-color: blue;
+    text-align: start;
+}
+
+.header-titulo{
+    background-color: blueviolet;
+    text-align: center;
+}
+
+.header-menu{
+    background-color: brown;
+    text-align: end;
+}

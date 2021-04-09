@@ -1,0 +1,87 @@
+.tabla{
+    margin: 3em;
+    padding: 1%;
+    @include neumorphism(1em, 10%, 20%);
+}
+
+
+.admin-tabla{
+    width: 100%;
+    padding: 1%;
+    //background-color: white;
+    //color: darkslategray;
+    border-collapse: collapse;
+    border: none;
+    table-layout: fixed;
+    text-overflow: ellipsis;
+
+}
+
+.admin-tabla th{
+    //background-color: hsl(180, 25%, 25%);
+    //color: white;
+    padding: 1em 0 1em 0;
+    border-bottom: .4em solid hsl(0, 0%, 60%);
+    text-overflow: ellipsis;
+    
+}
+
+.admin-tabla td{
+    border-bottom: .05em solid hsl(0, 0%, 60%);
+    padding: .7em .5em;
+    word-wrap: break-word;
+    hyphens: auto;
+    text-overflow: ellipsis;
+}
+
+.admin-tabla tr:nth-child(odd) {
+    //background: #EBEBEB;
+}
+
+.admin-tabla tr:nth-child(even) {
+    //background: #FFF;
+}
+
+.admin-tabla tr:hover{
+    background: #acacac;
+    color: white;
+    
+}
+
+.admin-tabla-acciones{
+    text-align: center;
+}
+
+.boton-editar, .boton-eliminar {
+    border: none;
+    background: none;
+    color: hsl(180, 25%, 25%);
+} 
+
+.boton-editar svg, .boton-eliminar svg{
+    width: 2em;
+}
+
+.boton-editar:hover, .boton-eliminar:hover {
+    color: white;
+} 
+
+.admin-tabla-idcolumna{
+    width: 5%;
+    text-align: center;
+}
+.admin-tabla-accionescolumna{
+    width: 10%;
+}
+
+.admin-tabla-titulocolumna{
+    width: auto;
+}
+
+.admin-tabla-descripcioncolumna{
+    width: auto;
+}
+
+.admin-tabla-categoriacolumna{
+    width: 20%;
+}

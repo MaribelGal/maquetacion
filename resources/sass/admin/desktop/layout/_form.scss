@@ -1,0 +1,61 @@
+
+#formulario {
+    //width: 100%;
+    margin: 5em;
+        * {
+            background-color: transparent;
+        }
+}
+
+.admin-formulario {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: auto;
+
+    #item-titulo {
+        grid-column: 1;
+        grid-row: 1;
+    }
+    #item-categoria {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    #item-guardar {
+        grid-column: 1;
+        grid-row: 3;
+    }
+
+    #item-descripcion {
+        grid-column: 2;
+        grid-row: 1 / 4;
+    }
+}
+
+.formulario-contenido-item {
+    margin: 1em;
+    padding: .5em;
+    @include neumorphism(0.5em, 20px, 10px);
+}
+
+.formulario-contenido-item-campo {
+    height: 100%;
+
+    input,
+    textarea,
+    select {
+        @include normalizarInput;
+    }
+}
+
+.formulario-contenido-item-guardar input {
+    height: 100%;
+    @include normalizarInput;
+}
+
+.ck-editor__editable {
+    min-height: 7em;
+
+}

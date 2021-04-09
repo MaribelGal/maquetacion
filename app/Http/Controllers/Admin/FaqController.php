@@ -70,6 +70,7 @@ class FaqController extends Controller
             'id' => request('id')],[
             'titulo' => request('titulo'), //name del input
             'description' => request('description'),
+            'category_id' => request('category_id'),
             'active' => 1,
         ]);
 

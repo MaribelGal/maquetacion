@@ -4,24 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTFaqs extends Migration
+class CreateTFaqCategories extends Migration
 {
-    /** 
+    /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('t_faqs', function (Blueprint $table) {
+        Schema::create('t_faq_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('titulo');
-            $table->text('description');
+            $table->string('nombre');
             $table->boolean('active');
-            $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('t_faq_categories')->onUpdate('cascade');
             $table->timestamps();
-
         });
     }
 
@@ -32,6 +28,6 @@ class CreateTFaqs extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_faqs');
+        Schema::dropIfExists('t_faq_categories');
     }
 }
