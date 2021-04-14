@@ -19,23 +19,24 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-Route::get('/faqs', 'App\Http\Controllers\Front\FaqController@index');
+
+
+
 
 Route::group(['prefix' => 'admin'], function () {
     // Route::get('/faqs/json', 'App\Http\Controllers\Admin\FaqController@indexJson')->name('faqs_json');
-    
 
     Route::resource('faqs_categorias', 'App\Http\Controllers\Admin\FaqCategoryController', [
 
         'names' => [
-            'index' => 'faqs_categories', 
+            'index' => 'faqs_categories',
             'create' => 'faqs_categories_create',
-            'store' => 'faqs_categories_store', 
+            'store' => 'faqs_categories_store',
             'destroy' => 'faqs_categories_destroy',
-            'show' => 'faqs_categories_show', 
+            'show' => 'faqs_categories_show',
         ]
     ]);
-    
+
     Route::resource('faqs', 'App\Http\Controllers\Admin\FaqController', [
         'names' => [
             'index' => 'faqs', //Llamada de tipo get. Muestra todo
@@ -45,9 +46,43 @@ Route::group(['prefix' => 'admin'], function () {
             'show' => 'faqs_show', //Muestra una cosa
         ]
     ]);
-}); 
+
+    Route::resource('users', 'App\Http\Controllers\Admin\UserController', [
+        'names' => [
+            'index' => 'users', //Llamada de tipo get. Muestra todo
+            'create' => 'users_create',
+            'store' => 'users_store', //Llamada de tipo post. Edita y guarda
+            'destroy' => 'users_destroy', //Llamada de tipo delete.
+            'show' => 'users_show', //Muestra una cosa
+        ]
+    ]);
+
+    //---------------------------------------------------------------------------
+    // 14.04.2021 - Examen
+    Route::resource('clientes', 'App\Http\Controllers\Admin\ClienteController', [
+        //NOTA: el singular por defecto será {cliente}, es correcto no lo modifico
+        'names' => [
+            'index' => 'clientes',
+            'create' => 'clientes_create',
+            'store' => 'clientes_store',
+            'destroy' => 'clientes_destroy',
+            'show' => 'clientes_show',
+        ]
+    ]);
+
+    //---------------------------------------------------------------------------
+
+
+});
 
 
 
+// FRONT
+Route::get('/login', 'App\Http\Controllers\Front\LoginController@index')->name('front_login');
 
+Route::post('/login', 'App\Http\Controllers\Front\LoginController@login')->name('front_login_submit');
 
+Route::get('/logout', 'App\Http\Controllers\Front\LoginController@logout')->name('front_logout');
+
+// Route::get('/', 'App\Http\Controllers\Front\HomeController@index')->name('home_front');
+Route::get('/faqs', 'App\Http\Controllers\Front\FaqController@index')->name('faqs_front');

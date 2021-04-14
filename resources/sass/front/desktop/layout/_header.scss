@@ -1,34 +1,25 @@
 header {
-    background-color: darkslategray;
-    color: floralwhite;
-    padding: 1%;
+    position: relative;
+    border-bottom: $gris solid .15em;
     display: grid;
-    grid-template-columns: auto;
+    grid-template-columns: repeat(3,1fr);
     align-items: center;
+    justify-content: space-between;
+    z-index: 3;
+    color: $colorPrincipal;
+    font-size: 1.5em;
+    @include mayusEspaciado;
 }
+
 .header-logo{
-    grid-column: 1;
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
+    text-align: start;
 }
 
-.header-menu {
-    grid-column: 2;
-    justify-self: end;
-    width: max-content;
+.header-titulo{
+    text-align: center;
+    
 }
 
-.header-menu-item:hover {
-    background-color: #ffffff2f;
-}
-
-
-.header-menu-item {
-    &.mobile {
-        display: none;
-    }
-    &.desktop {
-        padding: .5em 2em;
-    }
+.header-menu{
+    text-align: end;
 }

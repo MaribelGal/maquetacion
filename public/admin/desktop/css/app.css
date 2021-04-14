@@ -425,6 +425,11 @@ svg {
   width: 2em;
 }
 
+.main {
+  display: flex;
+  flex-flow: row wrap;
+}
+
 .mobile {
   display: none;
 }
@@ -437,21 +442,28 @@ header {
   align-items: center;
   justify-content: space-between;
   z-index: 3;
+  color: #305050;
+  font-size: 1.5em;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
 }
 
 .header-logo {
-  background-color: blue;
   text-align: start;
 }
 
 .header-titulo {
-  background-color: blueviolet;
   text-align: center;
 }
 
-.header-menu {
-  background-color: brown;
-  text-align: end;
+.header-botonera {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-end;
+}
+.header-botonera .header-botonera-item {
+  margin-left: 1em;
 }
 
 .sidebar {
@@ -463,6 +475,11 @@ header {
   height: 0;
   width: 0;
   overflow: hidden;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+  align-content: stretch;
 }
 .sidebar.active {
   transition: all 300ms;
@@ -475,8 +492,25 @@ header {
   border-radius: 1em;
 }
 
+.sidebar-item {
+  margin: 2%;
+  padding: 1em 2em;
+  border: 0.2em #305050 solid;
+  border-radius: 1em;
+  cursor: pointer;
+}
+.sidebar-item:hover {
+  border-radius: 1em;
+  box-shadow: 0.2em 0.2em 0.3em #999999, -0.2em -0.2em 0.3em #ffffff;
+  transform: all 10s;
+}
+.sidebar-item:hover.mousedown {
+  box-shadow: inset 5px 5px 10px #919191, inset -5px -5px 10px white;
+  transform: all 1s;
+}
+
 #formulario {
-  margin: 5em;
+  margin: 1em;
 }
 #formulario * {
   background-color: transparent;
@@ -484,38 +518,18 @@ header {
 
 .admin-formulario {
   width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  grid-template-rows: auto;
-}
-.admin-formulario #item-titulo {
-  grid-column: 1;
-  grid-row: 1;
-}
-.admin-formulario #item-categoria {
-  grid-column: 1;
-  grid-row: 2;
-}
-.admin-formulario #item-guardar {
-  grid-column: 1;
-  grid-row: 3;
-}
-.admin-formulario #item-descripcion {
-  grid-column: 2;
-  grid-row: 1/4;
 }
 
 .formulario-contenido-item {
   margin: 1em;
   padding: 0.5em;
   border-radius: 0.5em;
-  /* offset-x | offset-y | blur-radius | color */
-  box-shadow: 5px 5px 10px #999999, -5px -5px 10px #ffffff;
+  box-shadow: 0.2em 0.2em 0.3em #999999, -0.2em -0.2em 0.3em #ffffff;
+  transform: all 10s;
 }
-.formulario-contenido-item .mousedown {
-  box-shadow: inset 5px 5px 10px #929292, inset -5px -5px 10px #ffffff;
-  transform: all 100ms;
+.formulario-contenido-item.mousedown {
+  box-shadow: inset 5px 5px 10px #919191, inset -5px -5px 10px white;
+  transform: all 1s;
 }
 
 .formulario-contenido-item-campo {
@@ -531,8 +545,10 @@ header {
   outline: none;
 }
 
-.formulario-contenido-item-guardar input {
+.formulario-contenido-item-boton input {
   height: 100%;
+  color: #305050;
+  font-weight: bold;
   background-color: #e0e0e0;
   border: none;
   width: 100%;
@@ -544,16 +560,21 @@ header {
   min-height: 7em;
 }
 
+#item-guardar {
+  margin-top: 3em;
+}
+
 .tabla {
-  margin: 3em;
+  width: 50%;
+  margin: 1em;
   padding: 1%;
   border-radius: 1em;
-  /* offset-x | offset-y | blur-radius | color */
-  box-shadow: 5px 5px 10px #999999, -5px -5px 10px #ffffff;
+  box-shadow: 0.2em 0.2em 0.3em #999999, -0.2em -0.2em 0.3em #ffffff;
+  transform: all 10s;
 }
-.tabla .mousedown {
-  box-shadow: inset 5px 5px 10px #929292, inset -5px -5px 10px #ffffff;
-  transform: all 100ms;
+.tabla.mousedown {
+  box-shadow: inset 5px 5px 10px #919191, inset -5px -5px 10px white;
+  transform: all 1s;
 }
 
 .admin-tabla {
@@ -567,12 +588,13 @@ header {
 
 .admin-tabla th {
   padding: 1em 0 1em 0;
-  border-bottom: 0.4em solid #999999;
+  border-bottom: 0.4em solid #adadad;
   text-overflow: ellipsis;
+  color: #305050;
 }
 
 .admin-tabla td {
-  border-bottom: 0.05em solid #999999;
+  border-bottom: 0.05em solid #adadad;
   padding: 0.7em 0.5em;
   word-wrap: break-word;
   -webkit-hyphens: auto;
@@ -582,7 +604,7 @@ header {
 }
 
 .admin-tabla tr:hover {
-  background: #acacac;
+  background: #adadad;
   color: white;
 }
 

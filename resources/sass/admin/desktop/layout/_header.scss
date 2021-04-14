@@ -6,20 +6,27 @@ header {
     align-items: center;
     justify-content: space-between;
     z-index: 3;
-    
+    color: $colorPrincipal;
+    font-size: 1.5em;
+    @include mayusEspaciado;
 }
 
 .header-logo{
-    background-color: blue;
     text-align: start;
 }
 
 .header-titulo{
-    background-color: blueviolet;
     text-align: center;
+    
 }
 
-.header-menu{
-    background-color: brown;
-    text-align: end;
+.header-botonera{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-end;
+
+    .header-botonera-item {
+        margin-left: 1em;
+    }
 }

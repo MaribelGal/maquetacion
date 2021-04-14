@@ -13,8 +13,8 @@ export let renderizarCkeditor = () => {
 
             toolbar: {
                 items: [
-                    'heading',
-                    '|',
+                    // 'heading',
+                    // '|',
                     'bold',
                     'italic',
                     'link',
@@ -25,8 +25,8 @@ export let renderizarCkeditor = () => {
                     'indent',
                     '|',
                     'blockQuote',
-                    'undo',
-                    'redo'
+                    // 'undo',
+                    // 'redo'
                 ]
             },
             language: 'es',
@@ -42,5 +42,4 @@ export let renderizarCkeditor = () => {
 
     });
     
-    console.log("ckeditor renderizado")
 }

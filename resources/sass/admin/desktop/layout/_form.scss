@@ -1,48 +1,48 @@
-
 #formulario {
     //width: 100%;
-    margin: 5em;
-        * {
-            background-color: transparent;
-        }
+    margin: 1em;
+    * {
+        background-color: transparent;
+    }
+
+
 }
 
 .admin-formulario {
     width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    grid-template-rows: auto;
 
-    #item-titulo {
-        grid-column: 1;
-        grid-row: 1;
-    }
-    #item-categoria {
-        grid-column: 1;
-        grid-row: 2;
-    }
+    // display: grid;
+    // grid-template-columns: 1fr 2fr;
+    // grid-template-rows: auto;
 
-    #item-guardar {
-        grid-column: 1;
-        grid-row: 3;
-    }
+    // #item-titulo {
+    //     grid-column: 1;
+    //     grid-row: 1;
+    // }
+    // #item-categoria {
+    //     grid-column: 1;
+    //     grid-row: 2;
+    // }
 
-    #item-descripcion {
-        grid-column: 2;
-        grid-row: 1 / 4;
-    }
+    // #item-guardar {
+    //     grid-column: 1;
+    //     grid-row: 3;
+    // }
+
+    // #item-descripcion {
+    //     grid-column: 2;
+    //     grid-row: 1 / 4;
+    // }
 }
 
 .formulario-contenido-item {
     margin: 1em;
-    padding: .5em;
+    padding: 0.5em;
     @include neumorphism(0.5em, 20px, 10px);
 }
 
 .formulario-contenido-item-campo {
     height: 100%;
-
     input,
     textarea,
     select {
@@ -50,12 +50,19 @@
     }
 }
 
-.formulario-contenido-item-guardar input {
-    height: 100%;
-    @include normalizarInput;
+.formulario-contenido-item-boton {
+    input {
+        height: 100%;
+        color: $colorPrincipal;
+        font-weight: bold;
+        @include normalizarInput;
+    }
 }
 
 .ck-editor__editable {
     min-height: 7em;
+}
 
+#item-guardar {
+    margin-top: 3em;
 }

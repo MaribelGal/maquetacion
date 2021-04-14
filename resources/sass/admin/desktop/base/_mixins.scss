@@ -1,14 +1,21 @@
 @mixin neumorphism ($border-radius, $offset-xy, $blur) {
     border-radius: $border-radius;
 
-    /* offset-x | offset-y | blur-radius | color */
-    box-shadow: 5px 5px 10px hsl(0, 0%, 60%), -5px -5px 10px #ffffff;
-    // box-shadow: $offset-xy $offset-xy $blur hsl(0, 0%, 75%), -($offset-xy) -($offset-xy) $blur #ffffff;
+    // /* offset-x | offset-y | blur-radius | color */
+    box-shadow: .2em .2em .3em hsl(0, 0%, 60%), -.2em -.2em .3em #ffffff;
+    // // box-shadow: $offset-xy $offset-xy $blur hsl(0, 0%, 75%), -($offset-xy) -($offset-xy) $blur #ffffff;
+    transform: all 10s;
 
-    & .mousedown {
-        box-shadow: inset 5px 5px 10px #929292,
-            inset -5px -5px 10px #ffffff;
-        transform: all 100ms;
+    &.mousedown {
+        box-shadow: 
+            inset 5px 5px 10px hsl(0, 0%, 57%), 
+            inset -5px -5px 10px hsl(0, 0%, 100%);
+        
+        // box-shadow: inset 5px 5px 10px #929292,
+        //     inset -5px -5px 10px #ffffff;
+        // transform: all 100ms;    
+        
+        transform: all 1s;
     }
 }
 
@@ -22,6 +29,13 @@
 
 
 }
+
+
+@mixin mayusEspaciado {
+    text-transform: uppercase;
+    letter-spacing: 0.3em
+}
+
 
 
 

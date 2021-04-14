@@ -29,6 +29,7 @@ class ViewComposerServiceProvider extends ServiceProvider
             'admin.faqs.index'],
             'App\Http\ViewComposers\Admin\FaqsCategories'
         );
+
     }
 
     public function register()

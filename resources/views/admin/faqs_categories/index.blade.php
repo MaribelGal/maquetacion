@@ -1,7 +1,11 @@
+@php
+     $route = 'faqs_categories';
+@endphp
+
 @extends('admin.tabla_formulario')
 
 @section('header')
-    <header> <p>Encabezado</p> </header>
+    @include('admin.partials.header')
 @endsection
 
 @section('form')
@@ -10,21 +14,9 @@
     <form class="admin-formulario" id="formulario-faqs" action="{{route("faqs_categories_store")}}" autocomplete="off">
 
         {{ csrf_field() }}
-
-        <div class="formulario-contenido-titulo" id="contenido-titulo">
-            <h1>Añadir Categorias FAQs</h1>
-        </div>
+        <input type="hidden" name="id" value="{{isset($faqCategory->id) ? $faqCategory->id : ''}}"> 
 
         <div class="formulario-contenido-item" id="item-nombre">
-            <input type="hidden" name="id" value="{{isset($faqCategory->id) ? $faqCategory->id : ''}}"> 
-
-            <div class="formulario-contenido-item-etiqueta">
-                <label for="formulario-contenido-item-campo">Nombre</label>
-            </div>
-
-            <div class="formulario-contenido-item-error">
-                <span id="error-nombre"></span>
-            </div>
 
             <div class="formulario-contenido-item-campo">
                 <input 
@@ -38,11 +30,11 @@
         </div>
 
         <div class="formulario-contenido-item" id="item-guardar">
-            <div class="formulario-contenido-item-boton desktop">
-                <input type="button" value="Guardar" id="boton-guardar-desktop"> </input>  
+            <div class="formulario-contenido-item-boton desktop" id="boton-guardar-desktop">
+                <input type="button" value="Guardar" > </input>  
             </div>
-            <div class="formulario-contenido-item-boton mobile">
-                <svg viewBox="0 0 24 24" id=boton-guardar-mobile>
+            <div class="formulario-contenido-item-boton mobile" id=boton-guardar-mobile>
+                <svg viewBox="0 0 24 24" >
                     <path fill="currentColor" d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" />
                 </svg>
             </div>
@@ -56,9 +48,6 @@
 
 
 @section('table')
-    <div class="tabla-titulo">
-        <h1>Categorias de FAQ's guardadas</h1>
-    </div>
 
     <table class="admin-tabla" id="tabla-faqs">
         <tr>

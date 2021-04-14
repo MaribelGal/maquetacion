@@ -15,6 +15,8 @@ class FaqCategoryController extends Controller
 
     function __construct(FaqCategory $faqCategory)
     {
+        $this->middleware('auth');
+        
         $this->faqCategory = $faqCategory;
     }
 

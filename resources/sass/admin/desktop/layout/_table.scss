@@ -1,5 +1,6 @@
 .tabla{
-    margin: 3em;
+    width: 50%;
+    margin: 1em;
     padding: 1%;
     @include neumorphism(1em, 10%, 20%);
 }
@@ -21,13 +22,13 @@
     //background-color: hsl(180, 25%, 25%);
     //color: white;
     padding: 1em 0 1em 0;
-    border-bottom: .4em solid hsl(0, 0%, 60%);
+    border-bottom: .4em solid $gris;
     text-overflow: ellipsis;
-    
+    color: $colorPrincipal;
 }
 
 .admin-tabla td{
-    border-bottom: .05em solid hsl(0, 0%, 60%);
+    border-bottom: .05em solid $gris;
     padding: .7em .5em;
     word-wrap: break-word;
     hyphens: auto;
@@ -43,8 +44,8 @@
 }
 
 .admin-tabla tr:hover{
-    background: #acacac;
-    color: white;
+    background: $gris;
+    color: $white;
     
 }
 
@@ -55,7 +56,7 @@
 .boton-editar, .boton-eliminar {
     border: none;
     background: none;
-    color: hsl(180, 25%, 25%);
+    color: $colorPrincipal;
 } 
 
 .boton-editar svg, .boton-eliminar svg{
@@ -63,7 +64,7 @@
 }
 
 .boton-editar:hover, .boton-eliminar:hover {
-    color: white;
+    color: $white;
 } 
 
 .admin-tabla-idcolumna{

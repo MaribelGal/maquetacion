@@ -1,0 +1,44 @@
+.formulario-contenido {
+    width: 50%;
+    margin: 25% auto;
+}
+
+.formulario-contenido-item {
+    margin: 1em;
+    padding: 0.5em;
+    @include neumorphism(0.5em, 0.2em, 0.3em);
+    display: flex;
+    flex-flow: row nowrap;
+
+    .formulario-contenido-item-campo {
+        flex-grow: 1;
+        height: 100%;
+        input,
+        textarea,
+        select {
+            @include normalizarInput;
+        }
+    }
+
+    .formulario-contenido-item-icono {
+        flex-grow: 0;
+    }
+
+    svg {
+        width: 1em;
+        color: $colorPrincipal;
+        filter: drop-shadow(0.1rem 0.1rem 0.1rem hsla(0, 0%, 60%, 0.5));
+    }
+}
+
+.formulario-contenido-item-boton {
+    width: 100%;
+    input {
+        color: $colorPrincipal;
+        font-weight: bold;
+        @include normalizarInput;
+    }
+}
+#item-guardar {
+    cursor: pointer;
+}

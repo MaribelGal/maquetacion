@@ -15,6 +15,7 @@ class FaqController extends Controller
 
     function __construct(Faq $faq)
     {
+        $this->middleware('auth');
         $this->faq = $faq;
     }
 

@@ -1912,7 +1912,11 @@ var renderizarCkeditor = function renderizarCkeditor() {
   document.querySelectorAll('.ckeditor').forEach(function (ckeditor) {
     _ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_0___default().create(ckeditor, {
       toolbar: {
-        items: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'undo', 'redo']
+        items: [// 'heading',
+        // '|',
+        'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote' // 'undo',
+        // 'redo'
+        ]
       },
       language: 'es',
       licenseKey: ''
@@ -1922,7 +1926,6 @@ var renderizarCkeditor = function renderizarCkeditor() {
       console.error(error);
     });
   });
-  console.log("ckeditor renderizado");
 };
 
 /***/ }),
@@ -1975,9 +1978,6 @@ var tabla = document.getElementById("tabla"); //const formulario = document.getE
 var renderizarFormulario = function renderizarFormulario() {
   var formularios = document.querySelectorAll(".admin-formulario");
   var botonGuardar = document.getElementById("boton-guardar-desktop");
-  var errorTitulo = document.getElementById("error-titulo");
-  var errorDescripcion = document.getElementById("error-descripcion");
-  var errorNombre = document.getElementById("error-nombre");
   botonGuardar.addEventListener("click", function (event) {
     formularios.forEach(function (formulario) {
       var datosFormulario = new FormData(formulario);
@@ -2011,6 +2011,7 @@ var renderizarFormulario = function renderizarFormulario() {
 
       var enviarPeticionPost = /*#__PURE__*/function () {
         var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+          var errors, errorMessage;
           return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
@@ -2033,8 +2034,14 @@ var renderizarFormulario = function renderizarFormulario() {
                   _context.t0 = _context["catch"](0);
 
                   if (_context.t0.response.status == '422') {
-                    errorTitulo.textContent = _context.t0.response.data.errors.titulo;
-                    errorDescripcion.textContent = _context.t0.response.data.errors.description; //errorNombre.textContent = error.response.data.errors.nombre;
+                    errors = _context.t0.response.data.errors;
+                    errorMessage = '';
+                    Object.keys(errors).forEach(function (key) {
+                      errorMessage += '<div>' + errors[key] + '</div>';
+                    });
+                    console.log(errorMessage);
+                    document.getElementById('item-error').innerHTML = errorMessage; // document.getElementById('error-container').classList.add('active');
+                    // document.getElementById('errors').innerHTML = errorMessage;
                   }
 
                 case 8:
@@ -2053,14 +2060,21 @@ var renderizarFormulario = function renderizarFormulario() {
       enviarPeticionPost();
     });
   });
-  botonGuardar.addEventListener("mousedown", function () {// botonGuardar.parentNode.cccontains("")
-    // classList.add("mousedown");
-    // pendiente
+  botonGuardar.addEventListener("mousedown", function () {
+    botonGuardar.parentElement.classList.add("mousedown");
+    console.log("pulsado");
   });
   botonGuardar.addEventListener("mouseup", function () {
-    botonGuardar.classList.remove("mousedown");
+    botonGuardar.parentElement.classList.remove("mousedown");
+    console.log("levantado");
   });
-};
+}; // let botonAgregarFormulario = document.getElementById("item-agregarformulario");
+// let formularioExtra = document.getElementById("formulario-direcciones");
+// botonAgregarFormulario.addEventListener("click", () => {
+//     console.log("click");
+//     formularioExtra.classList.toggle("disable");
+// })
+
 renderizarFormulario();
 (0,_ckeditor__WEBPACK_IMPORTED_MODULE_2__.renderizarCkeditor)();
 
@@ -2192,7 +2206,6 @@ var renderizarTabla = function renderizarTabla() {
   var botonesEditar = document.querySelectorAll(".boton-editar");
   botonesEditar.forEach(function (botonEditar) {
     botonEditar.addEventListener("click", function () {
-      console.log("boton editar");
       var url = botonEditar.dataset.url;
       console.log(url);
 
@@ -2205,8 +2218,8 @@ var renderizarTabla = function renderizarTabla() {
                   _context.prev = 0;
                   _context.next = 3;
                   return axios.get(url).then(function (respuesta) {
-                    formulario.innerHTML = respuesta.data.form;
-                    console.log(respuesta.data.form);
+                    formulario.innerHTML = respuesta.data.form; //console.log(respuesta.data.form);
+
                     (0,_form__WEBPACK_IMPORTED_MODULE_1__.renderizarFormulario)();
                     (0,_ckeditor__WEBPACK_IMPORTED_MODULE_2__.renderizarCkeditor)();
                   });
@@ -2279,7 +2292,6 @@ var renderizarTabla = function renderizarTabla() {
       enviarPeticionGet();
     });
   });
-  console.log("tabla renderizada");
 };
 renderizarTabla();
 

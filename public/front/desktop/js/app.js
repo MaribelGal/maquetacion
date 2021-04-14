@@ -1865,6 +1865,22 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
+/***/ "./resources/js/front/desktop/components/form.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/front/desktop/components/form.js ***!
+  \*******************************************************/
+/***/ (() => {
+
+var botonGuardar = document.getElementById("item-guardar");
+botonGuardar.addEventListener("mousedown", function () {
+  botonGuardar.classList.add("mousedown");
+});
+botonGuardar.addEventListener("mouseup", function () {
+  botonGuardar.classList.remove("mousedown");
+});
+
+/***/ }),
+
 /***/ "./resources/js/front/desktop/components/header.js":
 /*!*********************************************************!*\
   !*** ./resources/js/front/desktop/components/header.js ***!
@@ -19381,6 +19397,8 @@ __webpack_require__(/*! ../../bootstrap */ "./resources/js/bootstrap.js");
 __webpack_require__(/*! ./components/header */ "./resources/js/front/desktop/components/header.js");
 
 __webpack_require__(/*! ./components/panel */ "./resources/js/front/desktop/components/panel.js");
+
+__webpack_require__(/*! ./components/form */ "./resources/js/front/desktop/components/form.js");
 })();
 
 /******/ })()

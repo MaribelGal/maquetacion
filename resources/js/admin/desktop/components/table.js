@@ -13,7 +13,6 @@ export let renderizarTabla = () => {
     botonesEditar.forEach(botonEditar => {
         botonEditar.addEventListener("click", () => {
 
-            console.log("boton editar")
 
             let url = botonEditar.dataset.url;
             console.log(url);
@@ -22,7 +21,7 @@ export let renderizarTabla = () => {
                 try {
                     await axios.get(url).then(respuesta => {
                         formulario.innerHTML = respuesta.data.form;
-                        console.log(respuesta.data.form);
+                        //console.log(respuesta.data.form);
                         renderizarFormulario();
                         renderizarCkeditor();
                     });
@@ -58,7 +57,6 @@ export let renderizarTabla = () => {
         });
     });
 
-    console.log("tabla renderizada");
 };
 
 renderizarTabla();
