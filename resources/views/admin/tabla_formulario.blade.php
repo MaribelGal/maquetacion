@@ -2,10 +2,6 @@
 
 @section('content')
 
-<header>
-    @yield('header') 
-</header>
-
 <div class="main">
     
     <div class='formulario disable' id="formulario">

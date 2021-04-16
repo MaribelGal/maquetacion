@@ -4,144 +4,132 @@ $route = 'clientes';
 
 @extends('admin.tabla_formulario')
 
-@section('header')
-    @include('admin.partials.header')
-@endsection
-
-
 @section('form')
-    <div class="error-panel" id="item-error">
-    </div>
-
     <form class="admin-formulario" id="formulario-clientes" action="{{ route('clientes_store') }}" autocomplete="off">
+
+
 
         {{ csrf_field() }}
 
-        <input type="hidden" name="id" value="{{ isset($cliente->id) ? $cliente->id : '' }}">
+        <input type="hidden" name="id" value="{{ isset($cliente->id) ? $cliente->id : '' }}" />
 
-        <div class="formulario-contenido-item" id="item-nif">
+        <div class="formulario-contenedor">
+            <div class="formulario-tab">
+                <div class="formulario-tab-item active" id="tab-item-contacto" data-tab="contacto">
+                    <div>
+                        Contacto
+                    </div>
+                </div>
 
-            <div class="formulario-contenido-item-campo">
-                <input 
-                type="text" 
-                name="nif" 
-                id="formulario-contenido-item-campo-nif" 
-                placeholder="Nif"
-                value="{{ isset($cliente->id) ? $cliente->nif : '' }}">
-                </input>
+                <div class="formulario-tab-item " id="tab-item-direccion" data-tab="direccion">
+                    <div>
+                        Direccion
+                    </div>
+                </div>
             </div>
 
-        </div>
+            <div class="formulario-contenido">
+                <div class="formulario-contenido-panel active" data-tab="contacto">
+                    <div class="formulario-contenido-panel-item" id="item-nif">
 
-        <div class="formulario-contenido-item" id="item-nombre">
+                        <div class="formulario-contenido-panel-item-campo">
 
-            <div class="formulario-contenido-item-campo">
-                <input 
-                type="text" 
-                name="nombre" 
-                id="formulario-contenido-item-campo-nombre" 
-                placeholder="Nombre"
-                value="{{ isset($cliente->id) ? $cliente->nombre : '' }}">
-                </input>
-            </div>
+                            <input type="text" name="nif" id="formulario-contenido-panel-item-campo-nif" placeholder="Nif"
+                                value="{{ isset($cliente->id) ? $cliente->nif : '' }}" />
 
-        </div>
+                        </div>
+
+                    </div>
+
+                    <div class="formulario-contenido-panel-item" id="item-nombre">
+
+                        <div class="formulario-contenido-panel-item-campo">
+                            <input type="text" name="nombre" id="formulario-contenido-panel-item-campo-nombre"
+                                placeholder="Nombre" value="{{ isset($cliente->id) ? $cliente->nombre : '' }}" />
+                        </div>
+
+                    </div>
 
 
-        <div class="formulario-contenido-item" id="item-telefono">
+                    <div class="formulario-contenido-panel-item" id="item-telefono">
 
-            <div class="formulario-contenido-item-campo">
-                <input 
-                type="text" 
-                name="telefono" 
-                id="formulario-contenido-item-campo-telefono" 
-                placeholder="Telefono"
-                value="{{ isset($cliente->id) ? $cliente->telefono : '' }}">
-                </input>
-            </div>
+                        <div class="formulario-contenido-panel-item-campo">
+                            <input type="text" name="telefono" id="formulario-contenido-panel-item-campo-telefono"
+                                placeholder="Telefono" value="{{ isset($cliente->id) ? $cliente->telefono : '' }}" />
+                            </input>
+                        </div>
 
-        </div>
+                    </div>
 
-        <div class="formulario-contenido-item" id="item-email">
-            <div class="formulario-contenido-item-campo">
-                <input 
-                type="email" 
-                name="correo" 
-                id="formulario-contenido-item-campo-email" 
-                placeholder="Email"
-                value="{{ isset($cliente->id) ? $cliente->correo : '' }}" />
-            </div>
-        </div>
+                    <div class="formulario-contenido-panel-item" id="item-email">
+                        <div class="formulario-contenido-panel-item-campo">
+                            <input type="email" name="correo" id="formulario-contenido-panel-item-campo-email"
+                                placeholder="Email" value="{{ isset($cliente->id) ? $cliente->correo : '' }}" />
+                        </div>
+                    </div>
+                </div>
 
-        <div class="formulario-contenido-item" id="item-direccion">
-            <div class="formulario-contenido-item-campo">
-                <input 
-                type="text" 
-                name="direccion" 
-                id="formulario-contenido-item-campo-direccion"
-                placeholder="Calle, numero, piso, puerta"
-                value="{{ isset($cliente->id) ? $cliente->direccion : '' }}" />
-            </div>
-        </div>
+                <div class="formulario-contenido-panel" data-tab="direccion">
+                    <div class="formulario-contenido-panel-item" id="item-direccion">
+                        <div class="formulario-contenido-panel-item-campo">
+                            <input type="text" name="direccion" id="formulario-contenido-panel-item-campo-direccion"
+                                placeholder="Calle, numero, piso, puerta"
+                                value="{{ isset($cliente->id) ? $cliente->direccion : '' }}" />
+                        </div>
+                    </div>
 
-        <div class="formulario-contenido-item" id="item-cp">
-            <div class="formulario-contenido-item-campo">
-                <input 
-                type="text" 
-                name="cp" 
-                id="formulario-contenido-item-campo-cp" 
-                placeholder="Codigo postal"
-                value="{{ isset($cliente->id) ? $cliente->cp : '' }}" />
-            </div>
-        </div>
+                    <div class="formulario-contenido-panel-item" id="item-cp">
+                        <div class="formulario-contenido-panel-item-campo">
+                            <input type="text" name="cp" id="formulario-contenido-panel-item-campo-cp"
+                                placeholder="Codigo postal" value="{{ isset($cliente->id) ? $cliente->cp : '' }}" />
+                        </div>
+                    </div>
 
-        <div class="formulario-contenido-item" id="item-poblacion">
-            <div class="formulario-contenido-item-campo">
-                <input 
-                type="text" 
-                name="poblacion" 
-                id="formulario-contenido-item-campo-poblacion" 
-                placeholder="Poblacion"
-                value="{{ isset($cliente->id) ? $cliente->poblacion : '' }}" />
-            </div>
-        </div>
+                    <div class="formulario-contenido-panel-item" id="item-poblacion">
+                        <div class="formulario-contenido-panel-item-campo">
+                            <input type="text" name="poblacion" id="formulario-contenido-panel-item-campo-poblacion"
+                                placeholder="Poblacion" value="{{ isset($cliente->id) ? $cliente->poblacion : '' }}" />
+                        </div>
+                    </div>
 
-        <div class="formulario-contenido-item" id="item-provincia">
-            <div class="formulario-contenido-item-campo">
-                <input 
-                type="text" 
-                name="provincia" 
-                id="formulario-contenido-item-campo-provincia" 
-                placeholder="Provincia"
-                value="{{ isset($cliente->id) ? $cliente->provincia : '' }}" />
-            </div>
-        </div>
+                    <div class="formulario-contenido-panel-item" id="item-provincia">
+                        <div class="formulario-contenido-panel-item-campo">
+                            <input type="text" name="provincia" id="formulario-contenido-panel-item-campo-provincia"
+                                placeholder="Provincia" value="{{ isset($cliente->id) ? $cliente->provincia : '' }}" />
+                        </div>
+                    </div>
 
-        <div class="formulario-contenido-item" id="item-pais">
-            <div class="formulario-contenido-item-campo">
-                <input 
-                type="text" 
-                name="pais" 
-                id="formulario-contenido-item-campo-pais" 
-                placeholder="Pais"
-                value="{{ isset($cliente->id) ? $cliente->pais : '' }}" />
+                    <div class="formulario-contenido-panel-item" id="item-pais">
+                        <div class="formulario-contenido-panel-item-campo">
+                            <select name="pais">
+                                <option></option>
+                                @foreach ($countries as $country)
+                                    <option value="{{ $country->id }}"
+                                        {{ $cliente->country_id == $country->id ? 'selected' : '' }}>
+                                        {{ $country->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
+        <div class="error-panel" id="item-error">
 
+        </div>
 
-        <div class="formulario-contenido-item" id="item-guardar">
-            <div class="formulario-contenido-item-boton desktop" id="boton-guardar-desktop">
+        <div class="formulario-contenido-panel-item" id="item-guardar">
+            <div class="formulario-contenido-panel-item-boton desktop" id="boton-guardar-desktop">
                 <input type="button" value="Guardar"> </input>
             </div>
 
-            <div class="formulario-contenido-item-boton mobile" id=boton-guardar-mobile>
+            <div class="formulario-contenido-panel-item-boton mobile" id=boton-guardar-mobile>
                 <svg viewBox="0 0 24 24">
                     <path fill="currentColor"
                         d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" />
                 </svg>
             </div>
-
         </div>
 
 
@@ -162,7 +150,7 @@ $route = 'clientes';
         <table class="admin-tabla" id="tabla-clientes">
             <tr>
                 <th class="admin-tabla-idcolumna">Id</th>
-                <th class="admin-tabla-nombrecolumna">Nombre</th>
+                <th class="admin-tabla-columna2">Nombre</th>
                 <th class="admin-tabla-correocolumna">Email</th>
                 <th class="admin-tabla-telefonocolumna">telefono</th>
                 <th class="admin-tabla-accionescolumna"></th>

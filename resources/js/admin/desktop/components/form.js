@@ -81,17 +81,33 @@ export let renderizarFormulario = () => {
     });
 
 
+    let botonesTab = document.querySelectorAll(".formulario-tab-item");
+    let panelesTab = document.querySelectorAll(".formulario-contenido-panel");
 
+    botonesTab.forEach(botonTab => {
+        botonTab.addEventListener("click", (event) => {
 
+            panelesTab.forEach(panelTab => {
+                if (panelTab.dataset.tab == botonTab.dataset.tab) {
+                    panelTab.classList.toggle("active");
+                    botonTab.classList.toggle("active");
+                } else {
+                    panelTab.classList.toggle("active");
+                    botonTab.classList.toggle("active");
+                }
+            });
+
+        });
+    });
 };
-    // let botonAgregarFormulario = document.getElementById("item-agregarformulario");
-    // let formularioExtra = document.getElementById("formulario-direcciones");
+// let botonAgregarFormulario = document.getElementById("item-agregarformulario");
+// let formularioExtra = document.getElementById("formulario-direcciones");
 
-    // botonAgregarFormulario.addEventListener("click", () => {
-    //     console.log("click");
-    //     formularioExtra.classList.toggle("disable");
-    // })
+// botonAgregarFormulario.addEventListener("click", () => {
+//     console.log("click");
+//     formularioExtra.classList.toggle("disable");
+// })
 
-    
+
 renderizarFormulario();
 renderizarCkeditor();

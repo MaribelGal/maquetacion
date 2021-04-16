@@ -4,10 +4,6 @@
 
 @extends('admin.tabla_formulario')
 
-@section('header')
-    @include('admin.partials.header')
-@endsection
-
 @section('form')
 <div class="formulario-contenido">
     

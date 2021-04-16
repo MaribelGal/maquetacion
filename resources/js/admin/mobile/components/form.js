@@ -1,46 +1,76 @@
 const { default: axios } = require("axios");
-const { isError } = require("lodash");
 
-const formularios = document.querySelectorAll(".admin-formulario");
-const botonGuardar = document.getElementById("boton-guardar-mobile");
-//const tablas = document.querySelectorAll(".");
+import { renderizarTabla } from "./tableSwipe";
+import { renderizarCkeditor } from "../ckeditor";
+
 const tabla = document.getElementById("tabla");
 
-const errorTitulo = document.getElementById("error-titulo");
-const errorDescripcion = document.getElementById("error-descripcion");
 
-botonGuardar.addEventListener("click", (event) => {
-    console.log(event);
+export let renderizarFormulario = () => {
 
-    formularios.forEach(formulario => {
+    let formularios = document.querySelectorAll(".admin-formulario");
+    let botonGuardar = document.getElementById("boton-guardar-mobile");
 
-        const datosFormulario = new FormData(formulario);
+    botonGuardar.addEventListener("click", (event) => {
 
-        /*for (var entrada of datosFormulario.entries()) {
-            console.log(datosFormulario);
-            console.log(entrada[0] + ": " + entrada[1]);
-        }*/
+        formularios.forEach(formulario => {
 
-        let url = formulario.action;
-        console.log(formulario.action);
+            let datosFormulario = new FormData(formulario);
 
-        let enviarPeticionPost = async () => {
-            try {
-                await axios.post(url, datosFormulario).then(respuesta => {
-                    formulario.id.value = respuesta.data.id;
-                    tabla.innerHTML = respuesta.data.table;
+            if (ckeditors != 'null') {
+
+                Object.entries(ckeditors).forEach(([key, value]) => {
+                    datosFormulario.append(key, value.getData());
                 });
+            }
 
-            } catch (error) {
-                if (error.response.status == '422') {
-                    errorTitulo.textContent = error.response.data.errors.titulo;
+            for (var entrada of datosFormulario.entries()) {
+                console.log(datosFormulario);
+                console.log(entrada[0] + ": " + entrada[1]);
+            }
 
-                    errorDescripcion.textContent = error.response.data.errors.description;
+            let url = formulario.action;
+
+            let enviarPeticionPost = async () => {
+                try {
+
+                    await axios.post(url, datosFormulario).then(respuesta => {
+                        formulario.id.value = respuesta.data.id;
+                        tabla.innerHTML = respuesta.data.table;
+                        renderizarFormulario();
+                        renderizarTabla();
+
+                    });
+
+                } catch (error) {
+                    if (error.response.status == '422') {
+
+                        let errors = error.response.data.errors;
+                        let errorMessage = '';
+
+                        Object.keys(errors).forEach(function (key) {
+                            errorMessage += '<div>' + errors[key] + '</div>';
+                        })
+
+                        console.log(errorMessage);
+
+                        document.getElementById('item-error').innerHTML = errorMessage;
+
+                        // document.getElementById('error-container').classList.add('active');
+                        // document.getElementById('errors').innerHTML = errorMessage;
+                    }
                 }
             }
-        }
-        enviarPeticionPost();
+            enviarPeticionPost();
+
+        });
 
     });
 
-});
+
+    
+};
+
+
+renderizarFormulario();
+renderizarCkeditor();

@@ -7,5 +7,6 @@ botonMenu.addEventListener("click", (event) => {
     console.log(sideBar);
     sideBar.classList.toggle('active');
 
+    console.log(window.location);
 });
 

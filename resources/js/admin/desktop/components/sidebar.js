@@ -37,6 +37,5 @@ sidebarItems.forEach(sidebarItem => {
         sideBar.classList.toggle('active');
         enviarPeticionGet();
         window.history.pushState('','',url);
-        
-    });
+        });
 });

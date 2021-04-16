@@ -1,7 +1,4 @@
 .formulario, .tabla{
-    margin: 1% 0 ;
-    padding: 2%;
-    background-color: rgba(40,57,101, .5);
     border-radius:.7em;
     font-size: 0.8em;
     width: inherit;
@@ -27,7 +24,7 @@
     box-sizing: border-box;
 }
 
-.formulario-contenido-item-guardar {
+.formulario-contenido-item-boton {
     &.mobile {
         width: 2em; 
         align-self: flex-end;

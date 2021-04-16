@@ -2068,6 +2068,21 @@ var renderizarFormulario = function renderizarFormulario() {
     botonGuardar.parentElement.classList.remove("mousedown");
     console.log("levantado");
   });
+  var botonesTab = document.querySelectorAll(".formulario-tab-item");
+  var panelesTab = document.querySelectorAll(".formulario-contenido-panel");
+  botonesTab.forEach(function (botonTab) {
+    botonTab.addEventListener("click", function (event) {
+      panelesTab.forEach(function (panelTab) {
+        if (panelTab.dataset.tab == botonTab.dataset.tab) {
+          panelTab.classList.toggle("active");
+          botonTab.classList.toggle("active");
+        } else {
+          panelTab.classList.toggle("active");
+          botonTab.classList.toggle("active");
+        }
+      });
+    });
+  });
 }; // let botonAgregarFormulario = document.getElementById("item-agregarformulario");
 // let formularioExtra = document.getElementById("formulario-direcciones");
 // botonAgregarFormulario.addEventListener("click", () => {
@@ -2091,6 +2106,7 @@ var sideBar = document.getElementById("sidebar");
 botonMenu.addEventListener("click", function (event) {
   console.log(sideBar);
   sideBar.classList.toggle('active');
+  console.log(window.location);
 });
 
 /***/ }),

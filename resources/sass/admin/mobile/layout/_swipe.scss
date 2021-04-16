@@ -1,0 +1,91 @@
+.swipe-element {
+    position: relative;
+
+    width: 100%;
+    height: 4em;
+}
+
+.swipe-front {
+    background-color: chocolate;
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    box-sizing: border-box;
+
+    text-align: center;
+
+    vertical-align: center;
+
+    z-index: 2;
+
+    -ms-touch-action: none;
+    /* // [START touch-action-example] */
+    /* Pass all touches to javascript */
+    touch-action: none;
+    /* // [END touch-action-example] */
+}
+
+.swipe-back {
+    position: absolute;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    width: 100%;
+    height: 4em;
+
+    left: 0;
+    top: 0;
+
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+
+    -ms-flex-pack: justify;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+
+    padding: 0 10px;
+    box-sizing: border-box;
+
+    visibility: hidden;
+    color: $fondo;
+}
+
+// .swipe-back {
+//     &.eliminar.active {
+//         background-color: red;
+//     }
+
+//     &.editar.active {
+//         background-color: green;
+//     }
+// }
+
+
+#swipe-delete {
+    &.active {
+        justify-content: flex-end;
+        visibility: visible;
+        background-color: red;
+    }
+}
+
+#swipe-edit {
+    &.active {
+        justify-content: flex-start;
+        visibility: visible;
+        background-color: green;
+    }
+}
+
+.promote-layer {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}

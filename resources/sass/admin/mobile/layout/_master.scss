@@ -1,31 +1,23 @@
 body {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-flow: column wrap;
-    font-family: 'Open Sans',sans-serif;
-    background-color:  lightsteelblue;
-   
+    background-color: $fondo;
+    font-family: $font-stack;
+    margin:1%;
 }
 
-header {
-    background-color: darkslategray;
-    color: floralwhite;
-    width: inherit;
-    padding: 2%;
-    display: grid;
-    
+svg{
+    width: 2em;
 }
 
-.main {
+.main{
     display: flex;
     flex-flow: column nowrap;
-    padding: 2%;
-    justify-content: center;
-    align-items: stretch;
-    color: floralwhite;
 }
 
-.disable{
+
+.desktop, .disable {
     display: none;
+}
+
+.content{
+    display: contents;
 }

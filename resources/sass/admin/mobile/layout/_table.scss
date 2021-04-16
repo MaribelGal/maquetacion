@@ -1,34 +1,53 @@
 .admin-tabla{
-    width: 100%;
-    background-color: white;
-    color: darkslategray;
-    border-collapse: collapse;
-    border: none;
-    table-layout: fixed;
+    display: flex;
+    flex-flow: column nowrap;
 }
 
-.admin-tabla th{
+.admin-tabla-encabezado{
+    position: sticky;
+    top: 74px;
+    z-index: 3;
     background-color: hsl(180, 25%, 25%);
     color: white;
     padding: 1em 0 1em 0;
     border-bottom: .4em solid #ddd;
+    display: flex;
+    flex-flow: row nowrap;
+    text-align: center;
+
 }
 
-.admin-tabla td{
-    border-bottom: .05em solid #ddd;
-    padding: .7em .5em;
+.admin-tabla-contenido{
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.admin-tabla-contenido-fila {
+    width: 100%;
+    height: 100%;
+    background: #EBEBEB;
+    display: flex;
+    flex-flow: row nowrap;
     word-wrap: break-word;
     hyphens: auto;
-
+    border: solid black 3px
 }
 
-.admin-tabla tr:nth-child(odd) {
-    background: #EBEBEB;
+.admin-tabla-columna {
+    width: 100%;
+    height: 100%;
+
+    &.columna-id{
+        width: 10%;
+    }
+    &.columna-titulo{
+        width: 60%;
+    }
+    &.columna-categoria{
+        width: 30%;
+    }
 }
 
-.admin-tabla tr:nth-child(even) {
-    background: #FFF;
-}
 
 .boton-editar, .boton-eliminar {
     border: none;
@@ -39,9 +58,6 @@
     color: hsl(180, 25%, 25%);
 } 
 
-.boton-editar svg, .boton-eliminar svg{
-    width: 1.5em;
-}
 
 .admin-tabla-idcolumna{
     width: 10%;

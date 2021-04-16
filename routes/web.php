@@ -75,6 +75,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 });
 
+Route::post('/fingerprint', 'App\Http\Controllers\Front\FingerprintController@store')->name('front_fingerprint');
 
 
 // FRONT

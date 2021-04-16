@@ -11,7 +11,7 @@
     class="sidebar-item" 
     data-url="{{route("faqs_categories")}}">
     
-        Categorias Faq's
+        @lang('admin/faqs_categories.parent_section')
 
 </div>
 
@@ -19,6 +19,14 @@
     class="sidebar-item" 
     data-url="{{route("users")}}">
     
-        Usuarios
+        @lang('admin/users.parent_section')
+
+</div>
+
+<div 
+    class="sidebar-item" 
+    data-url="{{route("clientes")}}">
+    
+        @lang('admin/clientes.parent_section')
 
 </div>
