@@ -7,8 +7,6 @@ $route = 'clientes';
 @section('form')
     <form class="admin-formulario" id="formulario-clientes" action="{{ route('clientes_store') }}" autocomplete="off">
 
-
-
         {{ csrf_field() }}
 
         <input type="hidden" name="id" value="{{ isset($cliente->id) ? $cliente->id : '' }}" />
@@ -131,8 +129,6 @@ $route = 'clientes';
                 </svg>
             </div>
         </div>
-
-
     </form>
 
 @endsection
@@ -146,44 +142,48 @@ $route = 'clientes';
 
 
 @section('table')
-    <div class="tabla-contenedor">
-        <table class="admin-tabla" id="tabla-clientes">
-            <tr>
-                <th class="admin-tabla-idcolumna">Id</th>
-                <th class="admin-tabla-columna2">Nombre</th>
-                <th class="admin-tabla-correocolumna">Email</th>
-                <th class="admin-tabla-telefonocolumna">telefono</th>
-                <th class="admin-tabla-accionescolumna"></th>
-            </tr>
+    <div class="tabla-contenedor" id="tabla-faqs">
+        <div class="tabla-alerta " id="alerta">
+            <div class="tabla-alerta-eliminar " id="alerta-eliminar">
+                <div class="tabla-alerta-eliminar-mensaje"> ¿Seguro que quieres eliminar? </div>
+                <div class="tabla-alerta-eliminar-opciones">
+                    <div class="opcion" id="opcion-descartar">No</div>
+                    <div class="opcion" id="opcion-confirmar">Si</div>
+                </div>
+            </div>
+        </div>
 
+        <div class="tabla-contenido">
             @foreach ($clientes as $cliente_elemento)
-                <tr>
-                    <td class="admin-tabla-idcolumna">{{ $cliente_elemento->id }}</td>
-                    <td class="admin-tabla-nombrecolumna">{{ $cliente_elemento->nombre }}</td>
-                    <td class="admin-tabla-correocolumna"> {{ $cliente_elemento->correo }}</td>
-                    <td class="admin-tabla-telefonocolumna">{{ $cliente_elemento->telefono }}</td>
 
-                    <td class="admin-tabla-accionescolumna">
-                        <div class="admin-tabla-acciones">
-                            <button type="button" class="boton-eliminar"
-                                data-url="{{ route('clientes_destroy', ['cliente' => $cliente_elemento->id]) }}">
-                                <svg href="" viewBox="0 0 24 24">
-                                    <path fill="currentColor"
-                                        d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
-                                </svg>
-                            </button>
+                <div class="tabla-contenido-fila contents swipe-element ">
+                    <div class="tabla-contenido-fila-campos contents swipe-front promote-layer grid-column-1">
+                        <div class="tabla-celda grid-column-1 ">{{ $cliente_elemento->id }}</div>
+                        <div class="tabla-celda grid-column-2 ">{{ $cliente_elemento->nombre }}</div>
+                        <div class="tabla-celda grid-column-3 ">{{ $cliente_elemento->correo }}</div>
+                        <div class="tabla-celda grid-column-4 ">{{ $cliente_elemento->telefono }}</div>
+                    </div>
 
-                            <button type="button" class="boton boton-editar"
-                                data-url="{{ route('clientes_show', ['cliente' => $cliente_elemento->id]) }}">
-                                <svg viewBox="0 0 24 24">
-                                    <path fill="currentColor"
-                                        d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" />
-                                </svg>
-                            </button>
+                    <div class="tabla-contenido-fila-iconos contents">
+                        <div class=" tabla-celda swipe-back swipe-delete boton-eliminar grid-column-5" id="swipe-delete"
+                            data-url="{{ route('clientes_destroy', ['cliente' => $cliente_elemento->id]) }}">
+
+                            <svg viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
+                            </svg>
                         </div>
-                    </td>
-                </tr>
+
+                        <div class=" tabla-celda swipe-back swipe-edit boton-editar grid-column-6" id="swipe-edit"
+                            data-url="{{ route('clientes_show', ['cliente' => $cliente_elemento->id]) }}">
+                            <svg viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
             @endforeach
-        </table>
+        </div>
     </div>
 @endsection

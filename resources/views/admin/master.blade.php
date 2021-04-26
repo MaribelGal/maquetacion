@@ -18,10 +18,15 @@
 </header>
 
 <body class="antialiased">
-
-    @include('admin.partials.header')
-
     <div class="wrapper">
+        @include('admin.partials.header')
+
+        @include('admin.components.notifications')
+
+        @if (isset($filtros))
+            @include('admin.components.tabla_filtros', $filtros)
+        @endif
+
         <div class="main-content">
             @yield('content')
         </div>

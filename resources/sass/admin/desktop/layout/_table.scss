@@ -4,87 +4,105 @@
 .tabla-contenedor{
     margin: 1em;
     padding: 1%;
+    flex-grow: 1;
     @include neumorphism(1em, 10%, 20%);
 }
 
 
-.admin-tabla{
-    width: 100%;
-    padding: 1%;
+// .admin-tabla{
+//     width: 100%;
+//     padding: 1%;
 
-    border-collapse: collapse;
-    border: none;
-    table-layout: fixed;
-    text-overflow: ellipsis;
+//     border-collapse: collapse;
+//     border: none;
+//     table-layout: fixed;
+//     text-overflow: ellipsis;
 
-}
+// }
 
-.admin-tabla th{
-    padding: 1em 0 1em 0;
-    border-bottom: .4em solid $gris;
-    text-overflow: ellipsis;
-    color: $colorPrincipal;
+// .admin-tabla th{
+//     padding: 1em 0 1em 0;
+//     border-bottom: .4em solid $gris;
+//     text-overflow: ellipsis;
+//     color: $colorPrincipal;
 
-    width: auto;
-}
+//     width: auto;
+// }
 
-.admin-tabla td{
-    border-bottom: .05em solid $gris;
-    padding: .7em .5em;
-    word-wrap: break-word;
-    hyphens: auto;
-    text-overflow: ellipsis;
-    width: auto;
-}
+// .admin-tabla td{
+//     border-bottom: .05em solid $gris;
+//     padding: .7em .5em;
+//     word-wrap: break-word;
+//     hyphens: auto;
+//     text-overflow: ellipsis;
+//     width: auto;
+// }
 
-.admin-tabla tr:nth-child(odd) {
-    //background: #EBEBEB;
-}
+// .admin-tabla tr:nth-child(odd) {
+//     //background: #EBEBEB;
+// }
 
-.admin-tabla tr:nth-child(even) {
-    //background: #FFF;
-}
+// .admin-tabla tr:nth-child(even) {
+//     //background: #FFF;
+// }
 
-.admin-tabla tr:hover{
-    background: $gris;
-    color: $white;
+// .admin-tabla tr:hover{
+//     background: $gris;
+//     color: $white;
     
-}
+// }
 
-.admin-tabla-acciones{
-    text-align: center;
-}
-
-.boton-editar, .boton-eliminar {
-    border: none;
-    background: none;
-    color: $colorPrincipal;
-} 
-
-.boton-editar svg, .boton-eliminar svg{
-    width: 2em;
-}
-
-.boton-editar:hover, .boton-eliminar:hover {
-    color: $white;
-} 
-
-// .admin-tabla-idcolumna{
-//     width: 5%;
+// .admin-tabla-acciones{
 //     text-align: center;
 // }
-// .admin-tabla-accionescolumna{
-//     width: auto;
+
+// .boton-editar, .boton-eliminar {
+//     border: none;
+//     background: none;
+//     color: $colorPrincipal;
+// } 
+
+// .boton-editar svg, .boton-eliminar svg{
+//     width: 2em;
 // }
 
-// .admin-tabla-titulocolumna{
-//     width: auto;
-// }
+// .boton-editar:hover, .boton-eliminar:hover {
+//     color: $white;
+// } 
 
-// .admin-tabla-descripcioncolumna{
-//     width: auto;
-// }
 
-// .admin-tabla-categoriacolumna{
-//     width: 20%;
-// }
+.tabla-alerta{
+    display: none;
+}
+
+.tabla-contenido{
+    display: grid;
+}
+
+.tabla-contenido-fila{
+    // display: contents;
+    // grid-template-columns: 3fr 1fr;
+    // background-color: chocolate;
+    border-top: .1em solid rgba(0, 0, 0, 0.3);
+    margin: 1em;
+}
+
+
+.tabla-contenido-fila-iconos{
+    // display: flex;
+    // justify-content: flex-end;
+}
+
+.tabla-contenido-fila-campos{
+    // display: contents;
+    // grid-template-columns: repeat(auto,1fr);
+    overflow: hidden;
+}
+
+
+.tabla-celda {
+     border-bottom: 1px solid black;
+     overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 .5em;
+}

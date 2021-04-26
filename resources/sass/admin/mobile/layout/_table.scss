@@ -1,23 +1,22 @@
-.admin-tabla{
+.admin-tabla {
     display: flex;
     flex-flow: column nowrap;
 }
 
-.admin-tabla-encabezado{
+.admin-tabla-encabezado {
     position: sticky;
     top: 74px;
     z-index: 3;
     background-color: hsl(180, 25%, 25%);
     color: white;
     padding: 1em 0 1em 0;
-    border-bottom: .4em solid #ddd;
+    border-bottom: 0.4em solid #ddd;
     display: flex;
     flex-flow: row nowrap;
     text-align: center;
-
 }
 
-.admin-tabla-contenido{
+.admin-tabla-contenido {
     display: flex;
     flex-flow: column nowrap;
 }
@@ -25,51 +24,51 @@
 .admin-tabla-contenido-fila {
     width: 100%;
     height: 100%;
-    background: #EBEBEB;
+    background: #ebebeb;
     display: flex;
     flex-flow: row nowrap;
     word-wrap: break-word;
     hyphens: auto;
-    border: solid black 3px
+    border: solid black 3px;
 }
 
 .admin-tabla-columna {
     width: 100%;
     height: 100%;
 
-    &.columna-id{
+    &.columna-id {
         width: 10%;
     }
-    &.columna-titulo{
+    &.columna-titulo {
         width: 60%;
     }
-    &.columna-categoria{
+    &.columna-categoria {
         width: 30%;
     }
 }
 
-
-.boton-editar, .boton-eliminar {
+.boton-editar,
+.boton-eliminar {
     border: none;
     background: hsla(0, 0%, 0%, 0.124);
     border-radius: 10%;
     margin-bottom: 5%;
     padding: 2% 0;
     color: hsl(180, 25%, 25%);
-} 
-
-
-.admin-tabla-idcolumna{
-    width: 10%;
-}
-.admin-tabla-accionescolumna{
-    width: 10%;
 }
 
-.admin-tabla-titulocolumna{
+.admin-tabla-idcolumna {
+    width: 10%;
+}
+.admin-tabla-accionescolumna {
+    width: 10%;
+}
+
+.admin-tabla-titulocolumna {
     width: 40%;
 }
 
-.admin-tabla-descripcioncolumna{
+.admin-tabla-descripcioncolumna {
     width: 40%;
 }
+

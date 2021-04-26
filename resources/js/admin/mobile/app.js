@@ -3,7 +3,10 @@ require('../../bootstrap');
 
 
 require('./components/form');
-// require('./components/table');
+require('./filterTable');
 require('./components/header');
 
-require('./components/tableSwipe');
+// require('./components/tableSwipe');
+
+require('./components/swipe');
+require('./components/table');

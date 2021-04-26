@@ -1880,6 +1880,8 @@ __webpack_require__(/*! ../../bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./ckeditor */ "./resources/js/admin/desktop/ckeditor.js");
 
+__webpack_require__(/*! ./filterTable */ "./resources/js/admin/desktop/filterTable.js");
+
 __webpack_require__(/*! ./components/form */ "./resources/js/admin/desktop/components/form.js");
 
 __webpack_require__(/*! ./components/table */ "./resources/js/admin/desktop/components/table.js");
@@ -1887,6 +1889,10 @@ __webpack_require__(/*! ./components/table */ "./resources/js/admin/desktop/comp
 __webpack_require__(/*! ./components/sidebar */ "./resources/js/admin/desktop/components/sidebar.js");
 
 __webpack_require__(/*! ./components/header */ "./resources/js/admin/desktop/components/header.js");
+
+__webpack_require__(/*! ./components/alertConfirmation */ "./resources/js/admin/desktop/components/alertConfirmation.js");
+
+__webpack_require__(/*! ./components/notifications */ "./resources/js/admin/desktop/components/notifications.js");
 
 /***/ }),
 
@@ -1930,6 +1936,33 @@ var renderizarCkeditor = function renderizarCkeditor() {
 
 /***/ }),
 
+/***/ "./resources/js/admin/desktop/components/alertConfirmation.js":
+/*!********************************************************************!*\
+  !*** ./resources/js/admin/desktop/components/alertConfirmation.js ***!
+  \********************************************************************/
+/***/ (() => {
+
+// const botonConfirmar = document.getElementById("opcion-confirmar");
+// const botonDescartar = document.getElementById("opcion-descartar");
+// const alerta = document.getElementById("alerta");
+// const confirmacion = false;
+// export let confirmarEliminación = () =>  {
+//     botonConfirmar.addEventListener("click", () => {
+//         botonConfirmar.classList.add("confirmado");
+//         confirmado = true;
+//         console.log(confirmado);
+//         confirmacion = true;
+//     });
+//     botonDescartar.addEventListener("click", () => {
+//         alerta.classList.remove("active");
+//         console.log("descartado")
+//         confirmacion = false;
+//     });
+// }
+// confirmarEliminación();
+
+/***/ }),
+
 /***/ "./resources/js/admin/desktop/components/form.js":
 /*!*******************************************************!*\
   !*** ./resources/js/admin/desktop/components/form.js ***!
@@ -1945,6 +1978,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./table */ "./resources/js/admin/desktop/components/table.js");
 /* harmony import */ var _ckeditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ckeditor */ "./resources/js/admin/desktop/ckeditor.js");
+/* harmony import */ var _notifications__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./notifications */ "./resources/js/admin/desktop/components/notifications.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -1973,14 +2007,21 @@ var _require2 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.
 
 
 
+
 var tabla = document.getElementById("tabla"); //const formulario = document.getElementById("formulario");
 
 var renderizarFormulario = function renderizarFormulario() {
   var formularios = document.querySelectorAll(".admin-formulario");
   var botonGuardar = document.getElementById("boton-guardar-desktop");
   botonGuardar.addEventListener("click", function (event) {
+    document.getElementById('item-error').innerHTML = '';
     formularios.forEach(function (formulario) {
       var datosFormulario = new FormData(formulario);
+      console.log(datosFormulario.get('visible'));
+
+      if (datosFormulario.get('visible') == null) {
+        datosFormulario.set('visible', 0);
+      }
 
       if (ckeditors != 'null') {
         Object.entries(ckeditors).forEach(function (_ref) {
@@ -1998,7 +2039,6 @@ var renderizarFormulario = function renderizarFormulario() {
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var entrada = _step.value;
-          console.log(datosFormulario);
           console.log(entrada[0] + ": " + entrada[1]);
         }
       } catch (err) {
@@ -2021,6 +2061,7 @@ var renderizarFormulario = function renderizarFormulario() {
                   return axios.post(url, datosFormulario).then(function (respuesta) {
                     formulario.id.value = respuesta.data.id;
                     tabla.innerHTML = respuesta.data.table;
+                    (0,_notifications__WEBPACK_IMPORTED_MODULE_3__.showNotification)("success");
                     renderizarFormulario();
                     (0,_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
                   });
@@ -2083,6 +2124,61 @@ var renderizarFormulario = function renderizarFormulario() {
       });
     });
   });
+  var botonCrear = document.getElementById("boton-crear");
+  console.log(botonCrear);
+  botonCrear.addEventListener("click", function () {
+    var url = botonCrear.dataset.url;
+    console.log(url);
+    formularios.forEach(function (formulario) {
+      var enviarPeticionGet = /*#__PURE__*/function () {
+        var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+          var errors, errorMessage;
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+            while (1) {
+              switch (_context2.prev = _context2.next) {
+                case 0:
+                  _context2.prev = 0;
+                  _context2.next = 3;
+                  return axios.get(url).then(function (respuesta) {
+                    formulario.innerHTML = respuesta.data.form;
+                    renderizarFormulario();
+                    (0,_ckeditor__WEBPACK_IMPORTED_MODULE_2__.renderizarCkeditor)();
+                  });
+
+                case 3:
+                  _context2.next = 8;
+                  break;
+
+                case 5:
+                  _context2.prev = 5;
+                  _context2.t0 = _context2["catch"](0);
+
+                  if (_context2.t0.response.status == '422') {
+                    errors = _context2.t0.response.data.errors;
+                    errorMessage = '';
+                    Object.keys(errors).forEach(function (key) {
+                      errorMessage += '<div>' + errors[key] + '</div>';
+                    });
+                    console.log(errorMessage);
+                    document.getElementById('item-error').innerHTML = errorMessage;
+                  }
+
+                case 8:
+                case "end":
+                  return _context2.stop();
+              }
+            }
+          }, _callee2, null, [[0, 5]]);
+        }));
+
+        return function enviarPeticionGet() {
+          return _ref4.apply(this, arguments);
+        };
+      }();
+
+      enviarPeticionGet();
+    });
+  });
 }; // let botonAgregarFormulario = document.getElementById("item-agregarformulario");
 // let formularioExtra = document.getElementById("formulario-direcciones");
 // botonAgregarFormulario.addEventListener("click", () => {
@@ -2108,6 +2204,55 @@ botonMenu.addEventListener("click", function (event) {
   sideBar.classList.toggle('active');
   console.log(window.location);
 });
+
+/***/ }),
+
+/***/ "./resources/js/admin/desktop/components/notifications.js":
+/*!****************************************************************!*\
+  !*** ./resources/js/admin/desktop/components/notifications.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "showNotification": () => (/* binding */ showNotification)
+/* harmony export */ });
+function showNotification(type) {
+  var notificationsContainer = document.getElementById('notifications-container');
+  var notificationItem = notificationsContainer.querySelector("#notification-" + type); // switch (type) {
+  //     case "success":
+  //         notificationItem = notificationsContainer.querySelector("#notification-success");
+  //         break;
+  //     case "info":
+  //         notificationItem = notificationsContainer.querySelector("#notification-info");
+  //         break;
+  //     case "error":
+  //         notificationItem = notificationsContainer.querySelector("#notification-error");
+  //         break;
+  //     case "reorder":
+  //         notificationItem = notificationsContainer.querySelector("#notification-reorder");
+  //         break;
+  // }
+
+  var notificationItemClose = notificationItem.querySelectorAll(".notification-close");
+
+  var mostrar = function mostrar() {
+    notificationsContainer.classList.toggle("show");
+    notificationItem.classList.toggle("active");
+  };
+
+  mostrar();
+  setTimeout(function () {
+    mostrar();
+  }, 3000);
+  notificationItemClose.forEach(function (close) {
+    close.addEventListener("click", function () {
+      notificationItem.classList.toggle("active");
+      notificationsContainer.classList.toggle("show");
+    });
+  });
+}
 
 /***/ }),
 
@@ -2220,6 +2365,7 @@ var formulario = document.getElementById("formulario");
 var renderizarTabla = function renderizarTabla() {
   var botonesEliminar = document.querySelectorAll(".boton-eliminar");
   var botonesEditar = document.querySelectorAll(".boton-editar");
+  var paginationButtons = document.querySelectorAll('.paginacion-tabla-boton');
   botonesEditar.forEach(function (botonEditar) {
     botonEditar.addEventListener("click", function () {
       var url = botonEditar.dataset.url;
@@ -2308,8 +2454,395 @@ var renderizarTabla = function renderizarTabla() {
       enviarPeticionGet();
     });
   });
+  paginationButtons.forEach(function (paginationButton) {
+    paginationButton.addEventListener("click", function () {
+      var url = paginationButton.dataset.page;
+
+      var enviarPeticionGet = /*#__PURE__*/function () {
+        var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+            while (1) {
+              switch (_context3.prev = _context3.next) {
+                case 0:
+                  _context3.prev = 0;
+                  _context3.next = 3;
+                  return axios.get(url).then(function (respuesta) {
+                    tabla.innerHTML = respuesta.data.table;
+                    renderizarTabla();
+                  });
+
+                case 3:
+                  _context3.next = 8;
+                  break;
+
+                case 5:
+                  _context3.prev = 5;
+                  _context3.t0 = _context3["catch"](0);
+                  console.error(_context3.t0);
+
+                case 8:
+                case "end":
+                  return _context3.stop();
+              }
+            }
+          }, _callee3, null, [[0, 5]]);
+        }));
+
+        return function enviarPeticionGet() {
+          return _ref3.apply(this, arguments);
+        };
+      }();
+
+      enviarPeticionGet();
+    });
+  });
 };
 renderizarTabla();
+
+/***/ }),
+
+/***/ "./resources/js/admin/desktop/filterTable.js":
+/*!***************************************************!*\
+  !*** ./resources/js/admin/desktop/filterTable.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderizarFiltroTabla": () => (/* binding */ renderizarFiltroTabla)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/table */ "./resources/js/admin/desktop/components/table.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
+var tabla = document.getElementById("tabla");
+var campoInput = document.getElementById("campo-input-text");
+var campoDateStart = document.getElementById("campo-date-start");
+var campoDateEnd = document.getElementById("campo-date-end");
+var selectorOrderDesc = document.getElementById("selector-order-desc");
+var selectorCategoria = document.getElementById("selector-categoria");
+var PRUEBA = document.getElementById("my-checkbox");
+var camposRadioAscDesc = document.querySelectorAll(".order_asc_desc");
+var formularioFiltro = document.getElementById("filtro-formulario");
+var renderizarFiltroTabla = function renderizarFiltroTabla() {
+  selectorCategoria.addEventListener('change', function () {
+    var data = new FormData(formularioFiltro);
+    var url = formularioFiltro.action;
+
+    var _iterator = _createForOfIteratorHelper(data.entries()),
+        _step;
+
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var pair = _step.value;
+        console.log(pair[0] + ', ' + pair[1]);
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+
+    var sendPostRequest = /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return axios.post(url, data).then(function (response) {
+                  console.log("selector");
+                  tabla.innerHTML = response.data.table;
+                  (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                });
+
+              case 3:
+                _context.next = 7;
+                break;
+
+              case 5:
+                _context.prev = 5;
+                _context.t0 = _context["catch"](0);
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 5]]);
+      }));
+
+      return function sendPostRequest() {
+        return _ref.apply(this, arguments);
+      };
+    }();
+
+    sendPostRequest();
+  });
+  campoInput.addEventListener('keyup', function (event) {
+    console.log("tecla" + event);
+    var data = new FormData(formularioFiltro);
+    console.log(formularioFiltro);
+    var url = formularioFiltro.action;
+    console.log(formularioFiltro.action);
+
+    var sendPostRequest = /*#__PURE__*/function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                _context2.next = 3;
+                return axios.post(url, data).then(function (response) {
+                  console.log(response.data);
+                  tabla.innerHTML = response.data.table;
+                  (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                });
+
+              case 3:
+                _context2.next = 7;
+                break;
+
+              case 5:
+                _context2.prev = 5;
+                _context2.t0 = _context2["catch"](0);
+
+              case 7:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[0, 5]]);
+      }));
+
+      return function sendPostRequest() {
+        return _ref2.apply(this, arguments);
+      };
+    }();
+
+    sendPostRequest();
+  });
+  campoDateStart.addEventListener('change', function () {
+    var data = new FormData(formularioFiltro);
+    var url = formularioFiltro.action;
+
+    var sendPostRequest = /*#__PURE__*/function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                _context3.next = 3;
+                return axios.post(url, data).then(function (response) {
+                  console.log("selector date start");
+                  tabla.innerHTML = response.data.table;
+                  (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                });
+
+              case 3:
+                _context3.next = 7;
+                break;
+
+              case 5:
+                _context3.prev = 5;
+                _context3.t0 = _context3["catch"](0);
+
+              case 7:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[0, 5]]);
+      }));
+
+      return function sendPostRequest() {
+        return _ref3.apply(this, arguments);
+      };
+    }();
+
+    sendPostRequest();
+  });
+  campoDateEnd.addEventListener('change', function () {
+    var data = new FormData(formularioFiltro);
+    var url = formularioFiltro.action;
+
+    var sendPostRequest = /*#__PURE__*/function () {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.prev = 0;
+                _context4.next = 3;
+                return axios.post(url, data).then(function (response) {
+                  console.log("selector date end");
+                  tabla.innerHTML = response.data.table;
+                  (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                });
+
+              case 3:
+                _context4.next = 7;
+                break;
+
+              case 5:
+                _context4.prev = 5;
+                _context4.t0 = _context4["catch"](0);
+
+              case 7:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, null, [[0, 5]]);
+      }));
+
+      return function sendPostRequest() {
+        return _ref4.apply(this, arguments);
+      };
+    }();
+
+    sendPostRequest();
+  });
+  selectorOrderDesc.addEventListener('change', function () {
+    var data = new FormData(formularioFiltro);
+    var url = formularioFiltro.action;
+
+    var _iterator2 = _createForOfIteratorHelper(data.entries()),
+        _step2;
+
+    try {
+      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        var pair = _step2.value;
+        console.log(pair[0] + ', ' + pair[1]);
+      }
+    } catch (err) {
+      _iterator2.e(err);
+    } finally {
+      _iterator2.f();
+    }
+
+    var sendPostRequest = /*#__PURE__*/function () {
+      var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.prev = 0;
+                _context5.next = 3;
+                return axios.post(url, data).then(function (response) {
+                  // console.log(data)
+                  tabla.innerHTML = response.data.table;
+                  (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)(); // console.log(response.data.table)
+                });
+
+              case 3:
+                _context5.next = 7;
+                break;
+
+              case 5:
+                _context5.prev = 5;
+                _context5.t0 = _context5["catch"](0);
+
+              case 7:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, null, [[0, 5]]);
+      }));
+
+      return function sendPostRequest() {
+        return _ref5.apply(this, arguments);
+      };
+    }();
+
+    sendPostRequest();
+  }); // camposRadioAscDesc.forEach(campoRadioAscDesc => {
+  //     campoRadioAscDesc.addEventListener('change',()=>{
+  //         let data = new FormData(formularioFiltro);
+  //         let url = formularioFiltro.action;
+  //         for (var pair of data.entries()) {
+  //             console.log(pair[0]+ ', ' + pair[1]); 
+  //         }
+  //         let sendPostRequest = async () => {
+  //             try {
+  //                 await axios.post(url, data).then(response => {
+  //                     // console.log(data)
+  //                     tabla.innerHTML = response.data.table;
+  //                     renderizarTabla();
+  //                     // console.log(response.data.table)
+  //                 });
+  //             } catch (error) {
+  //             }
+  //         };
+  //         sendPostRequest();
+  //     });
+  // });
+
+  PRUEBA.addEventListener('click', function () {
+    var valor = PRUEBA.value;
+    var nuevoValor = valor == "desc" ? "asc" : "desc";
+    console.log(nuevoValor);
+    PRUEBA.value = nuevoValor;
+    var data = new FormData(formularioFiltro);
+    var url = formularioFiltro.action; // for (var pair of data.entries()) {
+    //     console.log(pair[0] + ', ' + pair[1]);
+    // }
+
+    var sendPostRequest = /*#__PURE__*/function () {
+      var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.prev = 0;
+                _context6.next = 3;
+                return axios.post(url, data).then(function (response) {
+                  tabla.innerHTML = response.data.table;
+                  (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                });
+
+              case 3:
+                _context6.next = 7;
+                break;
+
+              case 5:
+                _context6.prev = 5;
+                _context6.t0 = _context6["catch"](0);
+
+              case 7:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6, null, [[0, 5]]);
+      }));
+
+      return function sendPostRequest() {
+        return _ref6.apply(this, arguments);
+      };
+    }();
+
+    sendPostRequest();
+  });
+};
+renderizarFiltroTabla();
 
 /***/ }),
 
@@ -2328,6 +2861,20 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+window.onload = function () {
+  if (/iP(hone|ad)/.test(window.navigator.userAgent)) {
+    document.body.addEventListener('touchstart', function () {}, false);
+  }
+};
+
+window.requestAnimFrame = function () {
+  'use strict';
+
+  return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (callback) {
+    window.setTimeout(callback, 1000 / 60);
+  };
+}();
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

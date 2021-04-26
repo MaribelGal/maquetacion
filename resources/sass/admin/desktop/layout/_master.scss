@@ -1,4 +1,6 @@
-
+html{
+    min-width: 500px;
+}
 body {
     background-color: $fondo;
     font-family: $font-stack;
@@ -11,7 +13,9 @@ svg{
 
 .main{
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    justify-content: space-between;
 }
 
 
@@ -20,7 +24,7 @@ svg{
 }
 
 
-
-
-
+.contents {
+    display: contents;
+}
 

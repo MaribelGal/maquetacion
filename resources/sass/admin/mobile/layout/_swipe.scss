@@ -1,30 +1,42 @@
+.tabla-contenedor {
+    border: 2px solid red;
+    overflow: scroll;
+    height: 30vh;
+}
+
+.tabla-contenido{
+    position: relative;
+}
+
+.tabla-contenido-fila{
+    width: 100%;
+    height: 5em;
+}
+.tabla-contenido-fila-campos{
+    background-color: chocolate;
+    width: 100%;
+    height: 100%;;
+    border: 1px solid black;
+}
+.tabla-contenido-fila-iconos{
+    
+}
+
+
 .swipe-element {
     position: relative;
-
-    width: 100%;
-    height: 4em;
 }
 
 .swipe-front {
-    background-color: chocolate;
-    position: absolute;
-
+    position: relative;
     left: 0;
     top: 0;
-
     box-sizing: border-box;
-
     text-align: center;
-
     vertical-align: center;
-
     z-index: 2;
-
     -ms-touch-action: none;
-    /* // [START touch-action-example] */
-    /* Pass all touches to javascript */
     touch-action: none;
-    /* // [END touch-action-example] */
 }
 
 .swipe-back {
@@ -34,7 +46,7 @@
     display: flex;
 
     width: 100%;
-    height: 4em;
+    height: 5em;
 
     left: 0;
     top: 0;
@@ -51,7 +63,7 @@
     -webkit-align-items: center;
     align-items: center;
 
-    padding: 0 10px;
+    // padding: 0 10px;
     box-sizing: border-box;
 
     visibility: hidden;

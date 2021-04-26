@@ -1924,6 +1924,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _tableSwipe__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tableSwipe */ "./resources/js/admin/mobile/components/tableSwipe.js");
+/* harmony import */ var _tableSwipe__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_tableSwipe__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _ckeditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ckeditor */ "./resources/js/admin/mobile/ckeditor.js");
 
 
@@ -2067,112 +2068,86 @@ botonSelectorPanelTabla.addEventListener("click", function (event) {
 
 /***/ }),
 
-/***/ "./resources/js/admin/mobile/components/tableSwipe.js":
-/*!************************************************************!*\
-  !*** ./resources/js/admin/mobile/components/tableSwipe.js ***!
-  \************************************************************/
+/***/ "./resources/js/admin/mobile/components/swipe.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/admin/mobile/components/swipe.js ***!
+  \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "renderizarTabla": () => (/* binding */ renderizarTabla)
+/* harmony export */   "SwipeRevealItem": () => (/* binding */ SwipeRevealItem)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./form */ "./resources/js/admin/mobile/components/form.js");
-/* harmony import */ var _ckeditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ckeditor */ "./resources/js/admin/mobile/ckeditor.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/* // [START pointereventsupport] */
+var pointerDownName = "pointerdown";
+var pointerUpName = "pointerup";
+var pointerMoveName = "pointermove";
+
+if (window.navigator.msPointerEnabled) {
+  pointerDownName = "MSPointerDown";
+  pointerUpName = "MSPointerUp";
+  pointerMoveName = "MSPointerMove";
+} // Simple way to check if some form of pointerevents is enabled or not
 
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+window.PointerEventsSupport = false;
 
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-
-
-var tabla = document.getElementById("tabla");
-var formulario = document.getElementById("formulario");
-var renderizarTabla = function renderizarTabla() {
-  window.requestAnimFrame = function () {
-    'use strict';
-
-    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (callback) {
-      window.setTimeout(callback, 1000 / 60);
-    };
-  }();
-  /* // [START pointereventsupport] */
+if (window.PointerEvent || window.navigator.msPointerEnabled) {
+  window.PointerEventsSupport = true;
+}
+/* // [END pointereventsupport] */
 
 
-  var pointerDownName = 'pointerdown';
-  var pointerUpName = 'pointerup';
-  var pointerMoveName = 'pointermove';
+var SwipeRevealItem = /*#__PURE__*/function () {
+  function SwipeRevealItem(swipeConfig) {
+    _classCallCheck(this, SwipeRevealItem);
 
-  if (window.navigator.msPointerEnabled) {
-    pointerDownName = 'MSPointerDown';
-    pointerUpName = 'MSPointerUp';
-    pointerMoveName = 'MSPointerMove';
-  } // Simple way to check if some form of pointerevents is enabled or not
-
-
-  window.PointerEventsSupport = false;
-
-  if (window.PointerEvent || window.navigator.msPointerEnabled) {
-    window.PointerEventsSupport = true;
-  }
-  /* // [END pointereventsupport] */
-
-
-  function SwipeRevealItem(element) {
-    'use strict'; // Gloabl state variables
-
+    var axis = swipeConfig.axis;
+    var swipeElement = swipeConfig.swipeElement;
+    var swipeFrontElement = swipeConfig.swipeFrontElement;
+    var itemDimension = axis == "x" ? swipeFrontElement.clientWidth : swipeFrontElement.clientHeight;
+    var slopValue = itemDimension * swipeConfig.slopRatio;
+    var handleSizeLeftOrTop = itemDimension * swipeConfig.handleSizeRatio_LeftOrTop;
+    var handleSizeRightOrBottom = itemDimension * swipeConfig.handleSizeRatio_RightOrBottom;
+    var limitRightOrBottom = itemDimension * swipeConfig.limitRatio_RightOrBottom;
+    var limitLeftOrTop = itemDimension * swipeConfig.limitRatio_LeftOrTop;
     var STATE_DEFAULT = 1;
-    var STATE_LEFT_SIDE = 2;
-    var STATE_RIGHT_SIDE = 3;
-    var swipeFrontElement = element.querySelector('.swipe-front');
+    var STATE_LEFT_TOP_SIDE = 2;
+    var STATE_RIGHT_BOTTOM_SIDE = 3;
+    var backLeftOrTopVisible = false;
+    var backRightOrBottomVisible = false;
     var rafPending = false;
     var initialTouchPos = null;
     var lastTouchPos = null;
     var currentXPosition = 0;
+    var currentYPosition = 0;
+    var currentAxisPosition = axis == "x" ? currentXPosition : currentYPosition;
     var currentState = STATE_DEFAULT;
-    var handleSize = 10; // Perform client width here as this can be expensive and doens't
-    // change until window.onresize
-
-    var itemWidth = swipeFrontElement.clientWidth;
-    var slopValue = itemWidth * (1 / 4); // On resize, change the slop value
-
-    this.resize = function () {
-      itemWidth = swipeFrontElement.clientWidth;
-      slopValue = itemWidth * (1 / 4);
-    };
-    /* // [START handle-start-gesture] */
-    // Handle the start of gestures
-
 
     this.handleGestureStart = function (evt) {
       evt.preventDefault();
 
       if (evt.touches && evt.touches.length > 1) {
         return;
-      } // Add the move and end listeners
-
+      }
 
       if (window.PointerEvent) {
         evt.target.setPointerCapture(evt.pointerId);
       } else {
-        // Add Mouse Listeners
-        document.addEventListener('mousemove', this.handleGestureMove, true);
-        document.addEventListener('mouseup', this.handleGestureEnd, true);
+        document.addEventListener("mousemove", this.handleGestureMove, true);
+        document.addEventListener("mouseup", this.handleGestureEnd, true);
       }
 
       initialTouchPos = getGesturePointFromEvent(evt);
-      swipeFrontElement.style.transition = 'initial';
-    }.bind(this);
-    /* // [END handle-start-gesture] */
-    // Handle move gestures
-    //
-
-    /* // [START handle-move] */
-
+      swipeFrontElement.style.transition = "initial";
+    };
 
     this.handleGestureMove = function (evt) {
       evt.preventDefault();
@@ -2189,12 +2164,7 @@ var renderizarTabla = function renderizarTabla() {
 
       rafPending = true;
       window.requestAnimFrame(onAnimFrame);
-    }.bind(this);
-    /* // [END handle-move] */
-
-    /* // [START handle-end-gesture] */
-    // Handle end gestures
-
+    };
 
     this.handleGestureEnd = function (evt) {
       evt.preventDefault();
@@ -2203,78 +2173,132 @@ var renderizarTabla = function renderizarTabla() {
         return;
       }
 
-      rafPending = false; // Remove Event Listeners
+      rafPending = false;
 
       if (window.PointerEvent) {
         evt.target.releasePointerCapture(evt.pointerId);
       } else {
-        // Remove Mouse Listeners
-        document.removeEventListener('mousemove', this.handleGestureMove, true);
-        document.removeEventListener('mouseup', this.handleGestureEnd, true);
+        document.removeEventListener("mousemove", this.handleGestureMove, true);
+        document.removeEventListener("mouseup", this.handleGestureEnd, true);
       }
 
+      console.log("AXIS: ", axis);
       updateSwipeRestPosition();
       initialTouchPos = null;
-    }.bind(this);
-    /* // [END handle-end-gesture] */
-
+    };
 
     function updateSwipeRestPosition() {
       var differenceInX = initialTouchPos.x - lastTouchPos.x;
-      currentXPosition = currentXPosition - differenceInX; // Go to the default state and change
+      var differenceInY = initialTouchPos.y - lastTouchPos.y;
+      var newState = STATE_DEFAULT;
+      var differenceInAxis = axis == "x" ? differenceInX : differenceInY;
+      currentAxisPosition = currentAxisPosition - differenceInAxis;
+      console.log(differenceInAxis);
+      newState = triggerState(differenceInAxis);
+      changeState(newState);
+      swipeFrontElement.style.transition = "all 150ms ease-out";
+    }
 
-      var newState = STATE_DEFAULT; // Check if we need to change state to left or right based on slop value
+    function triggerState(differenceInAxis) {
+      console.log("trigger");
+      console.log(currentState);
+      var newState = STATE_DEFAULT;
 
-      if (Math.abs(differenceInX) > slopValue) {
-        if (currentState === STATE_DEFAULT) {
-          if (differenceInX > 0) {
-            newState = STATE_LEFT_SIDE;
-          } else {
-            newState = STATE_RIGHT_SIDE; // newState = STATE_DEFAULT;
-          }
-        } else {
-          if (currentState === STATE_LEFT_SIDE && differenceInX > 0) {
-            newState = STATE_DEFAULT;
-          } else if (currentState === STATE_RIGHT_SIDE && differenceInX < 0) {
-            newState = STATE_DEFAULT;
-          }
-        }
-      } else {
-        newState = currentState;
+      if (isStateDefault(differenceInAxis)) {
+        console.log("state default");
+        newState = STATE_DEFAULT;
       }
 
-      changeState(newState);
-      swipeFrontElement.style.transition = 'all 150ms ease-out';
+      if (currentState === STATE_DEFAULT) {
+        if (differenceInAxis > 0 && isStateLeftOrTop(differenceInAxis)) {
+          console.log("state left top");
+          newState = STATE_LEFT_TOP_SIDE;
+        }
+
+        if (differenceInAxis < 0 && isStateRightOrBottom(differenceInAxis)) {
+          console.log("state right botom");
+          newState = STATE_RIGHT_BOTTOM_SIDE;
+        }
+      }
+
+      return newState;
+    }
+
+    function isStateLeftOrTop(differenceInAxis) {
+      var booleanLeftTop = false;
+
+      if (swipeConfig.limitRatio_LeftOrTop < 1) {
+        if (Math.abs(differenceInAxis) > Math.abs(limitLeftOrTop)) {
+          booleanLeftTop = true;
+          console.log("limit left");
+        }
+      } else if (Math.abs(differenceInAxis) > slopValue) {
+        booleanLeftTop = true;
+        console.log("slop");
+      }
+
+      return booleanLeftTop;
+    }
+
+    function isStateRightOrBottom(differenceInAxis) {
+      var booleanRightOrBottom = false;
+
+      if (swipeConfig.limitRatio_RightOrBottom < 1) {
+        if (Math.abs(differenceInAxis) > Math.abs(limitRightOrBottom)) {
+          booleanRightOrBottom = true;
+          console.log("limit right");
+        }
+      } else if (Math.abs(differenceInAxis) > slopValue) {
+        booleanRightOrBottom = true;
+        console.log("slop");
+      }
+
+      return booleanRightOrBottom;
+    }
+
+    function isStateDefault(differenceInAxis) {
+      var booleanDefault = false;
+
+      if (Math.abs(differenceInAxis) > slopValue) {
+        if (currentState === STATE_LEFT_TOP_SIDE && differenceInAxis > 0) {
+          booleanDefault = true;
+        } else if (currentState === STATE_RIGHT_BOTTOM_SIDE && differenceInAxis < 0) {
+          booleanDefault = true;
+        }
+      }
+
+      return booleanDefault;
     }
 
     function changeState(newState) {
-      var transformStyle;
-
-      switch (newState) {
+      if (swipeConfig.bouncyActive) switch (newState) {
         case STATE_DEFAULT:
-          currentXPosition = 0;
+          if (swipeConfig.bouncyActive) {
+            currentAxisPosition = 0;
+          }
+
+          currentState = newState;
           break;
 
-        case STATE_LEFT_SIDE:
-          currentXPosition = -(itemWidth - handleSize); //   ------------------------ EDITADO 
+        case STATE_LEFT_TOP_SIDE:
+          if (swipeConfig.bouncyActive) {
+            currentAxisPosition = -(itemDimension - handleSizeLeftOrTop);
+          }
 
-          eliminarRegistro(element); //---------------------------------------
-
+          swipeConfig.actionLeftOrTopState();
+          itemDimension == handleSizeLeftOrTop ? currentState = STATE_DEFAULT : currentState = newState;
           break;
 
-        case STATE_RIGHT_SIDE:
-          currentXPosition = itemWidth - handleSize;
-          editarRegistro(element);
-          currentXPosition = 0;
+        case STATE_RIGHT_BOTTOM_SIDE:
+          if (swipeConfig.bouncyActive) {
+            currentAxisPosition = itemDimension - handleSizeRightOrBottom;
+          }
+
+          swipeConfig.actionRightOrBottomState();
+          itemDimension == handleSizeRightOrBottom ? currentState = STATE_DEFAULT : currentState = newState;
           break;
       }
-
-      transformStyle = 'translateX(' + currentXPosition + 'px)';
-      swipeFrontElement.style.msTransform = transformStyle;
-      swipeFrontElement.style.MozTransform = transformStyle;
-      swipeFrontElement.style.webkitTransform = transformStyle;
-      swipeFrontElement.style.transform = transformStyle;
-      currentState = newState;
+      swipeConfig.applyStyle(currentAxisPosition, swipeFrontElement);
     }
 
     function getGesturePointFromEvent(evt) {
@@ -2284,15 +2308,12 @@ var renderizarTabla = function renderizarTabla() {
         point.x = evt.targetTouches[0].clientX;
         point.y = evt.targetTouches[0].clientY;
       } else {
-        // Either Mouse event or Pointer Event
         point.x = evt.clientX;
         point.y = evt.clientY;
       }
 
       return point;
     }
-    /* // [START on-anim-frame] */
-
 
     function onAnimFrame() {
       if (!rafPending) {
@@ -2300,89 +2321,662 @@ var renderizarTabla = function renderizarTabla() {
       }
 
       var differenceInX = initialTouchPos.x - lastTouchPos.x;
-      var newXTransform = currentXPosition - differenceInX + 'px'; //------
+      var differenceInY = initialTouchPos.y - lastTouchPos.y;
+      var differenceInAxis = axis == "x" ? differenceInX : differenceInY; // if (differenceInAxis < 0 && !backLeftOrTopVisible) {
+      // 	swipeConfig.actionLeftOrTopBackVisible();
+      // 	backLeftOrTopVisible = true;
+      // 	backRightOrBottomVisible = false;
+      // } else if (differenceInAxis > 0 && !backRightOrBottomVisible) {
+      // 	swipeConfig.actionRightOrBottomBackVisible();
+      // 	backLeftOrTopVisible = false;
+      // 	backRightOrBottomVisible = true;
+      // }
 
-      if (differenceInX > 0) {
-        element.querySelector(".swipe-delete").classList.add("active");
-        element.querySelector(".swipe-edit").classList.remove("active");
-      } else {
-        element.querySelector(".swipe-delete").classList.remove("active");
-        element.querySelector(".swipe-edit").classList.add("active");
-      } //--------
+      backvisible();
 
+      if (-limitRightOrBottom < differenceInAxis && -limitLeftOrTop < -differenceInAxis) {
+        var newXTransform = currentAxisPosition - differenceInAxis;
+        swipeConfig.applyStyle(newXTransform, swipeFrontElement);
+      }
 
-      var transformStyle = 'translateX(' + newXTransform + ')';
-      swipeFrontElement.style.webkitTransform = transformStyle;
-      swipeFrontElement.style.MozTransform = transformStyle;
-      swipeFrontElement.style.msTransform = transformStyle;
-      swipeFrontElement.style.transform = transformStyle;
       rafPending = false;
+    } //TODO: con el bounding 
+
+
+    function backvisible() {
+      if (differenceInAxis < 0 && !backLeftOrTopVisible) {
+        swipeConfig.actionLeftOrTopBackVisible();
+        backLeftOrTopVisible = true;
+        backRightOrBottomVisible = false;
+      } else if (differenceInAxis > 0 && !backRightOrBottomVisible) {
+        swipeConfig.actionRightOrBottomBackVisible();
+        backLeftOrTopVisible = false;
+        backRightOrBottomVisible = true;
+      }
     }
-    /* // [END on-anim-frame] */
-
-    /* // [START addlisteners] */
-    // Check if pointer events are supported.
-
 
     if (window.PointerEvent) {
-      // Add Pointer Event Listener
-      swipeFrontElement.addEventListener('pointerdown', this.handleGestureStart, true);
-      swipeFrontElement.addEventListener('pointermove', this.handleGestureMove, true);
-      swipeFrontElement.addEventListener('pointerup', this.handleGestureEnd, true);
-      swipeFrontElement.addEventListener('pointercancel', this.handleGestureEnd, true);
+      swipeFrontElement.addEventListener("pointerdown", this.handleGestureStart, true);
+      swipeFrontElement.addEventListener("pointermove", this.handleGestureMove, true);
+      swipeFrontElement.addEventListener("pointerup", this.handleGestureEnd, true);
+      swipeFrontElement.addEventListener("pointercancel", this.handleGestureEnd, true);
     } else {
-      // Add Touch Listener
-      swipeFrontElement.addEventListener('touchstart', this.handleGestureStart, true);
-      swipeFrontElement.addEventListener('touchmove', this.handleGestureMove, true);
-      swipeFrontElement.addEventListener('touchend', this.handleGestureEnd, true);
-      swipeFrontElement.addEventListener('touchcancel', this.handleGestureEnd, true); // Add Mouse Listener
-
-      swipeFrontElement.addEventListener('mousedown', this.handleGestureStart, true);
+      swipeFrontElement.addEventListener("touchstart", this.handleGestureStart, true);
+      swipeFrontElement.addEventListener("touchmove", this.handleGestureMove, true);
+      swipeFrontElement.addEventListener("touchend", this.handleGestureEnd, true);
+      swipeFrontElement.addEventListener("touchcancel", this.handleGestureEnd, true);
+      swipeFrontElement.addEventListener("mousedown", this.handleGestureStart, true);
     }
-    /* // [END addlisteners] */
-
   }
 
+  _createClass(SwipeRevealItem, [{
+    key: "resize",
+    value: function resize(swipeFrontElement) {
+      this.itemDimension = swipeFrontElement.clientWidth;
+      this.slopValue = this.itemDimension * (1 / 4);
+    }
+  }]);
+
+  return SwipeRevealItem;
+}();
+
+/***/ }),
+
+/***/ "./resources/js/admin/mobile/components/table.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/admin/mobile/components/table.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderizarTabla": () => (/* binding */ renderizarTabla)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./form */ "./resources/js/admin/mobile/components/form.js");
+/* harmony import */ var _ckeditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ckeditor */ "./resources/js/admin/mobile/ckeditor.js");
+/* harmony import */ var _swipe__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./swipe */ "./resources/js/admin/mobile/components/swipe.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+
+var tabla = document.getElementById("tabla");
+var formulario = document.getElementById("formulario");
+var renderizarTabla = function renderizarTabla() {
+  var leftRight = document.getElementById("tabla-faqs-filas");
+  var swipeLeftRightElements = leftRight.querySelectorAll(".swipe-element");
   var swipeRevealItems = [];
-  var swipeRevealItemElements = document.querySelectorAll('.swipe-element');
-
-  for (var i = 0; i < swipeRevealItemElements.length; i++) {
-    swipeRevealItems.push(new SwipeRevealItem(swipeRevealItemElements[i]));
-  }
-
-  if (/iP(hone|ad)/.test(window.navigator.userAgent)) {
-    document.body.addEventListener('touchstart', function () {}, false);
-  } // window.onload = function () {
-  //     'use strict';
-  //     // We do this so :active pseudo classes are applied.
-  //     window.onload = function () {
-  //     };
-  // };
-
-
-  window.onresize = function () {
-    'use strict';
-
-    for (var i = 0; i < swipeRevealItems.length; i++) {
-      swipeRevealItems[i].resize();
+  swipeLeftRightElements.forEach(function (swipeElement) {
+    var swipeConfig = {
+      swipeElement: swipeElement,
+      swipeFrontElement: swipeElement.querySelector(".swipe-front"),
+      axis: "x",
+      bouncyActive: true,
+      // % del front que se ve
+      handleSizeRatio_LeftOrTop: 1,
+      handleSizeRatio_RightOrBottom: 1,
+      //Limite arrastrando hacia...
+      // % del back que se ve  (1 = NO LIMIT)
+      limitRatio_LeftOrTop: 1,
+      limitRatio_RightOrBottom: 1,
+      // Punto de no retorno, aplicable con limit = 1;
+      slopRatio: 2 / 4,
+      actionLeftOrTopState: function actionLeftOrTopState() {
+        console.log("holi");
+      },
+      actionRightOrBottomState: function actionRightOrBottomState() {
+        console.log("deu");
+      },
+      actionLeftOrTopBackVisible: function actionLeftOrTopBackVisible() {
+        console.log("left me ves");
+        editarBackVisible(swipeElement);
+      },
+      actionRightOrBottomBackVisible: function actionRightOrBottomBackVisible() {
+        console.log("right me ves");
+        eliminarBackVisble(swipeElement);
+      },
+      applyStyle: function applyStyle(currentAxisPosition, element) {
+        // let transformStyle = "translateX(" + currentAxisPosition + "px)";
+        // element.style.msTransform = transformStyle;
+        // element.style.MozTransform = transformStyle;
+        // element.style.webkitTransform = transformStyle;
+        // element.style.transform = transformStyle;
+        element.style.left = currentAxisPosition + "px";
+      }
+    };
+    swipeRevealItems.push(new _swipe__WEBPACK_IMPORTED_MODULE_3__.SwipeRevealItem(swipeConfig));
+  });
+  var topBottomParent = document.getElementById("tabla-faqs");
+  var topBottomChild = document.getElementById("tabla-faqs-filas");
+  var swipeConfigTopBottom = {
+    swipeElement: topBottomParent,
+    swipeFrontElement: topBottomChild,
+    axis: "y",
+    bouncyActive: false,
+    // % del front que se ve
+    handleSizeRatio_LeftOrTop: 1,
+    handleSizeRatio_RightOrBottom: 1,
+    //Limite arrastrando hacia...
+    // % del back que se ve  (1 = NO LIMIT)
+    limitRatio_LeftOrTop: 1,
+    limitRatio_RightOrBottom: 1,
+    // Punto de no retorno, aplicable con limit = 1;
+    slopRatio: 2 / 4,
+    actionLeftOrTopState: function actionLeftOrTopState() {
+      console.log("holi");
+    },
+    actionRightOrBottomState: function actionRightOrBottomState() {
+      console.log("deu");
+    },
+    actionLeftOrTopBackVisible: function actionLeftOrTopBackVisible() {
+      console.log("top me ves");
+      editarBackVisible(topBottomChild);
+    },
+    actionRightOrBottomBackVisible: function actionRightOrBottomBackVisible() {
+      console.log("bottom me ves");
+      eliminarBackVisble(topBottomChild);
+    },
+    applyStyle: function applyStyle(currentAxisPosition, element) {
+      // let transformStyle = "translateX(" + currentAxisPosition + "px)";
+      // element.style.msTransform = transformStyle;
+      // element.style.MozTransform = transformStyle;
+      // element.style.webkitTransform = transformStyle;
+      // element.style.transform = transformStyle;
+      element.style.top = currentAxisPosition + "px";
     }
-  }; //   var registerInteraction = function () {
-  //     'use strict';
-  //     window.sampleCompleted('touch-demo-1.html-SwipeFrontTouch');
-  //   };
-  //   var swipeFronts = document.querySelectorAll('.fila-swipe');
-  //   for(var i = 0; i < swipeFronts.length; i++) {
-  //     swipeFronts[i].addEventListener('touchstart', registerInteraction);
-  //   }
+  };
+  swipeRevealItems.push(new _swipe__WEBPACK_IMPORTED_MODULE_3__.SwipeRevealItem(swipeConfigTopBottom));
+};
+renderizarTabla();
+
+function editarRegistro(element) {
+  var swipeEdit = element.querySelector(".swipe-edit");
+  var url = swipeEdit.dataset.url;
+  console.log("EDITAR");
+  console.log(swipeEdit.dataset.url);
+
+  var enviarPeticion = /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.prev = 0;
+              _context.next = 3;
+              return axios.get(url).then(function (respuesta) {
+                console.log(respuesta.data.form);
+                formulario.innerHTML = respuesta.data.form;
+                renderizarTabla();
+                (0,_form__WEBPACK_IMPORTED_MODULE_1__.renderizarFormulario)();
+                (0,_ckeditor__WEBPACK_IMPORTED_MODULE_2__.renderizarCkeditor)();
+              });
+
+            case 3:
+              _context.next = 8;
+              break;
+
+            case 5:
+              _context.prev = 5;
+              _context.t0 = _context["catch"](0);
+              console.log(_context.t0);
+
+            case 8:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[0, 5]]);
+    }));
+
+    return function enviarPeticion() {
+      return _ref.apply(this, arguments);
+    };
+  }();
+
+  enviarPeticion();
+  document.getElementById("tabla").classList.toggle("disable");
+  document.getElementById("formulario").classList.toggle("disable");
+  document.getElementById("boton-selectorpanel-formulario").classList.toggle("disable");
+  document.getElementById("boton-selectorpanel-tabla").classList.toggle("disable");
+}
+
+function eliminarRegistro(element) {
+  var swipeDelete = element.querySelector(".swipe-delete");
+  var url = swipeDelete.dataset.url;
+  console.log("DELETE");
+  console.log(swipeDelete.dataset.url);
+
+  var enviarPeticion = /*#__PURE__*/function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.prev = 0;
+              _context2.next = 3;
+              return axios["delete"](url).then(function (respuesta) {
+                tabla.innerHTML = respuesta.data.table;
+                renderizarTabla();
+                (0,_form__WEBPACK_IMPORTED_MODULE_1__.renderizarFormulario)(); //formulario.innerHTML = respuesta.data.form;
+              });
+
+            case 3:
+              _context2.next = 8;
+              break;
+
+            case 5:
+              _context2.prev = 5;
+              _context2.t0 = _context2["catch"](0);
+              console.log(_context2.t0);
+
+            case 8:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, null, [[0, 5]]);
+    }));
+
+    return function enviarPeticion() {
+      return _ref2.apply(this, arguments);
+    };
+  }();
+
+  enviarPeticion();
+}
+
+function eliminarBackVisble(element) {
+  element.querySelector(".swipe-delete").classList.add("active");
+  element.querySelector(".swipe-edit").classList.remove("active");
+}
+
+function editarBackVisible(element) {
+  element.querySelector(".swipe-delete").classList.remove("active");
+  element.querySelector(".swipe-edit").classList.add("active");
+}
+
+/***/ }),
+
+/***/ "./resources/js/admin/mobile/components/tableSwipe.js":
+/*!************************************************************!*\
+  !*** ./resources/js/admin/mobile/components/tableSwipe.js ***!
+  \************************************************************/
+/***/ (() => {
+
+// import { renderizarFormulario } from "./form";
+// import { renderizarCkeditor } from "../ckeditor";
+// const tabla = document.getElementById("tabla");
+// const formulario = document.getElementById("formulario");
+// export let renderizarTabla = () => {
+//     // /* // [START pointereventsupport] */
+//     // var pointerDownName = 'pointerdown';
+//     // var pointerUpName = 'pointerup';
+//     // var pointerMoveName = 'pointermove';
+//     // if (window.navigator.msPointerEnabled) {
+//     //     pointerDownName = 'MSPointerDown';
+//     //     pointerUpName = 'MSPointerUp';
+//     //     pointerMoveName = 'MSPointerMove';
+//     // }
+//     // // Simple way to check if some form of pointerevents is enabled or not
+//     // window.PointerEventsSupport = false;
+//     // if (window.PointerEvent || window.navigator.msPointerEnabled) {
+//     //     window.PointerEventsSupport = true;
+//     // }
+//     /* // [END pointereventsupport] */
+//     function SwipeRevealItem(element) {
+//         'use strict';
+//         // Gloabl state variables
+//         var STATE_DEFAULT = 1;
+//         var STATE_LEFT_SIDE = 2;
+//         var STATE_RIGHT_SIDE = 3;
+//         var swipeFrontElement = element.querySelector('.swipe-front');
+//         var rafPending = false;
+//         var initialTouchPos = null;
+//         var lastTouchPos = null;
+//         var currentXPosition = 0;
+//         var currentState = STATE_DEFAULT;
+//         var handleSize = 100;
+//         let leftSwipeVisible = 0;
+//         let rightSwipeVisible = 0;
+//         // Perform client width here as this can be expensive and doens't
+//         // change until window.onresize
+//         var itemWidth = swipeFrontElement.clientWidth;
+//         var slopValue = itemWidth * (2 / 4);
+//         // On resize, change the slop value
+//         this.resize = function () {
+//             itemWidth = swipeFrontElement.clientWidth;
+//             slopValue = itemWidth * (2 / 4);
+//         };
+//         /* // [START handle-start-gesture] */
+//         // Handle the start of gestures
+//         this.handleGestureStart = function (evt) {
+//             evt.preventDefault();
+//             if (evt.touches && evt.touches.length > 1) {
+//                 return;
+//             }
+//             // Add the move and end listeners
+//             if (window.PointerEvent) {
+//                 evt.target.setPointerCapture(evt.pointerId);
+//             } else {
+//                 // Add Mouse Listeners
+//                 document.addEventListener('mousemove', this.handleGestureMove, true);
+//                 document.addEventListener('mouseup', this.handleGestureEnd, true);
+//             }
+//             initialTouchPos = getGesturePointFromEvent(evt);
+//             swipeFrontElement.style.transition = 'initial';
+//         }.bind(this);
+//         /* // [END handle-start-gesture] */
+//         // Handle move gestures
+//         //
+//         /* // [START handle-move] */
+//         this.handleGestureMove = function (evt) {
+//             evt.preventDefault();
+//             if (!initialTouchPos) {
+//                 return;
+//             }
+//             lastTouchPos = getGesturePointFromEvent(evt);
+//             if (rafPending) {
+//                 return;
+//             }
+//             rafPending = true;
+//             window.requestAnimFrame(onAnimFrame);
+//         }.bind(this);
+//         /* // [END handle-move] */
+//         /* // [START handle-end-gesture] */
+//         // Handle end gestures
+//         this.handleGestureEnd = function (evt) {
+//             evt.preventDefault();
+//             if (evt.touches && evt.touches.length > 0) {
+//                 return;
+//             }
+//             rafPending = false;
+//             // Remove Event Listeners
+//             if (window.PointerEvent) {
+//                 evt.target.releasePointerCapture(evt.pointerId);
+//             } else {
+//                 // Remove Mouse Listeners
+//                 document.removeEventListener('mousemove', this.handleGestureMove, true);
+//                 document.removeEventListener('mouseup', this.handleGestureEnd, true);
+//             }
+//             updateSwipeRestPosition();
+//             initialTouchPos = null;
+//         }.bind(this);
+//         /* // [END handle-end-gesture] */
+//         function updateSwipeRestPosition() {
+//             var differenceInX = initialTouchPos.x - lastTouchPos.x;
+//             currentXPosition = currentXPosition - differenceInX;
+//             // Go to the default state and change
+//             var newState = STATE_DEFAULT;
+//             // Check if we need to change state to left or right based on slop value
+//             if (Math.abs(differenceInX) > slopValue) {
+//                 if (currentState === STATE_DEFAULT) {
+//                     if (differenceInX > 0) {
+//                         newState = STATE_LEFT_SIDE;
+//                     } else {
+//                         newState = STATE_RIGHT_SIDE;
+//                         // newState = STATE_DEFAULT;
+//                     }
+//                 } else {
+//                     if (currentState === STATE_LEFT_SIDE && differenceInX > 0) {
+//                         newState = STATE_DEFAULT;
+//                     } else if (currentState === STATE_RIGHT_SIDE && differenceInX < 0) {
+//                         newState = STATE_DEFAULT;
+//                     }
+//                 }
+//             } else {
+//                 newState = currentState;
+//             }
+//             changeState(newState);
+//             swipeFrontElement.style.transition = 'all 150ms ease-out';
+//         }
+//         function changeState(newState) {
+//             var transformStyle;
+//             switch (newState) {
+//                 case STATE_DEFAULT:
+//                     currentXPosition = 0;
+//                     break;
+//                 case STATE_LEFT_SIDE:
+//                     // currentXPosition = -(itemWidth - handleSize);
+//                     //   ------------------------ EDITADO 
+//                     mostrarAlerta(element);
+//                     currentXPosition = 0;
+//                     newState = STATE_DEFAULT;
+//                     //---------------------------------------
+//                     break;
+//                 case STATE_RIGHT_SIDE:
+//                     currentXPosition = itemWidth - handleSize;
+//                     editarRegistro(element);
+//                     currentXPosition = 0;
+//                     break;
+//             }
+//             // transformStyle = 'translateX(' + currentXPosition + 'px)';
+//             transformStyle =  currentXPosition + 'px';
+//             // swipeFrontElement.style.msTransform = transformStyle;
+//             // swipeFrontElement.style.MozTransform = transformStyle;
+//             // swipeFrontElement.style.webkitTransform = transformStyle;
+//             swipeFrontElement.style.left = transformStyle;
+//             currentState = newState;
+//         }
+//         function getGesturePointFromEvent(evt) {
+//             var point = {};
+//             if (evt.targetTouches) {
+//                 point.x = evt.targetTouches[0].clientX;
+//                 point.y = evt.targetTouches[0].clientY;
+//             } else {
+//                 // Either Mouse event or Pointer Event
+//                 point.x = evt.clientX;
+//                 point.y = evt.clientY;
+//             }
+//             return point;
+//         }
+//         /* // [START on-anim-frame] */
+//         function onAnimFrame() {
+//             if (!rafPending) {
+//                 return;
+//             }
+//             var differenceInX = initialTouchPos.x - lastTouchPos.x;
+//             var newXTransform = (currentXPosition - differenceInX) + 'px';
+//             //------
+//             if ((differenceInX > 0) && (leftSwipeVisible == 0)) {
+//                 element.querySelector(".swipe-delete").classList.add("active");
+//                 element.querySelector(".swipe-edit").classList.remove("active");
+//                 leftSwipeVisible = 1;
+//                 rightSwipeVisible = 0;
+//             } else if ((differenceInX < 0) && (rightSwipeVisible == 0)) {
+//                 element.querySelector(".swipe-delete").classList.remove("active");
+//                 element.querySelector(".swipe-edit").classList.add("active");
+//                 leftSwipeVisible = 0;
+//                 rightSwipeVisible = 1;
+//             }
+//             //--------
+//             // var transformStyle = 'translateX(' + newXTransform + ')';
+//             // swipeFrontElement.style.webkitTransform = transformStyle;
+//             // swipeFrontElement.style.MozTransform = transformStyle;
+//             // swipeFrontElement.style.msTransform = transformStyle;
+//             // swipeFrontElement.style.transform = transformStyle;
+//              // transformStyle = 'translateX(' + currentXPosition + 'px)';
+//              var transformStyle =   newXTransform;
+//              console.log(transformStyle);
+//              // swipeFrontElement.style.msTransform = transformStyle;
+//              // swipeFrontElement.style.MozTransform = transformStyle;
+//              // swipeFrontElement.style.webkitTransform = transformStyle;
+//              swipeFrontElement.style.left = transformStyle;
+//             // console.log(swipeFrontElement.getBoundingClientRect().x);
+//             // console.log(element.offsetLeft);
+//             rafPending = false;
+//         }
+//         /* // [END on-anim-frame] */
+//         /* // [START addlisteners] */
+//         // Check if pointer events are supported.
+//         if (window.PointerEvent) {
+//             // Add Pointer Event Listener
+//             swipeFrontElement.addEventListener('pointerdown', this.handleGestureStart, true);
+//             swipeFrontElement.addEventListener('pointermove', this.handleGestureMove, true);
+//             swipeFrontElement.addEventListener('pointerup', this.handleGestureEnd, true);
+//             swipeFrontElement.addEventListener('pointercancel', this.handleGestureEnd, true);
+//         } else {
+//             // Add Touch Listener
+//             swipeFrontElement.addEventListener('touchstart', this.handleGestureStart, true);
+//             swipeFrontElement.addEventListener('touchmove', this.handleGestureMove, true);
+//             swipeFrontElement.addEventListener('touchend', this.handleGestureEnd, true);
+//             swipeFrontElement.addEventListener('touchcancel', this.handleGestureEnd, true);
+//             // Add Mouse Listener
+//             swipeFrontElement.addEventListener('mousedown', this.handleGestureStart, true);
+//         }
+//         /* // [END addlisteners] */
+//     }
+//     var swipeRevealItems = [];
+//     var swipeRevealItemElements = document.querySelectorAll('.swipe-element');
+//     for (var i = 0; i < swipeRevealItemElements.length; i++) {
+//         swipeRevealItems.push(new SwipeRevealItem(swipeRevealItemElements[i]));
+//     }
+//     window.onresize = function () {
+//         'use strict';
+//         for (var i = 0; i < swipeRevealItems.length; i++) {
+//             swipeRevealItems[i].resize();
+//         }
+//     };
+//     //   var registerInteraction = function () {
+//     //     'use strict';
+//     //     window.sampleCompleted('touch-demo-1.html-SwipeFrontTouch');
+//     //   };
+//     //   var swipeFronts = document.querySelectorAll('.fila-swipe');
+//     //   for(var i = 0; i < swipeFronts.length; i++) {
+//     //     swipeFronts[i].addEventListener('touchstart', registerInteraction);
+//     //   }
+//     function mostrarAlerta(element) {
+//         let alerta = document.getElementById("alerta");
+//         // let alertaEliminar = document.getElementById("alerta-eliminar");
+//         alerta.classList.add("active");
+//         // alertaEliminar.classList.add("active");
+//         confirmarEliminacion(element);
+//     }
+//     function confirmarEliminacion(element) {
+//         let botonConfirmar = document.getElementById("opcion-confirmar");
+//         let botonDescartar = document.getElementById("opcion-descartar");
+//         let alerta = document.getElementById("alerta");
+//         // let alertaEliminar = document.getElementById("alerta-eliminar");
+//         botonConfirmar.addEventListener("click", () => {
+//             console.log("confirmado");
+//             eliminarRegistro(element);
+//         });
+//         botonDescartar.addEventListener("click", () => {
+//             alerta.classList.remove("active");
+//             // alertaEliminar.classList.add("active");
+//         });
+//     }
+//     function eliminarRegistro(element) {
+//         let swipeDelete = element.querySelector(".swipe-delete");
+//         let url = swipeDelete.dataset.url;
+//         console.log("DELETE");
+//         console.log(swipeDelete.dataset.url);
+//         let enviarPeticion = async () => {
+//             try {
+//                 await axios.delete(url).then(respuesta => {
+//                     tabla.innerHTML = respuesta.data.table;
+//                     renderizarTabla();
+//                     renderizarFormulario();
+//                     //formulario.innerHTML = respuesta.data.form;
+//                 });
+//             } catch (error) {
+//                 console.log(error)
+//             }
+//         }
+//         enviarPeticion();
+//     }
+//     function editarRegistro(element) {
+//         let swipeEdit = element.querySelector(".swipe-edit");
+//         let url = swipeEdit.dataset.url;
+//         console.log("EDITAR");
+//         console.log(swipeEdit.dataset.url);
+//         let enviarPeticion = async () => {
+//             try {
+//                 await axios.get(url).then(respuesta => {
+//                     console.log(respuesta.data.form);
+//                     formulario.innerHTML = respuesta.data.form;
+//                     renderizarTabla();
+//                     renderizarFormulario();
+//                     renderizarCkeditor();
+//                 });
+//             } catch (error) {
+//                 console.log(error)
+//             }
+//         }
+//         enviarPeticion();
+//         document.getElementById("tabla").classList.toggle("disable");
+//         document.getElementById("formulario").classList.toggle("disable");
+//         document.getElementById("boton-selectorpanel-formulario").classList.toggle("disable");
+//         document.getElementById("boton-selectorpanel-tabla").classList.toggle("disable");
+//     }
+// }
+// renderizarTabla();
+
+/***/ }),
+
+/***/ "./resources/js/admin/mobile/filterTable.js":
+/*!**************************************************!*\
+  !*** ./resources/js/admin/mobile/filterTable.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderizarFiltroTabla": () => (/* binding */ renderizarFiltroTabla)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_tableSwipe__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/tableSwipe */ "./resources/js/admin/mobile/components/tableSwipe.js");
+/* harmony import */ var _components_tableSwipe__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_components_tableSwipe__WEBPACK_IMPORTED_MODULE_1__);
 
 
-  function eliminarRegistro(element) {
-    var swipeDelete = element.querySelector(".swipe-delete");
-    var url = swipeDelete.dataset.url;
-    console.log("DELETE");
-    console.log(swipeDelete.dataset.url);
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-    var enviarPeticion = /*#__PURE__*/function () {
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
+var tabla = document.getElementById("tabla");
+var campoInput = document.getElementById("campo-input-text");
+var campoDateStart = document.getElementById("campo-date-start");
+var campoDateEnd = document.getElementById("campo-date-end");
+var selectorOrderDesc = document.getElementById("selector-order-desc");
+var selectorCategoria = document.getElementById("selector-categoria");
+var PRUEBA = document.getElementById("my-checkbox");
+var camposRadioAscDesc = document.querySelectorAll(".order_asc_desc");
+var formularioFiltro = document.getElementById("filtro-formulario");
+var renderizarFiltroTabla = function renderizarFiltroTabla() {
+  selectorCategoria.addEventListener('change', function () {
+    var data = new FormData(formularioFiltro);
+    var url = formularioFiltro.action;
+
+    var _iterator = _createForOfIteratorHelper(data.entries()),
+        _step;
+
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var pair = _step.value;
+        console.log(pair[0] + ', ' + pair[1]);
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+
+    var sendPostRequest = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
@@ -2390,22 +2984,21 @@ var renderizarTabla = function renderizarTabla() {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return axios["delete"](url).then(function (respuesta) {
-                  tabla.innerHTML = respuesta.data.table;
-                  renderizarTabla();
-                  (0,_form__WEBPACK_IMPORTED_MODULE_1__.renderizarFormulario)(); //formulario.innerHTML = respuesta.data.form;
+                return axios.post(url, data).then(function (response) {
+                  console.log("selector");
+                  tabla.innerHTML = response.data.table;
+                  (0,_components_tableSwipe__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
                 });
 
               case 3:
-                _context.next = 8;
+                _context.next = 7;
                 break;
 
               case 5:
                 _context.prev = 5;
                 _context.t0 = _context["catch"](0);
-                console.log(_context.t0);
 
-              case 8:
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -2413,21 +3006,21 @@ var renderizarTabla = function renderizarTabla() {
         }, _callee, null, [[0, 5]]);
       }));
 
-      return function enviarPeticion() {
+      return function sendPostRequest() {
         return _ref.apply(this, arguments);
       };
     }();
 
-    enviarPeticion();
-  }
+    sendPostRequest();
+  });
+  campoInput.addEventListener('keyup', function (event) {
+    console.log("tecla" + event);
+    var data = new FormData(formularioFiltro);
+    console.log(formularioFiltro);
+    var url = formularioFiltro.action;
+    console.log(formularioFiltro.action);
 
-  function editarRegistro(element) {
-    var swipeEdit = element.querySelector(".swipe-edit");
-    var url = swipeEdit.dataset.url;
-    console.log("EDITAR");
-    console.log(swipeEdit.dataset.url);
-
-    var enviarPeticion = /*#__PURE__*/function () {
+    var sendPostRequest = /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
@@ -2435,24 +3028,21 @@ var renderizarTabla = function renderizarTabla() {
               case 0:
                 _context2.prev = 0;
                 _context2.next = 3;
-                return axios.get(url).then(function (respuesta) {
-                  console.log(respuesta.data.form);
-                  formulario.innerHTML = respuesta.data.form;
-                  renderizarTabla();
-                  (0,_form__WEBPACK_IMPORTED_MODULE_1__.renderizarFormulario)();
-                  (0,_ckeditor__WEBPACK_IMPORTED_MODULE_2__.renderizarCkeditor)();
+                return axios.post(url, data).then(function (response) {
+                  console.log(response.data);
+                  tabla.innerHTML = response.data.table;
+                  (0,_components_tableSwipe__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
                 });
 
               case 3:
-                _context2.next = 8;
+                _context2.next = 7;
                 break;
 
               case 5:
                 _context2.prev = 5;
                 _context2.t0 = _context2["catch"](0);
-                console.log(_context2.t0);
 
-              case 8:
+              case 7:
               case "end":
                 return _context2.stop();
             }
@@ -2460,19 +3050,219 @@ var renderizarTabla = function renderizarTabla() {
         }, _callee2, null, [[0, 5]]);
       }));
 
-      return function enviarPeticion() {
+      return function sendPostRequest() {
         return _ref2.apply(this, arguments);
       };
     }();
 
-    enviarPeticion();
-    document.getElementById("tabla").classList.toggle("disable");
-    document.getElementById("formulario").classList.toggle("disable");
-    document.getElementById("boton-selectorpanel-formulario").classList.toggle("disable");
-    document.getElementById("boton-selectorpanel-tabla").classList.toggle("disable");
-  }
+    sendPostRequest();
+  });
+  campoDateStart.addEventListener('change', function () {
+    var data = new FormData(formularioFiltro);
+    var url = formularioFiltro.action;
+
+    var sendPostRequest = /*#__PURE__*/function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                _context3.next = 3;
+                return axios.post(url, data).then(function (response) {
+                  console.log("selector date start");
+                  tabla.innerHTML = response.data.table;
+                  (0,_components_tableSwipe__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                });
+
+              case 3:
+                _context3.next = 7;
+                break;
+
+              case 5:
+                _context3.prev = 5;
+                _context3.t0 = _context3["catch"](0);
+
+              case 7:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[0, 5]]);
+      }));
+
+      return function sendPostRequest() {
+        return _ref3.apply(this, arguments);
+      };
+    }();
+
+    sendPostRequest();
+  });
+  campoDateEnd.addEventListener('change', function () {
+    var data = new FormData(formularioFiltro);
+    var url = formularioFiltro.action;
+
+    var sendPostRequest = /*#__PURE__*/function () {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.prev = 0;
+                _context4.next = 3;
+                return axios.post(url, data).then(function (response) {
+                  console.log("selector date end");
+                  tabla.innerHTML = response.data.table;
+                  (0,_components_tableSwipe__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                });
+
+              case 3:
+                _context4.next = 7;
+                break;
+
+              case 5:
+                _context4.prev = 5;
+                _context4.t0 = _context4["catch"](0);
+
+              case 7:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, null, [[0, 5]]);
+      }));
+
+      return function sendPostRequest() {
+        return _ref4.apply(this, arguments);
+      };
+    }();
+
+    sendPostRequest();
+  });
+  selectorOrderDesc.addEventListener('change', function () {
+    var data = new FormData(formularioFiltro);
+    var url = formularioFiltro.action;
+
+    var _iterator2 = _createForOfIteratorHelper(data.entries()),
+        _step2;
+
+    try {
+      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        var pair = _step2.value;
+        console.log(pair[0] + ', ' + pair[1]);
+      }
+    } catch (err) {
+      _iterator2.e(err);
+    } finally {
+      _iterator2.f();
+    }
+
+    var sendPostRequest = /*#__PURE__*/function () {
+      var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.prev = 0;
+                _context5.next = 3;
+                return axios.post(url, data).then(function (response) {
+                  // console.log(data)
+                  tabla.innerHTML = response.data.table;
+                  (0,_components_tableSwipe__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)(); // console.log(response.data.table)
+                });
+
+              case 3:
+                _context5.next = 7;
+                break;
+
+              case 5:
+                _context5.prev = 5;
+                _context5.t0 = _context5["catch"](0);
+
+              case 7:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, null, [[0, 5]]);
+      }));
+
+      return function sendPostRequest() {
+        return _ref5.apply(this, arguments);
+      };
+    }();
+
+    sendPostRequest();
+  }); // camposRadioAscDesc.forEach(campoRadioAscDesc => {
+  //     campoRadioAscDesc.addEventListener('change',()=>{
+  //         let data = new FormData(formularioFiltro);
+  //         let url = formularioFiltro.action;
+  //         for (var pair of data.entries()) {
+  //             console.log(pair[0]+ ', ' + pair[1]); 
+  //         }
+  //         let sendPostRequest = async () => {
+  //             try {
+  //                 await axios.post(url, data).then(response => {
+  //                     // console.log(data)
+  //                     tabla.innerHTML = response.data.table;
+  //                     renderizarTabla();
+  //                     // console.log(response.data.table)
+  //                 });
+  //             } catch (error) {
+  //             }
+  //         };
+  //         sendPostRequest();
+  //     });
+  // });
+
+  PRUEBA.addEventListener('click', function () {
+    var valor = PRUEBA.value;
+    var nuevoValor = valor == "desc" ? "asc" : "desc";
+    console.log(nuevoValor);
+    PRUEBA.value = nuevoValor;
+    var data = new FormData(formularioFiltro);
+    var url = formularioFiltro.action; // for (var pair of data.entries()) {
+    //     console.log(pair[0] + ', ' + pair[1]);
+    // }
+
+    var sendPostRequest = /*#__PURE__*/function () {
+      var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.prev = 0;
+                _context6.next = 3;
+                return axios.post(url, data).then(function (response) {
+                  tabla.innerHTML = response.data.table;
+                  (0,_components_tableSwipe__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                });
+
+              case 3:
+                _context6.next = 7;
+                break;
+
+              case 5:
+                _context6.prev = 5;
+                _context6.t0 = _context6["catch"](0);
+
+              case 7:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6, null, [[0, 5]]);
+      }));
+
+      return function sendPostRequest() {
+        return _ref6.apply(this, arguments);
+      };
+    }();
+
+    sendPostRequest();
+  });
 };
-renderizarTabla();
+renderizarFiltroTabla();
 
 /***/ }),
 
@@ -2491,6 +3281,20 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+window.onload = function () {
+  if (/iP(hone|ad)/.test(window.navigator.userAgent)) {
+    document.body.addEventListener('touchstart', function () {}, false);
+  }
+};
+
+window.requestAnimFrame = function () {
+  'use strict';
+
+  return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (callback) {
+    window.setTimeout(callback, 1000 / 60);
+  };
+}();
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -20771,12 +21575,16 @@ var __webpack_exports__ = {};
   \******************************************/
 __webpack_require__(/*! ../../bootstrap */ "./resources/js/bootstrap.js");
 
-__webpack_require__(/*! ./components/form */ "./resources/js/admin/mobile/components/form.js"); // require('./components/table');
+__webpack_require__(/*! ./components/form */ "./resources/js/admin/mobile/components/form.js");
+
+__webpack_require__(/*! ./filterTable */ "./resources/js/admin/mobile/filterTable.js");
+
+__webpack_require__(/*! ./components/header */ "./resources/js/admin/mobile/components/header.js"); // require('./components/tableSwipe');
 
 
-__webpack_require__(/*! ./components/header */ "./resources/js/admin/mobile/components/header.js");
+__webpack_require__(/*! ./components/swipe */ "./resources/js/admin/mobile/components/swipe.js");
 
-__webpack_require__(/*! ./components/tableSwipe */ "./resources/js/admin/mobile/components/tableSwipe.js");
+__webpack_require__(/*! ./components/table */ "./resources/js/admin/mobile/components/table.js");
 })();
 
 /******/ })()

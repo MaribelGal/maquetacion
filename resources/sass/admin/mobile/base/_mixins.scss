@@ -1,43 +1,41 @@
-@mixin neumorphism ($border-radius, $offset-xy, $blur) {
+@mixin glassmorphism($blur,$colorBackground) {
+    background: $colorBackground;
+    box-shadow: 0 .5em 1em 0 hsla(0, 0%, 0%, 0.2);
+    backdrop-filter: blur($blur);
+    -webkit-backdrop-filter: blur($blur);
+}
+
+@mixin neumorphism($border-radius, $offset-xy, $blur) {
     border-radius: $border-radius;
 
     // /* offset-x | offset-y | blur-radius | color */
-    box-shadow: .2em .2em .3em hsl(0, 0%, 60%), -.2em -.2em .3em #ffffff;
+    box-shadow: 0.2em 0.2em 0.3em hsl(0, 0%, 60%), -0.2em -0.2em 0.3em #ffffff;
     // // box-shadow: $offset-xy $offset-xy $blur hsl(0, 0%, 75%), -($offset-xy) -($offset-xy) $blur #ffffff;
     transform: all 10s;
 
     &.mousedown {
-        box-shadow: 
-            inset 5px 5px 10px hsl(0, 0%, 57%), 
-            inset -5px -5px 10px hsl(0, 0%, 100%);
-        
+        box-shadow: inset 5px 5px 10px hsl(0, 0%, 57%), inset -5px -5px 10px hsl(0, 0%, 100%);
+
         // box-shadow: inset 5px 5px 10px #929292,
         //     inset -5px -5px 10px #ffffff;
-        // transform: all 100ms;    
-        
+        // transform: all 100ms;
+
         transform: all 1s;
     }
 }
 
-@mixin normalizarInput{
+@mixin normalizarInput {
     background-color: $fondo;
     border: none;
     width: 100%;
     height: 100%;
     outline: none;
-    
-
-
 }
-
 
 @mixin mayusEspaciado {
     text-transform: uppercase;
-    letter-spacing: 0.3em
+    letter-spacing: 0.3em;
 }
-
-
-
 
 @mixin borderColor($i) {
     $bt: 0.1rem;

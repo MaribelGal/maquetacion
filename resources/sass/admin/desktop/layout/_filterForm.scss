@@ -1,90 +1,25 @@
-#formulario {
+input,
+textarea,
+select {
+    @include normalizarInput;
+}
+
+.filtro-formulario {
     margin: 1em;
-    * {
-        background-color: transparent;
-    }
-    display: contents;
-}
-
-.admin-formulario {
-    @include neumorphism(0.5em, 20px, 10px);
-    margin: 1em;
-    padding: 1%;
-    flex-grow: 1;
-    min-width: 25em;
-    min-height: 25em;
-}
-
-.formulario-contenedor {
-    display: flex;
-    flex-flow: column;
-}
-
-.formulario-contenido {
-    margin: 1em;
-}
-
-.formulario-contenido-panel {
-    display: none;
-    &.active {
-        display: grid;
-        column-gap: .5em;
-    }
-}
-
-
-.formulario-contenido-panel-item {
-    margin: 1em 0;
-    padding: 0.5em;
-    @include neumorphism(0.5em, 20px, 10px);
-}
-
-.formulario-contenido-panel-item-campo {
-    height: 100%;
-    input,
-    textarea,
-    select {
-        @include normalizarInput;
-    }
-}
-
-// Boton de guardar ahora esta fuera del formulario, cambiar clase
-.formulario-contenido-panel-item-boton {
-    input {
-        height: 100%;
-        color: $colorPrincipal;
-        font-weight: bold;
-        @include normalizarInput;
-    }
-}
-
-.ck-editor__editable {
-    min-height: 7em;
-}
-
-// FORMULARIOS CON PESTAÑAS
-
-.formulario-tab {
     display: flex;
     flex-flow: row wrap;
-    justify-content: flex-end;
-    align-content: stretch;
+    justify-content: space-around;
+    align-items: flex-end;
 }
 
-.formulario-tab-item {
-    display: flex;
-    align-items: center;
-    border: 1px solid black;
-
-    &.active {
-        background-color: cadetblue;
-    }
+.campo-input-text{
+    border-bottom: 1px solid hsla(0, 0%, 0%, 0.6);
 }
 
-#crear{
-    order: 2;
-    cursor: pointer;
+.campo-input-date{
+    border-bottom: 1px solid hsla(0, 0%, 0%, 0.6);
 }
+
 
 $white: #FFFFFF;
 $blue: #223b7f;
@@ -92,13 +27,12 @@ $green: #8fbd67;
 $grey-light: #d4d4d4;
 $grey-dark: #37444e;
 
-.visible-checkbox {
-    order:1;
+.filter-checkbox {
     display: inline-flex;
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
-    // padding: 20px;
+    padding: 20px;
     input[type=checkbox] {
         height: 0;
         width: 0;

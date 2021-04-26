@@ -8,7 +8,7 @@ export let renderizarTabla = () => {
 
     let botonesEliminar = document.querySelectorAll(".boton-eliminar");
     let botonesEditar = document.querySelectorAll(".boton-editar");
-    
+    let paginationButtons = document.querySelectorAll('.paginacion-tabla-boton');
 
     botonesEditar.forEach(botonEditar => {
         botonEditar.addEventListener("click", () => {
@@ -57,6 +57,30 @@ export let renderizarTabla = () => {
         });
     });
 
+    paginationButtons.forEach(paginationButton => {
+
+        paginationButton.addEventListener("click", () => {
+
+            let url = paginationButton.dataset.page;
+
+            let enviarPeticionGet = async () => {
+
+                try {
+                    await axios.get(url).then(respuesta => {
+                        tabla.innerHTML = respuesta.data.table;
+                        renderizarTabla();
+                    });
+                    
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+
+            enviarPeticionGet();
+            
+        });
+    });
+    
 };
 
 renderizarTabla();

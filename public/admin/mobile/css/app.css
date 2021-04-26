@@ -544,6 +544,21 @@ header {
   grid-row: 3;
 }
 
+input {
+  background-color: #e0e0e0;
+  border: none;
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
+
+.filtro-formulario {
+  margin: 1em;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-around;
+}
+
 .admin-tabla {
   display: flex;
   flex-flow: column nowrap;
@@ -570,7 +585,7 @@ header {
 .admin-tabla-contenido-fila {
   width: 100%;
   height: 100%;
-  background: #EBEBEB;
+  background: #ebebeb;
   display: flex;
   flex-flow: row nowrap;
   word-wrap: break-word;
@@ -594,7 +609,8 @@ header {
   width: 30%;
 }
 
-.boton-editar, .boton-eliminar {
+.boton-editar,
+.boton-eliminar {
   border: none;
   background: rgba(0, 0, 0, 0.124);
   border-radius: 10%;
@@ -619,38 +635,116 @@ header {
   width: 40%;
 }
 
+.tabla-alerta {
+  width: 0vw;
+  height: 0vh;
+  z-index: 5;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.5em 1em 0 rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(0.5em);
+  -webkit-backdrop-filter: blur(0.5em);
+}
+
+.tabla-alerta-eliminar {
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 1em;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0.5em 1em 0 rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5em);
+  -webkit-backdrop-filter: blur(5em);
+}
+
+.tabla-alerta-eliminar-opciones {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.tabla-alerta.active {
+  width: 100vw;
+  height: 100vh;
+  transition: width 500ms 100ms;
+  transition: height 500ms 200ms;
+}
+.tabla-alerta.active .tabla-alerta-eliminar {
+  width: auto;
+  height: auto;
+  padding: 1em;
+}
+.tabla-alerta.active .tabla-alerta-eliminar-opciones {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  padding-top: 1em;
+}
+.tabla-alerta.active .opcion {
+  background-color: #f2f2f28b;
+  border-radius: 1em;
+  padding: 0.5em 1em;
+  width: 10%;
+}
+
+.tabla-contenedor {
+  border: 2px solid red;
+  overflow: scroll;
+  height: 30vh;
+}
+
+.tabla-contenido {
+  position: relative;
+}
+
+.tabla-contenido-fila {
+  width: 100%;
+  height: 5em;
+}
+
+.tabla-contenido-fila-campos {
+  background-color: chocolate;
+  width: 100%;
+  height: 100%;
+  border: 1px solid black;
+}
+
 .swipe-element {
   position: relative;
-  width: 100%;
-  height: 4em;
 }
 
 .swipe-front {
-  background-color: chocolate;
-  position: absolute;
+  position: relative;
   left: 0;
   top: 0;
   box-sizing: border-box;
   text-align: center;
   vertical-align: center;
   z-index: 2;
-  /* // [START touch-action-example] */
-  /* Pass all touches to javascript */
   touch-action: none;
-  /* // [END touch-action-example] */
 }
 
 .swipe-back {
   position: absolute;
   display: flex;
   width: 100%;
-  height: 4em;
+  height: 5em;
   left: 0;
   top: 0;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  padding: 0 10px;
   box-sizing: border-box;
   visibility: hidden;
   color: #e0e0e0;
