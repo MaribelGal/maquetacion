@@ -4,6 +4,7 @@ const { isError } = require("lodash");
 import { renderizarTabla } from "./table";
 import { renderizarCkeditor } from "../ckeditor";
 import { showNotification } from "./notifications";
+import {startWait, stopWait} from './wait';
 
 const tabla = document.getElementById("tabla");
 //const formulario = document.getElementById("formulario");
@@ -21,8 +22,6 @@ export let renderizarFormulario = () => {
         formularios.forEach(formulario => {
 
             let datosFormulario = new FormData(formulario);
-
-            console.log(datosFormulario.get('visible'));
 
             if (datosFormulario.get('visible') == null) {
                 datosFormulario.set('visible',0);
@@ -42,12 +41,16 @@ export let renderizarFormulario = () => {
             let url = formulario.action;
 
             let enviarPeticionPost = async () => {
+
+                startWait();
+
                 try {
                     await axios.post(url, datosFormulario).then(respuesta => {
                         formulario.id.value = respuesta.data.id;
                         tabla.innerHTML = respuesta.data.table;
-                        showNotification("success");
 
+                        stopWait();
+                        showNotification("success", respuesta.data.message, 7000);
 
                         renderizarFormulario();
                         renderizarTabla();
@@ -55,6 +58,7 @@ export let renderizarFormulario = () => {
                     });
 
                 } catch (error) {
+                    stopWait();
                     if (error.response.status == '422') {
 
                         let errors = error.response.data.errors;
@@ -66,7 +70,9 @@ export let renderizarFormulario = () => {
 
                         console.log(errorMessage);
 
-                        document.getElementById('item-error').innerHTML = errorMessage;
+                        // document.getElementById('item-error').innerHTML = errorMessage;
+
+                        showNotification("error", errorMessage, 7000);
 
                         // document.getElementById('error-container').classList.add('active');
                         // document.getElementById('errors').innerHTML = errorMessage;

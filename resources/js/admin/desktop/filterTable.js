@@ -6,7 +6,7 @@ const campoDateStart = document.getElementById("campo-date-start");
 const campoDateEnd = document.getElementById("campo-date-end");
 const selectorOrderDesc = document.getElementById("selector-order-desc");
 const selectorCategoria = document.getElementById("selector-categoria");
-const PRUEBA = document.getElementById("my-checkbox");
+const selectorOrder = document.getElementById("my-checkbox");
 
 const camposRadioAscDesc = document.querySelectorAll(".order_asc_desc");
 
@@ -163,36 +163,32 @@ export let renderizarFiltroTabla = () => {
 
 
 
-    PRUEBA.addEventListener('click', () => {
-        let valor = PRUEBA.value;
-        let nuevoValor = (valor == "desc")? "asc" : "desc";
+    selectorOrder.addEventListener('click', () => {
+        // let valor = selectorOrder.value;
+        // let nuevoValor = (valor == "desc")? "desc" : "asc";
         
-        console.log(nuevoValor);
-        PRUEBA.value = nuevoValor;
-
+        // selectorOrder.value = nuevoValor;
 
         let data = new FormData(formularioFiltro);
+
+        if(data.get('order_asc_desc') == null){
+            data.set('order_asc_desc', 'desc')
+        }
+
         let url = formularioFiltro.action;
 
         // for (var pair of data.entries()) {
         //     console.log(pair[0] + ', ' + pair[1]);
         // }
 
-
-
         let sendPostRequest = async () => {
-
             try {
                 await axios.post(url, data).then(response => {
                     tabla.innerHTML = response.data.table;
                     renderizarTabla();
                 });
-
-            } catch (error) {
-
-            }
+            } catch (error) {}
         };
-
         sendPostRequest();
     });
 

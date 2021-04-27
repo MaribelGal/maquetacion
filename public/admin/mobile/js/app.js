@@ -2110,10 +2110,12 @@ var SwipeRevealItem = /*#__PURE__*/function () {
     _classCallCheck(this, SwipeRevealItem);
 
     var axis = swipeConfig.axis;
-    var swipeElement = swipeConfig.swipeElement;
-    var swipeFrontElement = swipeConfig.swipeFrontElement;
-    var itemDimension = axis == "x" ? swipeFrontElement.clientWidth : swipeFrontElement.clientHeight;
+    var swipeContainer = swipeConfig.swipeContainer;
+    var swipeContent = swipeConfig.swipeContent;
+    var itemDimension = axis == "x" ? swipeContent.clientWidth : swipeContent.clientHeight;
     var slopValue = itemDimension * swipeConfig.slopRatio;
+    var slopToLeftOrTop = swipeConfig.slopToLeftOrTop;
+    var slopToRightOrBottom = swipeConfig.slopToRightOrBottom;
     var handleSizeLeftOrTop = itemDimension * swipeConfig.handleSizeRatio_LeftOrTop;
     var handleSizeRightOrBottom = itemDimension * swipeConfig.handleSizeRatio_RightOrBottom;
     var limitRightOrBottom = itemDimension * swipeConfig.limitRatio_RightOrBottom;
@@ -2126,6 +2128,9 @@ var SwipeRevealItem = /*#__PURE__*/function () {
     var rafPending = false;
     var initialTouchPos = null;
     var lastTouchPos = null;
+    var containerBounding = swipeContainer.getBoundingClientRect();
+    var initialContentBounding = null;
+    var lastContentBounding = null;
     var currentXPosition = 0;
     var currentYPosition = 0;
     var currentAxisPosition = axis == "x" ? currentXPosition : currentYPosition;
@@ -2146,7 +2151,8 @@ var SwipeRevealItem = /*#__PURE__*/function () {
       }
 
       initialTouchPos = getGesturePointFromEvent(evt);
-      swipeFrontElement.style.transition = "initial";
+      initialContentBounding = swipeContent.getBoundingClientRect();
+      swipeContent.style.transition = "initial";
     };
 
     this.handleGestureMove = function (evt) {
@@ -2157,6 +2163,7 @@ var SwipeRevealItem = /*#__PURE__*/function () {
       }
 
       lastTouchPos = getGesturePointFromEvent(evt);
+      lastContentBounding = swipeContent.getBoundingClientRect();
 
       if (rafPending) {
         return;
@@ -2164,6 +2171,7 @@ var SwipeRevealItem = /*#__PURE__*/function () {
 
       rafPending = true;
       window.requestAnimFrame(onAnimFrame);
+      getBounding();
     };
 
     this.handleGestureEnd = function (evt) {
@@ -2182,123 +2190,175 @@ var SwipeRevealItem = /*#__PURE__*/function () {
         document.removeEventListener("mouseup", this.handleGestureEnd, true);
       }
 
-      console.log("AXIS: ", axis);
       updateSwipeRestPosition();
       initialTouchPos = null;
+      initialContentBounding = null;
     };
 
     function updateSwipeRestPosition() {
+      var newState = STATE_DEFAULT;
       var differenceInX = initialTouchPos.x - lastTouchPos.x;
       var differenceInY = initialTouchPos.y - lastTouchPos.y;
-      var newState = STATE_DEFAULT;
       var differenceInAxis = axis == "x" ? differenceInX : differenceInY;
       currentAxisPosition = currentAxisPosition - differenceInAxis;
-      console.log(differenceInAxis);
-      newState = triggerState(differenceInAxis);
-      changeState(newState);
-      swipeFrontElement.style.transition = "all 150ms ease-out";
-    }
 
-    function triggerState(differenceInAxis) {
-      console.log("trigger");
-      console.log(currentState);
-      var newState = STATE_DEFAULT;
-
-      if (isStateDefault(differenceInAxis)) {
-        console.log("state default");
-        newState = STATE_DEFAULT;
+      if (!swipeConfig.swipeMoveActive) {
+        newState = selectStateByTouchMove(differenceInAxis);
+      } else {
+        var differenceInLeftOrTopLast = axis == "x" ? containerBounding.left - lastContentBounding.left : containerBounding.top - lastContentBounding.top;
+        var differenceInRightOrBottomLast = axis == "x" ? containerBounding.right - lastContentBounding.right : containerBounding.bottom - lastContentBounding.bottom;
+        var differenceInLeftOrTopInitial = axis == "x" ? containerBounding.left - initialContentBounding.left : containerBounding.top - initialContentBounding.top;
+        var differenceInRightOrBottomInitial = axis == "x" ? containerBounding.right - initialContentBounding.right : containerBounding.bottom - initialContentBounding.bottom;
+        console.log("NO dlti " + differenceInLeftOrTopInitial);
+        console.log("drbi " + differenceInRightOrBottomInitial);
+        console.log("NO dltl " + differenceInLeftOrTopLast);
+        console.log("drbl " + differenceInRightOrBottomLast);
+        newState = selectStateByPosition(differenceInLeftOrTopLast, differenceInRightOrBottomLast, differenceInLeftOrTopInitial, differenceInRightOrBottomInitial);
       }
 
-      if (currentState === STATE_DEFAULT) {
-        if (differenceInAxis > 0 && isStateLeftOrTop(differenceInAxis)) {
-          console.log("state left top");
-          newState = STATE_LEFT_TOP_SIDE;
-        }
+      console.log(newState);
+      changeState(newState);
+      swipeContent.style.transition = "all 150ms ease-out";
+    }
 
-        if (differenceInAxis < 0 && isStateRightOrBottom(differenceInAxis)) {
-          console.log("state right botom");
+    function selectStateByTouchMove(differenceInAxis) {
+      var newState = STATE_DEFAULT;
+
+      if (Math.abs(differenceInAxis) > swipeConfig.slopValue_unique) {
+        if (currentState === STATE_DEFAULT) {
+          if (differenceInX > 0) {
+            newState = STATE_LEFT_TOP_SIDE;
+          } else {
+            newState = STATE_RIGHT_BOTTOM_SIDE;
+          }
+        } else {
+          if (currentState === STATE_LEFT_TOP_SIDE && differenceInAxis > 0) {
+            newState = STATE_DEFAULT;
+          } else if (currentState === STATE_RIGHT_BOTTOM_SIDE && differenceInAxis < 0) {
+            newState = STATE_DEFAULT;
+          }
+        }
+      } else {
+        newState = currentState;
+      }
+
+      return newState;
+    }
+
+    function selectStateByPosition(differenceInLeftOrTopLast, differenceInRightOrBottomLast, differenceInLeftOrTopInitial, differenceInRightOrBottomInitial) {
+      var newState = STATE_DEFAULT;
+      var isRightOrBottomVisibleLast = differenceInRightOrBottomLast > 0;
+      var isLeftOrTopVisibleLast = differenceInLeftOrTopLast < 0;
+      var isSlopRightOrBottomLast = Math.abs(differenceInLeftOrTopLast) > swipeConfig.slopToRigthOrBottom;
+      var isSlopLeftOrTopLast = differenceInRightOrBottomLast > swipeConfig.slopToLeftOrTop;
+      var toRightOrBottomLast = isLeftOrTopVisibleLast && isSlopRightOrBottomLast;
+      var toLeftOrTopLast = isRightOrBottomVisibleLast && isSlopLeftOrTopLast;
+      newState = currentState;
+
+      if (currentState === STATE_DEFAULT) {
+        console.log("actual state = default");
+
+        if (toLeftOrTopLast) {
+          console.log("to left or top");
+          newState = STATE_LEFT_TOP_SIDE;
+        } else if (toRightOrBottomLast) {
           newState = STATE_RIGHT_BOTTOM_SIDE;
+          console.log(" to right or bottom");
+        }
+      }
+
+      if (currentState === STATE_LEFT_TOP_SIDE) {
+        console.log("actual state = left o top");
+
+        if (differenceInRightOrBottomInitial > differenceInRightOrBottomLast) {
+          console.log("se aleja del limite superior");
+
+          if (differenceInRightOrBottomLast < swipeConfig.slopToLeftOrTop) {
+            newState = STATE_DEFAULT;
+          }
+        } else {
+          console.log("se acerca al limite sup");
+          newState = currentState;
+        }
+      }
+
+      if (currentState === STATE_RIGHT_BOTTOM_SIDE) {
+        console.log("actual state = right o bottom");
+
+        if (differenceInLeftOrTopInitial > differenceInLeftOrTopLast) {
+          console.log("se aleja del limite superior");
+          newState = currentState;
+        } else {
+          console.log("se acerca al limite sup");
+          console.log(differenceInLeftOrTopLast);
+          console.log(swipeConfig.slopToRigthOrBottom);
+
+          if (Math.abs(differenceInLeftOrTopLast) < swipeConfig.slopToRigthOrBottom) {
+            newState = STATE_DEFAULT;
+          }
         }
       }
 
       return newState;
     }
 
-    function isStateLeftOrTop(differenceInAxis) {
-      var booleanLeftTop = false;
-
-      if (swipeConfig.limitRatio_LeftOrTop < 1) {
-        if (Math.abs(differenceInAxis) > Math.abs(limitLeftOrTop)) {
-          booleanLeftTop = true;
-          console.log("limit left");
-        }
-      } else if (Math.abs(differenceInAxis) > slopValue) {
-        booleanLeftTop = true;
-        console.log("slop");
-      }
-
-      return booleanLeftTop;
-    }
-
-    function isStateRightOrBottom(differenceInAxis) {
-      var booleanRightOrBottom = false;
-
-      if (swipeConfig.limitRatio_RightOrBottom < 1) {
-        if (Math.abs(differenceInAxis) > Math.abs(limitRightOrBottom)) {
-          booleanRightOrBottom = true;
-          console.log("limit right");
-        }
-      } else if (Math.abs(differenceInAxis) > slopValue) {
-        booleanRightOrBottom = true;
-        console.log("slop");
-      }
-
-      return booleanRightOrBottom;
-    }
-
-    function isStateDefault(differenceInAxis) {
-      var booleanDefault = false;
-
-      if (Math.abs(differenceInAxis) > slopValue) {
-        if (currentState === STATE_LEFT_TOP_SIDE && differenceInAxis > 0) {
-          booleanDefault = true;
-        } else if (currentState === STATE_RIGHT_BOTTOM_SIDE && differenceInAxis < 0) {
-          booleanDefault = true;
-        }
-      }
-
-      return booleanDefault;
-    }
-
     function changeState(newState) {
-      if (swipeConfig.bouncyActive) switch (newState) {
+      var fixedRigthBottom;
+      var fixedLeftTop;
+      var styleParameter;
+
+      switch (newState) {
         case STATE_DEFAULT:
-          if (swipeConfig.bouncyActive) {
+          console.log("VUELTA A DEFAULT");
+
+          if (currentState === STATE_RIGHT_BOTTOM_SIDE && swipeConfig.handleSizeRatio_RightOrBottom < 1) {
             currentAxisPosition = 0;
+            styleParameter = currentAxisPosition;
+          }
+
+          if (currentState === STATE_LEFT_TOP_SIDE && swipeConfig.handleSizeRatio_LeftOrTop < 1) {
+            fixedRigthBottom = axis == "x" ? containerBounding.width - lastContentBounding.width : containerBounding.height - lastContentBounding.height;
+            styleParameter = fixedRigthBottom;
           }
 
           currentState = newState;
           break;
 
         case STATE_LEFT_TOP_SIDE:
-          if (swipeConfig.bouncyActive) {
+          swipeConfig.actionLeftOrTopState();
+
+          if (itemDimension == handleSizeLeftOrTop) {
+            fixedRigthBottom = axis == "x" ? containerBounding.width - lastContentBounding.width : containerBounding.height - lastContentBounding.height;
+            styleParameter = fixedRigthBottom;
+            currentAxisPosition = fixedRigthBottom;
+            currentState = STATE_DEFAULT;
+          } else {
             currentAxisPosition = -(itemDimension - handleSizeLeftOrTop);
+            styleParameter = currentAxisPosition;
+            currentState = newState;
           }
 
-          swipeConfig.actionLeftOrTopState();
-          itemDimension == handleSizeLeftOrTop ? currentState = STATE_DEFAULT : currentState = newState;
           break;
 
         case STATE_RIGHT_BOTTOM_SIDE:
-          if (swipeConfig.bouncyActive) {
+          swipeConfig.actionRightOrBottomState();
+
+          if (itemDimension == handleSizeRightOrBottom) {
+            currentAxisPosition = 0;
+            fixedLeftTop = 0;
+            styleParameter = fixedLeftTop;
+            currentState = STATE_DEFAULT;
+          } else {
             currentAxisPosition = itemDimension - handleSizeRightOrBottom;
+            styleParameter = currentAxisPosition;
+            currentState = newState;
           }
 
-          swipeConfig.actionRightOrBottomState();
-          itemDimension == handleSizeRightOrBottom ? currentState = STATE_DEFAULT : currentState = newState;
           break;
       }
-      swipeConfig.applyStyle(currentAxisPosition, swipeFrontElement);
+
+      swipeConfig.applyStyle(styleParameter, swipeContent);
+      console.log(currentState);
     }
 
     function getGesturePointFromEvent(evt) {
@@ -2322,33 +2382,29 @@ var SwipeRevealItem = /*#__PURE__*/function () {
 
       var differenceInX = initialTouchPos.x - lastTouchPos.x;
       var differenceInY = initialTouchPos.y - lastTouchPos.y;
-      var differenceInAxis = axis == "x" ? differenceInX : differenceInY; // if (differenceInAxis < 0 && !backLeftOrTopVisible) {
-      // 	swipeConfig.actionLeftOrTopBackVisible();
-      // 	backLeftOrTopVisible = true;
-      // 	backRightOrBottomVisible = false;
-      // } else if (differenceInAxis > 0 && !backRightOrBottomVisible) {
-      // 	swipeConfig.actionRightOrBottomBackVisible();
-      // 	backLeftOrTopVisible = false;
-      // 	backRightOrBottomVisible = true;
-      // }
-
-      backvisible();
+      var differenceInAxis = axis == "x" ? differenceInX : differenceInY;
 
       if (-limitRightOrBottom < differenceInAxis && -limitLeftOrTop < -differenceInAxis) {
         var newXTransform = currentAxisPosition - differenceInAxis;
-        swipeConfig.applyStyle(newXTransform, swipeFrontElement);
+        swipeConfig.applyStyle(newXTransform, swipeContent);
       }
 
       rafPending = false;
-    } //TODO: con el bounding 
+    }
 
+    function getBounding() {
+      var containerBounding = swipeContainer.getBoundingClientRect();
+      var childBounding = swipeContent.getBoundingClientRect();
+      var differenceInLeftOrTopLast = axis == "x" ? containerBounding.left - childBounding.left : containerBounding.top - childBounding.top;
+      var differenceInRightOrBottomLast = axis == "x" ? containerBounding.right - childBounding.right : containerBounding.bottom - childBounding.bottom;
 
-    function backvisible() {
-      if (differenceInAxis < 0 && !backLeftOrTopVisible) {
+      if (differenceInLeftOrTopLast < 0 && !backLeftOrTopVisible) {
         swipeConfig.actionLeftOrTopBackVisible();
         backLeftOrTopVisible = true;
         backRightOrBottomVisible = false;
-      } else if (differenceInAxis > 0 && !backRightOrBottomVisible) {
+      }
+
+      if (differenceInRightOrBottomLast > 0 && !backRightOrBottomVisible) {
         swipeConfig.actionRightOrBottomBackVisible();
         backLeftOrTopVisible = false;
         backRightOrBottomVisible = true;
@@ -2356,23 +2412,23 @@ var SwipeRevealItem = /*#__PURE__*/function () {
     }
 
     if (window.PointerEvent) {
-      swipeFrontElement.addEventListener("pointerdown", this.handleGestureStart, true);
-      swipeFrontElement.addEventListener("pointermove", this.handleGestureMove, true);
-      swipeFrontElement.addEventListener("pointerup", this.handleGestureEnd, true);
-      swipeFrontElement.addEventListener("pointercancel", this.handleGestureEnd, true);
+      swipeContent.addEventListener("pointerdown", this.handleGestureStart, true);
+      swipeContent.addEventListener("pointermove", this.handleGestureMove, true);
+      swipeContent.addEventListener("pointerup", this.handleGestureEnd, true);
+      swipeContent.addEventListener("pointercancel", this.handleGestureEnd, true);
     } else {
-      swipeFrontElement.addEventListener("touchstart", this.handleGestureStart, true);
-      swipeFrontElement.addEventListener("touchmove", this.handleGestureMove, true);
-      swipeFrontElement.addEventListener("touchend", this.handleGestureEnd, true);
-      swipeFrontElement.addEventListener("touchcancel", this.handleGestureEnd, true);
-      swipeFrontElement.addEventListener("mousedown", this.handleGestureStart, true);
+      swipeContent.addEventListener("touchstart", this.handleGestureStart, true);
+      swipeContent.addEventListener("touchmove", this.handleGestureMove, true);
+      swipeContent.addEventListener("touchend", this.handleGestureEnd, true);
+      swipeContent.addEventListener("touchcancel", this.handleGestureEnd, true);
+      swipeContent.addEventListener("mousedown", this.handleGestureStart, true);
     }
   }
 
   _createClass(SwipeRevealItem, [{
     key: "resize",
-    value: function resize(swipeFrontElement) {
-      this.itemDimension = swipeFrontElement.clientWidth;
+    value: function resize(swipeContent) {
+      this.itemDimension = swipeContent.clientWidth;
       this.slopValue = this.itemDimension * (1 / 4);
     }
   }]);
@@ -2398,6 +2454,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./form */ "./resources/js/admin/mobile/components/form.js");
 /* harmony import */ var _ckeditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ckeditor */ "./resources/js/admin/mobile/ckeditor.js");
 /* harmony import */ var _swipe__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./swipe */ "./resources/js/admin/mobile/components/swipe.js");
+/* harmony import */ var _wait__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./wait */ "./resources/js/admin/mobile/components/wait.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2407,59 +2464,62 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 var tabla = document.getElementById("tabla");
 var formulario = document.getElementById("formulario");
 var renderizarTabla = function renderizarTabla() {
   var leftRight = document.getElementById("tabla-faqs-filas");
   var swipeLeftRightElements = leftRight.querySelectorAll(".swipe-element");
-  var swipeRevealItems = [];
-  swipeLeftRightElements.forEach(function (swipeElement) {
-    var swipeConfig = {
-      swipeElement: swipeElement,
-      swipeFrontElement: swipeElement.querySelector(".swipe-front"),
-      axis: "x",
-      bouncyActive: true,
-      // % del front que se ve
-      handleSizeRatio_LeftOrTop: 1,
-      handleSizeRatio_RightOrBottom: 1,
-      //Limite arrastrando hacia...
-      // % del back que se ve  (1 = NO LIMIT)
-      limitRatio_LeftOrTop: 1,
-      limitRatio_RightOrBottom: 1,
-      // Punto de no retorno, aplicable con limit = 1;
-      slopRatio: 2 / 4,
-      actionLeftOrTopState: function actionLeftOrTopState() {
-        console.log("holi");
-      },
-      actionRightOrBottomState: function actionRightOrBottomState() {
-        console.log("deu");
-      },
-      actionLeftOrTopBackVisible: function actionLeftOrTopBackVisible() {
-        console.log("left me ves");
-        editarBackVisible(swipeElement);
-      },
-      actionRightOrBottomBackVisible: function actionRightOrBottomBackVisible() {
-        console.log("right me ves");
-        eliminarBackVisble(swipeElement);
-      },
-      applyStyle: function applyStyle(currentAxisPosition, element) {
-        // let transformStyle = "translateX(" + currentAxisPosition + "px)";
-        // element.style.msTransform = transformStyle;
-        // element.style.MozTransform = transformStyle;
-        // element.style.webkitTransform = transformStyle;
-        // element.style.transform = transformStyle;
-        element.style.left = currentAxisPosition + "px";
-      }
-    };
-    swipeRevealItems.push(new _swipe__WEBPACK_IMPORTED_MODULE_3__.SwipeRevealItem(swipeConfig));
-  });
+  var swipeRevealItems = []; // swipeLeftRightElements.forEach(swipeElement => {
+  // 	let swipeConfig = {
+  // 		swipeContainer: swipeElement,
+  // 		swipeContent: swipeElement.querySelector(".swipe-front"),
+  // 		axis: "x",
+  // 		swipeMoveActive: true,
+  // 		// % del front que se ve
+  // 		handleSizeRatio_LeftOrTop: 1,
+  // 		handleSizeRatio_RightOrBottom: 1,
+  // 		//Limite arrastrando hacia...
+  // 		// % del back que se ve  (1 = NO LIMIT)
+  // 		limitRatio_LeftOrTop: 1,
+  // 		limitRatio_RightOrBottom: 1,
+  // 		// Punto de no retorno, aplicable con limit = 1;
+  // 		//slopRatio: 2 / 4,
+  // 		slopToLeftOrTop: swipeElement.querySelector(".swipe-front").clientWidth * 2/4,
+  // 		slopToRigthOrBottom: swipeElement.querySelector(".swipe-front").clientWidth * 2/4,
+  // 		actionLeftOrTopState: () => {
+  // 			console.log("holi");
+  // 		},
+  // 		actionRightOrBottomState: () => {
+  // 			console.log("deu");
+  // 		},
+  // 		actionLeftOrTopBackVisible: () => {
+  // 			console.log("left me ves");
+  // 			editarBackVisible(swipeElement);
+  // 		},
+  // 		actionRightOrBottomBackVisible: () => {
+  // 			console.log("right me ves");
+  // 			eliminarBackVisble(swipeElement);
+  // 		},
+  // 		applyStyle: (currentAxisPosition, element) => {
+  // 			// let transformStyle = "translateX(" + currentAxisPosition + "px)";
+  // 			// element.style.msTransform = transformStyle;
+  // 			// element.style.MozTransform = transformStyle;
+  // 			// element.style.webkitTransform = transformStyle;
+  // 			// element.style.transform = transformStyle;
+  // 			element.style.left = currentAxisPosition + "px";
+  // 		},
+  // 	};
+  // 	swipeRevealItems.push(new SwipeRevealItem(swipeConfig));
+  // });
+
   var topBottomParent = document.getElementById("tabla-faqs");
   var topBottomChild = document.getElementById("tabla-faqs-filas");
   var swipeConfigTopBottom = {
-    swipeElement: topBottomParent,
-    swipeFrontElement: topBottomChild,
+    swipeContainer: topBottomParent,
+    swipeContent: topBottomChild,
     axis: "y",
-    bouncyActive: false,
+    swipeMoveActive: true,
     // % del front que se ve
     handleSizeRatio_LeftOrTop: 1,
     handleSizeRatio_RightOrBottom: 1,
@@ -2469,6 +2529,8 @@ var renderizarTabla = function renderizarTabla() {
     limitRatio_RightOrBottom: 1,
     // Punto de no retorno, aplicable con limit = 1;
     slopRatio: 2 / 4,
+    slopToLeftOrTop: 5,
+    slopToRigthOrBottom: 5,
     actionLeftOrTopState: function actionLeftOrTopState() {
       console.log("holi");
     },
@@ -2477,11 +2539,10 @@ var renderizarTabla = function renderizarTabla() {
     },
     actionLeftOrTopBackVisible: function actionLeftOrTopBackVisible() {
       console.log("top me ves");
-      editarBackVisible(topBottomChild);
     },
     actionRightOrBottomBackVisible: function actionRightOrBottomBackVisible() {
       console.log("bottom me ves");
-      eliminarBackVisble(topBottomChild);
+      pagination();
     },
     applyStyle: function applyStyle(currentAxisPosition, element) {
       // let transformStyle = "translateX(" + currentAxisPosition + "px)";
@@ -2600,6 +2661,69 @@ function eliminarBackVisble(element) {
 function editarBackVisible(element) {
   element.querySelector(".swipe-delete").classList.remove("active");
   element.querySelector(".swipe-edit").classList.add("active");
+}
+
+function pagination() {
+  var paginationRequest = /*#__PURE__*/function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      var topBottomChild, url, lastPage, urlParams, nextPage;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.prev = 0;
+              topBottomChild = document.getElementById("tabla-faqs-filas");
+              url = topBottomChild.dataset.pagination;
+              lastPage = topBottomChild.dataset.lastpage;
+              urlParams = new URL(url);
+              nextPage = parseInt(urlParams.searchParams.get('page'));
+
+              if (!(nextPage <= lastPage)) {
+                _context3.next = 10;
+                break;
+              }
+
+              (0,_wait__WEBPACK_IMPORTED_MODULE_4__.startWait)(); // let updateMove = {
+              // 	"origin": "mobile", 
+              // 	"route": window.location.pathname,
+              // 	"move": "next_elements",
+              // 	"entity": scrollWindowElement.id,
+              // 	"page":  nextPage
+              // }
+
+              _context3.next = 10;
+              return axios.get(url).then(function (response) {
+                topBottomChild.insertAdjacentHTML('beforeend', response.data.tablerows);
+                ++nextPage;
+                urlParams.searchParams.set('page', nextPage);
+                topBottomChild.dataset.pagination = urlParams.toString();
+                renderizarTabla();
+                (0,_wait__WEBPACK_IMPORTED_MODULE_4__.stopWait)(); // trackingPagination(updateMove);
+              });
+
+            case 10:
+              _context3.next = 15;
+              break;
+
+            case 12:
+              _context3.prev = 12;
+              _context3.t0 = _context3["catch"](0);
+              console.error(_context3.t0);
+
+            case 15:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3, null, [[0, 12]]);
+    }));
+
+    return function paginationRequest() {
+      return _ref3.apply(this, arguments);
+    };
+  }();
+
+  paginationRequest();
 }
 
 /***/ }),
@@ -2917,6 +3041,31 @@ function editarBackVisible(element) {
 //     }
 // }
 // renderizarTabla();
+
+/***/ }),
+
+/***/ "./resources/js/admin/mobile/components/wait.js":
+/*!******************************************************!*\
+  !*** ./resources/js/admin/mobile/components/wait.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "startWait": () => (/* binding */ startWait),
+/* harmony export */   "stopWait": () => (/* binding */ stopWait)
+/* harmony export */ });
+var spinner = document.getElementById('spinner');
+var overlay = document.getElementById('overlay');
+var startWait = function startWait() {
+  spinner.classList.add('spinner-active');
+  overlay.classList.add('overlay-active');
+};
+var stopWait = function stopWait() {
+  spinner.classList.remove('spinner-active');
+  overlay.classList.remove('overlay-active');
+};
 
 /***/ }),
 

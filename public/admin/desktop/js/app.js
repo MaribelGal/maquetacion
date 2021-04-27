@@ -1979,6 +1979,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./table */ "./resources/js/admin/desktop/components/table.js");
 /* harmony import */ var _ckeditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ckeditor */ "./resources/js/admin/desktop/ckeditor.js");
 /* harmony import */ var _notifications__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./notifications */ "./resources/js/admin/desktop/components/notifications.js");
+/* harmony import */ var _wait__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./wait */ "./resources/js/admin/desktop/components/wait.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2008,6 +2009,7 @@ var _require2 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.
 
 
 
+
 var tabla = document.getElementById("tabla"); //const formulario = document.getElementById("formulario");
 
 var renderizarFormulario = function renderizarFormulario() {
@@ -2017,7 +2019,6 @@ var renderizarFormulario = function renderizarFormulario() {
     document.getElementById('item-error').innerHTML = '';
     formularios.forEach(function (formulario) {
       var datosFormulario = new FormData(formulario);
-      console.log(datosFormulario.get('visible'));
 
       if (datosFormulario.get('visible') == null) {
         datosFormulario.set('visible', 0);
@@ -2056,23 +2057,26 @@ var renderizarFormulario = function renderizarFormulario() {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  _context.prev = 0;
-                  _context.next = 3;
+                  (0,_wait__WEBPACK_IMPORTED_MODULE_4__.startWait)();
+                  _context.prev = 1;
+                  _context.next = 4;
                   return axios.post(url, datosFormulario).then(function (respuesta) {
                     formulario.id.value = respuesta.data.id;
                     tabla.innerHTML = respuesta.data.table;
-                    (0,_notifications__WEBPACK_IMPORTED_MODULE_3__.showNotification)("success");
+                    (0,_wait__WEBPACK_IMPORTED_MODULE_4__.stopWait)();
+                    (0,_notifications__WEBPACK_IMPORTED_MODULE_3__.showNotification)("success", respuesta.data.message, 7000);
                     renderizarFormulario();
                     (0,_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
                   });
 
-                case 3:
-                  _context.next = 8;
+                case 4:
+                  _context.next = 10;
                   break;
 
-                case 5:
-                  _context.prev = 5;
-                  _context.t0 = _context["catch"](0);
+                case 6:
+                  _context.prev = 6;
+                  _context.t0 = _context["catch"](1);
+                  (0,_wait__WEBPACK_IMPORTED_MODULE_4__.stopWait)();
 
                   if (_context.t0.response.status == '422') {
                     errors = _context.t0.response.data.errors;
@@ -2080,17 +2084,18 @@ var renderizarFormulario = function renderizarFormulario() {
                     Object.keys(errors).forEach(function (key) {
                       errorMessage += '<div>' + errors[key] + '</div>';
                     });
-                    console.log(errorMessage);
-                    document.getElementById('item-error').innerHTML = errorMessage; // document.getElementById('error-container').classList.add('active');
+                    console.log(errorMessage); // document.getElementById('item-error').innerHTML = errorMessage;
+
+                    (0,_notifications__WEBPACK_IMPORTED_MODULE_3__.showNotification)("error", errorMessage, 7000); // document.getElementById('error-container').classList.add('active');
                     // document.getElementById('errors').innerHTML = errorMessage;
                   }
 
-                case 8:
+                case 10:
                 case "end":
                   return _context.stop();
               }
             }
-          }, _callee, null, [[0, 5]]);
+          }, _callee, null, [[1, 6]]);
         }));
 
         return function enviarPeticionPost() {
@@ -2218,7 +2223,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "showNotification": () => (/* binding */ showNotification)
 /* harmony export */ });
-function showNotification(type) {
+function showNotification(type, messageText, setTimeOut) {
   var notificationsContainer = document.getElementById('notifications-container');
   var notificationItem = notificationsContainer.querySelector("#notification-" + type); // switch (type) {
   //     case "success":
@@ -2235,17 +2240,19 @@ function showNotification(type) {
   //         break;
   // }
 
-  var notificationItemClose = notificationItem.querySelectorAll(".notification-close");
+  var notificationDescription = notificationItem.querySelector(".notification-description");
 
   var mostrar = function mostrar() {
     notificationsContainer.classList.toggle("show");
     notificationItem.classList.toggle("active");
+    notificationDescription.innerHTML = messageText;
   };
 
   mostrar();
   setTimeout(function () {
     mostrar();
-  }, 3000);
+  }, setTimeOut);
+  var notificationItemClose = notificationItem.querySelectorAll(".notification-close");
   notificationItemClose.forEach(function (close) {
     close.addEventListener("click", function () {
       notificationItem.classList.toggle("active");
@@ -2501,6 +2508,31 @@ renderizarTabla();
 
 /***/ }),
 
+/***/ "./resources/js/admin/desktop/components/wait.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/admin/desktop/components/wait.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "startWait": () => (/* binding */ startWait),
+/* harmony export */   "stopWait": () => (/* binding */ stopWait)
+/* harmony export */ });
+var spinner = document.getElementById('spinner');
+var overlay = document.getElementById('overlay');
+var startWait = function startWait() {
+  spinner.classList.add('spinner-active');
+  overlay.classList.add('overlay-active');
+};
+var stopWait = function stopWait() {
+  spinner.classList.remove('spinner-active');
+  overlay.classList.remove('overlay-active');
+};
+
+/***/ }),
+
 /***/ "./resources/js/admin/desktop/filterTable.js":
 /*!***************************************************!*\
   !*** ./resources/js/admin/desktop/filterTable.js ***!
@@ -2534,7 +2566,7 @@ var campoDateStart = document.getElementById("campo-date-start");
 var campoDateEnd = document.getElementById("campo-date-end");
 var selectorOrderDesc = document.getElementById("selector-order-desc");
 var selectorCategoria = document.getElementById("selector-categoria");
-var PRUEBA = document.getElementById("my-checkbox");
+var selectorOrder = document.getElementById("my-checkbox");
 var camposRadioAscDesc = document.querySelectorAll(".order_asc_desc");
 var formularioFiltro = document.getElementById("filtro-formulario");
 var renderizarFiltroTabla = function renderizarFiltroTabla() {
@@ -2795,12 +2827,16 @@ var renderizarFiltroTabla = function renderizarFiltroTabla() {
   //     });
   // });
 
-  PRUEBA.addEventListener('click', function () {
-    var valor = PRUEBA.value;
-    var nuevoValor = valor == "desc" ? "asc" : "desc";
-    console.log(nuevoValor);
-    PRUEBA.value = nuevoValor;
+  selectorOrder.addEventListener('click', function () {
+    // let valor = selectorOrder.value;
+    // let nuevoValor = (valor == "desc")? "desc" : "asc";
+    // selectorOrder.value = nuevoValor;
     var data = new FormData(formularioFiltro);
+
+    if (data.get('order_asc_desc') == null) {
+      data.set('order_asc_desc', 'desc');
+    }
+
     var url = formularioFiltro.action; // for (var pair of data.entries()) {
     //     console.log(pair[0] + ', ' + pair[1]);
     // }

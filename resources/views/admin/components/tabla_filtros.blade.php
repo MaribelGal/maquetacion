@@ -86,8 +86,8 @@
                         <div class="filtro-formulario-item-campo filter-checkbox">
                             <input type="checkbox" name="order_asc_desc" value="asc" id="my-checkbox" class="order_asc_desc">
                             <label for="my-checkbox" class="label-hidden"></label>
-                            <label for="my-checkbox" class="first-label label-displayed">Asc</label>
-                            <label for="my-checkbox" class="second-label label-displayed">Desc</label>
+                            <label for="my-checkbox" class="first-label label-displayed">Desc</label>
+                            <label for="my-checkbox" class="second-label label-displayed">Asc</label>
                         </div>
 
                     </div>

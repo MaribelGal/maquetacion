@@ -27,7 +27,7 @@ class FaqController extends Controller
     public function index()
     {
 
-        $paginate = $this->faq->where('active', 1)->paginate($this->paginationNum);
+        $paginate = $this->faq->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum);
         
         $view = View::make('admin.faqs.index')
             ->with('faq', $this->faq)
@@ -42,6 +42,7 @@ class FaqController extends Controller
 
             return response()->json([
                 'table' => $sections['table'],
+                'tablerows' => $sections['tablerows'],
                 'form' => $sections['form'],
             ]);
         }
@@ -86,25 +87,34 @@ class FaqController extends Controller
             'active' => 1,
         ]);
 
+        if (request('id')){
+            $message = \Lang::get('admin/faqs.faq-update');
+        }else{
+            $message = \Lang::get('admin/faqs.faq-create');
+        }
+
+
         $view = View::make('admin.faqs.index')
-            ->with('faqs', $this->faq->where('active', 1)->paginate($this->paginationNum))
+            ->with('faqs', $this->faq->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum))
             ->with('faq', $faq)
             ->renderSections();
 
         return response()->json([
             'table' => $view['table'],
+            'tablerows' => $view['tablerows'],
             'form' => $view['form'],
+            'message' => $message,
             'id' => $faq->id,
         ]);
 
-        $request->messages();
+        // $request->messages();
     }
 
     public function show(Faq $faq)
     {
         $view = View::make('admin.faqs.index')
             ->with('faq', $faq)
-            ->with('faqs', $this->faq->where('active', 1)->paginate($this->paginationNum));
+            ->with('faqs', $this->faq->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum));
 
         if (request()->ajax()) {
 
@@ -112,7 +122,8 @@ class FaqController extends Controller
 
             return response()->json([
                 'form' => $sections['form'],
-                'table' => $sections['table']
+                'table' => $sections['table'],
+                'tablerows' => $sections['tablerows'],
             ]);
         }
 
@@ -126,14 +137,18 @@ class FaqController extends Controller
         $faq->active = 0;
         $faq->save();
 
+        $message = \Lang::get('admin/faqs.faq-delete');
+
         $view = View::make('admin.faqs.index')
             ->with('faq', $this->faq)
-            ->with('faqs', $this->faq->where('active', 1)->paginate($this->paginationNum))
+            ->with('faqs', $this->faq->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum))
             ->renderSections();
 
         return response()->json([
             'table' => $view['table'],
-            'form' => $view['form']
+            'tablerows' => $view['tablerows'],
+            'form' => $view['form'],
+            'message' => $message
         ]);
     }
 
@@ -218,6 +233,7 @@ class FaqController extends Controller
 
         return response()->json([
             'table' => $view['table'],
+            'tablerows' => $view['tablerows'],
         ]);
     }
 }

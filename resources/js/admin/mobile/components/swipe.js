@@ -19,19 +19,20 @@ if (window.PointerEvent || window.navigator.msPointerEnabled) {
 export class SwipeRevealItem {
 	constructor(swipeConfig) {
 		let axis = swipeConfig.axis;
-        let swipeElement = swipeConfig.swipeElement;
-		let swipeFrontElement = swipeConfig.swipeFrontElement;
+		let swipeContainer = swipeConfig.swipeContainer;
+		let swipeContent = swipeConfig.swipeContent;
 
-		let itemDimension = axis == "x" ? swipeFrontElement.clientWidth : swipeFrontElement.clientHeight;
+		let itemDimension = axis == "x" ? swipeContent.clientWidth : swipeContent.clientHeight;
 
 		let slopValue = itemDimension * swipeConfig.slopRatio;
+		let slopToLeftOrTop = swipeConfig.slopToLeftOrTop;
+		let slopToRightOrBottom = swipeConfig.slopToRightOrBottom;
 
 		let handleSizeLeftOrTop = itemDimension * swipeConfig.handleSizeRatio_LeftOrTop;
 		let handleSizeRightOrBottom = itemDimension * swipeConfig.handleSizeRatio_RightOrBottom;
 
 		let limitRightOrBottom = itemDimension * swipeConfig.limitRatio_RightOrBottom;
 		let limitLeftOrTop = itemDimension * swipeConfig.limitRatio_LeftOrTop;
-
 
 		let STATE_DEFAULT = 1;
 		let STATE_LEFT_TOP_SIDE = 2;
@@ -45,9 +46,14 @@ export class SwipeRevealItem {
 		let initialTouchPos = null;
 		let lastTouchPos = null;
 
+		let containerBounding = swipeContainer.getBoundingClientRect();
+		let initialContentBounding = null;
+		let lastContentBounding = null;
+
 		let currentXPosition = 0;
 		let currentYPosition = 0;
 		let currentAxisPosition = axis == "x" ? currentXPosition : currentYPosition;
+
 		let currentState = STATE_DEFAULT;
 
 		this.handleGestureStart = function (evt) {
@@ -65,8 +71,9 @@ export class SwipeRevealItem {
 			}
 
 			initialTouchPos = getGesturePointFromEvent(evt);
+			initialContentBounding = swipeContent.getBoundingClientRect();
 
-			swipeFrontElement.style.transition = "initial";
+			swipeContent.style.transition = "initial";
 		};
 
 		this.handleGestureMove = function (evt) {
@@ -77,6 +84,7 @@ export class SwipeRevealItem {
 			}
 
 			lastTouchPos = getGesturePointFromEvent(evt);
+			lastContentBounding = swipeContent.getBoundingClientRect();
 
 			if (rafPending) {
 				return;
@@ -85,6 +93,8 @@ export class SwipeRevealItem {
 			rafPending = true;
 
 			window.requestAnimFrame(onAnimFrame);
+
+			getBounding();
 		};
 
 		this.handleGestureEnd = function (evt) {
@@ -103,127 +113,185 @@ export class SwipeRevealItem {
 				document.removeEventListener("mouseup", this.handleGestureEnd, true);
 			}
 
-			console.log("AXIS: ", axis);
-
 			updateSwipeRestPosition();
 
 			initialTouchPos = null;
+			initialContentBounding = null;
 		};
 
 		function updateSwipeRestPosition() {
-			let differenceInX = initialTouchPos.x - lastTouchPos.x;
-			let differenceInY = initialTouchPos.y - lastTouchPos.y;
-
 			let newState = STATE_DEFAULT;
 
+			let differenceInX = initialTouchPos.x - lastTouchPos.x;
+			let differenceInY = initialTouchPos.y - lastTouchPos.y;
 			let differenceInAxis = axis == "x" ? differenceInX : differenceInY;
 
 			currentAxisPosition = currentAxisPosition - differenceInAxis;
 
-			console.log(differenceInAxis);
+			if (!swipeConfig.swipeMoveActive) {
+				newState = selectStateByTouchMove(differenceInAxis);
 
-			newState = triggerState(differenceInAxis);
+			} else {
+				let differenceInLeftOrTopLast = axis == "x" ? containerBounding.left - lastContentBounding.left : containerBounding.top - lastContentBounding.top;
 
+				let differenceInRightOrBottomLast = axis == "x" ? containerBounding.right - lastContentBounding.right : containerBounding.bottom - lastContentBounding.bottom;
+
+				let differenceInLeftOrTopInitial = axis == "x" ? containerBounding.left - initialContentBounding.left : containerBounding.top - initialContentBounding.top;
+
+				let differenceInRightOrBottomInitial = axis == "x" ? containerBounding.right - initialContentBounding.right : containerBounding.bottom - initialContentBounding.bottom;
+
+				console.log("NO dlti "+  differenceInLeftOrTopInitial );
+				console.log("drbi "+  differenceInRightOrBottomInitial );
+				console.log("NO dltl "+  differenceInLeftOrTopLast );
+				console.log("drbl "+  differenceInRightOrBottomLast );
+
+
+				newState = selectStateByPosition(differenceInLeftOrTopLast, differenceInRightOrBottomLast,
+					differenceInLeftOrTopInitial, differenceInRightOrBottomInitial);
+
+
+			}
+
+			console.log(newState);
 			changeState(newState);
 
-			swipeFrontElement.style.transition = "all 150ms ease-out";
+			swipeContent.style.transition = "all 150ms ease-out";
 		}
 
-		function triggerState(differenceInAxis) {
-			console.log("trigger");
-			console.log(currentState);
+		function selectStateByTouchMove(differenceInAxis) {
+			let newState = STATE_DEFAULT;
+			if (Math.abs(differenceInAxis) > swipeConfig.slopValue_unique) {
+				if (currentState === STATE_DEFAULT) {
+					if (differenceInX > 0) {
+						newState = STATE_LEFT_TOP_SIDE;
+					} else {
+						newState = STATE_RIGHT_BOTTOM_SIDE;
+					}
+				} else {
+					if (currentState === STATE_LEFT_TOP_SIDE && differenceInAxis > 0) {
+						newState = STATE_DEFAULT;
+					} else if (currentState === STATE_RIGHT_BOTTOM_SIDE && differenceInAxis < 0) {
+						newState = STATE_DEFAULT;
+					}
+				}
+			} else {
+				newState = currentState;
+			}
+			return newState;
+		}
+
+		function selectStateByPosition(differenceInLeftOrTopLast, differenceInRightOrBottomLast,
+			differenceInLeftOrTopInitial, differenceInRightOrBottomInitial) {
 			let newState = STATE_DEFAULT;
 
-			if (isStateDefault(differenceInAxis)) {
-				console.log("state default");
-				newState = STATE_DEFAULT;
-			}
+			let isRightOrBottomVisibleLast = differenceInRightOrBottomLast > 0;
+			let isLeftOrTopVisibleLast = differenceInLeftOrTopLast < 0;
+			let isSlopRightOrBottomLast = Math.abs(differenceInLeftOrTopLast) > swipeConfig.slopToRigthOrBottom;
+			let isSlopLeftOrTopLast = differenceInRightOrBottomLast > swipeConfig.slopToLeftOrTop;
+
+			let toRightOrBottomLast = isLeftOrTopVisibleLast && isSlopRightOrBottomLast;
+			let toLeftOrTopLast = (isRightOrBottomVisibleLast && isSlopLeftOrTopLast);
+
+
+			newState = currentState;
 
 			if (currentState === STATE_DEFAULT) {
-				if (differenceInAxis > 0 && isStateLeftOrTop(differenceInAxis)) {
-					console.log("state left top");
+				console.log("actual state = default");
+				if (toLeftOrTopLast) {
+					console.log("to left or top");
 					newState = STATE_LEFT_TOP_SIDE;
-				}
-				if (differenceInAxis < 0 && isStateRightOrBottom(differenceInAxis)) {
-					console.log("state right botom");
+				} else if (toRightOrBottomLast) {
 					newState = STATE_RIGHT_BOTTOM_SIDE;
+					console.log(" to right or bottom");
 				}
 			}
+
+			if ( currentState === STATE_LEFT_TOP_SIDE ){
+				console.log("actual state = left o top");
+				if(differenceInRightOrBottomInitial > differenceInRightOrBottomLast) {
+					console.log("se aleja del limite superior");
+					if (differenceInRightOrBottomLast < swipeConfig.slopToLeftOrTop) {
+						newState = STATE_DEFAULT;
+					}
+				} else {
+					console.log("se acerca al limite sup");
+					newState = currentState;
+				}
+			}
+
+			if (currentState === STATE_RIGHT_BOTTOM_SIDE ){
+				console.log("actual state = right o bottom");
+				if (differenceInLeftOrTopInitial > differenceInLeftOrTopLast) {
+					console.log("se aleja del limite superior");
+					newState = currentState;
+				} else {
+					console.log("se acerca al limite sup");
+					console.log(differenceInLeftOrTopLast);
+					console.log(swipeConfig.slopToRigthOrBottom);
+					if (Math.abs(differenceInLeftOrTopLast) < swipeConfig.slopToRigthOrBottom){
+						newState = STATE_DEFAULT;
+					}
+				}
+			}
+
 
 			return newState;
 		}
 
-		function isStateLeftOrTop(differenceInAxis) {
-			let booleanLeftTop = false;
 
-			if (swipeConfig.limitRatio_LeftOrTop < 1) {
-				if (Math.abs(differenceInAxis) > Math.abs(limitLeftOrTop)) {
-					booleanLeftTop = true;
-					console.log("limit left");
-				}
-			} else if (Math.abs(differenceInAxis) > slopValue) {
-				booleanLeftTop = true;
-				console.log("slop");
-			}
-
-			return booleanLeftTop;
-		}
-
-		function isStateRightOrBottom(differenceInAxis) {
-			let booleanRightOrBottom = false;
-			if (swipeConfig.limitRatio_RightOrBottom < 1) {
-				if (Math.abs(differenceInAxis) > Math.abs(limitRightOrBottom)) {
-					booleanRightOrBottom = true;
-					console.log("limit right");
-				}
-			} else if (Math.abs(differenceInAxis) > slopValue) {
-				booleanRightOrBottom = true;
-				console.log("slop");
-			}
-
-			return booleanRightOrBottom;
-		}
-
-		function isStateDefault(differenceInAxis) {
-			let booleanDefault = false;
-			if (Math.abs(differenceInAxis) > slopValue) {
-				if (currentState === STATE_LEFT_TOP_SIDE && differenceInAxis > 0) {
-					booleanDefault = true;
-				} else if (currentState === STATE_RIGHT_BOTTOM_SIDE && differenceInAxis < 0) {
-					booleanDefault = true;
-				}
-			}
-			return booleanDefault;
-		}
 
 		function changeState(newState) {
-            if (swipeConfig.bouncyActive)
+			let fixedRigthBottom;
+			let fixedLeftTop;
+			let styleParameter;
+
 			switch (newState) {
 				case STATE_DEFAULT:
-                    if (swipeConfig.bouncyActive) {
-                        currentAxisPosition = 0
-                    }  
+					console.log("VUELTA A DEFAULT");
+					if (currentState === STATE_RIGHT_BOTTOM_SIDE && swipeConfig.handleSizeRatio_RightOrBottom < 1){
+						currentAxisPosition = 0;
+						styleParameter = currentAxisPosition;
+					}
+
+					if (currentState === STATE_LEFT_TOP_SIDE && swipeConfig.handleSizeRatio_LeftOrTop < 1){
+						fixedRigthBottom = axis == "x" ? containerBounding.width - lastContentBounding.width : containerBounding.height - lastContentBounding.height;
+						styleParameter = fixedRigthBottom;
+					}
 					currentState = newState;
 					break;
 				case STATE_LEFT_TOP_SIDE:
-                    if (swipeConfig.bouncyActive) {
-                        currentAxisPosition = -(itemDimension - handleSizeLeftOrTop);
-                    }  
-					
 					swipeConfig.actionLeftOrTopState();
-					itemDimension == handleSizeLeftOrTop ? (currentState = STATE_DEFAULT) : (currentState = newState);
+
+					if (itemDimension == handleSizeLeftOrTop) {
+						fixedRigthBottom = axis == "x" ? containerBounding.width - lastContentBounding.width : containerBounding.height - lastContentBounding.height;
+						styleParameter = fixedRigthBottom;
+						currentAxisPosition = fixedRigthBottom;
+						currentState = STATE_DEFAULT;
+					} else {
+						currentAxisPosition = -(itemDimension - handleSizeLeftOrTop);
+						styleParameter = currentAxisPosition;
+						currentState = newState;
+					}
 					break;
+
 				case STATE_RIGHT_BOTTOM_SIDE:
-                    if (swipeConfig.bouncyActive) {
-                        currentAxisPosition = itemDimension - handleSizeRightOrBottom;
-                    }  
-					
 					swipeConfig.actionRightOrBottomState();
-					itemDimension == handleSizeRightOrBottom ? (currentState = STATE_DEFAULT) : (currentState = newState);
+
+					if (itemDimension == handleSizeRightOrBottom) {
+						currentAxisPosition = 0;
+						fixedLeftTop = 0;
+						styleParameter = fixedLeftTop;
+						currentState = STATE_DEFAULT;
+					} else {
+						currentAxisPosition = itemDimension - handleSizeRightOrBottom;
+						styleParameter = currentAxisPosition;
+						currentState = newState;
+					}
 					break;
 			}
 
-			swipeConfig.applyStyle(currentAxisPosition, swipeFrontElement);
+			swipeConfig.applyStyle(styleParameter, swipeContent);
+			console.log(currentState);
 		}
 
 		function getGesturePointFromEvent(evt) {
@@ -247,59 +315,52 @@ export class SwipeRevealItem {
 			let differenceInY = initialTouchPos.y - lastTouchPos.y;
 			let differenceInAxis = axis == "x" ? differenceInX : differenceInY;
 
-			// if (differenceInAxis < 0 && !backLeftOrTopVisible) {
-			// 	swipeConfig.actionLeftOrTopBackVisible();
-			// 	backLeftOrTopVisible = true;
-			// 	backRightOrBottomVisible = false;
-			// } else if (differenceInAxis > 0 && !backRightOrBottomVisible) {
-			// 	swipeConfig.actionRightOrBottomBackVisible();
-			// 	backLeftOrTopVisible = false;
-			// 	backRightOrBottomVisible = true;
-			// }
-
-            backvisible()
-
 			if (-limitRightOrBottom < differenceInAxis && -limitLeftOrTop < -differenceInAxis) {
 				let newXTransform = currentAxisPosition - differenceInAxis;
-				swipeConfig.applyStyle(newXTransform, swipeFrontElement);
+				swipeConfig.applyStyle(newXTransform, swipeContent);
 			}
 
 			rafPending = false;
 		}
 
-        //TODO: con el bounding 
-        function backvisible() {
+		function getBounding() {
+			let containerBounding = swipeContainer.getBoundingClientRect();
+			let childBounding = swipeContent.getBoundingClientRect();
 
-            if (differenceInAxis < 0 && !backLeftOrTopVisible) {
+			let differenceInLeftOrTopLast = axis == "x" ? containerBounding.left - childBounding.left : containerBounding.top - childBounding.top;
+
+			let differenceInRightOrBottomLast = axis == "x" ? containerBounding.right - childBounding.right : containerBounding.bottom - childBounding.bottom;
+
+			if (differenceInLeftOrTopLast < 0 && !backLeftOrTopVisible) {
 				swipeConfig.actionLeftOrTopBackVisible();
 				backLeftOrTopVisible = true;
 				backRightOrBottomVisible = false;
-			} else if (differenceInAxis > 0 && !backRightOrBottomVisible) {
+			}
+
+			if (differenceInRightOrBottomLast > 0 && !backRightOrBottomVisible) {
 				swipeConfig.actionRightOrBottomBackVisible();
 				backLeftOrTopVisible = false;
 				backRightOrBottomVisible = true;
 			}
-
-
-        }
+		}
 
 		if (window.PointerEvent) {
-			swipeFrontElement.addEventListener("pointerdown", this.handleGestureStart, true);
-			swipeFrontElement.addEventListener("pointermove", this.handleGestureMove, true);
-			swipeFrontElement.addEventListener("pointerup", this.handleGestureEnd, true);
-			swipeFrontElement.addEventListener("pointercancel", this.handleGestureEnd, true);
+			swipeContent.addEventListener("pointerdown", this.handleGestureStart, true);
+			swipeContent.addEventListener("pointermove", this.handleGestureMove, true);
+			swipeContent.addEventListener("pointerup", this.handleGestureEnd, true);
+			swipeContent.addEventListener("pointercancel", this.handleGestureEnd, true);
 		} else {
-			swipeFrontElement.addEventListener("touchstart", this.handleGestureStart, true);
-			swipeFrontElement.addEventListener("touchmove", this.handleGestureMove, true);
-			swipeFrontElement.addEventListener("touchend", this.handleGestureEnd, true);
-			swipeFrontElement.addEventListener("touchcancel", this.handleGestureEnd, true);
+			swipeContent.addEventListener("touchstart", this.handleGestureStart, true);
+			swipeContent.addEventListener("touchmove", this.handleGestureMove, true);
+			swipeContent.addEventListener("touchend", this.handleGestureEnd, true);
+			swipeContent.addEventListener("touchcancel", this.handleGestureEnd, true);
 
-			swipeFrontElement.addEventListener("mousedown", this.handleGestureStart, true);
+			swipeContent.addEventListener("mousedown", this.handleGestureStart, true);
 		}
 	}
 
-	resize(swipeFrontElement) {
-		this.itemDimension = swipeFrontElement.clientWidth;
+	resize(swipeContent) {
+		this.itemDimension = swipeContent.clientWidth;
 		this.slopValue = this.itemDimension * (1 / 4);
 	}
 }

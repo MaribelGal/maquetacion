@@ -1,5 +1,5 @@
 
-export function showNotification(type) {
+export function showNotification(type, messageText, setTimeOut) {
     let notificationsContainer = document.getElementById('notifications-container');
     let notificationItem  = notificationsContainer.querySelector("#notification-"+ type);
 
@@ -18,16 +18,21 @@ export function showNotification(type) {
     //         break;
     // }
 
-    let notificationItemClose = notificationItem.querySelectorAll(".notification-close");
+    let notificationDescription = notificationItem.querySelector(".notification-description");
+
+
 
     let mostrar = () => {
         notificationsContainer.classList.toggle("show");
         notificationItem.classList.toggle("active");
+        notificationDescription.innerHTML = messageText;
     }
 
     mostrar();
 
-    setTimeout(() => { mostrar(); }, 3000);
+    setTimeout(() => { mostrar(); }, setTimeOut);
+
+    let notificationItemClose = notificationItem.querySelectorAll(".notification-close");
 
     notificationItemClose.forEach(close => {
         close.addEventListener("click" , () => {

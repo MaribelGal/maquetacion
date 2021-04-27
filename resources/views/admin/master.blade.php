@@ -22,6 +22,7 @@
         @include('admin.partials.header')
 
         @include('admin.components.notifications')
+        @include('admin.components.wait')
 
         @if (isset($filtros))
             @include('admin.components.tabla_filtros', $filtros)
