@@ -191,6 +191,8 @@ return [
         'poblacion' => 'Poblacion',
         'provincia' => 'Provincia',
         'cp' => 'Codigo postal',
+        'entity' => 'Alias',
+		'visible' => 'Visibilidad',
 
     ],
 

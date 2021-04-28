@@ -30,3 +30,11 @@
         @lang('admin/clientes.parent_section')
 
 </div>
+
+<div 
+    class="sidebar-item" 
+    data-url="{{route("sliders")}}">
+
+        @lang('admin/sliders.parent_section')
+        
+</div>

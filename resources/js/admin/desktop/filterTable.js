@@ -8,170 +8,149 @@ const selectorOrderDesc = document.getElementById("selector-order-desc");
 const selectorCategoria = document.getElementById("selector-categoria");
 const selectorOrder = document.getElementById("my-checkbox");
 
-const camposRadioAscDesc = document.querySelectorAll(".order_asc_desc");
-
 const formularioFiltro = document.getElementById("filtro-formulario");
 
 export let renderizarFiltroTabla = () => {
-    selectorCategoria.addEventListener('change', () => {
-        let data = new FormData(formularioFiltro);
-        let url = formularioFiltro.action;
 
-        for (var pair of data.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
-        }
+    if (selectorCategoria != null) {
+        selectorCategoria.addEventListener('change', () => {
+            let data = new FormData(formularioFiltro);
+            let url = formularioFiltro.action;
 
-
-        let sendPostRequest = async () => {
-
-            try {
-                await axios.post(url, data).then(response => {
-                    console.log("selector")
-                    tabla.innerHTML = response.data.table;
-                    renderizarTabla();
-                });
-
-            } catch (error) {
-
+            for (var pair of data.entries()) {
+                console.log(pair[0] + ', ' + pair[1]);
             }
-        };
 
-        sendPostRequest();
-    });
 
-    campoInput.addEventListener('keyup', (event) => {
-        console.log("tecla" + event);
+            let sendPostRequest = async () => {
 
-        let data = new FormData(formularioFiltro);
-        console.log(formularioFiltro);
+                try {
+                    await axios.post(url, data).then(response => {
+                        console.log("selector")
+                        tabla.innerHTML = response.data.table;
+                        renderizarTabla();
+                    });
 
-        let url = formularioFiltro.action;
-        console.log(formularioFiltro.action);
+                } catch (error) {
 
-        let sendPostRequest = async () => {
-            try {
-                await axios.post(url, data).then(response => {
-                    console.log(response.data);
-                    tabla.innerHTML = response.data.table;
-                    renderizarTabla();
-                });
+                }
+            };
 
-            } catch (error) {
+            sendPostRequest();
+        });
+    };
 
+    if (campoInput != null) {
+        campoInput.addEventListener('keyup', (event) => {
+            console.log("tecla" + event);
+
+            let data = new FormData(formularioFiltro);
+            console.log(formularioFiltro);
+
+            let url = formularioFiltro.action;
+            console.log(formularioFiltro.action);
+
+            let sendPostRequest = async () => {
+                try {
+                    await axios.post(url, data).then(response => {
+                        console.log(response.data);
+                        tabla.innerHTML = response.data.table;
+                        renderizarTabla();
+                    });
+
+                } catch (error) {
+
+                }
+            };
+
+            sendPostRequest();
+        });
+    };
+
+    if (campoDateStart != null) {
+        campoDateStart.addEventListener('change', () => {
+            let data = new FormData(formularioFiltro);
+            let url = formularioFiltro.action;
+
+            let sendPostRequest = async () => {
+
+                try {
+                    await axios.post(url, data).then(response => {
+                        console.log("selector date start")
+                        tabla.innerHTML = response.data.table;
+                        renderizarTabla();
+                    });
+
+                } catch (error) {
+
+                }
+            };
+
+            sendPostRequest();
+        });
+    };
+
+    if (campoDateEnd != null) {
+        campoDateEnd.addEventListener('change', () => {
+            let data = new FormData(formularioFiltro);
+            let url = formularioFiltro.action;
+
+            let sendPostRequest = async () => {
+
+                try {
+                    await axios.post(url, data).then(response => {
+                        console.log("selector date end")
+                        tabla.innerHTML = response.data.table;
+                        renderizarTabla();
+                    });
+
+                } catch (error) {
+
+                }
+            };
+
+            sendPostRequest();
+        });
+    };
+
+    if (selectorOrderDesc != null) {
+        selectorOrderDesc.addEventListener('change', () => {
+            let data = new FormData(formularioFiltro);
+            let url = formularioFiltro.action;
+
+            for (var pair of data.entries()) {
+                console.log(pair[0] + ', ' + pair[1]);
             }
-        };
 
-        sendPostRequest();
-    });
+            let sendPostRequest = async () => {
 
-    campoDateStart.addEventListener('change', () => {
-        let data = new FormData(formularioFiltro);
-        let url = formularioFiltro.action;
+                try {
+                    await axios.post(url, data).then(response => {
+                        // console.log(data)
+                        tabla.innerHTML = response.data.table;
+                        renderizarTabla();
+                        // console.log(response.data.table)
+                    });
 
-        let sendPostRequest = async () => {
+                } catch (error) {
 
-            try {
-                await axios.post(url, data).then(response => {
-                    console.log("selector date start")
-                    tabla.innerHTML = response.data.table;
-                    renderizarTabla();
-                });
+                }
+            };
 
-            } catch (error) {
+            sendPostRequest();
+        });
+    };
 
-            }
-        };
-
-        sendPostRequest();
-    });
-
-    campoDateEnd.addEventListener('change', () => {
-        let data = new FormData(formularioFiltro);
-        let url = formularioFiltro.action;
-
-        let sendPostRequest = async () => {
-
-            try {
-                await axios.post(url, data).then(response => {
-                    console.log("selector date end")
-                    tabla.innerHTML = response.data.table;
-                    renderizarTabla();
-                });
-
-            } catch (error) {
-
-            }
-        };
-
-        sendPostRequest();
-    });
-
-    selectorOrderDesc.addEventListener('change', () => {
-        let data = new FormData(formularioFiltro);
-        let url = formularioFiltro.action;
-
-        for (var pair of data.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
-        }
-
-        let sendPostRequest = async () => {
-
-            try {
-                await axios.post(url, data).then(response => {
-                    // console.log(data)
-                    tabla.innerHTML = response.data.table;
-                    renderizarTabla();
-                    // console.log(response.data.table)
-                });
-
-            } catch (error) {
-
-            }
-        };
-
-        sendPostRequest();
-    });
-
-
-    // camposRadioAscDesc.forEach(campoRadioAscDesc => {
-    //     campoRadioAscDesc.addEventListener('change',()=>{
-    //         let data = new FormData(formularioFiltro);
-    //         let url = formularioFiltro.action;
-
-    //         for (var pair of data.entries()) {
-    //             console.log(pair[0]+ ', ' + pair[1]); 
-    //         }
-
-    //         let sendPostRequest = async () => {
-
-    //             try {
-    //                 await axios.post(url, data).then(response => {
-    //                     // console.log(data)
-    //                     tabla.innerHTML = response.data.table;
-    //                     renderizarTabla();
-    //                     // console.log(response.data.table)
-    //                 });
-
-    //             } catch (error) {
-
-    //             }
-    //         };
-
-    //         sendPostRequest();
-    //     });
-    // });
-
-
-
+    if (selectorOrder != null){
     selectorOrder.addEventListener('click', () => {
         // let valor = selectorOrder.value;
         // let nuevoValor = (valor == "desc")? "desc" : "asc";
-        
+
         // selectorOrder.value = nuevoValor;
 
         let data = new FormData(formularioFiltro);
 
-        if(data.get('order_asc_desc') == null){
+        if (data.get('order_asc_desc') == null) {
             data.set('order_asc_desc', 'desc')
         }
 
@@ -187,11 +166,11 @@ export let renderizarFiltroTabla = () => {
                     tabla.innerHTML = response.data.table;
                     renderizarTabla();
                 });
-            } catch (error) {}
+            } catch (error) { }
         };
         sendPostRequest();
     });
-
+    };
 };
 
 renderizarFiltroTabla();

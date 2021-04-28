@@ -23,21 +23,26 @@ export function showNotification(type, messageText, setTimeOut) {
 
 
     let mostrar = () => {
-        notificationsContainer.classList.toggle("show");
-        notificationItem.classList.toggle("active");
+        notificationsContainer.classList.add("show");
+        notificationItem.classList.add("active");
         notificationDescription.innerHTML = messageText;
     }
 
     mostrar();
 
-    setTimeout(() => { mostrar(); }, setTimeOut);
+    let ocultar = () => {
+        notificationsContainer.classList.remove("show");
+        notificationItem.classList.remove("active");
+        notificationDescription.innerHTML = '';
+    }
+
+    setTimeout(() => { ocultar(); }, setTimeOut);
 
     let notificationItemClose = notificationItem.querySelectorAll(".notification-close");
 
     notificationItemClose.forEach(close => {
         close.addEventListener("click" , () => {
-            notificationItem.classList.toggle("active");
-            notificationsContainer.classList.toggle("show");
+            ocultar();
         });
     });
 }

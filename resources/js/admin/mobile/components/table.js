@@ -14,55 +14,55 @@ export let renderizarTabla = () => {
 
 	let swipeRevealItems = [];
 
-	// swipeLeftRightElements.forEach(swipeElement => {
-	// 	let swipeConfig = {
-	// 		swipeContainer: swipeElement,
-	// 		swipeContent: swipeElement.querySelector(".swipe-front"),
+	swipeLeftRightElements.forEach(swipeElement => {
+		let swipeConfig = {
+			swipeContainer: swipeElement,
+			swipeContent: swipeElement.querySelector(".swipe-front"),
 
-	// 		axis: "x",
-	// 		swipeMoveActive: true,
-	// 		// % del front que se ve
-	// 		handleSizeRatio_LeftOrTop: 1,
-	// 		handleSizeRatio_RightOrBottom: 1,
+			axis: "x",
+			swipeMoveActive: true,
+			// % del front que se ve
+			handleSizeRatio_LeftOrTop: 1,
+			handleSizeRatio_RightOrBottom: 1,
 
-	// 		//Limite arrastrando hacia...
-	// 		// % del back que se ve  (1 = NO LIMIT)
-	// 		limitRatio_LeftOrTop: 1,
-	// 		limitRatio_RightOrBottom: 1,
+			//Limite arrastrando hacia...
+			// % del back que se ve  (1 = NO LIMIT)
+			limitRatio_LeftOrTop: 1,
+			limitRatio_RightOrBottom: 1,
 
-	// 		// Punto de no retorno, aplicable con limit = 1;
-	// 		//slopRatio: 2 / 4,
-	// 		slopToLeftOrTop: swipeElement.querySelector(".swipe-front").clientWidth * 2/4,
-	// 		slopToRigthOrBottom: swipeElement.querySelector(".swipe-front").clientWidth * 2/4,
+			// Punto de no retorno, aplicable con limit = 1;
+			//slopRatio: 2 / 4,
+			slopToLeftOrTop: swipeElement.querySelector(".swipe-front").clientWidth * 2/4,
+			slopToRigthOrBottom: swipeElement.querySelector(".swipe-front").clientWidth * 2/4,
 
-	// 		actionLeftOrTopState: () => {
-	// 			console.log("holi");
-	// 		},
-	// 		actionRightOrBottomState: () => {
-	// 			console.log("deu");
-	// 		},
-	// 		actionLeftOrTopBackVisible: () => {
-	// 			console.log("left me ves");
-	// 			editarBackVisible(swipeElement);
-	// 		},
-	// 		actionRightOrBottomBackVisible: () => {
-	// 			console.log("right me ves");
-	// 			eliminarBackVisble(swipeElement);
-	// 		},
-	// 		applyStyle: (currentAxisPosition, element) => {
-	// 			// let transformStyle = "translateX(" + currentAxisPosition + "px)";
+			actionLeftOrTopState: () => {
+				console.log("holi");
+			},
+			actionRightOrBottomState: () => {
+				console.log("deu");
+			},
+			actionLeftOrTopBackVisible: () => {
+				console.log("left me ves");
+				editarBackVisible(swipeElement);
+			},
+			actionRightOrBottomBackVisible: () => {
+				console.log("right me ves");
+				eliminarBackVisble(swipeElement);
+			},
+			applyStyle: (currentAxisPosition, element) => {
+				// let transformStyle = "translateX(" + currentAxisPosition + "px)";
 
-	// 			// element.style.msTransform = transformStyle;
-	// 			// element.style.MozTransform = transformStyle;
-	// 			// element.style.webkitTransform = transformStyle;
-	// 			// element.style.transform = transformStyle;
+				// element.style.msTransform = transformStyle;
+				// element.style.MozTransform = transformStyle;
+				// element.style.webkitTransform = transformStyle;
+				// element.style.transform = transformStyle;
 
-	// 			element.style.left = currentAxisPosition + "px";
-	// 		},
-	// 	};
+				element.style.left = currentAxisPosition + "px";
+			},
+		};
 
-	// 	swipeRevealItems.push(new SwipeRevealItem(swipeConfig));
-	// });
+		swipeRevealItems.push(new SwipeRevealItem(swipeConfig));
+	});
 
 
 	let topBottomParent = document.getElementById("tabla-faqs");
@@ -85,8 +85,8 @@ export let renderizarTabla = () => {
 
 		// Punto de no retorno, aplicable con limit = 1;
 		slopRatio: 2 / 4,
-		slopToLeftOrTop: 5,
-		slopToRigthOrBottom: 5,
+		slopToLeftOrTop: 30,
+		slopToRigthOrBottom: 30,
 
 		actionLeftOrTopState: () => {
 			console.log("holi");
@@ -100,6 +100,7 @@ export let renderizarTabla = () => {
 		actionRightOrBottomBackVisible: () => {
 			console.log("bottom me ves");
 			pagination();
+			
 		},
 		applyStyle: (currentAxisPosition, element) => {
 			// let transformStyle = "translateX(" + currentAxisPosition + "px)";
@@ -206,23 +207,13 @@ function pagination() {
 
 				startWait();
 
-				// let updateMove = {
-				// 	"origin": "mobile", 
-				// 	"route": window.location.pathname,
-				// 	"move": "next_elements",
-				// 	"entity": scrollWindowElement.id,
-				// 	"page":  nextPage
-				// }
-
 				await axios.get(url).then(response => {
 					topBottomChild.insertAdjacentHTML('beforeend', response.data.tablerows);
 					++nextPage;
 					urlParams.searchParams.set('page', nextPage);
 					topBottomChild.dataset.pagination = urlParams.toString();
 
-					renderizarTabla();
 					stopWait();
-					// trackingPagination(updateMove);
 
 				});
 			}

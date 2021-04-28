@@ -3,7 +3,8 @@ $route = 'faqs';
 
 $columnList = Schema::getColumnListing($faq->getTable());
 $activePosition = array_search('active', $columnList, true);
-unset($columnList[$activePosition]);
+$visiblePosition = array_search('visible', $columnList, true);
+unset($columnList[$activePosition], $columnList[$visiblePosition]);
 
 Debugbar::info($faqs_categories_in_faqs);
 
@@ -20,7 +21,7 @@ $filtros = ['category' => $faqs_categories_in_faqs, 'search' => true, 'date_star
 
 @section('form')
 
-    @isset($faq)
+    {{-- @isset($faq) --}}
         <form class="admin-formulario" id="formulario-faqs" action="{{ route('faqs_store') }}" autocomplete="off">
 
             {{ csrf_field() }}
@@ -114,31 +115,31 @@ $filtros = ['category' => $faqs_categories_in_faqs, 'search' => true, 'date_star
                 </div>
             </div>
         </form>
-    @endisset
+    {{-- @endisset --}}
 @endsection
 
 
 @section('table')
-@isset($faqs)
-    <div class="tabla-contenedor" id="tabla-faqs">
-        <div class="tabla-alerta " id="alerta">
-            <div class="tabla-alerta-eliminar " id="alerta-eliminar">
-                <div class="tabla-alerta-eliminar-mensaje"> ¿Seguro que quieres eliminar? </div>
-                <div class="tabla-alerta-eliminar-opciones">
-                    <div class="opcion" id="opcion-descartar">No</div>
-                    <div class="opcion" id="opcion-confirmar">Si</div>
+    @isset($faqs)
+        <div class="tabla-contenedor" id="tabla-faqs">
+            <div class="tabla-alerta " id="alerta">
+                <div class="tabla-alerta-eliminar " id="alerta-eliminar">
+                    <div class="tabla-alerta-eliminar-mensaje"> ¿Seguro que quieres eliminar? </div>
+                    <div class="tabla-alerta-eliminar-opciones">
+                        <div class="opcion" id="opcion-descartar">No</div>
+                        <div class="opcion" id="opcion-confirmar">Si</div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="tabla-contenido" id="tabla-faqs-filas" data-pagination="{{$faqs->nextPageUrl()}}" data-lastpage="{{$faqs->lastPage()}}">
-            @yield('tablerows')
-        </div>
+            <div class="tabla-contenido" id="tabla-faqs-filas" data-pagination="{{$faqs->nextPageUrl()}}" data-lastpage="{{$faqs->lastPage()}}">
+                @yield('tablerows')
+            </div>
 
-        @if ($agent->isDesktop())
-            @include('admin.components.table_pagination', ['items' => $faqs])
-        @endif
-        
-    </div>
+            @if ($agent->isDesktop())
+                @include('admin.components.table_pagination', ['items' => $faqs])
+            @endif
+            
+        </div>
     @endisset
 @endsection

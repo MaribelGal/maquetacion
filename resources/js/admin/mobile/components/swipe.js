@@ -140,19 +140,22 @@ export class SwipeRevealItem {
 
 				let differenceInRightOrBottomInitial = axis == "x" ? containerBounding.right - initialContentBounding.right : containerBounding.bottom - initialContentBounding.bottom;
 
-				console.log("NO dlti "+  differenceInLeftOrTopInitial );
-				console.log("drbi "+  differenceInRightOrBottomInitial );
-				console.log("NO dltl "+  differenceInLeftOrTopLast );
-				console.log("drbl "+  differenceInRightOrBottomLast );
+				// console.log("NO dlti "+  differenceInLeftOrTopInitial );
+				// console.log("drbi "+  differenceInRightOrBottomInitial );
+				// console.log("NO dltl "+  differenceInLeftOrTopLast );
+				// console.log("drbl "+  differenceInRightOrBottomLast );
 
 
-				newState = selectStateByPosition(differenceInLeftOrTopLast, differenceInRightOrBottomLast,
-					differenceInLeftOrTopInitial, differenceInRightOrBottomInitial);
+				newState = selectStateByPosition(
+					differenceInLeftOrTopLast, 
+					differenceInRightOrBottomLast,
+					differenceInLeftOrTopInitial, 
+					differenceInRightOrBottomInitial);
 
 
 			}
 
-			console.log(newState);
+			// console.log(newState);
 			changeState(newState);
 
 			swipeContent.style.transition = "all 150ms ease-out";
@@ -196,38 +199,38 @@ export class SwipeRevealItem {
 			newState = currentState;
 
 			if (currentState === STATE_DEFAULT) {
-				console.log("actual state = default");
+				// console.log("actual state = default");
 				if (toLeftOrTopLast) {
-					console.log("to left or top");
+					// console.log("to left or top");
 					newState = STATE_LEFT_TOP_SIDE;
 				} else if (toRightOrBottomLast) {
 					newState = STATE_RIGHT_BOTTOM_SIDE;
-					console.log(" to right or bottom");
+					// console.log(" to right or bottom");
 				}
 			}
 
 			if ( currentState === STATE_LEFT_TOP_SIDE ){
-				console.log("actual state = left o top");
+				// console.log("actual state = left o top");
 				if(differenceInRightOrBottomInitial > differenceInRightOrBottomLast) {
-					console.log("se aleja del limite superior");
+					// console.log("se aleja del limite superior");
 					if (differenceInRightOrBottomLast < swipeConfig.slopToLeftOrTop) {
 						newState = STATE_DEFAULT;
 					}
 				} else {
-					console.log("se acerca al limite sup");
+					// console.log("se acerca al limite sup");
 					newState = currentState;
 				}
 			}
 
 			if (currentState === STATE_RIGHT_BOTTOM_SIDE ){
-				console.log("actual state = right o bottom");
+				// console.log("actual state = right o bottom");
 				if (differenceInLeftOrTopInitial > differenceInLeftOrTopLast) {
-					console.log("se aleja del limite superior");
+					// console.log("se aleja del limite superior");
 					newState = currentState;
 				} else {
-					console.log("se acerca al limite sup");
-					console.log(differenceInLeftOrTopLast);
-					console.log(swipeConfig.slopToRigthOrBottom);
+					// console.log("se acerca al limite sup");
+					// console.log(differenceInLeftOrTopLast);
+					// console.log(swipeConfig.slopToRigthOrBottom);
 					if (Math.abs(differenceInLeftOrTopLast) < swipeConfig.slopToRigthOrBottom){
 						newState = STATE_DEFAULT;
 					}
@@ -238,8 +241,6 @@ export class SwipeRevealItem {
 			return newState;
 		}
 
-
-
 		function changeState(newState) {
 			let fixedRigthBottom;
 			let fixedLeftTop;
@@ -247,7 +248,7 @@ export class SwipeRevealItem {
 
 			switch (newState) {
 				case STATE_DEFAULT:
-					console.log("VUELTA A DEFAULT");
+					// console.log("cambiar estado a DEFAULT");
 					if (currentState === STATE_RIGHT_BOTTOM_SIDE && swipeConfig.handleSizeRatio_RightOrBottom < 1){
 						currentAxisPosition = 0;
 						styleParameter = currentAxisPosition;
@@ -257,6 +258,10 @@ export class SwipeRevealItem {
 						fixedRigthBottom = axis == "x" ? containerBounding.width - lastContentBounding.width : containerBounding.height - lastContentBounding.height;
 						styleParameter = fixedRigthBottom;
 					}
+					if (currentState === STATE_DEFAULT) {
+						styleParameter = currentAxisPosition;
+					}
+					
 					currentState = newState;
 					break;
 				case STATE_LEFT_TOP_SIDE:
@@ -290,8 +295,9 @@ export class SwipeRevealItem {
 					break;
 			}
 
+			// console.log('estilo: '+styleParameter);
 			swipeConfig.applyStyle(styleParameter, swipeContent);
-			console.log(currentState);
+			// console.log(currentState);
 		}
 
 		function getGesturePointFromEvent(evt) {
@@ -315,8 +321,14 @@ export class SwipeRevealItem {
 			let differenceInY = initialTouchPos.y - lastTouchPos.y;
 			let differenceInAxis = axis == "x" ? differenceInX : differenceInY;
 
+			console.log("differenceInX "+ differenceInX);
+			console.log("differenceInY "+ differenceInY);
+			console.log("differenceInAxis "+ differenceInAxis);
+
 			if (-limitRightOrBottom < differenceInAxis && -limitLeftOrTop < -differenceInAxis) {
 				let newXTransform = currentAxisPosition - differenceInAxis;
+				console.log("aplicar estilo onAnimFrame: "+ newXTransform);
+				console.log("aplicar estilo onAnimFrame:  (currentAxispos) "+ currentAxisPosition);
 				swipeConfig.applyStyle(newXTransform, swipeContent);
 			}
 
@@ -341,6 +353,19 @@ export class SwipeRevealItem {
 				swipeConfig.actionRightOrBottomBackVisible();
 				backLeftOrTopVisible = false;
 				backRightOrBottomVisible = true;
+				if (window.PointerEvent) {
+					topBottomChild.removeEventListener("pointerdown", this.handleGestureStart, true);
+					topBottomChild.removeEventListener("pointermove", this.handleGestureMove, true);
+					topBottomChild.removeEventListener("pointerup", this.handleGestureEnd, true);
+					topBottomChild.addEventListener("pointercancel", this.handleGestureEnd, true);
+				} else {
+					topBottomChild.removeEventListener("touchstart", this.handleGestureStart, true);
+					topBottomChild.removeEventListener("touchmove", this.handleGestureMove, true);
+					topBottomChild.removeEventListener("touchend", this.handleGestureEnd, true);
+					topBottomChild.removeEventListener("touchcancel", this.handleGestureEnd, true);
+		
+					topBottomChild.removeEventListener("mousedown", this.handleGestureStart, true);
+				}
 			}
 		}
 

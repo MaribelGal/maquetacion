@@ -2208,15 +2208,15 @@ var SwipeRevealItem = /*#__PURE__*/function () {
         var differenceInLeftOrTopLast = axis == "x" ? containerBounding.left - lastContentBounding.left : containerBounding.top - lastContentBounding.top;
         var differenceInRightOrBottomLast = axis == "x" ? containerBounding.right - lastContentBounding.right : containerBounding.bottom - lastContentBounding.bottom;
         var differenceInLeftOrTopInitial = axis == "x" ? containerBounding.left - initialContentBounding.left : containerBounding.top - initialContentBounding.top;
-        var differenceInRightOrBottomInitial = axis == "x" ? containerBounding.right - initialContentBounding.right : containerBounding.bottom - initialContentBounding.bottom;
-        console.log("NO dlti " + differenceInLeftOrTopInitial);
-        console.log("drbi " + differenceInRightOrBottomInitial);
-        console.log("NO dltl " + differenceInLeftOrTopLast);
-        console.log("drbl " + differenceInRightOrBottomLast);
-        newState = selectStateByPosition(differenceInLeftOrTopLast, differenceInRightOrBottomLast, differenceInLeftOrTopInitial, differenceInRightOrBottomInitial);
-      }
+        var differenceInRightOrBottomInitial = axis == "x" ? containerBounding.right - initialContentBounding.right : containerBounding.bottom - initialContentBounding.bottom; // console.log("NO dlti "+  differenceInLeftOrTopInitial );
+        // console.log("drbi "+  differenceInRightOrBottomInitial );
+        // console.log("NO dltl "+  differenceInLeftOrTopLast );
+        // console.log("drbl "+  differenceInRightOrBottomLast );
 
-      console.log(newState);
+        newState = selectStateByPosition(differenceInLeftOrTopLast, differenceInRightOrBottomLast, differenceInLeftOrTopInitial, differenceInRightOrBottomInitial);
+      } // console.log(newState);
+
+
       changeState(newState);
       swipeContent.style.transition = "all 150ms ease-out";
     }
@@ -2256,43 +2256,37 @@ var SwipeRevealItem = /*#__PURE__*/function () {
       newState = currentState;
 
       if (currentState === STATE_DEFAULT) {
-        console.log("actual state = default");
-
+        // console.log("actual state = default");
         if (toLeftOrTopLast) {
-          console.log("to left or top");
+          // console.log("to left or top");
           newState = STATE_LEFT_TOP_SIDE;
         } else if (toRightOrBottomLast) {
-          newState = STATE_RIGHT_BOTTOM_SIDE;
-          console.log(" to right or bottom");
+          newState = STATE_RIGHT_BOTTOM_SIDE; // console.log(" to right or bottom");
         }
       }
 
       if (currentState === STATE_LEFT_TOP_SIDE) {
-        console.log("actual state = left o top");
-
+        // console.log("actual state = left o top");
         if (differenceInRightOrBottomInitial > differenceInRightOrBottomLast) {
-          console.log("se aleja del limite superior");
-
+          // console.log("se aleja del limite superior");
           if (differenceInRightOrBottomLast < swipeConfig.slopToLeftOrTop) {
             newState = STATE_DEFAULT;
           }
         } else {
-          console.log("se acerca al limite sup");
+          // console.log("se acerca al limite sup");
           newState = currentState;
         }
       }
 
       if (currentState === STATE_RIGHT_BOTTOM_SIDE) {
-        console.log("actual state = right o bottom");
-
+        // console.log("actual state = right o bottom");
         if (differenceInLeftOrTopInitial > differenceInLeftOrTopLast) {
-          console.log("se aleja del limite superior");
+          // console.log("se aleja del limite superior");
           newState = currentState;
         } else {
-          console.log("se acerca al limite sup");
-          console.log(differenceInLeftOrTopLast);
-          console.log(swipeConfig.slopToRigthOrBottom);
-
+          // console.log("se acerca al limite sup");
+          // console.log(differenceInLeftOrTopLast);
+          // console.log(swipeConfig.slopToRigthOrBottom);
           if (Math.abs(differenceInLeftOrTopLast) < swipeConfig.slopToRigthOrBottom) {
             newState = STATE_DEFAULT;
           }
@@ -2309,8 +2303,7 @@ var SwipeRevealItem = /*#__PURE__*/function () {
 
       switch (newState) {
         case STATE_DEFAULT:
-          console.log("VUELTA A DEFAULT");
-
+          // console.log("cambiar estado a DEFAULT");
           if (currentState === STATE_RIGHT_BOTTOM_SIDE && swipeConfig.handleSizeRatio_RightOrBottom < 1) {
             currentAxisPosition = 0;
             styleParameter = currentAxisPosition;
@@ -2319,6 +2312,10 @@ var SwipeRevealItem = /*#__PURE__*/function () {
           if (currentState === STATE_LEFT_TOP_SIDE && swipeConfig.handleSizeRatio_LeftOrTop < 1) {
             fixedRigthBottom = axis == "x" ? containerBounding.width - lastContentBounding.width : containerBounding.height - lastContentBounding.height;
             styleParameter = fixedRigthBottom;
+          }
+
+          if (currentState === STATE_DEFAULT) {
+            styleParameter = currentAxisPosition;
           }
 
           currentState = newState;
@@ -2355,10 +2352,10 @@ var SwipeRevealItem = /*#__PURE__*/function () {
           }
 
           break;
-      }
+      } // console.log('estilo: '+styleParameter);
 
-      swipeConfig.applyStyle(styleParameter, swipeContent);
-      console.log(currentState);
+
+      swipeConfig.applyStyle(styleParameter, swipeContent); // console.log(currentState);
     }
 
     function getGesturePointFromEvent(evt) {
@@ -2383,9 +2380,14 @@ var SwipeRevealItem = /*#__PURE__*/function () {
       var differenceInX = initialTouchPos.x - lastTouchPos.x;
       var differenceInY = initialTouchPos.y - lastTouchPos.y;
       var differenceInAxis = axis == "x" ? differenceInX : differenceInY;
+      console.log("differenceInX " + differenceInX);
+      console.log("differenceInY " + differenceInY);
+      console.log("differenceInAxis " + differenceInAxis);
 
       if (-limitRightOrBottom < differenceInAxis && -limitLeftOrTop < -differenceInAxis) {
         var newXTransform = currentAxisPosition - differenceInAxis;
+        console.log("aplicar estilo onAnimFrame: " + newXTransform);
+        console.log("aplicar estilo onAnimFrame:  (currentAxispos) " + currentAxisPosition);
         swipeConfig.applyStyle(newXTransform, swipeContent);
       }
 
@@ -2408,6 +2410,19 @@ var SwipeRevealItem = /*#__PURE__*/function () {
         swipeConfig.actionRightOrBottomBackVisible();
         backLeftOrTopVisible = false;
         backRightOrBottomVisible = true;
+
+        if (window.PointerEvent) {
+          topBottomChild.removeEventListener("pointerdown", this.handleGestureStart, true);
+          topBottomChild.removeEventListener("pointermove", this.handleGestureMove, true);
+          topBottomChild.removeEventListener("pointerup", this.handleGestureEnd, true);
+          topBottomChild.addEventListener("pointercancel", this.handleGestureEnd, true);
+        } else {
+          topBottomChild.removeEventListener("touchstart", this.handleGestureStart, true);
+          topBottomChild.removeEventListener("touchmove", this.handleGestureMove, true);
+          topBottomChild.removeEventListener("touchend", this.handleGestureEnd, true);
+          topBottomChild.removeEventListener("touchcancel", this.handleGestureEnd, true);
+          topBottomChild.removeEventListener("mousedown", this.handleGestureStart, true);
+        }
       }
     }
 
@@ -2470,49 +2485,49 @@ var formulario = document.getElementById("formulario");
 var renderizarTabla = function renderizarTabla() {
   var leftRight = document.getElementById("tabla-faqs-filas");
   var swipeLeftRightElements = leftRight.querySelectorAll(".swipe-element");
-  var swipeRevealItems = []; // swipeLeftRightElements.forEach(swipeElement => {
-  // 	let swipeConfig = {
-  // 		swipeContainer: swipeElement,
-  // 		swipeContent: swipeElement.querySelector(".swipe-front"),
-  // 		axis: "x",
-  // 		swipeMoveActive: true,
-  // 		// % del front que se ve
-  // 		handleSizeRatio_LeftOrTop: 1,
-  // 		handleSizeRatio_RightOrBottom: 1,
-  // 		//Limite arrastrando hacia...
-  // 		// % del back que se ve  (1 = NO LIMIT)
-  // 		limitRatio_LeftOrTop: 1,
-  // 		limitRatio_RightOrBottom: 1,
-  // 		// Punto de no retorno, aplicable con limit = 1;
-  // 		//slopRatio: 2 / 4,
-  // 		slopToLeftOrTop: swipeElement.querySelector(".swipe-front").clientWidth * 2/4,
-  // 		slopToRigthOrBottom: swipeElement.querySelector(".swipe-front").clientWidth * 2/4,
-  // 		actionLeftOrTopState: () => {
-  // 			console.log("holi");
-  // 		},
-  // 		actionRightOrBottomState: () => {
-  // 			console.log("deu");
-  // 		},
-  // 		actionLeftOrTopBackVisible: () => {
-  // 			console.log("left me ves");
-  // 			editarBackVisible(swipeElement);
-  // 		},
-  // 		actionRightOrBottomBackVisible: () => {
-  // 			console.log("right me ves");
-  // 			eliminarBackVisble(swipeElement);
-  // 		},
-  // 		applyStyle: (currentAxisPosition, element) => {
-  // 			// let transformStyle = "translateX(" + currentAxisPosition + "px)";
-  // 			// element.style.msTransform = transformStyle;
-  // 			// element.style.MozTransform = transformStyle;
-  // 			// element.style.webkitTransform = transformStyle;
-  // 			// element.style.transform = transformStyle;
-  // 			element.style.left = currentAxisPosition + "px";
-  // 		},
-  // 	};
-  // 	swipeRevealItems.push(new SwipeRevealItem(swipeConfig));
-  // });
-
+  var swipeRevealItems = [];
+  swipeLeftRightElements.forEach(function (swipeElement) {
+    var swipeConfig = {
+      swipeContainer: swipeElement,
+      swipeContent: swipeElement.querySelector(".swipe-front"),
+      axis: "x",
+      swipeMoveActive: true,
+      // % del front que se ve
+      handleSizeRatio_LeftOrTop: 1,
+      handleSizeRatio_RightOrBottom: 1,
+      //Limite arrastrando hacia...
+      // % del back que se ve  (1 = NO LIMIT)
+      limitRatio_LeftOrTop: 1,
+      limitRatio_RightOrBottom: 1,
+      // Punto de no retorno, aplicable con limit = 1;
+      //slopRatio: 2 / 4,
+      slopToLeftOrTop: swipeElement.querySelector(".swipe-front").clientWidth * 2 / 4,
+      slopToRigthOrBottom: swipeElement.querySelector(".swipe-front").clientWidth * 2 / 4,
+      actionLeftOrTopState: function actionLeftOrTopState() {
+        console.log("holi");
+      },
+      actionRightOrBottomState: function actionRightOrBottomState() {
+        console.log("deu");
+      },
+      actionLeftOrTopBackVisible: function actionLeftOrTopBackVisible() {
+        console.log("left me ves");
+        editarBackVisible(swipeElement);
+      },
+      actionRightOrBottomBackVisible: function actionRightOrBottomBackVisible() {
+        console.log("right me ves");
+        eliminarBackVisble(swipeElement);
+      },
+      applyStyle: function applyStyle(currentAxisPosition, element) {
+        // let transformStyle = "translateX(" + currentAxisPosition + "px)";
+        // element.style.msTransform = transformStyle;
+        // element.style.MozTransform = transformStyle;
+        // element.style.webkitTransform = transformStyle;
+        // element.style.transform = transformStyle;
+        element.style.left = currentAxisPosition + "px";
+      }
+    };
+    swipeRevealItems.push(new _swipe__WEBPACK_IMPORTED_MODULE_3__.SwipeRevealItem(swipeConfig));
+  });
   var topBottomParent = document.getElementById("tabla-faqs");
   var topBottomChild = document.getElementById("tabla-faqs-filas");
   var swipeConfigTopBottom = {
@@ -2529,8 +2544,8 @@ var renderizarTabla = function renderizarTabla() {
     limitRatio_RightOrBottom: 1,
     // Punto de no retorno, aplicable con limit = 1;
     slopRatio: 2 / 4,
-    slopToLeftOrTop: 5,
-    slopToRigthOrBottom: 5,
+    slopToLeftOrTop: 30,
+    slopToRigthOrBottom: 30,
     actionLeftOrTopState: function actionLeftOrTopState() {
       console.log("holi");
     },
@@ -2683,22 +2698,14 @@ function pagination() {
                 break;
               }
 
-              (0,_wait__WEBPACK_IMPORTED_MODULE_4__.startWait)(); // let updateMove = {
-              // 	"origin": "mobile", 
-              // 	"route": window.location.pathname,
-              // 	"move": "next_elements",
-              // 	"entity": scrollWindowElement.id,
-              // 	"page":  nextPage
-              // }
-
+              (0,_wait__WEBPACK_IMPORTED_MODULE_4__.startWait)();
               _context3.next = 10;
               return axios.get(url).then(function (response) {
                 topBottomChild.insertAdjacentHTML('beforeend', response.data.tablerows);
                 ++nextPage;
                 urlParams.searchParams.set('page', nextPage);
                 topBottomChild.dataset.pagination = urlParams.toString();
-                renderizarTabla();
-                (0,_wait__WEBPACK_IMPORTED_MODULE_4__.stopWait)(); // trackingPagination(updateMove);
+                (0,_wait__WEBPACK_IMPORTED_MODULE_4__.stopWait)();
               });
 
             case 10:

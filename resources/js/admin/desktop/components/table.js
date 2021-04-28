@@ -21,7 +21,7 @@ export let renderizarTabla = () => {
                 try {
                     await axios.get(url).then(respuesta => {
                         formulario.innerHTML = respuesta.data.form;
-                        //console.log(respuesta.data.form);
+                        console.log(respuesta.data.form);
                         renderizarFormulario();
                         renderizarCkeditor();
                     });

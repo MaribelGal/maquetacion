@@ -1,6 +1,6 @@
 <div class="tabla-filtro" id="tabla-filtro">
     <div class="tabla-filtro-contenedor">
-        <form class="filtro-formulario" id="filtro-formulario" action="{{ route('faqs_filter') }}" autocomplete="off">
+        <form class="filtro-formulario" id="filtro-formulario"  action="{{route($route.'_filter')}}" autocomplete="off">
 
             {{ csrf_field() }}
 

@@ -17,7 +17,7 @@ export let renderizarFormulario = () => {
 
     botonGuardar.addEventListener("click", (event) => {
 
-        document.getElementById('item-error').innerHTML = ''; 
+        // document.getElementById('item-error').innerHTML = ''; 
         
         formularios.forEach(formulario => {
 
@@ -118,7 +118,6 @@ export let renderizarFormulario = () => {
 
 
     let botonCrear = document.getElementById("boton-crear");
-    console.log(botonCrear);
 
     botonCrear.addEventListener("click", () => {
         let url = botonCrear.dataset.url;
@@ -155,14 +154,6 @@ export let renderizarFormulario = () => {
     });
 
 };
-// let botonAgregarFormulario = document.getElementById("item-agregarformulario");
-// let formularioExtra = document.getElementById("formulario-direcciones");
-
-// botonAgregarFormulario.addEventListener("click", () => {
-//     console.log("click");
-//     formularioExtra.classList.toggle("disable");
-// })
-
 
 renderizarFormulario();
 renderizarCkeditor();

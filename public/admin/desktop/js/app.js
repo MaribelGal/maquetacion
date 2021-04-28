@@ -2016,7 +2016,7 @@ var renderizarFormulario = function renderizarFormulario() {
   var formularios = document.querySelectorAll(".admin-formulario");
   var botonGuardar = document.getElementById("boton-guardar-desktop");
   botonGuardar.addEventListener("click", function (event) {
-    document.getElementById('item-error').innerHTML = '';
+    // document.getElementById('item-error').innerHTML = ''; 
     formularios.forEach(function (formulario) {
       var datosFormulario = new FormData(formulario);
 
@@ -2130,7 +2130,6 @@ var renderizarFormulario = function renderizarFormulario() {
     });
   });
   var botonCrear = document.getElementById("boton-crear");
-  console.log(botonCrear);
   botonCrear.addEventListener("click", function () {
     var url = botonCrear.dataset.url;
     console.log(url);
@@ -2184,13 +2183,7 @@ var renderizarFormulario = function renderizarFormulario() {
       enviarPeticionGet();
     });
   });
-}; // let botonAgregarFormulario = document.getElementById("item-agregarformulario");
-// let formularioExtra = document.getElementById("formulario-direcciones");
-// botonAgregarFormulario.addEventListener("click", () => {
-//     console.log("click");
-//     formularioExtra.classList.toggle("disable");
-// })
-
+};
 renderizarFormulario();
 (0,_ckeditor__WEBPACK_IMPORTED_MODULE_2__.renderizarCkeditor)();
 
@@ -2243,20 +2236,26 @@ function showNotification(type, messageText, setTimeOut) {
   var notificationDescription = notificationItem.querySelector(".notification-description");
 
   var mostrar = function mostrar() {
-    notificationsContainer.classList.toggle("show");
-    notificationItem.classList.toggle("active");
+    notificationsContainer.classList.add("show");
+    notificationItem.classList.add("active");
     notificationDescription.innerHTML = messageText;
   };
 
   mostrar();
+
+  var ocultar = function ocultar() {
+    notificationsContainer.classList.remove("show");
+    notificationItem.classList.remove("active");
+    notificationDescription.innerHTML = '';
+  };
+
   setTimeout(function () {
-    mostrar();
+    ocultar();
   }, setTimeOut);
   var notificationItemClose = notificationItem.querySelectorAll(".notification-close");
   notificationItemClose.forEach(function (close) {
     close.addEventListener("click", function () {
-      notificationItem.classList.toggle("active");
-      notificationsContainer.classList.toggle("show");
+      ocultar();
     });
   });
 }
@@ -2387,8 +2386,8 @@ var renderizarTabla = function renderizarTabla() {
                   _context.prev = 0;
                   _context.next = 3;
                   return axios.get(url).then(function (respuesta) {
-                    formulario.innerHTML = respuesta.data.form; //console.log(respuesta.data.form);
-
+                    formulario.innerHTML = respuesta.data.form;
+                    console.log(respuesta.data.form);
                     (0,_form__WEBPACK_IMPORTED_MODULE_1__.renderizarFormulario)();
                     (0,_ckeditor__WEBPACK_IMPORTED_MODULE_2__.renderizarCkeditor)();
                   });
@@ -2567,316 +2566,323 @@ var campoDateEnd = document.getElementById("campo-date-end");
 var selectorOrderDesc = document.getElementById("selector-order-desc");
 var selectorCategoria = document.getElementById("selector-categoria");
 var selectorOrder = document.getElementById("my-checkbox");
-var camposRadioAscDesc = document.querySelectorAll(".order_asc_desc");
 var formularioFiltro = document.getElementById("filtro-formulario");
 var renderizarFiltroTabla = function renderizarFiltroTabla() {
-  selectorCategoria.addEventListener('change', function () {
-    var data = new FormData(formularioFiltro);
-    var url = formularioFiltro.action;
+  if (selectorCategoria != null) {
+    selectorCategoria.addEventListener('change', function () {
+      var data = new FormData(formularioFiltro);
+      var url = formularioFiltro.action;
 
-    var _iterator = _createForOfIteratorHelper(data.entries()),
-        _step;
+      var _iterator = _createForOfIteratorHelper(data.entries()),
+          _step;
 
-    try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        var pair = _step.value;
-        console.log(pair[0] + ', ' + pair[1]);
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var pair = _step.value;
+          console.log(pair[0] + ', ' + pair[1]);
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
       }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
-    }
 
-    var sendPostRequest = /*#__PURE__*/function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.prev = 0;
-                _context.next = 3;
-                return axios.post(url, data).then(function (response) {
-                  console.log("selector");
-                  tabla.innerHTML = response.data.table;
-                  (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
-                });
+      var sendPostRequest = /*#__PURE__*/function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.prev = 0;
+                  _context.next = 3;
+                  return axios.post(url, data).then(function (response) {
+                    console.log("selector");
+                    tabla.innerHTML = response.data.table;
+                    (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                  });
 
-              case 3:
-                _context.next = 7;
-                break;
+                case 3:
+                  _context.next = 7;
+                  break;
 
-              case 5:
-                _context.prev = 5;
-                _context.t0 = _context["catch"](0);
+                case 5:
+                  _context.prev = 5;
+                  _context.t0 = _context["catch"](0);
 
-              case 7:
-              case "end":
-                return _context.stop();
+                case 7:
+                case "end":
+                  return _context.stop();
+              }
             }
-          }
-        }, _callee, null, [[0, 5]]);
-      }));
+          }, _callee, null, [[0, 5]]);
+        }));
 
-      return function sendPostRequest() {
-        return _ref.apply(this, arguments);
-      };
-    }();
+        return function sendPostRequest() {
+          return _ref.apply(this, arguments);
+        };
+      }();
 
-    sendPostRequest();
-  });
-  campoInput.addEventListener('keyup', function (event) {
-    console.log("tecla" + event);
-    var data = new FormData(formularioFiltro);
-    console.log(formularioFiltro);
-    var url = formularioFiltro.action;
-    console.log(formularioFiltro.action);
+      sendPostRequest();
+    });
+  }
 
-    var sendPostRequest = /*#__PURE__*/function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.prev = 0;
-                _context2.next = 3;
-                return axios.post(url, data).then(function (response) {
-                  console.log(response.data);
-                  tabla.innerHTML = response.data.table;
-                  (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
-                });
+  ;
 
-              case 3:
-                _context2.next = 7;
-                break;
+  if (campoInput != null) {
+    campoInput.addEventListener('keyup', function (event) {
+      console.log("tecla" + event);
+      var data = new FormData(formularioFiltro);
+      console.log(formularioFiltro);
+      var url = formularioFiltro.action;
+      console.log(formularioFiltro.action);
 
-              case 5:
-                _context2.prev = 5;
-                _context2.t0 = _context2["catch"](0);
+      var sendPostRequest = /*#__PURE__*/function () {
+        var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+            while (1) {
+              switch (_context2.prev = _context2.next) {
+                case 0:
+                  _context2.prev = 0;
+                  _context2.next = 3;
+                  return axios.post(url, data).then(function (response) {
+                    console.log(response.data);
+                    tabla.innerHTML = response.data.table;
+                    (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                  });
 
-              case 7:
-              case "end":
-                return _context2.stop();
+                case 3:
+                  _context2.next = 7;
+                  break;
+
+                case 5:
+                  _context2.prev = 5;
+                  _context2.t0 = _context2["catch"](0);
+
+                case 7:
+                case "end":
+                  return _context2.stop();
+              }
             }
-          }
-        }, _callee2, null, [[0, 5]]);
-      }));
+          }, _callee2, null, [[0, 5]]);
+        }));
 
-      return function sendPostRequest() {
-        return _ref2.apply(this, arguments);
-      };
-    }();
+        return function sendPostRequest() {
+          return _ref2.apply(this, arguments);
+        };
+      }();
 
-    sendPostRequest();
-  });
-  campoDateStart.addEventListener('change', function () {
-    var data = new FormData(formularioFiltro);
-    var url = formularioFiltro.action;
+      sendPostRequest();
+    });
+  }
 
-    var sendPostRequest = /*#__PURE__*/function () {
-      var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.prev = 0;
-                _context3.next = 3;
-                return axios.post(url, data).then(function (response) {
-                  console.log("selector date start");
-                  tabla.innerHTML = response.data.table;
-                  (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
-                });
+  ;
 
-              case 3:
-                _context3.next = 7;
-                break;
+  if (campoDateStart != null) {
+    campoDateStart.addEventListener('change', function () {
+      var data = new FormData(formularioFiltro);
+      var url = formularioFiltro.action;
 
-              case 5:
-                _context3.prev = 5;
-                _context3.t0 = _context3["catch"](0);
+      var sendPostRequest = /*#__PURE__*/function () {
+        var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+            while (1) {
+              switch (_context3.prev = _context3.next) {
+                case 0:
+                  _context3.prev = 0;
+                  _context3.next = 3;
+                  return axios.post(url, data).then(function (response) {
+                    console.log("selector date start");
+                    tabla.innerHTML = response.data.table;
+                    (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                  });
 
-              case 7:
-              case "end":
-                return _context3.stop();
+                case 3:
+                  _context3.next = 7;
+                  break;
+
+                case 5:
+                  _context3.prev = 5;
+                  _context3.t0 = _context3["catch"](0);
+
+                case 7:
+                case "end":
+                  return _context3.stop();
+              }
             }
-          }
-        }, _callee3, null, [[0, 5]]);
-      }));
+          }, _callee3, null, [[0, 5]]);
+        }));
 
-      return function sendPostRequest() {
-        return _ref3.apply(this, arguments);
-      };
-    }();
+        return function sendPostRequest() {
+          return _ref3.apply(this, arguments);
+        };
+      }();
 
-    sendPostRequest();
-  });
-  campoDateEnd.addEventListener('change', function () {
-    var data = new FormData(formularioFiltro);
-    var url = formularioFiltro.action;
+      sendPostRequest();
+    });
+  }
 
-    var sendPostRequest = /*#__PURE__*/function () {
-      var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _context4.prev = 0;
-                _context4.next = 3;
-                return axios.post(url, data).then(function (response) {
-                  console.log("selector date end");
-                  tabla.innerHTML = response.data.table;
-                  (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
-                });
+  ;
 
-              case 3:
-                _context4.next = 7;
-                break;
+  if (campoDateEnd != null) {
+    campoDateEnd.addEventListener('change', function () {
+      var data = new FormData(formularioFiltro);
+      var url = formularioFiltro.action;
 
-              case 5:
-                _context4.prev = 5;
-                _context4.t0 = _context4["catch"](0);
+      var sendPostRequest = /*#__PURE__*/function () {
+        var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+            while (1) {
+              switch (_context4.prev = _context4.next) {
+                case 0:
+                  _context4.prev = 0;
+                  _context4.next = 3;
+                  return axios.post(url, data).then(function (response) {
+                    console.log("selector date end");
+                    tabla.innerHTML = response.data.table;
+                    (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                  });
 
-              case 7:
-              case "end":
-                return _context4.stop();
+                case 3:
+                  _context4.next = 7;
+                  break;
+
+                case 5:
+                  _context4.prev = 5;
+                  _context4.t0 = _context4["catch"](0);
+
+                case 7:
+                case "end":
+                  return _context4.stop();
+              }
             }
-          }
-        }, _callee4, null, [[0, 5]]);
-      }));
+          }, _callee4, null, [[0, 5]]);
+        }));
 
-      return function sendPostRequest() {
-        return _ref4.apply(this, arguments);
-      };
-    }();
+        return function sendPostRequest() {
+          return _ref4.apply(this, arguments);
+        };
+      }();
 
-    sendPostRequest();
-  });
-  selectorOrderDesc.addEventListener('change', function () {
-    var data = new FormData(formularioFiltro);
-    var url = formularioFiltro.action;
+      sendPostRequest();
+    });
+  }
 
-    var _iterator2 = _createForOfIteratorHelper(data.entries()),
-        _step2;
+  ;
 
-    try {
-      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-        var pair = _step2.value;
-        console.log(pair[0] + ', ' + pair[1]);
+  if (selectorOrderDesc != null) {
+    selectorOrderDesc.addEventListener('change', function () {
+      var data = new FormData(formularioFiltro);
+      var url = formularioFiltro.action;
+
+      var _iterator2 = _createForOfIteratorHelper(data.entries()),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var pair = _step2.value;
+          console.log(pair[0] + ', ' + pair[1]);
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
       }
-    } catch (err) {
-      _iterator2.e(err);
-    } finally {
-      _iterator2.f();
-    }
 
-    var sendPostRequest = /*#__PURE__*/function () {
-      var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _context5.prev = 0;
-                _context5.next = 3;
-                return axios.post(url, data).then(function (response) {
-                  // console.log(data)
-                  tabla.innerHTML = response.data.table;
-                  (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)(); // console.log(response.data.table)
-                });
+      var sendPostRequest = /*#__PURE__*/function () {
+        var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+            while (1) {
+              switch (_context5.prev = _context5.next) {
+                case 0:
+                  _context5.prev = 0;
+                  _context5.next = 3;
+                  return axios.post(url, data).then(function (response) {
+                    // console.log(data)
+                    tabla.innerHTML = response.data.table;
+                    (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)(); // console.log(response.data.table)
+                  });
 
-              case 3:
-                _context5.next = 7;
-                break;
+                case 3:
+                  _context5.next = 7;
+                  break;
 
-              case 5:
-                _context5.prev = 5;
-                _context5.t0 = _context5["catch"](0);
+                case 5:
+                  _context5.prev = 5;
+                  _context5.t0 = _context5["catch"](0);
 
-              case 7:
-              case "end":
-                return _context5.stop();
+                case 7:
+                case "end":
+                  return _context5.stop();
+              }
             }
-          }
-        }, _callee5, null, [[0, 5]]);
-      }));
+          }, _callee5, null, [[0, 5]]);
+        }));
 
-      return function sendPostRequest() {
-        return _ref5.apply(this, arguments);
-      };
-    }();
+        return function sendPostRequest() {
+          return _ref5.apply(this, arguments);
+        };
+      }();
 
-    sendPostRequest();
-  }); // camposRadioAscDesc.forEach(campoRadioAscDesc => {
-  //     campoRadioAscDesc.addEventListener('change',()=>{
-  //         let data = new FormData(formularioFiltro);
-  //         let url = formularioFiltro.action;
-  //         for (var pair of data.entries()) {
-  //             console.log(pair[0]+ ', ' + pair[1]); 
-  //         }
-  //         let sendPostRequest = async () => {
-  //             try {
-  //                 await axios.post(url, data).then(response => {
-  //                     // console.log(data)
-  //                     tabla.innerHTML = response.data.table;
-  //                     renderizarTabla();
-  //                     // console.log(response.data.table)
-  //                 });
-  //             } catch (error) {
-  //             }
-  //         };
-  //         sendPostRequest();
-  //     });
-  // });
+      sendPostRequest();
+    });
+  }
 
-  selectorOrder.addEventListener('click', function () {
-    // let valor = selectorOrder.value;
-    // let nuevoValor = (valor == "desc")? "desc" : "asc";
-    // selectorOrder.value = nuevoValor;
-    var data = new FormData(formularioFiltro);
+  ;
 
-    if (data.get('order_asc_desc') == null) {
-      data.set('order_asc_desc', 'desc');
-    }
+  if (selectorOrder != null) {
+    selectorOrder.addEventListener('click', function () {
+      // let valor = selectorOrder.value;
+      // let nuevoValor = (valor == "desc")? "desc" : "asc";
+      // selectorOrder.value = nuevoValor;
+      var data = new FormData(formularioFiltro);
 
-    var url = formularioFiltro.action; // for (var pair of data.entries()) {
-    //     console.log(pair[0] + ', ' + pair[1]);
-    // }
+      if (data.get('order_asc_desc') == null) {
+        data.set('order_asc_desc', 'desc');
+      }
 
-    var sendPostRequest = /*#__PURE__*/function () {
-      var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                _context6.prev = 0;
-                _context6.next = 3;
-                return axios.post(url, data).then(function (response) {
-                  tabla.innerHTML = response.data.table;
-                  (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
-                });
+      var url = formularioFiltro.action; // for (var pair of data.entries()) {
+      //     console.log(pair[0] + ', ' + pair[1]);
+      // }
 
-              case 3:
-                _context6.next = 7;
-                break;
+      var sendPostRequest = /*#__PURE__*/function () {
+        var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+            while (1) {
+              switch (_context6.prev = _context6.next) {
+                case 0:
+                  _context6.prev = 0;
+                  _context6.next = 3;
+                  return axios.post(url, data).then(function (response) {
+                    tabla.innerHTML = response.data.table;
+                    (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                  });
 
-              case 5:
-                _context6.prev = 5;
-                _context6.t0 = _context6["catch"](0);
+                case 3:
+                  _context6.next = 7;
+                  break;
 
-              case 7:
-              case "end":
-                return _context6.stop();
+                case 5:
+                  _context6.prev = 5;
+                  _context6.t0 = _context6["catch"](0);
+
+                case 7:
+                case "end":
+                  return _context6.stop();
+              }
             }
-          }
-        }, _callee6, null, [[0, 5]]);
-      }));
+          }, _callee6, null, [[0, 5]]);
+        }));
 
-      return function sendPostRequest() {
-        return _ref6.apply(this, arguments);
-      };
-    }();
+        return function sendPostRequest() {
+          return _ref6.apply(this, arguments);
+        };
+      }();
 
-    sendPostRequest();
-  });
+      sendPostRequest();
+    });
+  }
+
+  ;
 };
 renderizarFiltroTabla();
 
