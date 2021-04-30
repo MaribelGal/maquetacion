@@ -6,7 +6,6 @@ $activePosition = array_search('active', $columnList, true);
 $visiblePosition = array_search('visible', $columnList, true);
 unset($columnList[$activePosition], $columnList[$visiblePosition]);
 
-Debugbar::info($faqs_categories_in_faqs);
 
 $filtros = ['category' => $faqs_categories_in_faqs, 'search' => true, 'date_start' => true, 'date_end' => true, 'order' => $columnList];
 

@@ -1,109 +1,49 @@
+
 .tabla {
     display: contents;
+    min-width: 50vw;
+    flex-grow: 1;
 }
-.tabla-contenedor{
-    width: 50vw;
+.tabla-contenedor {
     margin: 1em;
-    padding: 1%;
+    padding: 2%;
     flex-grow: 1;
     @include neumorphism(1em, 10%, 20%);
 }
 
-
-// .admin-tabla{
-//     width: 100%;
-//     padding: 1%;
-
-//     border-collapse: collapse;
-//     border: none;
-//     table-layout: fixed;
-//     text-overflow: ellipsis;
-
-// }
-
-// .admin-tabla th{
-//     padding: 1em 0 1em 0;
-//     border-bottom: .4em solid $gris;
-//     text-overflow: ellipsis;
-//     color: $colorPrincipal;
-
-//     width: auto;
-// }
-
-// .admin-tabla td{
-//     border-bottom: .05em solid $gris;
-//     padding: .7em .5em;
-//     word-wrap: break-word;
-//     hyphens: auto;
-//     text-overflow: ellipsis;
-//     width: auto;
-// }
-
-// .admin-tabla tr:nth-child(odd) {
-//     //background: #EBEBEB;
-// }
-
-// .admin-tabla tr:nth-child(even) {
-//     //background: #FFF;
-// }
-
-// .admin-tabla tr:hover{
-//     background: $gris;
-//     color: $white;
-    
-// }
-
-// .admin-tabla-acciones{
-//     text-align: center;
-// }
-
-// .boton-editar, .boton-eliminar {
-//     border: none;
-//     background: none;
-//     color: $colorPrincipal;
-// } 
-
-// .boton-editar svg, .boton-eliminar svg{
-//     width: 2em;
-// }
-
-// .boton-editar:hover, .boton-eliminar:hover {
-//     color: $white;
-// } 
-
-
-.tabla-alerta{
+.tabla-alerta {
     display: none;
 }
 
-.tabla-contenido{
+.tabla-contenido {
     display: grid;
 }
 
-.tabla-contenido-fila{
-    // display: contents;
-    // grid-template-columns: 3fr 1fr;
-    // background-color: chocolate;
-    border-top: .1em solid rgba(0, 0, 0, 0.3);
+.tabla-contenido-fila {
     margin: 1em;
 }
 
-
-.tabla-contenido-fila-iconos{
+.tabla-contenido-fila-iconos {
     // display: flex;
     // justify-content: flex-end;
 }
 
-.tabla-contenido-fila-campos{
+.tabla-contenido-fila-campos {
     // display: contents;
     // grid-template-columns: repeat(auto,1fr);
     overflow: hidden;
 }
 
-
 .tabla-celda {
-     border-bottom: 1px solid black;
-     overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 0 .5em;
+    border-top: 0.1em solid rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 0.5em;
+    svg{
+        color: $colorPrincipal;
+        cursor: pointer;
+        &:hover{
+            color: hsl(180, 17%, 39%)
+        }
+    }
 }

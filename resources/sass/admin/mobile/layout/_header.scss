@@ -11,6 +11,7 @@ header {
     color: $colorPrincipal;
     font-size: 1em;
     @include mayusEspaciado;
+    margin: 2%;
 }
 
 .header-logo{

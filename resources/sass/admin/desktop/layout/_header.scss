@@ -1,8 +1,8 @@
 header {
     position: relative;
-    border-bottom: $gris solid .15em;
+    border-bottom: $gris solid 0.15em;
     display: grid;
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(3, 1fr);
     align-items: center;
     justify-content: space-between;
     z-index: 3;
@@ -11,16 +11,15 @@ header {
     @include mayusEspaciado;
 }
 
-.header-logo{
+.header-logo {
     text-align: start;
 }
 
-.header-titulo{
+.header-titulo {
     text-align: center;
-    
 }
 
-.header-botonera{
+.header-botonera {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
@@ -28,5 +27,11 @@ header {
 
     .header-botonera-item {
         margin-left: 1em;
+        a {
+            color: $colorPrincipal;
+            &:hover{
+                color: hsl(180, 17%, 39%)
+            }
+        }
     }
 }

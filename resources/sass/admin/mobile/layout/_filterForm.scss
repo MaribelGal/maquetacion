@@ -1,10 +1,95 @@
-input {
-    @include normalizarInput
+input,
+textarea,
+select {
+    @include normalizarInput;
 }
 
-.filtro-formulario{
+.filtro-formulario {
     margin: 1em;
     display: flex;
-    flex-flow: column wrap;
+    flex-flow: row wrap;
     justify-content: space-around;
+    align-items: flex-end;
 }
+.filtro-formulario-item {
+    overflow: hidden;
+    padding: 0.5em;
+    display: flex;
+}
+
+.filtro-formulario-item-campo {
+    width: 100%;
+    height: 100%;
+
+    &.fechas {
+        display: flex;
+        flex-flow: column;
+        span {
+            color: dimgray;
+        }
+    }
+}
+
+.selector-orden {
+}
+
+.campo-input-text {
+    border-bottom: 1px solid hsla(0, 0%, 0%, 0.6);
+}
+
+.campo-input-date {
+    border-bottom: 1px solid hsla(0, 0%, 0%, 0.6);
+}
+
+.filter-checkbox {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    input[type="checkbox"] {
+        height: 0;
+        width: 0;
+        visibility: hidden;
+        + .label-hidden {
+            @include neumorphism(0.5em, 20px, 10px);
+            cursor: pointer;
+            width: 2em;
+            height: 1.2em;
+            // background-color: #FFFFFF;
+            border: 1px solid #d4d4d4;
+            display: inline-block;
+            border-radius: 100px;
+            position: relative;
+            margin: 0px;
+            &:after {
+                content: "";
+                position: absolute;
+                top: 0.1em;
+                left: 0.1em;
+                width: 1em;
+                height: 1em;
+                background-color: $colorPrincipal;
+                border-radius: 100%;
+                -webkit-transition: all 0.3s;
+                -o-transition: all 0.3s;
+                transition: all 0.3s;
+            }
+        }
+        &:checked {
+            + .label-hidden {
+                &:after {
+                    background-color: $colorPrincipal;
+                    left: calc(100% - 0.1em);
+                    transform: translateX(-100%);
+                }
+            }
+        }
+    }
+    .label-displayed {
+        padding: 0 0.5em;
+    }
+    .first-label {
+        order: -1;
+    }
+}
+

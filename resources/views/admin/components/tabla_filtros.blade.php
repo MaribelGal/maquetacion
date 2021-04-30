@@ -52,7 +52,7 @@
 
                 @if ($key == 'date_start')
                     <div class="filtro-formulario-item">
-                        <div class="filtro-formulario-item-campo"> START
+                        <div class="filtro-formulario-item-campo fechas">  <span>Fecha de inicio</span> 
                             <input type="date" name="date_start" value="" id="campo-date-start"
                                 class="campo-input-date">
                         </div>
@@ -61,17 +61,17 @@
 
                 @if ($key == 'date_end')
                     <div class="filtro-formulario-item">
-                        <div class="filtro-formulario-item-campo"> END
+                        <div class="filtro-formulario-item-campo fechas"> <span>Fecha de fin</span>
                             <input type="date" name="date_end" value="" id="campo-date-end" class="campo-input-date">
                         </div>
                     </div>
                 @endif
 
                 @if ($key == 'order')
-                    <div class="filtro-formulario-item">
+                    <div class="filtro-formulario-item selector-orden">
                         <div class="filtro-formulario-item-campo">
                             <select name="order" placeholder="--Ordenar por--" class="filtro-formulario-item-campo"
-                                id="selector-order-desc">
+                                id="selector-order">
                                 <option class="campo-option" value="id" id="none">Por defecto</option>
 
                                 @foreach ($values as $value)

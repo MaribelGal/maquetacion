@@ -1,8 +1,8 @@
 require('../../bootstrap');
 
+require('../base/filterTable');
 
 require('./ckeditor');
-require('./filterTable');
 require('./components/form');
 
 require('./components/table');

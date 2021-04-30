@@ -1,16 +1,15 @@
 <div class="paginacion-tabla">
     <div class="paginacion-tabla-info">
         <div class="paginacion-tabla-total">
-            <p>{{ $items->total() }} registros</p>
+            <p>{{ $items->total() }} registros.</p>
         </div>
 
         <div class="paginacion-tabla-pages">
-            <p>Mostrando la página {{ $items->currentPage() }} de {{ $items->lastPage() }}</p>
+            <p>Mostrando la página {{ $items->currentPage() }} de {{ $items->lastPage() }}.</p>
         </div>
     </div>
 
     <div class="paginacion-tabla-botones">
-        <p>
             @if ($items->currentPage() != 1)
                 <span class="paginacion-tabla-boton" data-page="{{ $items->url(1) }}">
                     <svg viewBox="0 0 24 24">
@@ -65,8 +64,5 @@
                 </svg>
             </span>
         @endif
-
-
-        </p>
     </div>
 </div>

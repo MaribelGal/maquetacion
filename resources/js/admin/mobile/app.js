@@ -1,9 +1,9 @@
 require('../../bootstrap');
+require('../base/filterTable');
 
 
 
 require('./components/form');
-require('./filterTable');
 require('./components/header');
 
 // require('./components/tableSwipe');

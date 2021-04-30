@@ -321,14 +321,14 @@ export class SwipeRevealItem {
 			let differenceInY = initialTouchPos.y - lastTouchPos.y;
 			let differenceInAxis = axis == "x" ? differenceInX : differenceInY;
 
-			console.log("differenceInX "+ differenceInX);
-			console.log("differenceInY "+ differenceInY);
-			console.log("differenceInAxis "+ differenceInAxis);
+			// console.log("differenceInX "+ differenceInX);
+			// console.log("differenceInY "+ differenceInY);
+			// console.log("differenceInAxis "+ differenceInAxis);
 
 			if (-limitRightOrBottom < differenceInAxis && -limitLeftOrTop < -differenceInAxis) {
 				let newXTransform = currentAxisPosition - differenceInAxis;
-				console.log("aplicar estilo onAnimFrame: "+ newXTransform);
-				console.log("aplicar estilo onAnimFrame:  (currentAxispos) "+ currentAxisPosition);
+				// console.log("aplicar estilo onAnimFrame: "+ newXTransform);
+				// console.log("aplicar estilo onAnimFrame:  (currentAxispos) "+ currentAxisPosition);
 				swipeConfig.applyStyle(newXTransform, swipeContent);
 			}
 
@@ -353,19 +353,6 @@ export class SwipeRevealItem {
 				swipeConfig.actionRightOrBottomBackVisible();
 				backLeftOrTopVisible = false;
 				backRightOrBottomVisible = true;
-				if (window.PointerEvent) {
-					topBottomChild.removeEventListener("pointerdown", this.handleGestureStart, true);
-					topBottomChild.removeEventListener("pointermove", this.handleGestureMove, true);
-					topBottomChild.removeEventListener("pointerup", this.handleGestureEnd, true);
-					topBottomChild.addEventListener("pointercancel", this.handleGestureEnd, true);
-				} else {
-					topBottomChild.removeEventListener("touchstart", this.handleGestureStart, true);
-					topBottomChild.removeEventListener("touchmove", this.handleGestureMove, true);
-					topBottomChild.removeEventListener("touchend", this.handleGestureEnd, true);
-					topBottomChild.removeEventListener("touchcancel", this.handleGestureEnd, true);
-		
-					topBottomChild.removeEventListener("mousedown", this.handleGestureStart, true);
-				}
 			}
 		}
 

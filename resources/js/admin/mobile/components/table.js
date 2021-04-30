@@ -36,10 +36,10 @@ export let renderizarTabla = () => {
 			slopToRigthOrBottom: swipeElement.querySelector(".swipe-front").clientWidth * 2/4,
 
 			actionLeftOrTopState: () => {
-				console.log("holi");
+				eliminarRegistro(swipeElement);
 			},
 			actionRightOrBottomState: () => {
-				console.log("deu");
+				editarRegistro(swipeElement);
 			},
 			actionLeftOrTopBackVisible: () => {
 				console.log("left me ves");

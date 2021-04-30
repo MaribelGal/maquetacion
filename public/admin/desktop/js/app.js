@@ -1870,6 +1870,146 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/admin/base/filterTable.js":
+/*!************************************************!*\
+  !*** ./resources/js/admin/base/filterTable.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderizarFiltroTabla": () => (/* binding */ renderizarFiltroTabla)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _desktop_components_table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../desktop/components/table */ "./resources/js/admin/desktop/components/table.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var tabla = document.getElementById("tabla");
+var campoInput = document.getElementById("campo-input-text");
+var campoDateStart = document.getElementById("campo-date-start");
+var campoDateEnd = document.getElementById("campo-date-end");
+var selectorOrder = document.getElementById("selector-order");
+var selectorCategoria = document.getElementById("selector-categoria");
+var checkOrderDesAsc = document.getElementById("my-checkbox");
+var formularioFiltro = document.getElementById("filtro-formulario");
+var renderizarFiltroTabla = function renderizarFiltroTabla() {
+  var filtrar = function filtrar() {
+    var url = formularioFiltro.action;
+    var data = new FormData(formularioFiltro);
+
+    if (data.get('order_asc_desc') == null) {
+      data.set('order_asc_desc', 'desc');
+    } // for (var pair of data.entries()) {
+    //     console.log(pair[0] + ', ' + pair[1]);
+    // }
+
+
+    var filters = {};
+    data.forEach(function (value, key) {
+      filters[key] = value;
+    });
+    var json = JSON.stringify(filters);
+
+    var sendGetRequest = /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return axios.get(url, {
+                  params: {
+                    filters: json
+                  }
+                }).then(function (response) {
+                  tabla.innerHTML = response.data.table;
+                  (0,_desktop_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                });
+
+              case 3:
+                _context.next = 7;
+                break;
+
+              case 5:
+                _context.prev = 5;
+                _context.t0 = _context["catch"](0);
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 5]]);
+      }));
+
+      return function sendGetRequest() {
+        return _ref.apply(this, arguments);
+      };
+    }();
+
+    sendGetRequest();
+  };
+
+  if (selectorCategoria != null) {
+    selectorCategoria.addEventListener('change', function () {
+      filtrar();
+    });
+  }
+
+  ;
+
+  if (campoInput != null) {
+    campoInput.addEventListener('keyup', function (event) {
+      filtrar();
+    });
+  }
+
+  ;
+
+  if (campoDateStart != null) {
+    campoDateStart.addEventListener('change', function () {
+      filtrar();
+    });
+  }
+
+  ;
+
+  if (campoDateEnd != null) {
+    campoDateEnd.addEventListener('change', function () {
+      filtrar();
+    });
+  }
+
+  ;
+
+  if (selectorOrder != null) {
+    selectorOrder.addEventListener('change', function () {
+      filtrar();
+    });
+  }
+
+  ;
+
+  if (checkOrderDesAsc != null) {
+    checkOrderDesAsc.addEventListener('click', function () {
+      filtrar();
+    });
+  }
+
+  ;
+};
+renderizarFiltroTabla();
+
+/***/ }),
+
 /***/ "./resources/js/admin/desktop/app.js":
 /*!*******************************************!*\
   !*** ./resources/js/admin/desktop/app.js ***!
@@ -1878,9 +2018,9 @@ module.exports = {
 
 __webpack_require__(/*! ../../bootstrap */ "./resources/js/bootstrap.js");
 
-__webpack_require__(/*! ./ckeditor */ "./resources/js/admin/desktop/ckeditor.js");
+__webpack_require__(/*! ../base/filterTable */ "./resources/js/admin/base/filterTable.js");
 
-__webpack_require__(/*! ./filterTable */ "./resources/js/admin/desktop/filterTable.js");
+__webpack_require__(/*! ./ckeditor */ "./resources/js/admin/desktop/ckeditor.js");
 
 __webpack_require__(/*! ./components/form */ "./resources/js/admin/desktop/components/form.js");
 
@@ -2529,362 +2669,6 @@ var stopWait = function stopWait() {
   spinner.classList.remove('spinner-active');
   overlay.classList.remove('overlay-active');
 };
-
-/***/ }),
-
-/***/ "./resources/js/admin/desktop/filterTable.js":
-/*!***************************************************!*\
-  !*** ./resources/js/admin/desktop/filterTable.js ***!
-  \***************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "renderizarFiltroTabla": () => (/* binding */ renderizarFiltroTabla)
-/* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/table */ "./resources/js/admin/desktop/components/table.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-
-var tabla = document.getElementById("tabla");
-var campoInput = document.getElementById("campo-input-text");
-var campoDateStart = document.getElementById("campo-date-start");
-var campoDateEnd = document.getElementById("campo-date-end");
-var selectorOrderDesc = document.getElementById("selector-order-desc");
-var selectorCategoria = document.getElementById("selector-categoria");
-var selectorOrder = document.getElementById("my-checkbox");
-var formularioFiltro = document.getElementById("filtro-formulario");
-var renderizarFiltroTabla = function renderizarFiltroTabla() {
-  if (selectorCategoria != null) {
-    selectorCategoria.addEventListener('change', function () {
-      var data = new FormData(formularioFiltro);
-      var url = formularioFiltro.action;
-
-      var _iterator = _createForOfIteratorHelper(data.entries()),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var pair = _step.value;
-          console.log(pair[0] + ', ' + pair[1]);
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
-
-      var sendPostRequest = /*#__PURE__*/function () {
-        var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  _context.prev = 0;
-                  _context.next = 3;
-                  return axios.post(url, data).then(function (response) {
-                    console.log("selector");
-                    tabla.innerHTML = response.data.table;
-                    (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
-                  });
-
-                case 3:
-                  _context.next = 7;
-                  break;
-
-                case 5:
-                  _context.prev = 5;
-                  _context.t0 = _context["catch"](0);
-
-                case 7:
-                case "end":
-                  return _context.stop();
-              }
-            }
-          }, _callee, null, [[0, 5]]);
-        }));
-
-        return function sendPostRequest() {
-          return _ref.apply(this, arguments);
-        };
-      }();
-
-      sendPostRequest();
-    });
-  }
-
-  ;
-
-  if (campoInput != null) {
-    campoInput.addEventListener('keyup', function (event) {
-      console.log("tecla" + event);
-      var data = new FormData(formularioFiltro);
-      console.log(formularioFiltro);
-      var url = formularioFiltro.action;
-      console.log(formularioFiltro.action);
-
-      var sendPostRequest = /*#__PURE__*/function () {
-        var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-            while (1) {
-              switch (_context2.prev = _context2.next) {
-                case 0:
-                  _context2.prev = 0;
-                  _context2.next = 3;
-                  return axios.post(url, data).then(function (response) {
-                    console.log(response.data);
-                    tabla.innerHTML = response.data.table;
-                    (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
-                  });
-
-                case 3:
-                  _context2.next = 7;
-                  break;
-
-                case 5:
-                  _context2.prev = 5;
-                  _context2.t0 = _context2["catch"](0);
-
-                case 7:
-                case "end":
-                  return _context2.stop();
-              }
-            }
-          }, _callee2, null, [[0, 5]]);
-        }));
-
-        return function sendPostRequest() {
-          return _ref2.apply(this, arguments);
-        };
-      }();
-
-      sendPostRequest();
-    });
-  }
-
-  ;
-
-  if (campoDateStart != null) {
-    campoDateStart.addEventListener('change', function () {
-      var data = new FormData(formularioFiltro);
-      var url = formularioFiltro.action;
-
-      var sendPostRequest = /*#__PURE__*/function () {
-        var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
-            while (1) {
-              switch (_context3.prev = _context3.next) {
-                case 0:
-                  _context3.prev = 0;
-                  _context3.next = 3;
-                  return axios.post(url, data).then(function (response) {
-                    console.log("selector date start");
-                    tabla.innerHTML = response.data.table;
-                    (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
-                  });
-
-                case 3:
-                  _context3.next = 7;
-                  break;
-
-                case 5:
-                  _context3.prev = 5;
-                  _context3.t0 = _context3["catch"](0);
-
-                case 7:
-                case "end":
-                  return _context3.stop();
-              }
-            }
-          }, _callee3, null, [[0, 5]]);
-        }));
-
-        return function sendPostRequest() {
-          return _ref3.apply(this, arguments);
-        };
-      }();
-
-      sendPostRequest();
-    });
-  }
-
-  ;
-
-  if (campoDateEnd != null) {
-    campoDateEnd.addEventListener('change', function () {
-      var data = new FormData(formularioFiltro);
-      var url = formularioFiltro.action;
-
-      var sendPostRequest = /*#__PURE__*/function () {
-        var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
-            while (1) {
-              switch (_context4.prev = _context4.next) {
-                case 0:
-                  _context4.prev = 0;
-                  _context4.next = 3;
-                  return axios.post(url, data).then(function (response) {
-                    console.log("selector date end");
-                    tabla.innerHTML = response.data.table;
-                    (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
-                  });
-
-                case 3:
-                  _context4.next = 7;
-                  break;
-
-                case 5:
-                  _context4.prev = 5;
-                  _context4.t0 = _context4["catch"](0);
-
-                case 7:
-                case "end":
-                  return _context4.stop();
-              }
-            }
-          }, _callee4, null, [[0, 5]]);
-        }));
-
-        return function sendPostRequest() {
-          return _ref4.apply(this, arguments);
-        };
-      }();
-
-      sendPostRequest();
-    });
-  }
-
-  ;
-
-  if (selectorOrderDesc != null) {
-    selectorOrderDesc.addEventListener('change', function () {
-      var data = new FormData(formularioFiltro);
-      var url = formularioFiltro.action;
-
-      var _iterator2 = _createForOfIteratorHelper(data.entries()),
-          _step2;
-
-      try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          var pair = _step2.value;
-          console.log(pair[0] + ', ' + pair[1]);
-        }
-      } catch (err) {
-        _iterator2.e(err);
-      } finally {
-        _iterator2.f();
-      }
-
-      var sendPostRequest = /*#__PURE__*/function () {
-        var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
-            while (1) {
-              switch (_context5.prev = _context5.next) {
-                case 0:
-                  _context5.prev = 0;
-                  _context5.next = 3;
-                  return axios.post(url, data).then(function (response) {
-                    // console.log(data)
-                    tabla.innerHTML = response.data.table;
-                    (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)(); // console.log(response.data.table)
-                  });
-
-                case 3:
-                  _context5.next = 7;
-                  break;
-
-                case 5:
-                  _context5.prev = 5;
-                  _context5.t0 = _context5["catch"](0);
-
-                case 7:
-                case "end":
-                  return _context5.stop();
-              }
-            }
-          }, _callee5, null, [[0, 5]]);
-        }));
-
-        return function sendPostRequest() {
-          return _ref5.apply(this, arguments);
-        };
-      }();
-
-      sendPostRequest();
-    });
-  }
-
-  ;
-
-  if (selectorOrder != null) {
-    selectorOrder.addEventListener('click', function () {
-      // let valor = selectorOrder.value;
-      // let nuevoValor = (valor == "desc")? "desc" : "asc";
-      // selectorOrder.value = nuevoValor;
-      var data = new FormData(formularioFiltro);
-
-      if (data.get('order_asc_desc') == null) {
-        data.set('order_asc_desc', 'desc');
-      }
-
-      var url = formularioFiltro.action; // for (var pair of data.entries()) {
-      //     console.log(pair[0] + ', ' + pair[1]);
-      // }
-
-      var sendPostRequest = /*#__PURE__*/function () {
-        var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
-            while (1) {
-              switch (_context6.prev = _context6.next) {
-                case 0:
-                  _context6.prev = 0;
-                  _context6.next = 3;
-                  return axios.post(url, data).then(function (response) {
-                    tabla.innerHTML = response.data.table;
-                    (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
-                  });
-
-                case 3:
-                  _context6.next = 7;
-                  break;
-
-                case 5:
-                  _context6.prev = 5;
-                  _context6.t0 = _context6["catch"](0);
-
-                case 7:
-                case "end":
-                  return _context6.stop();
-              }
-            }
-          }, _callee6, null, [[0, 5]]);
-        }));
-
-        return function sendPostRequest() {
-          return _ref6.apply(this, arguments);
-        };
-      }();
-
-      sendPostRequest();
-    });
-  }
-
-  ;
-};
-renderizarFiltroTabla();
 
 /***/ }),
 

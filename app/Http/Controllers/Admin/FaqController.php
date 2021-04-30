@@ -25,11 +25,11 @@ class FaqController extends Controller
         $this->faq = $faq;
         $this->agent = $agent;
 
-        if($this->agent->isMobile()){
+        if ($this->agent->isMobile()) {
             $this->paginationNum = 6;
         }
 
-        if($this->agent->isDesktop()){
+        if ($this->agent->isDesktop()) {
             $this->paginationNum = 3;
         }
     }
@@ -38,11 +38,11 @@ class FaqController extends Controller
     {
 
         $paginate = $this->faq->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum);
-        
+
         $view = View::make('admin.faqs.index')
             ->with('faq', $this->faq)
             ->with('faqs', $paginate);
-        
+
         // $paginate->withPath('/admin/faqs');
 
 
@@ -97,9 +97,9 @@ class FaqController extends Controller
             'active' => 1,
         ]);
 
-        if (request('id')){
+        if (request('id')) {
             $message = \Lang::get('admin/faqs.faq-update');
-        }else{
+        } else {
             $message = \Lang::get('admin/faqs.faq-create');
         }
 
@@ -151,7 +151,11 @@ class FaqController extends Controller
 
         $view = View::make('admin.faqs.index')
             ->with('faq', $this->faq)
-            ->with('faqs', $this->faq->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum))
+            ->with(
+                'faqs', 
+                $this->faq->where('active', 1)
+                          ->orderBy('updated_at', 'desc')
+                          ->paginate($this->paginationNum))
             ->renderSections();
 
         return response()->json([
@@ -177,64 +181,68 @@ class FaqController extends Controller
     }
 
 
-    public function filter(Request $request)
+    public function filter(Request $request, $filters = null)
     {
+        $filters = json_decode($request->input('filters'));
 
         $query = $this->faq->query();
 
         $query->where('t_faqs.active', 1);
 
-        $query->when(request('category_id'), function ($q, $category_id) {
+        if ($filters != null) {
 
-            if ($category_id == 'all') {
-                return $q;
-            } else {
-                return $q->where('category_id', $category_id);
-            }
-        });
+            $query->when($filters->category_id, function ($q, $category_id) {
 
-        $query->when(request('search'), function ($q, $search) {
+                if ($category_id == 'all') {
+                    return $q;
+                } else {
+                    return $q->where('category_id', $category_id);
+                }
+            });
 
-            if ($search == null) {
-                return $q;
-            } else {
-                return $q->where('titulo', 'like', "%$search%");
-            }
-        });
+            $query->when($filters->search, function ($q, $search) {
 
-        $query->when(request('date_start'), function ($q, $date_start) {
+                if ($search == null) {
+                    return $q;
+                } else {
+                    return $q->where('t_faqs.titulo', 'like', "%$search%");
+                }
+            });
 
-            if ($date_start == null) {
-                return $q;
-            } else {
-                return $q->whereDate('created_at', '>=', date($date_start));
-            }
-        });
+            $query->when($filters->date_start, function ($q, $date_start) {
 
-        $query->when(request('date_end'), function ($q, $date_end) {
+                if ($date_start == null) {
+                    return $q;
+                } else {
+                    return $q->whereDate('t_faqs.created_at', '>=', date($date_start));
+                }
+            });
 
-            if ($date_end == null) {
-                return $q;
-            } else {
-                return $q->whereDate('created_at', '<=', date($date_end));
-            }
-        });
+            $query->when($filters->date_end, function ($q, $date_end) {
 
-        $query->when(request('order'), function ($q, $order)  {
-            
-            $order_asc_desc = (request('order_asc_desc') == "desc") ? "desc" : "asc";
-    
-            if($order == "category_id"){
-                $q->join('t_faq_categories', 't_faqs.category_id', '=', 't_faq_categories.id')
-                ->where('t_faqs.active',1);
-            }
+                if ($date_end == null) {
+                    return $q;
+                } else {
+                    return $q->whereDate('t_faqs.created_at', '<=', date($date_end));
+                }
+            });
 
-            return $q->orderBy($order,  $order_asc_desc);
+            $query->when($filters->order, function ($q, $order) use ($filters) {
 
-        });
+                $order_asc_desc = ($filters->order_asc_desc == "desc") ? "desc" : "asc";
 
+                if ($order == "category_id") {
+                    $q->join('t_faq_categories', 't_faqs.category_id', '=', 't_faq_categories.id')
+                        ->where('t_faqs.active', 1);
+                }
 
-        $faqs = $query->paginate($this->paginationNum);
+                return $q->orderBy($order,  $order_asc_desc);
+            });
+        }
+
+        $faqs = $query
+            ->paginate($this->paginationNum)
+            ->appends(['filters' => json_encode($filters)]);
 
         $view = View::make('admin.faqs.index')
             ->with('faq', $this->faq)

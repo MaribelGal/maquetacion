@@ -74,4 +74,4 @@ export let renderizarFormulario = () => {
 
 
 renderizarFormulario();
-renderizarCkeditor();
+// renderizarCkeditor();
