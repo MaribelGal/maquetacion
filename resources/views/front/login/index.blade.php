@@ -1,3 +1,6 @@
+@php
+ $route = 'Login';
+@endphp
 @extends('front.master')
 
 @include('front.partials.header')

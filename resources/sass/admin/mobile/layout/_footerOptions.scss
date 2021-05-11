@@ -1,0 +1,12 @@
+.footer-options{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: red;
+    width: 100vw;
+    height: 3em;
+    display: flex;
+    @include neumorphism(2em, 20px, 10px);    
+    color: $colorPrincipal;
+    background-color: $fondo ;
+}

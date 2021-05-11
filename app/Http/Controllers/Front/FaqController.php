@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Front;
 
+use App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\FaqRequest;
+use App\Vendor\Locale\Locale;
+use Debugbar;
 use App\Models\DB\Faq;
 
 class FaqController extends Controller
@@ -21,9 +24,18 @@ class FaqController extends Controller
     public function index()
     {
 
+        $faqs = $this->faq->where('active', 1)->where('visible', 1)->get();
+
+        $faqs = $faqs->each(function($faq) {  
+            
+            $faq['locale'] = $faq->locale->pluck('value','tag');
+            
+            return $faq;
+        });
+
+
         $view = View::make('front.faqs.index')
-        ->with('faq', $this->faq)
-        ->with('faqs', $this->faq->where('active', 1)->get());
+            ->with('faqs', $faqs);
 
         return $view;
     }

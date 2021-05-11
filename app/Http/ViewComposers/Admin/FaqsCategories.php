@@ -3,27 +3,29 @@
 namespace App\Http\ViewComposers\Admin;
 
 use Illuminate\View\View;
-use App\Models\DB\FaqCategory as FaqCategory;
+use App\Models\DB\FaqCategory ;
 
 class FaqsCategories
 {
-    // public $categories;
-    public $faqs_categories;
-    public $faqs_categories_in_faqs;
 
+    static $composed;
 
-    public function __construct()
+    public function __construct(FaqCategory $faqs_categories)
     {
-        $this->faqs_categories = FaqCategory::where('active',1)->orderBy('nombre', 'asc')->get();
-        
-        $this->faqs_categories_in_faqs = FaqCategory::has('faqs')->where('active',1)->orderBy('nombre', 'asc')->get();
+        $this->faqs_categories = $faqs_categories;
     }
 
     public function compose(View $view)
     {
-        $view->with('faqs_categories', $this->faqs_categories);
-        $view->with('faqs_categories_in_faqs', $this->faqs_categories_in_faqs);
+
+        if(static::$composed)
+        {
+            return $view->with('faqs_categories', static::$composed);
+        }
+
+        static::$composed = $this->faqs_categories->where('active', 1)->orderBy('nombre', 'asc')->get();
+
+        $view->with('faqs_categories', static::$composed);
+
     }
-
-
 }

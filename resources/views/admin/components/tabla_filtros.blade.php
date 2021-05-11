@@ -36,6 +36,7 @@
                                         {{ $value->nombre }}
                                     </option>
                                 @endforeach
+                                {{-- $this->faqs_categories_in_faqs = FaqCategory::has('faqs')->where('active',1)->orderBy('nombre', 'asc')->get(); --}}
                             </select>
                         </div>
                     </div>

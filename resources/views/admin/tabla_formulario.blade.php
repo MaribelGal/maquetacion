@@ -11,6 +11,10 @@
    <div class='tabla ' id="tabla">
         @yield('table') 
     </div>
+
+    @if ($agent->isMobile())
+        @include('admin.components.formTable_footer_mobile')
+    @endif
 </div>
 
 @endsection 

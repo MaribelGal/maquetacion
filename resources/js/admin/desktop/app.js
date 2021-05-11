@@ -3,7 +3,12 @@ require('../../bootstrap');
 require('../base/filterTable');
 
 require('./ckeditor');
-require('./components/form');
+require('./form/form');
+require('./form/formTab');
+require('./form/formTabLocale');
+require('./form/formAction');
+
+require('./components/dropImage');
 
 require('./components/table');
 require('./components/sidebar');

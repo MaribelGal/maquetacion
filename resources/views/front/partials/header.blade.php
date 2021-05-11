@@ -7,7 +7,7 @@
     </div>
 
     <div class=header-titulo> 
-        <div> Login </div>
+        <div> @lang('front/'.$route.'.parent_section') </div>
     </div>
 
     <div class="header-menu" id="boton-menu">

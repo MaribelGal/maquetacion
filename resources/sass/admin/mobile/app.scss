@@ -9,10 +9,21 @@
 @import "layout/header";
 @import "layout/sidebar";
 @import "layout/notifications";
+@import "layout/footerOptions";
+@import "layout/wait";
+
 
 @import "layout/form";
 @import "layout/filterForm";
 @import "layout/table";
 @import "layout/alertTable";
+
+@import "form/form";
+@import "form/formTab";
+@import "form/formTabActions";
+@import "form/formTabPanelSelector";
+@import "form/formLocaleTab";
+@import "form/formLocalePanel";
+
 
 @import "layout/swipe";  

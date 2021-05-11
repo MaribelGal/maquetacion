@@ -1934,8 +1934,7 @@ var sendFingerprintRequest = /*#__PURE__*/function () {
 
             _context.prev = 10;
             _context.next = 13;
-            return axios.post('/fingerprint', data).then(function (response) {
-              console.log(response);
+            return axios.post('/fingerprint', data).then(function (response) {// console.log(response);
             });
 
           case 13:
@@ -1970,13 +1969,7 @@ sendFingerprintRequest();
   \*******************************************************/
 /***/ (() => {
 
-var botonGuardar = document.getElementById("item-guardar");
-botonGuardar.addEventListener("mousedown", function () {
-  botonGuardar.classList.add("mousedown");
-});
-botonGuardar.addEventListener("mouseup", function () {
-  botonGuardar.classList.remove("mousedown");
-});
+
 
 /***/ }),
 
@@ -2001,6 +1994,7 @@ var desplegableDescripciones = document.querySelectorAll(".desplegable-descripci
 var desplegableIconos = document.querySelectorAll(".desplegable-icono");
 botonesDesplegable.forEach(function (botonDesplegable) {
   botonDesplegable.addEventListener("click", function () {
+    console.log("click");
     desplegableDescripciones.forEach(function (desplegableDescripcion) {
       if (desplegableDescripcion.id == botonDesplegable.value) {
         if (desplegableDescripcion.classList.contains("activo")) {

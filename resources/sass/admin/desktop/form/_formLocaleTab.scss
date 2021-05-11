@@ -1,0 +1,17 @@
+.tab-locale{
+    display: flex;
+    flex-flow: row wrap;
+   
+}
+
+.tab-locale-item{
+    
+    margin: 0 .5em;
+    width: fit-content;
+    height: fit-content;
+    &.active{
+        font-weight: bold;
+        color: $colorPrincipal;
+        border-bottom: .1em solid;
+    }
+}

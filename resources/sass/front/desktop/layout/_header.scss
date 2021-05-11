@@ -13,11 +13,13 @@ header {
 
 .header-logo{
     text-align: start;
+    display: flex;
+    flex-flow: row nowrap;
+
 }
 
 .header-titulo{
     text-align: center;
-    
 }
 
 .header-menu{

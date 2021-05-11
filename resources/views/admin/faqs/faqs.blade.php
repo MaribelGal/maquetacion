@@ -6,77 +6,59 @@ $activePosition = array_search('active', $columnList, true);
 $visiblePosition = array_search('visible', $columnList, true);
 unset($columnList[$activePosition], $columnList[$visiblePosition]);
 
-
-$filtros = ['category' => $faqs_categories_in_faqs, 'search' => true, 'date_start' => true, 'date_end' => true, 'order' => $columnList];
+$filtros = ['category' => $faqs_categories, 'search' => true, 'date_start' => true, 'date_end' => true, 'order' => $columnList];
 
 @endphp
 
 @extends('admin.tabla_formulario')
 
-{{-- @section('header')
-    @include('admin.partials.header')
-@endsection --}}
+
 
 
 @section('form')
 
     {{-- @isset($faq) --}}
-        <form class="admin-formulario" id="formulario-faqs" action="{{ route('faqs_store') }}" autocomplete="off">
+    <form class="admin-formulario" id="formulario-faqs" action="{{ route('faqs_store') }}" autocomplete="off">
 
-            {{ csrf_field() }}
+        {{ csrf_field() }}
 
-            <input type="hidden" name="id" value="{{ isset($faq->id) ? $faq->id : '' }}">
-          
+        <input type="hidden" name="id" value="{{ isset($faq->id) ? $faq->id : '' }}">
 
-            <div class="formulario-contenedor">
 
-                    <div class="formulario-tab">
+        <div class="formulario-contenedor">
 
-                        <div class="formulario-tab-item" id= "crear">
-                            <div 
-                                class="formulario-tab-item-boton" 
-                                id="boton-crear"
-                                data-url="{{route('faqs_create')}}">
-                                <svg viewBox="0 0 24 24">
-                                    <path fill="currentColor" d="M13 11H16V13H13V16H11V13H8V11H11V8H13V11M22 5.5V16L16 22H5.5C3.6 22 2 20.4 2 18.5V5.5C2 3.6 3.6 2 5.5 2H18.5C20.4 2 22 3.6 22 5.5M20 5.8C20 4.8 19.2 4 18.2 4H5.8C4.8 4 4 4.8 4 5.8V18.3C4 19.3 4.8 20.1 5.8 20.1H15V18.6C15 16.7 16.6 15.1 18.5 15.1H20V5.8Z" />
-                                </svg>
-                            </div>
-                        </div>
-
-                        <div class="formulario-tab-item visible-checkbox">
-                            <div class="formulario-tab-item-switch" >
-                                <input 
-                                type="checkbox" 
-                                name="visible" 
-                                value="{{ isset($faq->visible) ? $faq->visible : '1' }}" 
-                                id="checkbox-visible" 
-                                checked>
-                                <label for="checkbox-visible" class="label-hidden"></label>
-                            </div>
+            <div class="formulario-tab">
+                <div class="formulario-tab-item">
+                    <div class="formulario-tab-item-panelselector active" id="tab-item-contenido" data-tab="contenido">
+                        <div>
+                            <p class="tab-title">Contenido</p>
                         </div>
                     </div>
-                <div class="formulario-contenido">
 
-                    <div class="formulario-contenido-panel active">
-                        <div class="formulario-contenido-panel-item grid-column-1 grid-row-1" id="item-titulo">
+                    <div class="formulario-tab-item-panelselector " id="tab-item-imagenes" data-tab="imagenes">
+                        <div>
+                            <p class="tab-title"> Imagenes </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formulario-tab-item">
+                    @include('admin.components.form_actions')
+                </div>
+            </div>
+
+
+            <div class="formulario-contenido">
+
+                <div class="formulario-contenido-panel active" data-tab="contenido">
+                    <div class="panel-static">
+                        <div class="formulario-contenido-panel-item grid-column-1 grid-row-1" id="item-name">
                             <div class="formulario-contenido-panel-item-campo">
                                 <input type="text" class="formulario-contenido-panel-item-campo"
-                                    id="formulario-contenido-panel-item-campo-titulos" name="titulo"
-                                    placeholder="Inserta la pregunta" value="{{ isset($faq->titulo) ? $faq->titulo : '' }}" />
+                                    id="formulario-contenido-panel-item-campo-name" name="name"
+                                    placeholder="Inserta el nombre" value="{{ isset($faq->name) ? $faq->name : '' }}" />
                             </div>
 
-                        </div>
-
-                        <div class="formulario-contenido-panel-item grid-column-span-2 grid-row-2" id="item-descripcion">
-                            <div class="formulario-contenido-panel-item-error">
-                                <span id="error-descripcion"></span>
-                            </div>
-                            <div class="formulario-contenido-panel-item-campo">
-                                <textarea type="text" name="description"
-                                    class="formulario-contenido-panel-item-campo-descripcion ckeditor"
-                                    placeholder="Inserta la respuesta"> {{ isset($faq->description) ? $faq->description : '' }}
-                                </textarea>
-                            </div>
                         </div>
 
                         <div class="formulario-contenido-panel-item grid-column-2 grid-row-1" id="item-categoria">
@@ -94,27 +76,74 @@ $filtros = ['category' => $faqs_categories_in_faqs, 'search' => true, 'date_star
                             </div>
                         </div>
                     </div>
+                    @component('admin.components.form_locale')
+                        @foreach ($localizations as $localization)
+                        <div class="panel-locale">
+                            <div class="panel-locale-item contents {{ $loop->first ? 'active' : '' }} " data-locale="{{$localization->alias}}">
+                                <div class="formulario-contenido-panel-item grid-column-span-2 grid-row-3" id="item-titulo">
+                                    <div class="formulario-contenido-panel-item-campo">
+                                        <input type="text"  
+                                            class="formulario-contenido-panel-item-campo"
+                                            name="locale[titulo][{{$localization->alias}}]" 
+                                            placeholder="Inserta la pregunta"
+                                            value="
+                                            {{
+                                            isset($locale["titulo"][$localization->alias]) ? 
+                                            $locale["titulo"][$localization->alias] 
+                                            : ''
+                                            }}" />
+                                    </div>
+
+                                </div>
+
+                                <div class="formulario-contenido-panel-item grid-column-span-2 grid-row-4"
+                                    id="item-descripcion">
+                                    <div class="formulario-contenido-panel-item-campo">
+                                        <textarea type="text" name="locale[description][{{$localization->alias}}]"
+                                            class="formulario-contenido-panel-item-campo-descripcion ckeditor"
+                                            placeholder="Inserta la respuesta"> 
+                                            {{
+                                            isset($locale["description"][$localization->alias]) ? 
+                                            $locale["description"][$localization->alias] 
+                                            : ''
+                                            }}
+                                          </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    @endcomponent
+
+
+                </div>
+
+                <div class="formulario-contenido-panel " data-tab="imagenes">
+                    @component('admin.components.form_locale')
+
+                        @foreach ($localizations as $localization)
+                            <div class="panel-locale">
+                                <div class="panel-locale-item contents {{ $loop->first ? 'active':''}}" data-locale="{{$localization->alias}}">
+                                    <div class="formulario-contenido-panel-item" >
+                                        <div class="drop-zone">
+                                            <span class="drop-zone__prompt">Arrastra una imagen o clica para cargarla</span>
+                                            <input type="file" name="locale[file.{{$localization->alias}}]" class="drop-zone__input">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+
+                    @endcomponent
                 </div>
             </div>
-
-            <div class="error-panel" id="item-error">
-
+        </div>
+        <div class="formulario-contenido-panel-item" id="item-guardar">
+            <div class="formulario-contenido-panel-item-boton desktop" id="boton-guardar-desktop">
+                <input type="button" value="Guardar"> </input>
             </div>
-
-            <div class="formulario-contenido-panel-item" id="item-guardar">
-                <div class="formulario-contenido-panel-item-boton desktop" id="boton-guardar-desktop">
-                    <input type="button" value="Guardar"> </input>
-                </div>
-
-                <div class="formulario-contenido-panel-item-boton mobile" id=boton-guardar-mobile>
-                    <svg viewBox="0 0 24 24">
-                        <path fill="currentColor"
-                            d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" />
-                    </svg>
-                </div>
-            </div>
-        </form>
-    {{-- @endisset --}}
+        </div>
+    </form>
 @endsection
 
 
@@ -131,14 +160,16 @@ $filtros = ['category' => $faqs_categories_in_faqs, 'search' => true, 'date_star
                 </div>
             </div>
 
-            <div class="tabla-contenido" id="tabla-faqs-filas" data-pagination="{{$faqs->nextPageUrl()}}" data-lastpage="{{$faqs->lastPage()}}">
+            <div class="tabla-contenido" id="tabla-faqs-filas" data-pagination="{{ $faqs->nextPageUrl() }}"
+                data-lastpage="{{ $faqs->lastPage() }}">
                 @yield('tablerows')
             </div>
 
             @if ($agent->isDesktop())
                 @include('admin.components.table_pagination', ['items' => $faqs])
             @endif
-            
+
         </div>
     @endisset
 @endsection
+

@@ -7,7 +7,7 @@ const formulario = document.getElementById("formulario");
 const sideBar = document.getElementById("sidebar");
 const sidebarItems = document.querySelectorAll(".sidebar-item");
 
-import { renderizarFormulario } from "./form";
+import { renderizarFormulario } from "../form/form";
 import {renderizarTabla} from "./table";
 import { renderizarCkeditor } from "../ckeditor";
 

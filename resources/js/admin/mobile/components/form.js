@@ -2,6 +2,7 @@ const { default: axios } = require("axios");
 
 import { renderizarTabla } from "./tableSwipe";
 import { renderizarCkeditor } from "../ckeditor";
+import { renderizarDropImage } from "../../desktop/components/dropImage";
 
 const tabla = document.getElementById("tabla");
 
@@ -74,4 +75,5 @@ export let renderizarFormulario = () => {
 
 
 renderizarFormulario();
+renderizarDropImage();
 // renderizarCkeditor();

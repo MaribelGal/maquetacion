@@ -176,7 +176,6 @@ function eliminarRegistro(element) {
 	enviarPeticion();
 }
 
-
 function eliminarBackVisble(element) {
 	element.querySelector(".swipe-delete").classList.add("active");
 	element.querySelector(".swipe-edit").classList.remove("active");
@@ -187,8 +186,6 @@ function editarBackVisible(element) {
 	element.querySelector(".swipe-delete").classList.remove("active");
 	element.querySelector(".swipe-edit").classList.add("active");
 }
-
-
 
 
 function pagination() {
@@ -224,4 +221,5 @@ function pagination() {
 	};
 
 	paginationRequest();
+	renderizarTabla();
 }

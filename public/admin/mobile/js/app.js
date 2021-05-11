@@ -2050,229 +2050,85 @@ var renderizarCkeditor = function renderizarCkeditor() {
 
 /***/ }),
 
-/***/ "./resources/js/admin/desktop/components/form.js":
-/*!*******************************************************!*\
-  !*** ./resources/js/admin/desktop/components/form.js ***!
-  \*******************************************************/
+/***/ "./resources/js/admin/desktop/components/dropImage.js":
+/*!************************************************************!*\
+  !*** ./resources/js/admin/desktop/components/dropImage.js ***!
+  \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "renderizarFormulario": () => (/* binding */ renderizarFormulario)
+/* harmony export */   "renderizarDropImage": () => (/* binding */ renderizarDropImage)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./table */ "./resources/js/admin/desktop/components/table.js");
-/* harmony import */ var _ckeditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ckeditor */ "./resources/js/admin/desktop/ckeditor.js");
-/* harmony import */ var _notifications__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./notifications */ "./resources/js/admin/desktop/components/notifications.js");
-/* harmony import */ var _wait__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./wait */ "./resources/js/admin/desktop/components/wait.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var _require = __webpack_require__(/*! axios */ "./node_modules/axios/index.js"),
-    axios = _require["default"];
-
-var _require2 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js"),
-    isError = _require2.isError;
-
-
-
-
-
-var tabla = document.getElementById("tabla"); //const formulario = document.getElementById("formulario");
-
-var renderizarFormulario = function renderizarFormulario() {
-  var formularios = document.querySelectorAll(".admin-formulario");
-  var botonGuardar = document.getElementById("boton-guardar-desktop");
-  botonGuardar.addEventListener("click", function (event) {
-    // document.getElementById('item-error').innerHTML = ''; 
-    formularios.forEach(function (formulario) {
-      var datosFormulario = new FormData(formulario);
-
-      if (datosFormulario.get('visible') == null) {
-        datosFormulario.set('visible', 0);
-      }
-
-      if (ckeditors != 'null') {
-        Object.entries(ckeditors).forEach(function (_ref) {
-          var _ref2 = _slicedToArray(_ref, 2),
-              key = _ref2[0],
-              value = _ref2[1];
-
-          datosFormulario.append(key, value.getData());
-        });
-      }
-
-      var _iterator = _createForOfIteratorHelper(datosFormulario.entries()),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var entrada = _step.value;
-          console.log(entrada[0] + ": " + entrada[1]);
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
-
-      var url = formulario.action;
-
-      var enviarPeticionPost = /*#__PURE__*/function () {
-        var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-          var errors, errorMessage;
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  (0,_wait__WEBPACK_IMPORTED_MODULE_4__.startWait)();
-                  _context.prev = 1;
-                  _context.next = 4;
-                  return axios.post(url, datosFormulario).then(function (respuesta) {
-                    formulario.id.value = respuesta.data.id;
-                    tabla.innerHTML = respuesta.data.table;
-                    (0,_wait__WEBPACK_IMPORTED_MODULE_4__.stopWait)();
-                    (0,_notifications__WEBPACK_IMPORTED_MODULE_3__.showNotification)("success", respuesta.data.message, 7000);
-                    renderizarFormulario();
-                    (0,_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
-                  });
-
-                case 4:
-                  _context.next = 10;
-                  break;
-
-                case 6:
-                  _context.prev = 6;
-                  _context.t0 = _context["catch"](1);
-                  (0,_wait__WEBPACK_IMPORTED_MODULE_4__.stopWait)();
-
-                  if (_context.t0.response.status == '422') {
-                    errors = _context.t0.response.data.errors;
-                    errorMessage = '';
-                    Object.keys(errors).forEach(function (key) {
-                      errorMessage += '<div>' + errors[key] + '</div>';
-                    });
-                    console.log(errorMessage); // document.getElementById('item-error').innerHTML = errorMessage;
-
-                    (0,_notifications__WEBPACK_IMPORTED_MODULE_3__.showNotification)("error", errorMessage, 7000); // document.getElementById('error-container').classList.add('active');
-                    // document.getElementById('errors').innerHTML = errorMessage;
-                  }
-
-                case 10:
-                case "end":
-                  return _context.stop();
-              }
-            }
-          }, _callee, null, [[1, 6]]);
-        }));
-
-        return function enviarPeticionPost() {
-          return _ref3.apply(this, arguments);
-        };
-      }();
-
-      enviarPeticionPost();
+var dropZoneInputs = document.querySelectorAll(".drop-zone__input");
+var renderizarDropImage = function renderizarDropImage() {
+  dropZoneInputs.forEach(function (inputElement) {
+    var dropZoneElement = inputElement.closest(".drop-zone");
+    dropZoneElement.addEventListener("click", function (e) {
+      inputElement.click();
     });
-  });
-  botonGuardar.addEventListener("mousedown", function () {
-    botonGuardar.parentElement.classList.add("mousedown");
-    console.log("pulsado");
-  });
-  botonGuardar.addEventListener("mouseup", function () {
-    botonGuardar.parentElement.classList.remove("mousedown");
-    console.log("levantado");
-  });
-  var botonesTab = document.querySelectorAll(".formulario-tab-item");
-  var panelesTab = document.querySelectorAll(".formulario-contenido-panel");
-  botonesTab.forEach(function (botonTab) {
-    botonTab.addEventListener("click", function (event) {
-      panelesTab.forEach(function (panelTab) {
-        if (panelTab.dataset.tab == botonTab.dataset.tab) {
-          panelTab.classList.toggle("active");
-          botonTab.classList.toggle("active");
-        } else {
-          panelTab.classList.toggle("active");
-          botonTab.classList.toggle("active");
-        }
+    inputElement.addEventListener("change", function (e) {
+      if (inputElement.files.length) {
+        updateThumbnail(dropZoneElement, inputElement.files[0]);
+      }
+    });
+    dropZoneElement.addEventListener("dragover", function (e) {
+      e.preventDefault();
+      dropZoneElement.classList.add("drop-zone--over");
+    });
+    ["dragleave", "dragend"].forEach(function (type) {
+      dropZoneElement.addEventListener(type, function (e) {
+        dropZoneElement.classList.remove("drop-zone--over");
       });
     });
-  });
-  var botonCrear = document.getElementById("boton-crear");
-  botonCrear.addEventListener("click", function () {
-    var url = botonCrear.dataset.url;
-    console.log(url);
-    formularios.forEach(function (formulario) {
-      var enviarPeticionGet = /*#__PURE__*/function () {
-        var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-          var errors, errorMessage;
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-            while (1) {
-              switch (_context2.prev = _context2.next) {
-                case 0:
-                  _context2.prev = 0;
-                  _context2.next = 3;
-                  return axios.get(url).then(function (respuesta) {
-                    formulario.innerHTML = respuesta.data.form;
-                    renderizarFormulario();
-                    (0,_ckeditor__WEBPACK_IMPORTED_MODULE_2__.renderizarCkeditor)();
-                  });
+    dropZoneElement.addEventListener("drop", function (e) {
+      e.preventDefault();
 
-                case 3:
-                  _context2.next = 8;
-                  break;
+      if (e.dataTransfer.files.length) {
+        inputElement.files = e.dataTransfer.files;
+        updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
+      }
 
-                case 5:
-                  _context2.prev = 5;
-                  _context2.t0 = _context2["catch"](0);
-
-                  if (_context2.t0.response.status == '422') {
-                    errors = _context2.t0.response.data.errors;
-                    errorMessage = '';
-                    Object.keys(errors).forEach(function (key) {
-                      errorMessage += '<div>' + errors[key] + '</div>';
-                    });
-                    console.log(errorMessage);
-                    document.getElementById('item-error').innerHTML = errorMessage;
-                  }
-
-                case 8:
-                case "end":
-                  return _context2.stop();
-              }
-            }
-          }, _callee2, null, [[0, 5]]);
-        }));
-
-        return function enviarPeticionGet() {
-          return _ref4.apply(this, arguments);
-        };
-      }();
-
-      enviarPeticionGet();
+      dropZoneElement.classList.remove("drop-zone--over");
     });
   });
 };
-renderizarFormulario();
-(0,_ckeditor__WEBPACK_IMPORTED_MODULE_2__.renderizarCkeditor)();
+renderizarDropImage;
+/**
+ * Updates the thumbnail on a drop zone element.
+ *
+ * @param {HTMLElement} dropZoneElement
+ * @param {File} file
+ */
+
+function updateThumbnail(dropZoneElement, file) {
+  var thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb"); // First time - remove the prompt
+
+  if (dropZoneElement.querySelector(".drop-zone__prompt")) {
+    dropZoneElement.querySelector(".drop-zone__prompt").remove();
+  } // First time - there is no thumbnail element, so lets create it
+
+
+  if (!thumbnailElement) {
+    thumbnailElement = document.createElement("div");
+    thumbnailElement.classList.add("drop-zone__thumb");
+    dropZoneElement.appendChild(thumbnailElement);
+  }
+
+  thumbnailElement.dataset.label = file.name; // Show thumbnail for image files
+
+  if (file.type.startsWith("image/")) {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = function () {
+      thumbnailElement.style.backgroundImage = "url('".concat(reader.result, "')");
+    };
+  } else {
+    thumbnailElement.style.backgroundImage = null;
+  }
+}
 
 /***/ }),
 
@@ -2346,7 +2202,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./form */ "./resources/js/admin/desktop/components/form.js");
+/* harmony import */ var _form_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../form/form */ "./resources/js/admin/desktop/form/form.js");
 /* harmony import */ var _ckeditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ckeditor */ "./resources/js/admin/desktop/ckeditor.js");
 
 
@@ -2378,7 +2234,7 @@ var renderizarTabla = function renderizarTabla() {
                   return axios.get(url).then(function (respuesta) {
                     formulario.innerHTML = respuesta.data.form;
                     console.log(respuesta.data.form);
-                    (0,_form__WEBPACK_IMPORTED_MODULE_1__.renderizarFormulario)();
+                    (0,_form_form__WEBPACK_IMPORTED_MODULE_1__.renderizarFormulario)();
                     (0,_ckeditor__WEBPACK_IMPORTED_MODULE_2__.renderizarCkeditor)();
                   });
 
@@ -2522,6 +2378,330 @@ var stopWait = function stopWait() {
 
 /***/ }),
 
+/***/ "./resources/js/admin/desktop/form/form.js":
+/*!*************************************************!*\
+  !*** ./resources/js/admin/desktop/form/form.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderizarFormulario": () => (/* binding */ renderizarFormulario)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/table */ "./resources/js/admin/desktop/components/table.js");
+/* harmony import */ var _ckeditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ckeditor */ "./resources/js/admin/desktop/ckeditor.js");
+/* harmony import */ var _components_notifications__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/notifications */ "./resources/js/admin/desktop/components/notifications.js");
+/* harmony import */ var _components_wait__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/wait */ "./resources/js/admin/desktop/components/wait.js");
+/* harmony import */ var _components_dropImage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/dropImage */ "./resources/js/admin/desktop/components/dropImage.js");
+/* harmony import */ var _formTab__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./formTab */ "./resources/js/admin/desktop/form/formTab.js");
+/* harmony import */ var _formAction__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./formAction */ "./resources/js/admin/desktop/form/formAction.js");
+/* harmony import */ var _formTabLocale__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./formTabLocale */ "./resources/js/admin/desktop/form/formTabLocale.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var _require = __webpack_require__(/*! axios */ "./node_modules/axios/index.js"),
+    axios = _require["default"];
+
+var _require2 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js"),
+    isError = _require2.isError;
+
+
+
+
+
+
+
+
+
+var tabla = document.getElementById("tabla"); //const formulario = document.getElementById("formulario");
+
+var renderizarFormulario = function renderizarFormulario() {
+  var formularios = document.querySelectorAll(".admin-formulario");
+  var botonGuardar = document.getElementById("boton-guardar-desktop");
+  botonGuardar.addEventListener("click", function (event) {
+    // document.getElementById('item-error').innerHTML = ''; 
+    formularios.forEach(function (formulario) {
+      var datosFormulario = new FormData(formulario);
+
+      if (datosFormulario.get('visible') == null) {
+        datosFormulario.set('visible', 0);
+      }
+
+      if (ckeditors != 'null') {
+        Object.entries(ckeditors).forEach(function (_ref) {
+          var _ref2 = _slicedToArray(_ref, 2),
+              key = _ref2[0],
+              value = _ref2[1];
+
+          // console.log(key);
+          // console.log(value);
+          datosFormulario.append(key, value.getData());
+        });
+      }
+
+      var _iterator = _createForOfIteratorHelper(datosFormulario.entries()),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var entrada = _step.value;
+          console.log(entrada[0] + ": " + entrada[1]);
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      var url = formulario.action;
+
+      var enviarPeticionPost = /*#__PURE__*/function () {
+        var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+          var errors, errorMessage;
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  (0,_components_wait__WEBPACK_IMPORTED_MODULE_4__.startWait)();
+                  _context.prev = 1;
+                  _context.next = 4;
+                  return axios.post(url, datosFormulario).then(function (respuesta) {
+                    formulario.id.value = respuesta.data.id;
+                    tabla.innerHTML = respuesta.data.table;
+                    (0,_components_wait__WEBPACK_IMPORTED_MODULE_4__.stopWait)();
+                    (0,_components_notifications__WEBPACK_IMPORTED_MODULE_3__.showNotification)("success", respuesta.data.message, 7000);
+                    renderizarFormulario();
+                    (0,_components_dropImage__WEBPACK_IMPORTED_MODULE_5__.renderizarDropImage)();
+                    (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                  });
+
+                case 4:
+                  _context.next = 10;
+                  break;
+
+                case 6:
+                  _context.prev = 6;
+                  _context.t0 = _context["catch"](1);
+                  (0,_components_wait__WEBPACK_IMPORTED_MODULE_4__.stopWait)();
+
+                  if (_context.t0.response.status == '422') {
+                    errors = _context.t0.response.data.errors;
+                    errorMessage = '';
+                    Object.keys(errors).forEach(function (key) {
+                      errorMessage += '<div>' + errors[key] + '</div>';
+                    });
+                    console.log(errorMessage); // document.getElementById('item-error').innerHTML = errorMessage;
+
+                    (0,_components_notifications__WEBPACK_IMPORTED_MODULE_3__.showNotification)("error", errorMessage, 7000); // document.getElementById('error-container').classList.add('active');
+                    // document.getElementById('errors').innerHTML = errorMessage;
+                  }
+
+                case 10:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, null, [[1, 6]]);
+        }));
+
+        return function enviarPeticionPost() {
+          return _ref3.apply(this, arguments);
+        };
+      }();
+
+      enviarPeticionPost();
+    });
+  });
+  botonGuardar.addEventListener("mousedown", function () {
+    botonGuardar.parentElement.classList.add("mousedown");
+    console.log("pulsado");
+  });
+  botonGuardar.addEventListener("mouseup", function () {
+    botonGuardar.parentElement.classList.remove("mousedown");
+    console.log("levantado");
+  });
+  (0,_formTab__WEBPACK_IMPORTED_MODULE_6__.renderizarFormTab)();
+  (0,_formAction__WEBPACK_IMPORTED_MODULE_7__.renderizarFormAction)();
+  (0,_formTabLocale__WEBPACK_IMPORTED_MODULE_8__.renderizarFormTablocale)();
+};
+renderizarFormulario();
+(0,_components_dropImage__WEBPACK_IMPORTED_MODULE_5__.renderizarDropImage)();
+(0,_ckeditor__WEBPACK_IMPORTED_MODULE_2__.renderizarCkeditor)();
+
+/***/ }),
+
+/***/ "./resources/js/admin/desktop/form/formAction.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/admin/desktop/form/formAction.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderizarFormAction": () => (/* binding */ renderizarFormAction)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var renderizarFormAction = function renderizarFormAction() {
+  var botonCrear = document.getElementById("boton-crear");
+  botonCrear.addEventListener("click", function () {
+    var url = botonCrear.dataset.url;
+    console.log(url);
+    formularios.forEach(function (formulario) {
+      var enviarPeticionGet = /*#__PURE__*/function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+          var errors, errorMessage;
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.prev = 0;
+                  _context.next = 3;
+                  return axios.get(url).then(function (respuesta) {
+                    formulario.innerHTML = respuesta.data.form;
+                    renderizarFormulario();
+                    renderizarDropImage();
+                    renderizarCkeditor();
+                  });
+
+                case 3:
+                  _context.next = 8;
+                  break;
+
+                case 5:
+                  _context.prev = 5;
+                  _context.t0 = _context["catch"](0);
+
+                  if (_context.t0.response.status == '422') {
+                    errors = _context.t0.response.data.errors;
+                    errorMessage = '';
+                    Object.keys(errors).forEach(function (key) {
+                      errorMessage += '<div>' + errors[key] + '</div>';
+                    });
+                    console.log(errorMessage);
+                    document.getElementById('item-error').innerHTML = errorMessage;
+                  }
+
+                case 8:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, null, [[0, 5]]);
+        }));
+
+        return function enviarPeticionGet() {
+          return _ref.apply(this, arguments);
+        };
+      }();
+
+      enviarPeticionGet();
+    });
+  });
+};
+
+/***/ }),
+
+/***/ "./resources/js/admin/desktop/form/formTab.js":
+/*!****************************************************!*\
+  !*** ./resources/js/admin/desktop/form/formTab.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderizarFormTab": () => (/* binding */ renderizarFormTab)
+/* harmony export */ });
+var renderizarFormTab = function renderizarFormTab() {
+  var botonesTab = document.querySelectorAll(".formulario-tab-item-panelselector");
+  var panelesTab = document.querySelectorAll(".formulario-contenido-panel");
+  botonesTab.forEach(function (botonTab) {
+    botonTab.addEventListener("click", function () {
+      botonesTab.forEach(function (botonTab) {
+        if (botonTab.classList.contains("active")) {
+          botonTab.classList.remove("active");
+        }
+      });
+      botonTab.classList.add("active");
+      panelesTab.forEach(function (panelTab) {
+        if (panelTab.dataset.tab == botonTab.dataset.tab) {
+          panelTab.classList.add("active");
+        } else if (panelTab.classList.contains("active")) {
+          panelTab.classList.remove("active");
+        }
+      });
+    });
+  });
+};
+
+/***/ }),
+
+/***/ "./resources/js/admin/desktop/form/formTabLocale.js":
+/*!**********************************************************!*\
+  !*** ./resources/js/admin/desktop/form/formTabLocale.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderizarFormTablocale": () => (/* binding */ renderizarFormTablocale)
+/* harmony export */ });
+var renderizarFormTablocale = function renderizarFormTablocale() {
+  var tabsLocale = document.querySelectorAll(".panel-tab-locale");
+  var panelesTab = document.querySelectorAll(".panel-locale-item");
+  tabsLocale.forEach(function (tabLocale) {
+    var botonesTab = tabLocale.querySelectorAll(".tab-locale-item");
+    botonesTab.forEach(function (botonTab) {
+      botonTab.addEventListener("click", function () {
+        botonesTab.forEach(function (botonTab) {
+          if (botonTab.classList.contains("active")) {
+            botonTab.classList.remove("active");
+          }
+        });
+        botonTab.classList.add("active");
+        panelesTab.forEach(function (panelTab) {
+          if (panelTab.dataset.locale == botonTab.dataset.locale) {
+            panelTab.classList.add("active");
+          } else if (panelTab.classList.contains("active")) {
+            panelTab.classList.remove("active");
+          }
+        });
+      });
+    });
+  });
+};
+
+/***/ }),
+
 /***/ "./resources/js/admin/mobile/ckeditor.js":
 /*!***********************************************!*\
   !*** ./resources/js/admin/mobile/ckeditor.js ***!
@@ -2578,6 +2758,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tableSwipe__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tableSwipe */ "./resources/js/admin/mobile/components/tableSwipe.js");
 /* harmony import */ var _tableSwipe__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_tableSwipe__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _ckeditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ckeditor */ "./resources/js/admin/mobile/ckeditor.js");
+/* harmony import */ var _desktop_components_dropImage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../desktop/components/dropImage */ "./resources/js/admin/desktop/components/dropImage.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2600,6 +2781,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var _require = __webpack_require__(/*! axios */ "./node_modules/axios/index.js"),
     axios = _require["default"];
+
 
 
 
@@ -2690,32 +2872,8 @@ var renderizarFormulario = function renderizarFormulario() {
     });
   });
 };
-renderizarFormulario(); // renderizarCkeditor();
-
-/***/ }),
-
-/***/ "./resources/js/admin/mobile/components/header.js":
-/*!********************************************************!*\
-  !*** ./resources/js/admin/mobile/components/header.js ***!
-  \********************************************************/
-/***/ (() => {
-
-var botonSelectorPanelFormulario = document.getElementById("boton-selectorpanel-formulario");
-var botonSelectorPanelTabla = document.getElementById("boton-selectorpanel-tabla");
-var panelFormulario = document.getElementById("formulario");
-var panelTabla = document.getElementById("tabla");
-botonSelectorPanelFormulario.addEventListener("click", function (event) {
-  botonSelectorPanelTabla.classList.remove("disable");
-  botonSelectorPanelFormulario.classList.add("disable");
-  panelTabla.classList.remove("disable");
-  panelFormulario.classList.add("disable");
-});
-botonSelectorPanelTabla.addEventListener("click", function (event) {
-  botonSelectorPanelTabla.classList.add("disable");
-  botonSelectorPanelFormulario.classList.remove("disable");
-  panelFormulario.classList.remove("disable");
-  panelTabla.classList.add("disable");
-});
+renderizarFormulario();
+(0,_desktop_components_dropImage__WEBPACK_IMPORTED_MODULE_3__.renderizarDropImage)(); // renderizarCkeditor();
 
 /***/ }),
 
@@ -3368,7 +3526,33 @@ function pagination() {
   }();
 
   paginationRequest();
+  renderizarTabla();
 }
+
+/***/ }),
+
+/***/ "./resources/js/admin/mobile/components/tableFormSelector.js":
+/*!*******************************************************************!*\
+  !*** ./resources/js/admin/mobile/components/tableFormSelector.js ***!
+  \*******************************************************************/
+/***/ (() => {
+
+var botonSelectorPanelFormulario = document.getElementById("boton-selectorpanel-formulario");
+var botonSelectorPanelTabla = document.getElementById("boton-selectorpanel-tabla");
+var panelFormulario = document.getElementById("formulario");
+var panelTabla = document.getElementById("tabla");
+botonSelectorPanelFormulario.addEventListener("click", function (event) {
+  botonSelectorPanelTabla.classList.remove("disable");
+  botonSelectorPanelFormulario.classList.add("disable");
+  panelTabla.classList.remove("disable");
+  panelFormulario.classList.add("disable");
+});
+botonSelectorPanelTabla.addEventListener("click", function (event) {
+  botonSelectorPanelTabla.classList.add("disable");
+  botonSelectorPanelFormulario.classList.remove("disable");
+  panelFormulario.classList.remove("disable");
+  panelTabla.classList.add("disable");
+});
 
 /***/ }),
 
@@ -22026,7 +22210,7 @@ __webpack_require__(/*! ../base/filterTable */ "./resources/js/admin/base/filter
 
 __webpack_require__(/*! ./components/form */ "./resources/js/admin/mobile/components/form.js");
 
-__webpack_require__(/*! ./components/header */ "./resources/js/admin/mobile/components/header.js"); // require('./components/tableSwipe');
+__webpack_require__(/*! ./components/tableFormSelector */ "./resources/js/admin/mobile/components/tableFormSelector.js"); // require('./components/tableSwipe');
 
 
 __webpack_require__(/*! ./components/swipe */ "./resources/js/admin/mobile/components/swipe.js");

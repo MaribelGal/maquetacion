@@ -7,13 +7,22 @@
 
 
 
+
+
 @import "layout/master";
+
 @import "layout/header";
 @import "layout/sidebar";
 @import "layout/filterForm";
-@import "layout/form"; 
+@import "layout/imageDrop"; 
 @import "layout/table"; 
 @import "layout/table_pagination"; 
 @import "layout/notifications"; 
 @import "layout/wait"; 
-  
+
+@import "form/form";
+@import "form/formTab";
+@import "form/formTabActions";
+@import "form/formTabPanelSelector";
+@import "form/formLocaleTab";
+@import "form/formLocalePanel";

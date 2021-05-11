@@ -4,7 +4,7 @@ require('../base/filterTable');
 
 
 require('./components/form');
-require('./components/header');
+require('./components/tableFormSelector');
 
 // require('./components/tableSwipe');
 

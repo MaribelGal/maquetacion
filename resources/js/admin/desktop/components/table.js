@@ -1,4 +1,4 @@
-import { renderizarFormulario } from "./form";
+import { renderizarFormulario } from "../form/form";
 import { renderizarCkeditor } from "../ckeditor";
 
 const tabla = document.getElementById("tabla");
