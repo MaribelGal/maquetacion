@@ -24,15 +24,17 @@ class FaqController extends Controller
     public function index()
     {
 
+        
         $faqs = $this->faq->where('active', 1)->where('visible', 1)->get();
 
         $faqs = $faqs->each(function($faq) {  
             
             $faq['locale'] = $faq->locale->pluck('value','tag');
-            
+            $faq['images'] = $faq->images->where('grid', 'preview')->where('content', 'featured');
             return $faq;
         });
-
+    
+        debugbar::info($faqs);
 
         $view = View::make('front.faqs.index')
             ->with('faqs', $faqs);

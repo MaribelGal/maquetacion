@@ -86,12 +86,7 @@ $filtros = ['category' => $faqs_categories, 'search' => true, 'date_start' => tr
                                             class="formulario-contenido-panel-item-campo"
                                             name="locale[titulo][{{$localization->alias}}]" 
                                             placeholder="Inserta la pregunta"
-                                            value="
-                                            {{
-                                            isset($locale["titulo"][$localization->alias]) ? 
-                                            $locale["titulo"][$localization->alias] 
-                                            : ''
-                                            }}" />
+                                            value="{{isset($locale["titulo"][$localization->alias]) ? $locale["titulo"][$localization->alias]: ''}}" />
                                     </div>
 
                                 </div>
@@ -101,12 +96,7 @@ $filtros = ['category' => $faqs_categories, 'search' => true, 'date_start' => tr
                                     <div class="formulario-contenido-panel-item-campo">
                                         <textarea type="text" name="locale[description][{{$localization->alias}}]"
                                             class="formulario-contenido-panel-item-campo-descripcion ckeditor"
-                                            placeholder="Inserta la respuesta"> 
-                                            {{
-                                            isset($locale["description"][$localization->alias]) ? 
-                                            $locale["description"][$localization->alias] 
-                                            : ''
-                                            }}
+                                            placeholder="Inserta la respuesta">{{isset($locale["description"][$localization->alias]) ? $locale["description"][$localization->alias] : '' }}
                                           </textarea>
                                     </div>
                                 </div>
@@ -122,16 +112,30 @@ $filtros = ['category' => $faqs_categories, 'search' => true, 'date_start' => tr
                     @component('admin.components.form_locale')
 
                         @foreach ($localizations as $localization)
+
                             <div class="panel-locale">
+
                                 <div class="panel-locale-item contents {{ $loop->first ? 'active':''}}" data-locale="{{$localization->alias}}">
+
                                     <div class="formulario-contenido-panel-item" >
+                                        @include('admin.components.upload', [
+                                            'type' => 'image', 
+                                            'content' => 'featured', 
+                                            'alias' => $localization->alias,
+                                            'files' => $faq->images_featured
+                                        ])
+{{-- 
                                         <div class="drop-zone">
                                             <span class="drop-zone__prompt">Arrastra una imagen o clica para cargarla</span>
-                                            <input type="file" name="locale[file.{{$localization->alias}}]" class="drop-zone__input">
-                                        </div>
+                                            <input type="file" name="image[file.{{$localization->alias}}]" class="drop-zone__input">
+                                        </div> --}}
+
                                     </div>
+
                                 </div>
+
                             </div>
+
                         @endforeach
 
                     @endcomponent

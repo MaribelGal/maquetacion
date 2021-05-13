@@ -709,17 +709,22 @@ header {
   position: fixed;
   bottom: 0;
   left: 0;
-  background-color: red;
   width: 100vw;
   height: 3em;
   display: flex;
-  border-radius: 2em;
+  color: #305050;
+}
+
+.footer-options-item {
+  width: 50vw;
+  text-align: center;
+  border-radius: 0em;
   box-shadow: 0.2em 0.2em 0.3em #999999, -0.2em -0.2em 0.3em #ffffff;
   transform: all 10s;
-  color: #305050;
   background-color: #e0e0e0;
+  margin: 0.1em;
 }
-.footer-options.mousedown {
+.footer-options-item.mousedown {
   box-shadow: inset 5px 5px 10px #919191, inset -5px -5px 10px white;
   transform: all 1s;
 }

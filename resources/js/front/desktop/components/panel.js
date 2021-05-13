@@ -8,6 +8,7 @@ botonesDesplegable.forEach(botonDesplegable => {
     botonDesplegable.addEventListener("click", () => {
 
         console.log("click");
+        event.preventDefault();
         desplegableDescripciones.forEach(desplegableDescripcion => {
             if (desplegableDescripcion.id == botonDesplegable.value) {
 

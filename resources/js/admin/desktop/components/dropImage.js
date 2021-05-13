@@ -1,77 +1,72 @@
 const dropZoneInputs = document.querySelectorAll(".drop-zone__input");
 
 export let renderizarDropImage = () => {
-    dropZoneInputs.forEach((inputElement) => {
-        const dropZoneElement = inputElement.closest(".drop-zone");
 
-        dropZoneElement.addEventListener("click", (e) => {
+    let inputElements = document.querySelectorAll(".upload-input");
+
+    inputElements.forEach(inputElement => {
+    
+        let uploadElement = inputElement.closest(".upload");
+      
+        uploadElement.addEventListener("click", (e) => {
             inputElement.click();
         });
-
+      
         inputElement.addEventListener("change", (e) => {
             if (inputElement.files.length) {
-                updateThumbnail(dropZoneElement, inputElement.files[0]);
+                updateThumbnail(uploadElement, inputElement.files[0]);
             }
         });
-
-        dropZoneElement.addEventListener("dragover", (e) => {
+      
+        uploadElement.addEventListener("dragover", (e) => {
             e.preventDefault();
-            dropZoneElement.classList.add("drop-zone--over");
+            uploadElement.classList.add("upload-over");
         });
-
+      
         ["dragleave", "dragend"].forEach((type) => {
-            dropZoneElement.addEventListener(type, (e) => {
-                dropZoneElement.classList.remove("drop-zone--over");
+            uploadElement.addEventListener(type, (e) => {
+                uploadElement.classList.remove("upload-over");
             });
         });
-
-        dropZoneElement.addEventListener("drop", (e) => {
+      
+        uploadElement.addEventListener("drop", (e) => {
             e.preventDefault();
-
+        
             if (e.dataTransfer.files.length) {
-                inputElement.files = e.dataTransfer.files;
-                updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
+                    inputElement.files = e.dataTransfer.files;
+                    updateThumbnail(uploadElement, e.dataTransfer.files[0]);
             }
-
-            dropZoneElement.classList.remove("drop-zone--over");
+        
+            uploadElement.classList.remove("upload-over");
         });
     });
-}
-
-renderizarDropImage;
-
-/**
- * Updates the thumbnail on a drop zone element.
- *
- * @param {HTMLElement} dropZoneElement
- * @param {File} file
- */
-function updateThumbnail(dropZoneElement, file) {
-    let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
-
-    // First time - remove the prompt
-    if (dropZoneElement.querySelector(".drop-zone__prompt")) {
-        dropZoneElement.querySelector(".drop-zone__prompt").remove();
-    }
-
-    // First time - there is no thumbnail element, so lets create it
-    if (!thumbnailElement) {
-        thumbnailElement = document.createElement("div");
-        thumbnailElement.classList.add("drop-zone__thumb");
-        dropZoneElement.appendChild(thumbnailElement);
-    }
-
-    thumbnailElement.dataset.label = file.name;
-
-    // Show thumbnail for image files
-    if (file.type.startsWith("image/")) {
-        const reader = new FileReader();
-
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-            thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
-        };
-    } else {
-        thumbnailElement.style.backgroundImage = null;
+      
+    function updateThumbnail(uploadElement, file) {
+    
+        let thumbnailElement = uploadElement.querySelector(".upload-thumb");
+      
+        if (uploadElement.querySelector(".upload-prompt")) {
+            uploadElement.querySelector(".upload-prompt").remove();
+        }
+      
+        if (!thumbnailElement) {
+            thumbnailElement = document.createElement("div");
+            thumbnailElement.classList.add("upload-thumb");
+            uploadElement.appendChild(thumbnailElement);
+        }
+      
+        thumbnailElement.dataset.label = file.name;
+      
+        if (file.type.startsWith("image/")) {
+            let reader = new FileReader();
+        
+            reader.readAsDataURL(file);
+    
+            reader.onload = () => {
+                thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
+            };
+        } else {
+            thumbnailElement.style.backgroundImage = null;
+        }
     }
 }

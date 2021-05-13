@@ -1,5 +1,5 @@
 <div class="footer-options mobile">
-            <div class="tabla-formulario-selectorpanel mobile" id="boton-selectorpanel">
+            <div class="footer-options-item mobile" id="boton-selectorpanel">
                 <div class="boton-selectorpanel disable" id="boton-selectorpanel-formulario">
                     <svg viewBox="0 0 24 24">
                         <path fill="currentColor"
@@ -13,7 +13,7 @@
                     </svg>
                 </div>
             </div>
-            <div class="formulario-contenido-panel-item-boton mobile" id=boton-guardar-mobile>
+            <div class="footer-options-item mobile" id=boton-guardar-mobile>
                 <svg viewBox="0 0 24 24">
                     <path fill="currentColor"
                         d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" />

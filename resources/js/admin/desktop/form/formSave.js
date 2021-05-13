@@ -1,15 +1,3 @@
-import { renderizarTabla } from "../components/table";
-import { renderizarCkeditor } from "../ckeditor";
-import { showNotification } from "../components/notifications";
-import { startWait, stopWait } from '../components/wait';
-import { renderizarDropImage } from "../components/dropImage";
-import { renderizarFormTab } from "./formTab";
-import { renderizarFormAction } from "./formAction";
-import { renderizarFormTablocale } from "./formTabLocale";
-import { renderizarFormSave } from "./formSave";
-
-const tabla = document.getElementById("tabla");
-//const formulario = document.getElementById("formulario");
 
 
 export let renderizarFormulario = () => {
@@ -90,6 +78,11 @@ export let renderizarFormulario = () => {
     });
 
 
+
+
+};
+
+let buttonSaveAnimation = () => {
     botonGuardar.addEventListener("mousedown", () => {
         botonGuardar.parentElement.classList.add("mousedown");
         console.log("pulsado");
@@ -99,12 +92,4 @@ export let renderizarFormulario = () => {
         botonGuardar.parentElement.classList.remove("mousedown");
         console.log("levantado");
     });
-
-    renderizarFormTab();
-    renderizarFormAction();
-    renderizarFormTablocale();
-};
-
-renderizarFormulario();
-renderizarDropImage();
-renderizarCkeditor();
+}

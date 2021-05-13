@@ -1995,6 +1995,7 @@ var desplegableIconos = document.querySelectorAll(".desplegable-icono");
 botonesDesplegable.forEach(function (botonDesplegable) {
   botonDesplegable.addEventListener("click", function () {
     console.log("click");
+    event.preventDefault();
     desplegableDescripciones.forEach(function (desplegableDescripcion) {
       if (desplegableDescripcion.id == botonDesplegable.value) {
         if (desplegableDescripcion.classList.contains("activo")) {
