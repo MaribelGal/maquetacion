@@ -116,21 +116,27 @@ $filtros = ['category' => $faqs_categories, 'search' => true, 'date_start' => tr
                             <div class="panel-locale">
 
                                 <div class="panel-locale-item contents {{ $loop->first ? 'active':''}}" data-locale="{{$localization->alias}}">
-
+                                    
                                     <div class="formulario-contenido-panel-item" >
                                         @include('admin.components.upload', [
                                             'type' => 'image', 
                                             'content' => 'featured', 
                                             'alias' => $localization->alias,
-                                            'files' => $faq->images_featured
+                                            'files' => $faq->image_featured_preview
                                         ])
-{{-- 
-                                        <div class="drop-zone">
-                                            <span class="drop-zone__prompt">Arrastra una imagen o clica para cargarla</span>
-                                            <input type="file" name="image[file.{{$localization->alias}}]" class="drop-zone__input">
-                                        </div> --}}
+                                    </div>
+
+                                    <div>Seleccion multiple:</div>
+                                    <div class="formulario-contenido-panel-item" >
+                                        @include('admin.components.upload', [
+                                            'type' => 'images', 
+                                            'content' => 'grid', 
+                                            'alias' => $localization->alias,
+                                            'files' => $faq->image_featured_preview
+                                        ])
 
                                     </div>
+
 
                                 </div>
 
@@ -152,6 +158,8 @@ $filtros = ['category' => $faqs_categories, 'search' => true, 'date_start' => tr
 
 
 @section('table')
+
+
     @isset($faqs)
         <div class="tabla-contenedor" id="tabla-faqs">
             <div class="tabla-alerta " id="alerta">

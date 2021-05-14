@@ -1994,10 +1994,8 @@ var desplegableDescripciones = document.querySelectorAll(".desplegable-descripci
 var desplegableIconos = document.querySelectorAll(".desplegable-icono");
 botonesDesplegable.forEach(function (botonDesplegable) {
   botonDesplegable.addEventListener("click", function () {
-    console.log("click");
-    event.preventDefault();
     desplegableDescripciones.forEach(function (desplegableDescripcion) {
-      if (desplegableDescripcion.id == botonDesplegable.value) {
+      if (desplegableDescripcion.dataset.faq_id == botonDesplegable.dataset.faq_id) {
         if (desplegableDescripcion.classList.contains("activo")) {
           desplegableDescripcion.classList.remove("activo");
           botonDesplegable.querySelector(".desplegable-icono").classList.remove("activo");

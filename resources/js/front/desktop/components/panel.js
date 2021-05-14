@@ -7,11 +7,10 @@ botonesDesplegable.forEach(botonDesplegable => {
     
     botonDesplegable.addEventListener("click", () => {
 
-        console.log("click");
-        event.preventDefault();
         desplegableDescripciones.forEach(desplegableDescripcion => {
-            if (desplegableDescripcion.id == botonDesplegable.value) {
 
+            if (desplegableDescripcion.dataset.faq_id == botonDesplegable.dataset.faq_id) {
+                
                 if (desplegableDescripcion.classList.contains("activo")) {
                     
                     desplegableDescripcion.classList.remove("activo");

@@ -95,7 +95,7 @@ class FaqController extends Controller
 
     public function store(FaqRequest $request)
     {
-
+        DebugBar::info('hola mira aqui');
         DebugBar::info(request('images'));
 
         $faq = $this->faq->updateOrCreate([
@@ -114,6 +114,7 @@ class FaqController extends Controller
         // DebugBar::info($locale);
         if(request('images')){
             $images = $this->image->storeRequest(request('images'), 'webp', $faq->id);
+            
             DebugBar::info($images);
         }
 

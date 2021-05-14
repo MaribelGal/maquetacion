@@ -2122,7 +2122,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "renderizarDropImage": () => (/* binding */ renderizarDropImage)
 /* harmony export */ });
-var dropZoneInputs = document.querySelectorAll(".drop-zone__input");
+// const dropZoneInputs = document.querySelectorAll(".drop-zone__input");
 var renderizarDropImage = function renderizarDropImage() {
   var inputElements = document.querySelectorAll(".upload-input");
   inputElements.forEach(function (inputElement) {
@@ -2132,7 +2132,7 @@ var renderizarDropImage = function renderizarDropImage() {
     });
     inputElement.addEventListener("change", function (e) {
       if (inputElement.files.length) {
-        updateThumbnail(uploadElement, inputElement.files[0]);
+        updateThumbnail(uploadElement, inputElement.files);
       }
     });
     uploadElement.addEventListener("dragover", function (e) {
@@ -2156,30 +2156,39 @@ var renderizarDropImage = function renderizarDropImage() {
     });
   });
 
-  function updateThumbnail(uploadElement, file) {
-    var thumbnailElement = uploadElement.querySelector(".upload-thumb");
+  function updateThumbnail(uploadElement, files) {
+    console.log(files.length);
 
-    if (uploadElement.querySelector(".upload-prompt")) {
-      uploadElement.querySelector(".upload-prompt").remove();
-    }
+    var _loop = function _loop(index) {
+      var file = files[index];
+      console.log(files[index]);
+      var thumbnailElement = uploadElement.querySelector(".upload-thumb");
 
-    if (!thumbnailElement) {
+      if (uploadElement.querySelector(".upload-prompt")) {
+        uploadElement.querySelector(".upload-prompt").remove();
+      } // if (!thumbnailElement) {
+
+
       thumbnailElement = document.createElement("div");
       thumbnailElement.classList.add("upload-thumb");
-      uploadElement.appendChild(thumbnailElement);
-    }
+      uploadElement.appendChild(thumbnailElement); // }
 
-    thumbnailElement.dataset.label = file.name;
+      thumbnailElement.dataset.label = file.name;
 
-    if (file.type.startsWith("image/")) {
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
+      if (file.type.startsWith("image/")) {
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
 
-      reader.onload = function () {
-        thumbnailElement.style.backgroundImage = "url('".concat(reader.result, "')");
-      };
-    } else {
-      thumbnailElement.style.backgroundImage = null;
+        reader.onload = function () {
+          thumbnailElement.style.backgroundImage = "url('".concat(reader.result, "')");
+        };
+      } else {
+        thumbnailElement.style.backgroundImage = null;
+      }
+    };
+
+    for (var index = 0; index < files.length; index++) {
+      _loop(index);
     }
   }
 };

@@ -16,7 +16,7 @@ $route = 'faqs';
 
         @foreach($faqs as $faq)
                 <div class="desplegable-item">
-                    <div class="desplegable-boton" value="{{$faq->id}}">
+                    <div class="desplegable-boton" data-faq_id="{{$faq->id}}">
                         <div class="desplegable-titulo">
                             <p class="titulo">
                                 {{isset($faq->locale['titulo'])? $faq->locale['titulo'] : '' }}
@@ -30,11 +30,20 @@ $route = 'faqs';
                         </div>
                     </div>
 
-                    <div class="desplegable-descripcion" id="{{$faq->id}}">
-                        <p>
+                    <div class="desplegable-descripcion" data-faq_id="{{$faq->id}}">
+                        <p class="desplegable-descripcion-texto">
                             {!!isset($faq->locale['description'])? $faq->locale['description'] : '' !!}
                         </p>
+                        
+                        <div class="desplegable-descripcion-imagen">
+                            <img 
+                            src="{{Storage::url($faq->images['path_desktop']['featured'])}}" 
+                            alt="" 
+                            title="" />
+                        </div>
+                        
                     </div>
+                    
                 </div>
         @endforeach
 

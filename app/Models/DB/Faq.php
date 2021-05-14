@@ -12,7 +12,7 @@ class Faq extends DBModel
 {
 
     protected $table = 't_faqs';
-    protected $with = ['category'];
+    protected $with = ['category', 'images'];
 
     public function category()
     {
@@ -31,12 +31,28 @@ class Faq extends DBModel
 
     public function images()
     {
-        return $this->hasMany(ImageOriginal::class, 'entity_id')->where('entity', 'faqs');
+        return $this->hasMany(ImageResized::class, 'entity_id')->where('entity', 'faqs');
     }
 
 
+    public function images_preview()
+    {
+        return $this->hasMany(ImageResized::class, 'entity_id')->where('entity', 'faqs')->where('grid', 'preview');
+    }
 
-    public function images_featured()
+    public function images_desktop()
+    {
+        return $this->hasMany(ImageResized::class, 'entity_id')->where('entity', 'faqs')->where('grid', 'desktop');
+    }
+
+    public function images_preview_featured()
+    {
+        return $this->images_preview()->where('content', 'featured');
+    }
+
+    
+
+    public function image_featured_preview()
     {
         return $this->hasMany(ImageResized::class, 'entity_id')->where('grid', 'preview')->where('content', 'featured')->where('entity', 'faqs');
     }
