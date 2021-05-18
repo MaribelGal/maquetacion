@@ -15,7 +15,7 @@ class CreateTImageOriginal extends Migration
     {
         Schema::create('t_image_original', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('path', 255);
+            // $table->string('path', 255);
             $table->string('entity',64);
             $table->integer('entity_id')->unsigned()->index();
             $table->string('language',64);

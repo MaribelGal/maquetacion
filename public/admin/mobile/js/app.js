@@ -2023,7 +2023,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @ckeditor/ckeditor5-build-classic */ "./node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js");
 /* harmony import */ var _ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_0__);
-
+ // import '../../../sass/admin/desktop/ck-editor/custom.css';
 
 __webpack_require__(/*! @ckeditor/ckeditor5-build-classic/build/translations/es.js */ "./node_modules/@ckeditor/ckeditor5-build-classic/build/translations/es.js");
 
@@ -2059,20 +2059,47 @@ var renderizarCkeditor = function renderizarCkeditor() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "renderizarDropImage": () => (/* binding */ renderizarDropImage)
+/* harmony export */   "renderizarDropImage": () => (/* binding */ renderizarDropImage),
+/* harmony export */   "appendInputFiles": () => (/* binding */ appendInputFiles),
+/* harmony export */   "resetDropImage": () => (/* binding */ resetDropImage)
 /* harmony export */ });
 // const dropZoneInputs = document.querySelectorAll(".drop-zone__input");
+var filesToUpload;
+var fileIdCounter;
+var fileIdCounterOnload;
 var renderizarDropImage = function renderizarDropImage() {
-  var inputElements = document.querySelectorAll(".upload-input");
-  inputElements.forEach(function (inputElement) {
-    var uploadElement = inputElement.closest(".upload");
+  var imagesContainers = document.querySelectorAll(".images-container");
+  imagesContainers.forEach(function (imagesContainer) {
+    var inputElement = imagesContainer.querySelector(".upload-input");
+    var previewContainer = imagesContainer.querySelector(".preview");
+    filesToUpload = {};
+    fileIdCounter = 0;
+    fileIdCounterOnload = 0;
+    var uploadElement = imagesContainer.querySelector(".upload");
     uploadElement.addEventListener("click", function (e) {
       inputElement.click();
     });
     inputElement.addEventListener("change", function (e) {
       if (inputElement.files.length) {
-        updateThumbnail(uploadElement, inputElement.files);
+        var alias = inputElement.dataset.alias;
+        var content = inputElement.dataset.content;
+
+        for (var index = 0; index < inputElement.files.length; index++) {
+          fileIdCounter++;
+          var file = inputElement.files[index];
+          var fileId = alias + "." + content + "." + fileIdCounter;
+          filesToUpload[fileId] = {
+            file: file,
+            alt: "",
+            title: ""
+          };
+          console.log(filesToUpload);
+          updateThumbnail(previewContainer, file, fileId);
+        }
       }
+
+      console.log(filesToUpload);
+      filesToUpload = renderizarAcciones(filesToUpload);
     });
     uploadElement.addEventListener("dragover", function (e) {
       e.preventDefault();
@@ -2088,48 +2115,136 @@ var renderizarDropImage = function renderizarDropImage() {
 
       if (e.dataTransfer.files.length) {
         inputElement.files = e.dataTransfer.files;
-        updateThumbnail(uploadElement, e.dataTransfer.files[0]);
+        updateThumbnail(previewContainer, e.dataTransfer.files[0]);
       }
 
       uploadElement.classList.remove("upload-over");
     });
   });
 
-  function updateThumbnail(uploadElement, files) {
-    console.log(files.length);
+  function updateThumbnail(previewContainer, file, fileId) {
+    var thumbnailElementPrototype = previewContainer.querySelector(".upload-thumb-prototype");
+    console.log(previewContainer);
+    var thumbnailElement = thumbnailElementPrototype.cloneNode(true);
+    var uploadEditPanel = thumbnailElement.querySelector(".upload-edit-panel");
+    uploadEditPanel.dataset.fileId = fileId;
+    thumbnailElement.classList.replace("upload-thumb-prototype", "upload-thumb"); // thumbnailElement.appendChild(thumbnailElementDelete);
 
-    var _loop = function _loop(index) {
-      var file = files[index];
-      console.log(files[index]);
-      var thumbnailElement = uploadElement.querySelector(".upload-thumb");
+    previewContainer.appendChild(thumbnailElement); // }
 
-      if (uploadElement.querySelector(".upload-prompt")) {
-        uploadElement.querySelector(".upload-prompt").remove();
-      } // if (!thumbnailElement) {
+    thumbnailElement.dataset.label = file.name;
+    thumbnailElement.dataset.fileid = fileId;
+    console.log(thumbnailElement.querySelector(".upload-edit-panel-image")); // thumbnailElementEditImage = thumbnailElement.querySelector(".upload-edit-panel-image");
+    // console.log(thumbnailElementEditImage);
 
+    if (file.type.startsWith("image/")) {
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
 
-      thumbnailElement = document.createElement("div");
-      thumbnailElement.classList.add("upload-thumb");
-      uploadElement.appendChild(thumbnailElement); // }
-
-      thumbnailElement.dataset.label = file.name;
-
-      if (file.type.startsWith("image/")) {
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-
-        reader.onload = function () {
-          thumbnailElement.style.backgroundImage = "url('".concat(reader.result, "')");
-        };
-      } else {
-        thumbnailElement.style.backgroundImage = null;
-      }
-    };
-
-    for (var index = 0; index < files.length; index++) {
-      _loop(index);
+      reader.onload = function () {
+        thumbnailElement.style.backgroundImage = "url('".concat(reader.result, "')");
+        thumbnailElement.querySelector(".upload-edit-panel-image").style.backgroundImage = "url('".concat(reader.result, "')");
+      };
+    } else {
+      thumbnailElement.style.backgroundImage = null;
+      thumbnailElement.querySelector(".upload-edit-panel-image").style.backgroundImage = null;
     }
   }
+};
+
+var renderizarAcciones = function renderizarAcciones(filesToUpload) {
+  var deleteUploadedElements = document.querySelectorAll(".upload-thumb-delete");
+  var editUploadedElements = document.querySelectorAll(".upload-thumb-edit");
+  var editPanelUploadedElements = document.querySelectorAll(".upload-edit-panel");
+  deleteUploadedElements.forEach(function (deleteUploadedElement) {
+    var deleteButtonUploadedElements = deleteUploadedElement.querySelector(".upload-thumb-delete-button");
+    deleteButtonUploadedElements.addEventListener("click", function () {
+      var uploadThumb = deleteUploadedElement.closest(".upload-thumb");
+      var fileId = uploadThumb.dataset.fileid;
+      delete filesToUpload[fileId];
+      deleteUploadedElement.closest(".upload-thumb").remove();
+    });
+  });
+  editUploadedElements.forEach(function (editUploadedElement) {
+    var editButtonUploadedElements = editUploadedElement.querySelector(".upload-thumb-edit-button");
+    var editPanelUploadedElement = editUploadedElement.querySelector(".upload-edit-panel");
+    editButtonUploadedElements.addEventListener("click", function () {
+      console.log("CLICK TOGGLE VISIBLE");
+      editPanelUploadedElement.classList.toggle("visible");
+    });
+  });
+  editPanelUploadedElements.forEach(function (editPanelUploadedElement) {
+    console.log(editPanelUploadedElement);
+    var altUploadedElement = editPanelUploadedElement.querySelector(".upload-edit-panel-alt-input");
+    var titleUploadedElement = editPanelUploadedElement.querySelector(".upload-edit-panel-alt-input");
+    var saveUploadedElement = editPanelUploadedElement.querySelector(".upload-edit-panel-save");
+    var closeUploadedElement = editPanelUploadedElement.querySelector(".upload-edit-panel-close");
+    saveUploadedElement.addEventListener("click", function () {
+      var uploadThumb = editPanelUploadedElement.closest(".upload-thumb");
+      var fileId = uploadThumb.dataset.fileid;
+      filesToUpload[fileId].alt = altUploadedElement.value;
+      filesToUpload[fileId].title = titleUploadedElement.value;
+      console.log(filesToUpload);
+    });
+    closeUploadedElement.addEventListener("click", function () {
+      console.log("CLICK TOGGLE VISIBLE");
+      editPanelUploadedElement.classList.toggle("visible");
+    });
+  });
+  return filesToUpload;
+};
+
+var appendInputFiles = function appendInputFiles(datosFormulario) {
+  var counter = 0;
+
+  for (var files in filesToUpload) {
+    counter++;
+    var file = filesToUpload[files].file;
+    var alt = filesToUpload[files].alt;
+    var title = filesToUpload[files].title;
+    var alias = files.split(".")[0];
+    var content = files.split(".")[1]; // let fileId = alias + "." + content + "." + fileIdCounter;
+
+    var key = "images[" + content + "." + alias + "][" + alt + "." + counter + "." + title + "]";
+    console.log();
+    datosFormulario.append(key, file);
+  }
+
+  return datosFormulario;
+};
+var resetDropImage = function resetDropImage() {
+  var uploadThumbs = document.querySelectorAll(".upload-thumb");
+  uploadThumbs.forEach(function (uploadThumb) {
+    uploadThumb.remove();
+  });
+  renderizarDropImage();
+};
+
+/***/ }),
+
+/***/ "./resources/js/admin/desktop/components/editInfoImage.js":
+/*!****************************************************************!*\
+  !*** ./resources/js/admin/desktop/components/editInfoImage.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderizarEditInfoImage": () => (/* binding */ renderizarEditInfoImage)
+/* harmony export */ });
+var deleteUploadedElements = document.querySelectorAll(".uploaded-thumb-delete");
+var editUploadedElements = document.querySelectorAll(".uploaded-thumb-edit");
+var editPanelUploadedElements = document.querySelectorAll(".uploaded-edit-panel");
+var uploadedElements = document.querySelectorAll(".uploaded-thumb");
+var renderizarEditInfoImage = function renderizarEditInfoImage() {
+  uploadedElements.forEach(function (uploadedElement) {
+    var editButton_uploadedElement = uploadedElement.querySelector(".uploaded-thumb-edit-button");
+    var editPanelUploadedElement = uploadedElement.querySelector(".upload-edit-panel");
+    editButton_uploadedElement.addEventListener("click", function () {
+      editPanelUploadedElement.classList.toggle("visible");
+    });
+  });
 };
 
 /***/ }),
@@ -2206,11 +2321,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _form_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../form/form */ "./resources/js/admin/desktop/form/form.js");
 /* harmony import */ var _ckeditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ckeditor */ "./resources/js/admin/desktop/ckeditor.js");
+/* harmony import */ var _components_dropImage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/dropImage */ "./resources/js/admin/desktop/components/dropImage.js");
+/* harmony import */ var _components_editInfoImage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/editInfoImage */ "./resources/js/admin/desktop/components/editInfoImage.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
 
 
 
@@ -2238,6 +2357,8 @@ var renderizarTabla = function renderizarTabla() {
                     console.log(respuesta.data.form);
                     (0,_form_form__WEBPACK_IMPORTED_MODULE_1__.renderizarFormulario)();
                     (0,_ckeditor__WEBPACK_IMPORTED_MODULE_2__.renderizarCkeditor)();
+                    (0,_components_dropImage__WEBPACK_IMPORTED_MODULE_3__.renderizarDropImage)();
+                    (0,_components_editInfoImage__WEBPACK_IMPORTED_MODULE_4__.renderizarEditInfoImage)();
                   });
 
                 case 3:
@@ -2398,17 +2519,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_notifications__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/notifications */ "./resources/js/admin/desktop/components/notifications.js");
 /* harmony import */ var _components_wait__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/wait */ "./resources/js/admin/desktop/components/wait.js");
 /* harmony import */ var _components_dropImage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/dropImage */ "./resources/js/admin/desktop/components/dropImage.js");
-/* harmony import */ var _formTab__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./formTab */ "./resources/js/admin/desktop/form/formTab.js");
-/* harmony import */ var _formAction__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./formAction */ "./resources/js/admin/desktop/form/formAction.js");
-/* harmony import */ var _formTabLocale__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./formTabLocale */ "./resources/js/admin/desktop/form/formTabLocale.js");
-/* harmony import */ var _formSave__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./formSave */ "./resources/js/admin/desktop/form/formSave.js");
+/* harmony import */ var _components_editInfoImage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/editInfoImage */ "./resources/js/admin/desktop/components/editInfoImage.js");
+/* harmony import */ var _formTab__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./formTab */ "./resources/js/admin/desktop/form/formTab.js");
+/* harmony import */ var _formAction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./formAction */ "./resources/js/admin/desktop/form/formAction.js");
+/* harmony import */ var _formTabLocale__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./formTabLocale */ "./resources/js/admin/desktop/form/formTabLocale.js");
+/* harmony import */ var _formSave__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./formSave */ "./resources/js/admin/desktop/form/formSave.js");
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -2431,13 +2553,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
+
 var tabla = document.getElementById("tabla"); //const formulario = document.getElementById("formulario");
 
 var renderizarFormulario = function renderizarFormulario() {
   var formularios = document.querySelectorAll(".admin-formulario");
   var botonGuardar = document.getElementById("boton-guardar-desktop");
   botonGuardar.addEventListener("click", function (event) {
-    // document.getElementById('item-error').innerHTML = ''; 
     formularios.forEach(function (formulario) {
       var datosFormulario = new FormData(formulario);
 
@@ -2451,26 +2575,12 @@ var renderizarFormulario = function renderizarFormulario() {
               key = _ref2[0],
               value = _ref2[1];
 
-          // console.log(key);
-          // console.log(value);
           datosFormulario.append(key, value.getData());
         });
       }
 
-      var _iterator = _createForOfIteratorHelper(datosFormulario.entries()),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var entrada = _step.value;
-          console.log(entrada[0] + ": " + entrada[1]);
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
-
+      datosFormulario = (0,_components_dropImage__WEBPACK_IMPORTED_MODULE_5__.appendInputFiles)(datosFormulario);
+      showDataForm(datosFormulario);
       var url = formulario.action;
 
       var enviarPeticionPost = /*#__PURE__*/function () {
@@ -2489,7 +2599,8 @@ var renderizarFormulario = function renderizarFormulario() {
                     (0,_components_wait__WEBPACK_IMPORTED_MODULE_4__.stopWait)();
                     (0,_components_notifications__WEBPACK_IMPORTED_MODULE_3__.showNotification)("success", respuesta.data.message, 7000);
                     renderizarFormulario();
-                    (0,_components_dropImage__WEBPACK_IMPORTED_MODULE_5__.renderizarDropImage)();
+                    (0,_components_dropImage__WEBPACK_IMPORTED_MODULE_5__.resetDropImage)();
+                    (0,_components_editInfoImage__WEBPACK_IMPORTED_MODULE_6__.renderizarEditInfoImage)();
                     (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
                   });
 
@@ -2538,13 +2649,30 @@ var renderizarFormulario = function renderizarFormulario() {
     botonGuardar.parentElement.classList.remove("mousedown");
     console.log("levantado");
   });
-  (0,_formTab__WEBPACK_IMPORTED_MODULE_6__.renderizarFormTab)();
-  (0,_formAction__WEBPACK_IMPORTED_MODULE_7__.renderizarFormAction)();
-  (0,_formTabLocale__WEBPACK_IMPORTED_MODULE_8__.renderizarFormTablocale)();
+  (0,_formTab__WEBPACK_IMPORTED_MODULE_7__.renderizarFormTab)();
+  (0,_formAction__WEBPACK_IMPORTED_MODULE_8__.renderizarFormAction)();
+  (0,_formTabLocale__WEBPACK_IMPORTED_MODULE_9__.renderizarFormTablocale)();
 };
 renderizarFormulario();
 (0,_components_dropImage__WEBPACK_IMPORTED_MODULE_5__.renderizarDropImage)();
+(0,_components_editInfoImage__WEBPACK_IMPORTED_MODULE_6__.renderizarEditInfoImage)();
 (0,_ckeditor__WEBPACK_IMPORTED_MODULE_2__.renderizarCkeditor)();
+
+var showDataForm = function showDataForm(datosFormulario) {
+  var _iterator = _createForOfIteratorHelper(datosFormulario.entries()),
+      _step;
+
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var entrada = _step.value;
+      console.log(entrada[0] + ": " + entrada[1]);
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+};
 
 /***/ }),
 
@@ -2636,7 +2764,7 @@ var renderizarFormAction = function renderizarFormAction() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "renderizarFormulario": () => (/* binding */ renderizarFormulario)
+/* harmony export */   "renderizarFormSave": () => (/* binding */ renderizarFormSave)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
@@ -2660,7 +2788,7 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var renderizarFormulario = function renderizarFormulario() {
+var renderizarFormSave = function renderizarFormSave() {
   var formularios = document.querySelectorAll(".admin-formulario");
   var botonGuardar = document.getElementById("boton-guardar-desktop");
   botonGuardar.addEventListener("click", function (event) {
@@ -2683,6 +2811,21 @@ var renderizarFormulario = function renderizarFormulario() {
           datosFormulario.append(key, value.getData());
         });
       }
+
+      var inputsFiles = document.querySelectorAll(".upload-input");
+      console.log("AQUII");
+      console.log(inputsFiles);
+      inputsFiles.forEach(function (inputFile) {
+        console.log(inputFile);
+        console.log(inputFile.files.length);
+
+        if (inputFile.files.length > 0) {
+          console.log("hay mas de una file");
+          inputFile.files.forEach(function (file) {
+            datosFormulario.append("prueba", file);
+          });
+        }
+      });
 
       var _iterator = _createForOfIteratorHelper(datosFormulario.entries()),
           _step;
@@ -2757,6 +2900,7 @@ var renderizarFormulario = function renderizarFormulario() {
       enviarPeticionPost();
     });
   });
+  buttonSaveAnimation();
 };
 
 var buttonSaveAnimation = function buttonSaveAnimation() {

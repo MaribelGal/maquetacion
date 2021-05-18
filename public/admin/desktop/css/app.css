@@ -721,10 +721,29 @@ select {
 .upload-prompt {
   position: absolute;
   width: 15%;
-  z-index: 999;
+  z-index: 2;
 }
 
 .upload-input {
+  display: none;
+}
+
+.preview {
+  align-items: center;
+  border: 0.2em dashed #02a8b1;
+  color: #cccccc;
+  cursor: pointer;
+  display: flex;
+  font-size: 1.2em;
+  font-weight: 500;
+  height: 30vh;
+  justify-content: center;
+  margin-top: 1em;
+  padding: 1em;
+  text-align: center;
+}
+
+.upload-thumb-prototype {
   display: none;
 }
 
@@ -735,20 +754,31 @@ select {
   overflow: hidden;
   background-color: #cccccc;
   background-size: cover;
-  position: relative;
 }
 
-.upload-thumb::after {
-  content: attr(data-label);
+.upload-edit-panel {
+  display: none;
+}
+
+.upload-edit-panel.visible {
   position: absolute;
-  bottom: 0;
-  left: 0;
+  top: 20%;
+  color: red;
+  left: 20%;
+  border: solid;
+  z-index: 3;
+  background-color: brown !important;
+  width: 70vw;
+  height: 70vh;
+  overflow: auto;
+  display: flex;
+}
+
+.upload-edit-panel-image {
+  background: no-repeat;
+  background-size: contain;
   width: 100%;
-  padding: 5px 0;
-  color: #ffffff;
-  background: rgba(0, 0, 0, 0.75);
-  font-size: 14px;
-  text-align: center;
+  height: 100%;
 }
 
 .tabla {
@@ -1180,9 +1210,6 @@ select {
   margin: 1em;
   display: contents;
 }
-#formulario * {
-  background-color: transparent;
-}
 
 .admin-formulario {
   border-radius: 0.5em;
@@ -1261,7 +1288,10 @@ select {
   outline: none;
 }
 
-.ck-editor__editable {
+#ckeditor * {
+  background-color: transparent;
+}
+#ckeditor .ck-editor__editable {
   min-height: 7em;
 }
 

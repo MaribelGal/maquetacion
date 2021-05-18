@@ -15,51 +15,64 @@ class Image
 {
 	protected $entity;
 	protected $extension_conversion;
-	
+
 	public function setEntity($entity)
 	{
 		$this->entity = $entity;
 	}
 
-	public function storeRequest($request, $extension_conversion, $foreign_id){
-
+	public function storeRequest($requestImages, $extension_conversion, $foreign_id)
+	{
 		$this->extension_conversion = $extension_conversion;
-		
-		foreach($request as $key => $file){
 
-			$key = str_replace(['-', '_'], ".", $key); 
-			$explode_key = explode('.', $key);
-			$content = reset($explode_key);
-			$language = end($explode_key);
+		foreach ($requestImages as $keyContentAlias => $valueField) {
 
-			$image = $this->store($file, $foreign_id, $content, $language);
-			$this->store_resize($file, $foreign_id, $content, $language, $image->path);
+			foreach ($valueField as $keyAltTitle => $file) {
+
+				$keyContentAlias = str_replace(['-', '_'], ".", $keyContentAlias);
+				$explode_keyContentAlias = explode('.', $keyContentAlias);
+				$content = reset($explode_keyContentAlias);
+				$language = end($explode_keyContentAlias);
+
+				$keyAltTitle = str_replace(['-', '_'], ".", $keyAltTitle);
+				$explode_keyAltTitle = explode('.', $keyAltTitle);
+				$alt = reset($explode_keyAltTitle);
+				$title = end($explode_keyAltTitle);
+
+				$image = $this->store($file, $foreign_id, $content, $language);
+				$images[] = $this->store_resize($file, $foreign_id, $content, $language, $alt, $title, $image->path);
+			}
 		}
+
+		return $images;
 	}
 
-	public function store($file, $entity_id, $content, $language){
+	public function store($file, $entity_id, $content, $language)
+	{
 
 		$name = strtolower(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
 		$name = str_replace(" ", "-", $name);
 		$file_extension = strtolower(pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION));
 
-		$filename = $name .'.'. $file_extension;
+		$filename = $name . '.' . $file_extension;
 
-		if($file_extension != 'svg'){
+		if ($file_extension != 'svg') {
 			$data = getimagesize($file);
 			$width = $data[0];
 			$height = $data[1];
 		}
-		
+
 		$settings = ImageConfiguration::where('entity', $this->entity)
-		->where('content', $content)
-		->where('grid', 'original')
-		->first();
+			->where('content', $content)
+			->where('grid', 'original')
+			->first();
+
 
 		$path = '/' . $entity_id . '/' . $language . '/' . $content . '/original/' . $name . '.' . $file_extension;
 		$path = str_replace(" ", "-", $path);
 
-		if($settings->type == 'single'){
+
+		if ($settings->type == 'single') {
 
 			Storage::disk($this->entity)->deleteDirectory('/' . $entity_id . '/' . $language . '/' . $content . '/original');
 			Storage::disk($this->entity)->putFileAs('/' . $entity_id . '/' . $language . '/' . $content . '/original', $file, $filename);
@@ -68,24 +81,23 @@ class Image
 				'entity_id' => $entity_id,
 				'entity' => $this->entity,
 				'language' => $language,
-				'content' => $content],[
+				'content' => $content
+			], [
 				'path' => $this->entity . $path,
 				'filename' => $filename,
-				'mime_type' => 'image/'. $file_extension,
+				'mime_type' => 'image/' . $file_extension,
 				'size' => $file->getSize(),
-				'width' => isset($width)? $width : null,
-				'height' => isset($height)? $height : null,
+				'width' => isset($width) ? $width : null,
+				'height' => isset($height) ? $height : null,
 			]);
-		}
-
-		elseif($settings->type == 'collection'){
+		} elseif ($settings->type == 'collection') {
 
 			$counter = 2;
- 
+
 			while (Storage::disk($this->entity)->exists($path)) {
-				
-				$path = '/' . $entity_id . '/' . $language . '/' . $content . '/original/' . $name.'-'. $counter.'.'. $file_extension;
-				$filename =  $name.'-'. $counter.'.'. $file_extension;
+
+				$path = '/' . $entity_id . '/' . $language . '/' . $content . '/original/' . $name . '-' . $counter . '.' . $file_extension;
+				$filename =  $name . '-' . $counter . '.' . $file_extension;
 				$counter++;
 			}
 
@@ -95,85 +107,86 @@ class Image
 				'entity_id' => $entity_id,
 				'entity' => $this->entity,
 				'language' => $language,
-				'content' => $content],[
+				'content' => $content,
 				'path' => $this->entity . $path,
 				'filename' => $filename,
-				'mime_type' => 'image/'. $file_extension,
+				'mime_type' => 'image/' . $file_extension,
 				'size' => $file->getSize(),
-				'width' => isset($width)? $width : null,
-				'height' => isset($height)? $height : null,
+				'width' => isset($width) ? $width : null,
+				'height' => isset($height) ? $height : null,
 			]);
 		}
 
 		return $image;
 	}
 
-	public function store_resize($file, $entity_id, $content, $language, $original_path){
+	public function store_resize($file, $entity_id, $content, $language, $alt, $title, $original_path)
+	{
 
 		$name = strtolower(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
 		$file_extension = strtolower(pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION));
 		$settings = ImageConfiguration::where('entity', $this->entity)
-					->where('content', $content)
-					->where('grid', '!=', 'original')
-					->get();
+			->where('content', $content)
+			->where('grid', '!=', 'original')
+			->get();
 
 		foreach ($settings as $setting => $value) {
 
 			$content_accepted = explode("/", $value->content_accepted);
 
-			if(!in_array($file_extension, $content_accepted)){
+			if (!in_array($file_extension, $content_accepted)) {
 				continue;
 			}
-			
-			if($file_extension == 'svg'){
-				$directory = '/' . $entity_id . '/' . $language . $value->directory; 
+
+			if ($file_extension == 'svg') {
+				$directory = '/' . $entity_id . '/' . $language . $value->directory;
 				$path = $directory . '/' . $name . '.' . $file_extension;
 				$path = str_replace(" ", "-", $path);
 				$filename = $name . '.' . $file_extension;
-			}else{
-				$directory = '/' . $entity_id . '/' . $language . $value->directory; 
+			} else {
+				$directory = '/' . $entity_id . '/' . $language . $value->directory;
 				$path = $directory . '/' . $name . '.' . $this->extension_conversion;
 				$path = str_replace(" ", "-", $path);
 				$filename = $name . '.' . $this->extension_conversion;
-			}		
+			}
 
-			if($value->type == 'single'){
+			if ($value->type == 'single') {
 
 				ProcessImage::dispatch(
 					$entity_id,
 					$value->entity,
 					$directory,
 					$value->grid,
-					$language, 
+					$language,
 					$value->disk,
-					$path, 
-					$filename, 
+					$path,
+					$alt,
+					$title,
+					$filename,
 					$value->content,
 					$value->type,
 					$file_extension,
 					$this->extension_conversion,
 					$value->width,
 					$value->quality,
-					$original_path, 
+					$original_path,
 					$value->id
 				)->onQueue('process_image');
-			}
-
-			elseif($value->type == 'collection'){
+			} elseif ($value->type == 'collection') {
 
 				$counter = 2;
 
 				while (Storage::disk($value->disk)->exists($path)) {
-					
-					if($file_extension == 'svg'){
-						$path =  '/' . $entity_id . '/' . $language . $value->directory . '/' . $name.'-'. $counter.'.'. $file_extension;
-						$filename = $name .'-'. $counter.'.'. $file_extension;
+
+					if ($file_extension == 'svg') {
+						$path =  '/' . $entity_id . '/' . $language . $value->directory . '/' . $name . '-' . $counter . '.' . $file_extension;
+						$filename = $name . '-' . $counter . '.' . $file_extension;
 						$counter++;
-					}else{
-						$path =  '/' . $entity_id . '/' . $language . $value->directory . '/' . $name.'-'. $counter.'.'. $this->extension_conversion;
-						$filename = $name .'-'. $counter.'.'. $this->extension_conversion;
+					} else {
+						$path =  '/' . $entity_id . '/' . $language . $value->directory . '/' . $name . '-' . $counter . '.' . $this->extension_conversion;
+						$filename = $name . '-' . $counter . '.' . $this->extension_conversion;
 						$counter++;
-					}		
+					}
 				}
 
 				ProcessImage::dispatch(
@@ -181,17 +194,19 @@ class Image
 					$value->entity,
 					$directory,
 					$value->grid,
-					$language, 
+					$language,
 					$value->disk,
-					$path, 
-					$filename, 
+					$path,
+					$alt,
+					$title,
+					$filename,
 					$value->content,
 					$value->type,
-					$extension,
+					$file_extension,
 					$this->extension_conversion,
 					$value->width,
 					$value->quality,
-					$original_path, 
+					$original_path,
 					$value->id
 				)->onQueue('process_image');
 			}
@@ -205,23 +220,23 @@ class Image
 
 	public function preview($entity_id)
 	{
-		$items = ImageOriginal::getPreviewImage($this->entity, $entity_id)->pluck('path','language')->all();
+		$items = ImageOriginal::getPreviewImage($this->entity, $entity_id)->pluck('path', 'language')->all();
 
-        return $items;
+		return $items;
 	}
 
 	public function galleryImage($entity, $grid, $entity_id, $filename)
 	{
-		
+
 		$image = ImageOriginal::getGalleryImage($entity, $entity_id, $filename, $grid)->first();
 
 		return response()->json([
 			'path' => Storage::url($image->path),
-		]); 
+		]);
 	}
 
 	public function galleryPreviousImage($entity, $grid, $entity_id, $id)
-	{		
+	{
 
 		$image = ImageOriginal::getGalleryPreviousImage($entity_id, $entity, $grid, $id)->first();
 
@@ -232,7 +247,7 @@ class Image
 			'path' => Storage::url($image->path),
 			'previous' => $previous,
 			'next' => $next
-		]); 
+		]);
 	}
 
 	public function galleryNextImage($entity, $grid, $entity_id, $id)
@@ -247,26 +262,27 @@ class Image
 			'path' => Storage::url($image->path),
 			'previous' => $previous,
 			'next' => $next
-		]); 
+		]);
 	}
 
 	public function original($entity_id)
 	{
-		$items = ImageOriginal::getOriginalImage($this->entity, $entity_id)->pluck('path','language')->all();
+		$items = ImageOriginal::getOriginalImage($this->entity, $entity_id)->pluck('path', 'language')->all();
 
-        return $items;
+		return $items;
 	}
 
-	public function getAllByLanguage($language){ 
+	public function getAllByLanguage($language)
+	{
 
-        $items = ImageOriginal::getAllByLanguage($this->entity, $language)->get()->groupBy('entity_id');
+		$items = ImageOriginal::getAllByLanguage($this->entity, $language)->get()->groupBy('entity_id');
 
-        $items =  $items->map(function ($item) {
-            return $item->pluck('path','grid');
-        });
+		$items =  $items->map(function ($item) {
+			return $item->pluck('path', 'grid');
+		});
 
-        return $items;
-    }
+		return $items;
+	}
 
 	public function destroy(ImageOriginal $image)
 	{
@@ -275,8 +291,8 @@ class Image
 		$message = \Lang::get('admin/media.media-delete');
 
 		return response()->json([
-            'message' => $message,
-        ]);
+			'message' => $message,
+		]);
 	}
 
 	public function delete($entity_id)
@@ -285,7 +301,7 @@ class Image
 
 			$images = ImageOriginal::getImages($this->entity, $entity_id)->get();
 
-			foreach ($images as $image){
+			foreach ($images as $image) {
 				Storage::disk($image->entity)->delete($image->path);
 				$image->delete();
 			}

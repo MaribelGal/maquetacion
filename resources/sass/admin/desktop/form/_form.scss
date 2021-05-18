@@ -1,9 +1,9 @@
 #formulario {
     min-width: 50vw;
     margin: 1em;
-    * {
-        background-color: transparent;
-    }
+    // * {
+    //     background-color: transparent;
+    // }
     display: contents;
 }
 
@@ -32,14 +32,14 @@
     }
 }
 
-.panel-static{
+.panel-static {
     display: grid;
-    column-gap: .5em;
+    column-gap: 0.5em;
 }
 
-.panel-locale{
+.panel-locale {
     display: grid;
-    column-gap: .5em;
+    column-gap: 0.5em;
 }
 
 .formulario-contenido-panel-item {
@@ -69,7 +69,11 @@
     }
 }
 
-.ck-editor__editable {
-    min-height: 7em;
+#ckeditor {
+    * {
+        background-color: transparent;
+    }
+    .ck-editor__editable {
+        min-height: 7em;
+    }
 }
-

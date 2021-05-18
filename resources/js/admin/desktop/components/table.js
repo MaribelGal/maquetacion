@@ -1,5 +1,8 @@
 import { renderizarFormulario } from "../form/form";
 import { renderizarCkeditor } from "../ckeditor";
+import { renderizarDropImage } from "../components/dropImage";
+import { renderizarEditInfoImage } from "../components/editInfoImage";
+
 
 const tabla = document.getElementById("tabla");
 const formulario = document.getElementById("formulario");
@@ -24,6 +27,8 @@ export let renderizarTabla = () => {
                         console.log(respuesta.data.form);
                         renderizarFormulario();
                         renderizarCkeditor();
+                        renderizarDropImage();
+                        renderizarEditInfoImage();
                     });
                 } catch (error) {
                     console.log(error)

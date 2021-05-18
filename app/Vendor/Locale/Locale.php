@@ -79,7 +79,7 @@ class Locale
             // );
         }
 
-        debugbar::info($locale_updateOrCreate);
+        // debugbar::info($locale_updateOrCreate);
         return $locale_updateOrCreate;
     }
 
@@ -97,7 +97,7 @@ class Locale
             // debugbar::info($locale);
         };
 
-        debugbar::info($locale);
+        // debugbar::info($locale);
         return $locale;
     }
 
@@ -120,7 +120,7 @@ class Locale
             // debugbar::info($locale);
         };
 
-        debugbar::info($locale);
+        // debugbar::info($locale);
         return $locale;
     }
 }

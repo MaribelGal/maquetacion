@@ -93,9 +93,10 @@ $filtros = ['category' => $faqs_categories, 'search' => true, 'date_start' => tr
 
                                 <div class="formulario-contenido-panel-item grid-column-span-2 grid-row-4"
                                     id="item-descripcion">
-                                    <div class="formulario-contenido-panel-item-campo">
+                                    <div class="formulario-contenido-panel-item-campo" id="ckeditor">
                                         <textarea type="text" name="locale[description][{{$localization->alias}}]"
                                             class="formulario-contenido-panel-item-campo-descripcion ckeditor"
+                                            
                                             placeholder="Inserta la respuesta">{{isset($locale["description"][$localization->alias]) ? $locale["description"][$localization->alias] : '' }}
                                           </textarea>
                                     </div>
@@ -117,22 +118,22 @@ $filtros = ['category' => $faqs_categories, 'search' => true, 'date_start' => tr
 
                                 <div class="panel-locale-item contents {{ $loop->first ? 'active':''}}" data-locale="{{$localization->alias}}">
                                     
-                                    <div class="formulario-contenido-panel-item" >
+                                    {{-- <div class="formulario-contenido-panel-item" >
                                         @include('admin.components.upload', [
                                             'type' => 'image', 
                                             'content' => 'featured', 
                                             'alias' => $localization->alias,
                                             'files' => $faq->image_featured_preview
                                         ])
-                                    </div>
+                                    </div> --}}
 
                                     <div>Seleccion multiple:</div>
-                                    <div class="formulario-contenido-panel-item" >
+                                    <div class="formulario-contenido-panel-item images-container">
                                         @include('admin.components.upload', [
                                             'type' => 'images', 
                                             'content' => 'grid', 
                                             'alias' => $localization->alias,
-                                            'files' => $faq->image_featured_preview
+                                            'files' => $faq->images_grid_preview
                                         ])
 
                                     </div>

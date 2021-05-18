@@ -2,7 +2,10 @@ import { renderizarTabla } from "../components/table";
 import { renderizarCkeditor } from "../ckeditor";
 import { showNotification } from "../components/notifications";
 import { startWait, stopWait } from '../components/wait';
+import { appendInputFiles } from "../components/dropImage";
 import { renderizarDropImage } from "../components/dropImage";
+import { resetDropImage } from "../components/dropImage";
+import { renderizarEditInfoImage } from "../components/editInfoImage";
 import { renderizarFormTab } from "./formTab";
 import { renderizarFormAction } from "./formAction";
 import { renderizarFormTablocale } from "./formTabLocale";
@@ -19,8 +22,6 @@ export let renderizarFormulario = () => {
 
     botonGuardar.addEventListener("click", (event) => {
 
-        // document.getElementById('item-error').innerHTML = ''; 
-
         formularios.forEach(formulario => {
 
             let datosFormulario = new FormData(formulario);
@@ -31,15 +32,13 @@ export let renderizarFormulario = () => {
 
             if (ckeditors != 'null') {
                 Object.entries(ckeditors).forEach(([key, value]) => {
-                    // console.log(key);
-                    // console.log(value);
                     datosFormulario.append(key, value.getData());
                 });
             }
 
-            for (var entrada of datosFormulario.entries()) {
-                console.log(entrada[0] + ": " + entrada[1]);
-            }
+            datosFormulario = appendInputFiles(datosFormulario);
+
+            showDataForm(datosFormulario);
 
             let url = formulario.action;
 
@@ -56,7 +55,8 @@ export let renderizarFormulario = () => {
                         showNotification("success", respuesta.data.message, 7000);
 
                         renderizarFormulario();
-                        renderizarDropImage();
+                        resetDropImage();
+                        renderizarEditInfoImage();
                         renderizarTabla();
 
                     });
@@ -107,4 +107,14 @@ export let renderizarFormulario = () => {
 
 renderizarFormulario();
 renderizarDropImage();
+renderizarEditInfoImage();
 renderizarCkeditor();
+
+
+
+let showDataForm = (datosFormulario) =>{
+    for (var entrada of datosFormulario.entries()) {
+        console.log(entrada[0] + ": " + entrada[1]);
+    }
+}
+

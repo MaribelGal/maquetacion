@@ -95,8 +95,8 @@ class FaqController extends Controller
 
     public function store(FaqRequest $request)
     {
-        DebugBar::info('hola mira aqui');
-        DebugBar::info(request('images'));
+        // DebugBar::info(request());
+        // DebugBar::info(request('images'));
 
         $faq = $this->faq->updateOrCreate([
             'id' => request('id')
@@ -106,17 +106,18 @@ class FaqController extends Controller
             'category_id' => request('category_id'),
             'active' => 1,
         ]);
-        
-        if(request('locale')){
+
+        if (request('locale')) {
             $locale = $this->locale->store(request('locale'), $faq->id);
         }
+
         
-        // DebugBar::info($locale);
-        if(request('images')){
+        if (request('images')) {
             $images = $this->image->storeRequest(request('images'), 'webp', $faq->id);
-            
+            DebugBar::info('aqui');
             DebugBar::info($images);
         }
+        
 
         if (request('id')) {
             $message = \Lang::get('admin/faqs.faq-update');
@@ -128,6 +129,7 @@ class FaqController extends Controller
         $view = View::make('admin.faqs.index')
             ->with('faqs', $this->faq->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum))
             ->with('faq', $faq)
+            ->with('files', $images)
             ->renderSections();
 
         return response()->json([
@@ -137,18 +139,21 @@ class FaqController extends Controller
             'message' => $message,
             'id' => $faq->id,
         ]);
-
-        // $request->messages();
     }
 
     public function show(Faq $faq)
     {
-        $locale = $this->locale->show($faq->id);
         
+        $locale = $this->locale->show($faq->id);
+
+        $faqs = $this->faq->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum);
+
+        debugbar::info($faqs);
+
         $view = View::make('admin.faqs.index')
             ->with('locale', $locale)
             ->with('faq', $faq)
-            ->with('faqs', $this->faq->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum));
+            ->with('faqs', $faqs);
 
         if (request()->ajax()) {
 
@@ -176,10 +181,11 @@ class FaqController extends Controller
         $view = View::make('admin.faqs.index')
             ->with('faq', $this->faq)
             ->with(
-                'faqs', 
+                'faqs',
                 $this->faq->where('active', 1)
-                          ->orderBy('updated_at', 'desc')
-                          ->paginate($this->paginationNum))
+                    ->orderBy('updated_at', 'desc')
+                    ->paginate($this->paginationNum)
+            )
             ->renderSections();
 
         return response()->json([

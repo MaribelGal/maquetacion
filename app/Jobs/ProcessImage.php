@@ -24,6 +24,8 @@ class ProcessImage implements ShouldQueue
     protected $language;
     protected $disk;
     protected $path;
+    protected $alt;
+    protected $title;
     protected $filename;
     protected $content;
     protected $type;
@@ -48,6 +50,8 @@ class ProcessImage implements ShouldQueue
         $language, 
         $disk,
         $path, 
+        $alt, 
+        $title, 
         $filename, 
         $content,
         $type,
@@ -65,6 +69,8 @@ class ProcessImage implements ShouldQueue
         $this->language = $language;
         $this->disk = $disk;
         $this->path = $path;
+        $this->alt = $alt;
+        $this->title = $title;
         $this->filename = $filename;
         $this->content = $content;
         $this->type = $type;
@@ -117,6 +123,8 @@ class ProcessImage implements ShouldQueue
                 'language' => $this->language,
                 'content' => $this->content],[
                 'path' => $this->disk . $this->path,
+                'alt' => $this->alt,
+                'title' => $this->title,
                 'filename' => $this->filename,
                 'mime_type' => $this->file_extension == "svg" ? 'image/'. $this->file_extension : 'image/'. $this->extension_conversion,
                 'size' => $size,
@@ -136,6 +144,8 @@ class ProcessImage implements ShouldQueue
                 'language' => $this->language,
                 'content' => $this->content,
                 'path' => $this->disk . $this->path,
+                'alt' => $this->alt,
+                'title' => $this->title,
                 'filename' => $this->filename,
                 'mime_type' => $this->file_extension == "svg" ? 'image/'. $this->file_extension : 'image/'. $this->extension_conversion,
                 'size' => $size,

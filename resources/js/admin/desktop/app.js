@@ -8,7 +8,7 @@ require('./form/formTab');
 require('./form/formTabLocale');
 require('./form/formAction');
 
-require('./components/dropImage');
+// require('./components/editInfoImage');
 
 require('./components/table');
 require('./components/sidebar');

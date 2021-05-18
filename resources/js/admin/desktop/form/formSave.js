@@ -1,6 +1,6 @@
 
 
-export let renderizarFormulario = () => {
+export let renderizarFormSave = () => {
 
     let formularios = document.querySelectorAll(".admin-formulario");
     let botonGuardar = document.getElementById("boton-guardar-desktop");
@@ -24,6 +24,24 @@ export let renderizarFormulario = () => {
                     datosFormulario.append(key, value.getData());
                 });
             }
+
+            let  inputsFiles = document.querySelectorAll(".upload-input");
+
+            console.log("AQUII");
+            console.log(inputsFiles);
+
+            inputsFiles.forEach(inputFile => {
+                console.log(inputFile);
+                console.log(inputFile.files.length);
+                if(inputFile.files.length > 0){
+                    console.log("hay mas de una file");
+                    inputFile.files.forEach(file => {
+                        datosFormulario.append("prueba", file);
+                    });
+                }
+            });
+
+            
 
             for (var entrada of datosFormulario.entries()) {
                 console.log(entrada[0] + ": " + entrada[1]);
@@ -77,9 +95,8 @@ export let renderizarFormulario = () => {
 
     });
 
-
-
-
+    buttonSaveAnimation();
+    
 };
 
 let buttonSaveAnimation = () => {

@@ -1,4 +1,5 @@
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import '../../../sass/admin/desktop/ck-editor/custom.css';
 
 require('@ckeditor/ckeditor5-build-classic/build/translations/es.js');
 

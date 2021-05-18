@@ -70,10 +70,29 @@
 .upload-prompt{
   position: absolute;
   width: 15%;
-  z-index: 999;
+  z-index: 2;
 }
 
 .upload-input {
+  display: none;
+}
+
+.preview{
+  align-items: center;
+  border: 0.2em dashed hsl(183, 98%, 35%);
+  color: #cccccc;
+  cursor: pointer;
+  display: flex;
+  font-size: 1.2em;
+  font-weight: 500;
+  height: 30vh;
+  justify-content: center;
+  margin-top: 1em;
+  padding: 1em;
+  text-align: center;
+}
+
+.upload-thumb-prototype{
   display: none;
 }
 
@@ -84,20 +103,20 @@
   overflow: hidden;
   background-color: #cccccc;
   background-size: cover;
-  position: relative;
+  // position: relative;
 }
 
-.upload-thumb::after {
-content: attr(data-label);
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 5px 0;
-  color: #ffffff;
-  background: rgba(0, 0, 0, 0.75);
-  font-size: 14px;
-  text-align: center;
-}
+// .upload-thumb::after {
+// content: attr(data-label);
+//   position: absolute;
+//   bottom: 0;
+//   left: 0;
+//   width: 100%;
+//   padding: 5px 0;
+//   color: #ffffff;
+//   background: rgba(0, 0, 0, 0.75);
+//   font-size: 14px;
+//   text-align: center;
+// }
 
   
