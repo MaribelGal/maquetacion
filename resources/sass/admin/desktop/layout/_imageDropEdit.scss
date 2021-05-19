@@ -1,7 +1,10 @@
-.upload-edit-panel{
+.uploaded-thumn-img{
+    position: relative;
+}
+.upload-edit-panel, .uploaded-edit-panel{
     display: none;
 }
-.upload-edit-panel.visible{
+.upload-edit-panel.visible, .uploaded-edit-panel.visible {
     position: absolute;
     top: 20%;
     color: red;
@@ -15,9 +18,15 @@
     display: flex;
 }
 
-.upload-edit-panel-image {
+.uploaded-edit-panel-image, .upload-edit-panel-image{
     background: no-repeat;
     background-size: contain;
     width: 100%;
     height: 100%;
+
+}
+
+img {
+    width: 100%;
+    height: auto;
 }

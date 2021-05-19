@@ -207,7 +207,7 @@ export let appendInputFiles = (datosFormulario) => {
 export let resetDropImage = () => {
     let uploadThumbs = document.querySelectorAll(".upload-thumb");
     uploadThumbs.forEach(uploadThumb => {
-        uploadThumb.remove();
+        // uploadThumb.remove();
     });
 
     renderizarDropImage();

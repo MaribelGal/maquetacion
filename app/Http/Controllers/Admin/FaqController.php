@@ -125,20 +125,33 @@ class FaqController extends Controller
             $message = \Lang::get('admin/faqs.faq-create');
         }
 
+        $paginate = $this->faq->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum);
 
         $view = View::make('admin.faqs.index')
-            ->with('faqs', $this->faq->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum))
-            ->with('faq', $faq)
-            ->with('files', $images)
-            ->renderSections();
+            ->with('faq', $this->faq)
+            ->with('faqs', $paginate);
+
+        // $view = View::make('admin.faqs.index')
+        //     ->with('faqs', $this->faq->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum))
+        //     // ->with('faq', $this->faq)
+        //     // ->with('files', $images)
+        //     ->renderSections();
+
+        $sections = $view->renderSections();
 
         return response()->json([
-            'table' => $view['table'],
-            'tablerows' => $view['tablerows'],
-            'form' => $view['form'],
-            'message' => $message,
-            'id' => $faq->id,
+            'table' => $sections['table'],
+            'tablerows' => $sections['tablerows'],
+            'form' => $sections['form'],
         ]);
+        
+        // return response()->json([
+        //     'table' => $view['table'],
+        //     'tablerows' => $view['tablerows'],
+        //     'form' => $view['form'],
+        //     'message' => $message,
+        //     // 'id' => $faq->id,
+        // ]);
     }
 
     public function show(Faq $faq)

@@ -2,6 +2,7 @@
 
 namespace App\Vendor\Image\Models;
 
+use DebugBar;
 use Illuminate\Database\Eloquent\Model;
 
 class ImageResized extends Model
@@ -17,6 +18,24 @@ class ImageResized extends Model
     public function configuration()
     {
         return $this->belongsTo(ImageConfiguration::class, 'image_configuration_id');
+    }
+
+    public function scopeGetImageSeo($query, $filename, $entity_id, $language){
+        
+        return $query->where('language', $language)
+            ->where('entity_id', $entity_id)
+            ->where('grid', 'desktop')
+            ->where('filename', $filename);
+    }
+
+    public function scopeGetImagesSeo($query, $filename, $entity, $entity_id, $language){
+        
+        DebugBar::info("get images seo");
+
+        return $query->where('language', $language)
+            ->where('entity', $entity)
+            ->where('entity_id', $entity_id)
+            ->where('filename', $filename);
     }
 
     public function scopeGetImages($query, $entity, $entity_id){

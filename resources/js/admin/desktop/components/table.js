@@ -1,7 +1,7 @@
 import { renderizarFormulario } from "../form/form";
 import { renderizarCkeditor } from "../ckeditor";
 import { renderizarDropImage } from "../components/dropImage";
-import { renderizarEditInfoImage } from "../components/editInfoImage";
+import { renderizarUpdatedImage } from "./updatedImage";
 
 
 const tabla = document.getElementById("tabla");
@@ -24,11 +24,11 @@ export let renderizarTabla = () => {
                 try {
                     await axios.get(url).then(respuesta => {
                         formulario.innerHTML = respuesta.data.form;
-                        console.log(respuesta.data.form);
+                        
                         renderizarFormulario();
-                        renderizarCkeditor();
+                        // renderizarCkeditor();
                         renderizarDropImage();
-                        renderizarEditInfoImage();
+                        renderizarUpdatedImage();
                     });
                 } catch (error) {
                     console.log(error)

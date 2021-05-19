@@ -5,7 +5,7 @@ import { startWait, stopWait } from '../components/wait';
 import { appendInputFiles } from "../components/dropImage";
 import { renderizarDropImage } from "../components/dropImage";
 import { resetDropImage } from "../components/dropImage";
-import { renderizarEditInfoImage } from "../components/editInfoImage";
+import { renderizarUpdatedImage } from "../components/updatedImage";
 import { renderizarFormTab } from "./formTab";
 import { renderizarFormAction } from "./formAction";
 import { renderizarFormTablocale } from "./formTabLocale";
@@ -38,7 +38,7 @@ export let renderizarFormulario = () => {
 
             datosFormulario = appendInputFiles(datosFormulario);
 
-            showDataForm(datosFormulario);
+            // showDataForm(datosFormulario);
 
             let url = formulario.action;
 
@@ -48,17 +48,19 @@ export let renderizarFormulario = () => {
 
                 try {
                     await axios.post(url, datosFormulario).then(respuesta => {
-                        formulario.id.value = respuesta.data.id;
+                        // formulario.id.value = respuesta.data.id;
+                        formulario.innerHTML = respuesta.data.form;
                         tabla.innerHTML = respuesta.data.table;
+
+                        // console.log(respuesta.data.form);
 
                         stopWait();
                         showNotification("success", respuesta.data.message, 7000);
 
                         renderizarFormulario();
                         resetDropImage();
-                        renderizarEditInfoImage();
                         renderizarTabla();
-
+                        renderizarUpdatedImage();
                     });
 
                 } catch (error) {
@@ -103,13 +105,12 @@ export let renderizarFormulario = () => {
     renderizarFormTab();
     renderizarFormAction();
     renderizarFormTablocale();
+    renderizarCkeditor();
 };
 
 renderizarFormulario();
 renderizarDropImage();
-renderizarEditInfoImage();
-renderizarCkeditor();
-
+renderizarUpdatedImage();
 
 
 let showDataForm = (datosFormulario) =>{

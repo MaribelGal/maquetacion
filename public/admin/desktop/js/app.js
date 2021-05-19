@@ -2274,37 +2274,9 @@ var appendInputFiles = function appendInputFiles(datosFormulario) {
 };
 var resetDropImage = function resetDropImage() {
   var uploadThumbs = document.querySelectorAll(".upload-thumb");
-  uploadThumbs.forEach(function (uploadThumb) {
-    uploadThumb.remove();
+  uploadThumbs.forEach(function (uploadThumb) {// uploadThumb.remove();
   });
   renderizarDropImage();
-};
-
-/***/ }),
-
-/***/ "./resources/js/admin/desktop/components/editInfoImage.js":
-/*!****************************************************************!*\
-  !*** ./resources/js/admin/desktop/components/editInfoImage.js ***!
-  \****************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "renderizarEditInfoImage": () => (/* binding */ renderizarEditInfoImage)
-/* harmony export */ });
-var deleteUploadedElements = document.querySelectorAll(".uploaded-thumb-delete");
-var editUploadedElements = document.querySelectorAll(".uploaded-thumb-edit");
-var editPanelUploadedElements = document.querySelectorAll(".uploaded-edit-panel");
-var uploadedElements = document.querySelectorAll(".uploaded-thumb");
-var renderizarEditInfoImage = function renderizarEditInfoImage() {
-  uploadedElements.forEach(function (uploadedElement) {
-    var editButton_uploadedElement = uploadedElement.querySelector(".uploaded-thumb-edit-button");
-    var editPanelUploadedElement = uploadedElement.querySelector(".upload-edit-panel");
-    editButton_uploadedElement.addEventListener("click", function () {
-      editPanelUploadedElement.classList.toggle("visible");
-    });
-  });
 };
 
 /***/ }),
@@ -2479,7 +2451,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _form_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../form/form */ "./resources/js/admin/desktop/form/form.js");
 /* harmony import */ var _ckeditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ckeditor */ "./resources/js/admin/desktop/ckeditor.js");
 /* harmony import */ var _components_dropImage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/dropImage */ "./resources/js/admin/desktop/components/dropImage.js");
-/* harmony import */ var _components_editInfoImage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/editInfoImage */ "./resources/js/admin/desktop/components/editInfoImage.js");
+/* harmony import */ var _updatedImage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./updatedImage */ "./resources/js/admin/desktop/components/updatedImage.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2511,11 +2483,10 @@ var renderizarTabla = function renderizarTabla() {
                   _context.next = 3;
                   return axios.get(url).then(function (respuesta) {
                     formulario.innerHTML = respuesta.data.form;
-                    console.log(respuesta.data.form);
-                    (0,_form_form__WEBPACK_IMPORTED_MODULE_1__.renderizarFormulario)();
-                    (0,_ckeditor__WEBPACK_IMPORTED_MODULE_2__.renderizarCkeditor)();
+                    (0,_form_form__WEBPACK_IMPORTED_MODULE_1__.renderizarFormulario)(); // renderizarCkeditor();
+
                     (0,_components_dropImage__WEBPACK_IMPORTED_MODULE_3__.renderizarDropImage)();
-                    (0,_components_editInfoImage__WEBPACK_IMPORTED_MODULE_4__.renderizarEditInfoImage)();
+                    (0,_updatedImage__WEBPACK_IMPORTED_MODULE_4__.renderizarUpdatedImage)();
                   });
 
                 case 3:
@@ -2633,6 +2604,143 @@ renderizarTabla();
 
 /***/ }),
 
+/***/ "./resources/js/admin/desktop/components/updatedImage.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/admin/desktop/components/updatedImage.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderizarUpdatedImage": () => (/* binding */ renderizarUpdatedImage)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var renderizarUpdatedImage = function renderizarUpdatedImage() {
+  var uploadedThumbs = document.querySelectorAll(".uploaded-thumb");
+  uploadedThumbs.forEach(function (uploadedThumb) {
+    showEditPanel_UpdatedImage(uploadedThumb);
+    deleteUploadedImage(uploadedThumb);
+    editSeoUploadedImage(uploadedThumb);
+    closePanelSeo_UpdatedImage(uploadedThumb);
+  });
+}; // renderizarUpdatedImage();
+
+var showEditPanel_UpdatedImage = function showEditPanel_UpdatedImage(uploadedThumb) {
+  var editButton_uploadedElement = uploadedThumb.querySelector(".uploaded-thumb-edit-button");
+  var editPanelUploadedElement = uploadedThumb.querySelector(".uploaded-edit-panel");
+  editButton_uploadedElement.addEventListener("click", function () {
+    editPanelUploadedElement.classList.toggle("visible");
+  });
+};
+
+var deleteUploadedImage = function deleteUploadedImage(uploadedThumb) {
+  var uploadedThumb_deleteButton = uploadedThumb.querySelector(".uploaded-thumb-delete-button");
+  uploadedThumb_deleteButton.addEventListener("click", function () {
+    var url = uploadedThumb_deleteButton.dataset.route;
+    var imageId = uploadedThumb.dataset.imageid;
+    console.log("click en delete");
+    console.log(url);
+    console.log(imageId);
+
+    var sendImageDeleteRequest = /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                try {
+                  axios.get(url, {
+                    params: {
+                      'image': imageId
+                    }
+                  }).then(function (response) {
+                    // stopWait();
+                    // showMessage('success', response.data.message);
+                    uploadedThumb.remove();
+                  });
+                } catch (error) {}
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function sendImageDeleteRequest() {
+        return _ref.apply(this, arguments);
+      };
+    }();
+
+    sendImageDeleteRequest();
+  });
+};
+
+var editSeoUploadedImage = function editSeoUploadedImage(uploadedThumb) {
+  var uploadedThumb_saveSeoButton = uploadedThumb.querySelector(".uploaded-edit-panel-save");
+  uploadedThumb_saveSeoButton.addEventListener("click", function () {
+    // console.log("edit seo uploaded image CLICK");
+    var imageId = uploadedThumb.dataset.imageid;
+    var alt = uploadedThumb.querySelector(".uploaded-edit-panel-alt-input").value;
+    var title = uploadedThumb.querySelector(".uploaded-edit-panel-title-input").value;
+    var url = uploadedThumb_saveSeoButton.dataset.route;
+
+    var sendImagePostRequest = /*#__PURE__*/function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                try {
+                  axios.post(url, {
+                    'image': imageId,
+                    'alt': alt,
+                    'title': title
+                  }).then(function (response) {// modal.classList.remove('modal-active');
+                    // stopWait();
+                    // showMessage('success', response.data.message);
+                  });
+                } catch (error) {
+                  console.log("error");
+                }
+
+              case 1:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+
+      return function sendImagePostRequest() {
+        return _ref2.apply(this, arguments);
+      };
+    }();
+
+    sendImagePostRequest();
+  });
+};
+
+var closePanelSeo_UpdatedImage = function closePanelSeo_UpdatedImage(uploadedThumb) {
+  var closeButton_uploadedThumb = uploadedThumb.querySelector(".uploaded-edit-panel-close");
+  var editPanelUploadedElement = uploadedThumb.querySelector(".uploaded-edit-panel");
+  closeButton_uploadedThumb.addEventListener("click", function () {
+    console.log("CLICK TOGGLE VISIBLE");
+    editPanelUploadedElement.classList.toggle("visible");
+  });
+};
+
+/***/ }),
+
 /***/ "./resources/js/admin/desktop/components/wait.js":
 /*!*******************************************************!*\
   !*** ./resources/js/admin/desktop/components/wait.js ***!
@@ -2676,7 +2784,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_notifications__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/notifications */ "./resources/js/admin/desktop/components/notifications.js");
 /* harmony import */ var _components_wait__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/wait */ "./resources/js/admin/desktop/components/wait.js");
 /* harmony import */ var _components_dropImage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/dropImage */ "./resources/js/admin/desktop/components/dropImage.js");
-/* harmony import */ var _components_editInfoImage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/editInfoImage */ "./resources/js/admin/desktop/components/editInfoImage.js");
+/* harmony import */ var _components_updatedImage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/updatedImage */ "./resources/js/admin/desktop/components/updatedImage.js");
 /* harmony import */ var _formTab__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./formTab */ "./resources/js/admin/desktop/form/formTab.js");
 /* harmony import */ var _formAction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./formAction */ "./resources/js/admin/desktop/form/formAction.js");
 /* harmony import */ var _formTabLocale__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./formTabLocale */ "./resources/js/admin/desktop/form/formTabLocale.js");
@@ -2736,8 +2844,8 @@ var renderizarFormulario = function renderizarFormulario() {
         });
       }
 
-      datosFormulario = (0,_components_dropImage__WEBPACK_IMPORTED_MODULE_5__.appendInputFiles)(datosFormulario);
-      showDataForm(datosFormulario);
+      datosFormulario = (0,_components_dropImage__WEBPACK_IMPORTED_MODULE_5__.appendInputFiles)(datosFormulario); // showDataForm(datosFormulario);
+
       var url = formulario.action;
 
       var enviarPeticionPost = /*#__PURE__*/function () {
@@ -2751,14 +2859,16 @@ var renderizarFormulario = function renderizarFormulario() {
                   _context.prev = 1;
                   _context.next = 4;
                   return axios.post(url, datosFormulario).then(function (respuesta) {
-                    formulario.id.value = respuesta.data.id;
-                    tabla.innerHTML = respuesta.data.table;
+                    // formulario.id.value = respuesta.data.id;
+                    formulario.innerHTML = respuesta.data.form;
+                    tabla.innerHTML = respuesta.data.table; // console.log(respuesta.data.form);
+
                     (0,_components_wait__WEBPACK_IMPORTED_MODULE_4__.stopWait)();
                     (0,_components_notifications__WEBPACK_IMPORTED_MODULE_3__.showNotification)("success", respuesta.data.message, 7000);
                     renderizarFormulario();
                     (0,_components_dropImage__WEBPACK_IMPORTED_MODULE_5__.resetDropImage)();
-                    (0,_components_editInfoImage__WEBPACK_IMPORTED_MODULE_6__.renderizarEditInfoImage)();
                     (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                    (0,_components_updatedImage__WEBPACK_IMPORTED_MODULE_6__.renderizarUpdatedImage)();
                   });
 
                 case 4:
@@ -2809,11 +2919,11 @@ var renderizarFormulario = function renderizarFormulario() {
   (0,_formTab__WEBPACK_IMPORTED_MODULE_7__.renderizarFormTab)();
   (0,_formAction__WEBPACK_IMPORTED_MODULE_8__.renderizarFormAction)();
   (0,_formTabLocale__WEBPACK_IMPORTED_MODULE_9__.renderizarFormTablocale)();
+  (0,_ckeditor__WEBPACK_IMPORTED_MODULE_2__.renderizarCkeditor)();
 };
 renderizarFormulario();
 (0,_components_dropImage__WEBPACK_IMPORTED_MODULE_5__.renderizarDropImage)();
-(0,_components_editInfoImage__WEBPACK_IMPORTED_MODULE_6__.renderizarEditInfoImage)();
-(0,_ckeditor__WEBPACK_IMPORTED_MODULE_2__.renderizarCkeditor)();
+(0,_components_updatedImage__WEBPACK_IMPORTED_MODULE_6__.renderizarUpdatedImage)();
 
 var showDataForm = function showDataForm(datosFormulario) {
   var _iterator = _createForOfIteratorHelper(datosFormulario.entries()),

@@ -29,7 +29,7 @@
 
     <div class="preview" id="preview_images">
         {{-- <input class="upload-input" type="file" name="images[{{$content}}.{{$alias}}]" multiple > --}}
-        <div>Nuevas imagenes</div>
+        
         <div class="upload-thumb-prototype" data-content="{{ $content }}" data-alias="{{ $alias }}">
             <div class="upload-thumb-actions">
                 <div class="upload-thumb-delete">
@@ -46,30 +46,37 @@
                         </path>
                     </svg>
 
-                    @include('admin.components.upload_edit', [
-                    'content' => 'grid',
-                    'alias' => $localization->alias
+                    @include('admin.components.editSeoImage', [
+                        'state' => 'upload',
+                        'content' => 'grid',
+                        'alias' => $localization->alias
                     ])
                 </div>
             </div>
         </div>
-
-
-        <div>IMAGENES CARGADAS</div>
 
         @if ($files->count() == 0)
             <div>No hay imagenes cargadas</div>
         @else
             @foreach ($files as $image)
                 @if ($image->language == $alias)
-                    <div class="uploaded-thumb">
-                        <img class="uploaded-thumb-img" data-label="{{ $image->filename }}"
-                            src="{{ Storage::url($image->path) }}"></img>
+                    <div class="uploaded-thumb" data-imageid="{{$image->id}}"
+                        style="background-image:url({{Storage::url($image->path)}})"
+                        >
+                        {{-- <img 
+                            class="uploaded-thumb-img" 
+                            data-label="{{ $image->filename }}"
+                            src="{{ Storage::url($image->path) }}"/>
+
+                            {{isset($image) ? 'style=background-image: url('Storage::url($image->path)")" : ''}} --}}
 
 
                         <div class="uploaded-thumb-actions">
                             <div class="uploaded-thumb-delete">
-                                <svg viewBox="0 0 24 24" class="uploaded-thumb-delete-button">
+                                <svg viewBox="0 0 24 24" 
+                                class="uploaded-thumb-delete-button" 
+                                data-route="{{route('delete_image')}}">
+
                                     <path fill="currentColor"
                                         d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z">
                                     </path>
@@ -82,12 +89,13 @@
                                     </path>
                                 </svg>
 
-                                @include('admin.components.upload_edit', [
-                                'content' => 'grid',
-                                'alias' => $localization->alias,
-                                'alt' => $image->alt,
-                                'title' => $image->title
-                                ])
+                                
+                                @include('admin.components.editSeoImage', [
+                                    'state' => 'uploaded',
+                                    'content' => 'grid',
+                                    'alias' => $localization->alias,
+                                    'image' => $image
+                                    ])
                             </div>
                         </div>
                     </div>

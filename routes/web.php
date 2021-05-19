@@ -26,6 +26,9 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'admin'], function () {
     // Route::get('/faqs/json', 'App\Http\Controllers\Admin\FaqController@indexJson')->name('faqs_json');
 
+    Route::get('/image/delete/{image?}', 'App\Vendor\Image\Image@destroy')->name('delete_image');
+    Route::post('/image', 'App\Vendor\Image\Image@storeImageSeo')->name('store_image_seo');
+
     Route::resource('faqs_categorias', 'App\Http\Controllers\Admin\FaqCategoryController', [
 
         'names' => [

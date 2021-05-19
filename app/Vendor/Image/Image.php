@@ -3,13 +3,15 @@
 namespace App\Vendor\Image;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 use App\Vendor\Image\Models\ImageConfiguration;
 use App\Vendor\Image\Models\ImageOriginal;
-use App\Vendor\Image\Models\ImageResize;
+use App\Vendor\Image\Models\ImageResized;
 use App\Jobs\ProcessImage;
 use App\Jobs\DeleteImage;
 use Jcupitt\Vips;
 use Debugbar;
+use DebugBar\DebugBar as DebugBarDebugBar;
 
 class Image
 {
@@ -284,16 +286,22 @@ class Image
 		return $items;
 	}
 
-	public function destroy(ImageOriginal $image)
+	public function destroy(Request $request, $image = null)
 	{
-		DeleteImage::dispatch($image->filename, $image->content, $image->entity)->onQueue('delete_image');
+		Debugbar::info("entra en funcion destroy");
+		Debugbar::info($request->input('image'));
+		
+		$image = ImageResized::find($request->input('image'));
 
-		$message = \Lang::get('admin/media.media-delete');
+		DeleteImage::dispatch($image->filename, $image->content, $image->entity, $image->language)->onQueue('delete_image');
+
+		$message = \Lang::get('admin/image.image-delete');
 
 		return response()->json([
-			'message' => $message,
-		]);
+            'message' => $message,
+        ]);
 	}
+
 
 	public function delete($entity_id)
 	{
@@ -307,4 +315,33 @@ class Image
 			}
 		}
 	}
+
+
+	public function storeImageSeo(Request $request)
+	{
+		DebugBar::info($request);
+		$image = ImageResized::find($request->input('image'));
+
+		// $image->filename, $image->content, $image->entity, $image->language
+
+		$images = ImageResized::getImagesSeo(
+			$image->filename,
+			$image->entity,
+			$image->entity_id,
+			$image->language)
+			->get();
+
+		foreach ($images as $image) {
+			$image->title = request('title');
+			$image->alt = request('alt');
+			$image->save();
+		}
+
+		$message = \Lang::get('admin/image.image-update');
+
+		return response()->json([
+            'message' => $message,
+        ]); 
+	}
+
 }
