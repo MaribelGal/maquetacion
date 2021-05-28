@@ -1,5 +1,5 @@
 <?php
 
 return array (
-  'image' => 'Arrastre el nuevo archivo aquí o click',
+  'image' => 'Arrastre uno o más archivos aquí o click',
 );

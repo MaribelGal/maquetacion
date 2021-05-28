@@ -1,6 +1,7 @@
 <div class="tabla-filtro" id="tabla-filtro">
     <div class="tabla-filtro-contenedor">
-        <form class="filtro-formulario" id="filtro-formulario"  action="{{route($route.'_filter')}}" autocomplete="off">
+        <form class="filtro-formulario" id="filtro-formulario" action="{{ route($route . '_filter') }}"
+            autocomplete="off">
 
             {{ csrf_field() }}
 
@@ -9,16 +10,15 @@
 
                 @if ($key == 'parent')
                     <div class="filtro-formulario-item">
-                        <div class="filtro-formulario-item-etiqueta">
+                        {{-- <div class="filtro-formulario-item-etiqueta">
                             <label for="category_id" class="">Filtrar por</label>
-                        </div>
+                        </div> --}}
                         <div class="filtro-formulario-item-campo">
-                            <select name="category_id" data-placeholder="Seleccione una categoría" class="">
+                            <select name="parent" data-placeholder="Seleccione una categoría" class=""
+                            id="selector-parent">
                                 <option value="all" }}>Todas</option>
                                 @foreach ($values as $value)
-
-                                    <option value="{{ $value->id }}" }}>{{ $value->nombre }}</option>
-                                    
+                                    <option value="{{ $value }}">{{ $value }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -53,7 +53,7 @@
 
                 @if ($key == 'date_start')
                     <div class="filtro-formulario-item">
-                        <div class="filtro-formulario-item-campo fechas">  <span>Fecha de inicio</span> 
+                        <div class="filtro-formulario-item-campo fechas"> <span>Fecha de inicio</span>
                             <input type="date" name="date_start" value="" id="campo-date-start"
                                 class="campo-input-date">
                         </div>
@@ -73,7 +73,7 @@
                         <div class="filtro-formulario-item-campo">
                             <select name="order" placeholder="--Ordenar por--" class="filtro-formulario-item-campo"
                                 id="selector-order">
-                                <option class="campo-option" value="id" id="none">Por defecto</option>
+                                <option class="campo-option" value="default" id="none">Por defecto</option>
 
                                 @foreach ($values as $value)
                                     <option value="{{ $value }}" class="campo-option" id="{{ $value }}">
@@ -85,7 +85,8 @@
                             </select>
                         </div>
                         <div class="filtro-formulario-item-campo filter-checkbox">
-                            <input type="checkbox" name="order_asc_desc" value="asc" id="my-checkbox" class="order_asc_desc">
+                            <input type="checkbox" name="order_asc_desc" value="asc" id="my-checkbox"
+                                class="order_asc_desc">
                             <label for="my-checkbox" class="label-hidden"></label>
                             <label for="my-checkbox" class="first-label label-displayed">Desc</label>
                             <label for="my-checkbox" class="second-label label-displayed">Asc</label>

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\FaqRequest;
 use App\Vendor\Locale\Locale;
+use App\Vendor\Locale\LocaleSlugSeo;
 use App\Vendor\Image\Image;
 use App\Models\DB\Faq;
 use Debugbar;
@@ -19,15 +20,17 @@ class FaqController extends Controller
 {
     protected $faq;
     protected $locale;
+    protected $localeSlugSeo;
     protected $image;
     protected $agent;
     protected $paginationNum;
 
-    function __construct(Faq $faq, Agent $agent, Locale $locale, Image $image)
+    function __construct(Faq $faq, Agent $agent, Locale $locale, LocaleSlugSeo $localeSlugSeo, Image $image)
     {
         $this->middleware('auth');
         $this->faq = $faq;
         $this->locale = $locale;
+        $this->localeSlugSeo = $localeSlugSeo;
         $this->image = $image;
         $this->agent = $agent;
 
@@ -40,6 +43,7 @@ class FaqController extends Controller
         }
 
         $this->locale->setParent('faqs');
+        $this->localeSlugSeo->setParent('faqs');
         $this->image->setEntity('faqs');
     }
 
@@ -95,7 +99,7 @@ class FaqController extends Controller
 
     public function store(FaqRequest $request)
     {
-        // DebugBar::info(request());
+        DebugBar::info(request('seo'));
         // DebugBar::info(request('images'));
 
         $faq = $this->faq->updateOrCreate([
@@ -107,6 +111,10 @@ class FaqController extends Controller
             'active' => 1,
         ]);
 
+        if(request('seo')){
+            $seo = $this->localeSlugSeo->store(request('seo'), $faq->id, 'front_faq');
+        }
+
         if (request('locale')) {
             $locale = $this->locale->store(request('locale'), $faq->id);
         }
@@ -114,10 +122,7 @@ class FaqController extends Controller
         
         if (request('images')) {
             $images = $this->image->storeRequest(request('images'), 'webp', $faq->id);
-            DebugBar::info('aqui');
-            DebugBar::info($images);
         }
-        
 
         if (request('id')) {
             $message = \Lang::get('admin/faqs.faq-update');
@@ -158,6 +163,7 @@ class FaqController extends Controller
     {
         
         $locale = $this->locale->show($faq->id);
+        $seo = $this->localeSlugSeo->show($faq->id);
 
         $faqs = $this->faq->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum);
 
@@ -165,6 +171,7 @@ class FaqController extends Controller
 
         $view = View::make('admin.faqs.index')
             ->with('locale', $locale)
+            ->with('seo', $seo)
             ->with('faq', $faq)
             ->with('faqs', $faqs);
 

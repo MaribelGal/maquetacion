@@ -1,37 +1,39 @@
 export let renderizarFormAction = () => {
     let botonCrear = document.getElementById("boton-crear");
 
-    botonCrear.addEventListener("click", () => {
-        let url = botonCrear.dataset.url;
-        console.log(url);
+    if (botonCrear != null) {
+        botonCrear.addEventListener("click", () => {
+            let url = botonCrear.dataset.url;
+            console.log(url);
 
-        formularios.forEach(formulario => {
-            let enviarPeticionGet = async () => {
-                try {
-                    await axios.get(url).then(respuesta => {
-                        formulario.innerHTML = respuesta.data.form;
-                        renderizarFormulario();
-                        renderizarDropImage();
-                        renderizarCkeditor();
-                    });
+            formularios.forEach(formulario => {
+                let enviarPeticionGet = async () => {
+                    try {
+                        await axios.get(url).then(respuesta => {
+                            formulario.innerHTML = respuesta.data.form;
+                            renderizarFormulario();
+                            renderizarDropImage();
+                            renderizarCkeditor();
+                        });
 
-                } catch (error) {
-                    if (error.response.status == '422') {
+                    } catch (error) {
+                        if (error.response.status == '422') {
 
-                        let errors = error.response.data.errors;
-                        let errorMessage = '';
+                            let errors = error.response.data.errors;
+                            let errorMessage = '';
 
-                        Object.keys(errors).forEach(function (key) {
-                            errorMessage += '<div>' + errors[key] + '</div>';
-                        })
+                            Object.keys(errors).forEach(function (key) {
+                                errorMessage += '<div>' + errors[key] + '</div>';
+                            })
 
-                        console.log(errorMessage);
+                            console.log(errorMessage);
 
-                        document.getElementById('item-error').innerHTML = errorMessage;
+                            document.getElementById('item-error').innerHTML = errorMessage;
+                        }
                     }
                 }
-            }
-            enviarPeticionGet();
+                enviarPeticionGet();
+            });
         });
-    });
+    }
 }

@@ -46,7 +46,6 @@ class Image
 			}
 		}
 
-		return $images;
 	}
 
 	public function store($file, $entity_id, $content, $language)

@@ -9,7 +9,6 @@ export let renderizarUpdatedImage = () => {
     });
 }
 
-// renderizarUpdatedImage();
 
 
 let showEditPanel_UpdatedImage = (uploadedThumb) => {
@@ -31,10 +30,6 @@ let deleteUploadedImage = (uploadedThumb) => {
         let url = uploadedThumb_deleteButton.dataset.route;
         let imageId = uploadedThumb.dataset.imageid;
 
-        console.log("click en delete");
-        console.log(url);
-        console.log(imageId);
-
         let sendImageDeleteRequest = async () => {
             try {
                 axios.get(url, {
@@ -42,8 +37,6 @@ let deleteUploadedImage = (uploadedThumb) => {
                         'image': imageId
                     }
                 }).then(response => {
-                    // stopWait();
-                    // showMessage('success', response.data.message);
                     uploadedThumb.remove();
                 });
 
@@ -59,7 +52,6 @@ let editSeoUploadedImage = (uploadedThumb) => {
 
     uploadedThumb_saveSeoButton.addEventListener("click", () => {
 
-        // console.log("edit seo uploaded image CLICK");
         let imageId = uploadedThumb.dataset.imageid;
         let alt = uploadedThumb.querySelector(".uploaded-edit-panel-alt-input").value;
         let title = uploadedThumb.querySelector(".uploaded-edit-panel-title-input").value;
@@ -89,7 +81,6 @@ let closePanelSeo_UpdatedImage = (uploadedThumb) => {
     let editPanelUploadedElement = uploadedThumb.querySelector(".uploaded-edit-panel");
 
     closeButton_uploadedThumb.addEventListener("click", () => {
-        console.log("CLICK TOGGLE VISIBLE");
         editPanelUploadedElement.classList.toggle("visible");
     });
 }

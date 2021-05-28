@@ -1,7 +1,6 @@
 const { default: axios } = require("axios");
 
 
-
 const tabla = document.getElementById("tabla");
 const formulario = document.getElementById("formulario");
 const sideBar = document.getElementById("sidebar");
@@ -15,9 +14,6 @@ sidebarItems.forEach(sidebarItem => {
     sidebarItem.addEventListener("click", () => {
         let url = sidebarItem.dataset.url;
 
-        console.log(sidebarItem);
-        console.log(url);
-
         let enviarPeticionGet = async () => {
             try {
                 await axios.get(url).then(respuesta =>{
@@ -25,7 +21,7 @@ sidebarItems.forEach(sidebarItem => {
                     tabla.innerHTML = respuesta.data.table;
                     renderizarTabla();
                     renderizarFormulario();
-                    renderizarCkeditor();
+                    // renderizarCkeditor();
                 });
 
                     

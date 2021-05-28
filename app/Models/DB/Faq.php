@@ -31,14 +31,21 @@ class Faq extends DBModel
 
     public function images()
     {
-        return $this->hasMany(ImageResized::class, 'entity_id')->where('entity', 'faqs');
+        return $this->hasMany(ImageResized::class, 'entity_id')->where('entity', 'faqs')->where('language', App::getLocale());
     }
 
+    public function images_contents(){
+        return $this->hasMany(ImageResized::class, 'entity_id')->select('content')->where('entity', 'faqs')->distinct();
+    }
 
     
-    public function images_featured_preview()
+
+
+
+
+    public function image_featured_preview()
     {
-        return $this->hasMany(ImageResized::class, 'entity_id')->where('grid', 'preview')->where('content', 'featured')->where('entity', 'faqs');
+        return $this->hasMany(ImageResized::class, 'entity_id')->where('grid', 'preview')->where('content', 'featured')->where('entity', 'faqs')->where('language', App::getLocale());
     }
 
     public function image_featured_desktop()
@@ -51,9 +58,9 @@ class Faq extends DBModel
         return $this->hasOne(ImageResized::class, 'entity_id')->where('grid', 'mobile')->where('content', 'featured')->where('entity', 'faqs')->where('language', App::getLocale());
     }
 
-    public function images_grid_preview()
+    public function image_grid_preview()
     {
-        return $this->hasMany(ImageResized::class, 'entity_id')->where('grid', 'preview')->where('content', 'grid')->where('entity', 'faqs');
+        return $this->hasMany(ImageResized::class, 'entity_id')->where('grid', 'preview')->where('content', 'grid')->where('entity', 'faqs')->where('language', App::getLocale());
     }
 
     public function image_grid_desktop()

@@ -8,6 +8,9 @@
     margin: 1em;
     padding: 2%;
     flex-grow: 1;
+    height: fit-content;
+    max-height: 90vh;
+    overflow: hidden;
     @include neumorphism(1em, 10%, 20%);
 }
 

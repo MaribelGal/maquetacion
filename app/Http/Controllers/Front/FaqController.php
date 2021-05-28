@@ -2,58 +2,98 @@
 
 namespace App\Http\Controllers\Front;
 
-use App;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\FaqRequest;
-use App\Vendor\Locale\Locale;
-use Debugbar;
-use App\Models\DB\Faq;
 use Jenssegers\Agent\Agent;
+use App\Vendor\Locale\LocaleSlugSeo;
+use App\Models\DB\Faq;
+use Debugbar;
 
 class FaqController extends Controller
 {
-    protected $faq;
     protected $agent;
-    protected $grid;
+    protected $faq;
+    protected $locale_slug_seo;
 
-    function __construct(Faq $faq, Agent $agent)
+    function __construct(Agent $agent, Faq $faq, LocaleSlugSeo $locale_slug_seo)
     {
-        $this->faq = $faq;
         $this->agent = $agent;
+        $this->faq = $faq;
+        $this->locale_slug_seo = $locale_slug_seo;
+
+        $this->locale_slug_seo->setLanguage(app()->getLocale()); 
+        $this->locale_slug_seo->setParent('faqs');      
     }
 
     public function index()
-    {
-        $faqs = $this->faq->where('active', 1)->where('visible', 1)->get();
+    {        
+        $seo = $this->locale_slug_seo->getByKey(Route::currentRouteName());
 
-        $faqs = $faqs->each(function($faq) {  
+        if($this->agent->isDesktop()){
+
+            $faqs = $this->faq
+                    ->with('image_featured_desktop')
+                    ->where('active', 1)
+                    ->where('visible', 1)
+                    ->get();
+        }
+        
+        elseif($this->agent->isMobile()){
+            $faqs = $this->faq
+                    ->with('image_featured_mobile')
+                    ->where('active', 1)
+                    ->where('visible', 1)
+                    ->get();
+        }
+
+        $faqs = $faqs->each(function($faq){  
             
             $faq['locale'] = $faq->locale->pluck('value','tag');
             
-            // $faq['images_featured'] = $faq->images->where('content', 'featured')->pluck('path', 'grid');
-            
-            if ($this->agent->isMobile()) {
-                $imagesInfo['path_mobile']=$faq->images->where('grid', 'mobile')->pluck('path', 'content');
-            }
-
-            if ($this->agent->isDesktop()) {
-                $imagesInfo['path_desktop']=$faq->images->where('grid', 'desktop')->pluck('path', 'content');
-            }
-            
-            $imagesInfo['path_preview']=$faq->images->where('grid', 'preview')->pluck('path', 'content');
-            // $imagesInfo['alt']=$faq->images->pluck('path', 'content');
-
-            $faq['images'] = $imagesInfo;
             return $faq;
         });
-        debugbar::info($faqs);
 
-        $view = View::make('front.faqs.index')
-            ->with('faqs', $faqs);
-
+        $view = View::make('front.pages.faqs.index')
+                ->with('faqs', $faqs) 
+                ->with('seo', $seo );
+        
         return $view;
+    }
+
+    public function show($slug)
+    {      
+        $seo = $this->locale_slug_seo->getIdByLanguage($slug);
+
+        if(isset($seo->key)){
+
+            if($this->agent->isDesktop()){
+                $faq = $this->faq
+                    ->with('image_featured_desktop')
+                    ->with('image_grid_desktop')
+                    ->where('active', 1)
+                    ->where('visible', 1)
+                    ->find($seo->key);
+            }
+            
+            elseif($this->agent->isMobile()){
+                $faq = $this->faq
+                    ->with('image_featured_mobile')
+                    ->with('image_grid_mobile')
+                    ->where('active', 1)
+                    ->where('visible', 1)
+                    ->find($seo->key);
+            }
+
+            $faq['locale'] = $faq->locale->pluck('value','tag');
+
+            $view = View::make('front.pages.faqs.single')->with('faq', $faq);
+
+            return $view;
+
+        }else{
+            return response()->view('errors.404', [], 404);
+        }
     }
 }

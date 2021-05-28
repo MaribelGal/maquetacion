@@ -4,18 +4,15 @@ namespace App\Vendor\Locale;
 
 use App\Vendor\Locale\Models\Locale as DBLocale;
 use App\Vendor\Locale\Models\LocaleLanguage;
-use Debugbar;
-use DebugBar\DebugBar as DebugBarDebugBar;
 
 class Locale
 {
     protected $rel_parent;
     protected $language;
-    protected $db_locale;
 
-    function __construct(DBLocale $DBlocale)
+    function __construct(DBLocale $locale)
     {
-        $this->db_locale = $DBlocale;
+        $this->locale = $locale;
     }
 
     public function setParent($rel_parent)
@@ -27,100 +24,65 @@ class Locale
     {
         return $this->rel_parent;
     }
-
+    
     public function setLanguage($language)
     {
         $this->language = $language;
     }
 
-    public function getLanguage()
-    {
-        return $this->language;
-    }
+    public function store($locale, $key)
+    {  
 
-    public function store($locale, $id)
-    {
-        // debugbar::info($locale);
-        foreach ($locale as $tag => $lang) {
+        foreach ($locale as $rel_anchor => $value){
 
-            foreach ($lang as $language => $value) {
+            $rel_anchor = str_replace(['-', '_'], ".", $rel_anchor); 
+            $explode_rel_anchor = explode('.', $rel_anchor);
+            $language = end($explode_rel_anchor);
+            array_pop($explode_rel_anchor); 
+            $tag = implode(".", $explode_rel_anchor); 
 
-                $rel_anchor = $tag . "." . $language;
-
-                $locale_updateOrCreate[] = $this->db_locale->updateOrCreate(
-                    [
-                        'rel_parent' => $this->rel_parent,
-                        'rel_anchor' => $rel_anchor,
-                        'key' => $id,
-                    ],
-                    [
-                        'language' => $language,
-                        'tag' => $tag,
-                        'value' => $value
-                    ]
-                );
-            }
-
-            // $rel_anchor_item = $key;
-            // 
-            // ;
-
-            // $locale[] = $this->db_locale->updateOrCreate(
-            //     [
-            //         'rel_parent' => $this->rel_parent,
-            //         'rel_anchor' => $rel_anchor_item,
-            //         'key' => $id,
-            //     ],
-            //     [
-            //         'language' => $language,
-            //         'tag' => $tag,
-            //         'value' => $value
-            //     ]
-            // );
+            $locale[] = $this->locale->updateOrCreate([
+                    'key' => $key,
+                    'rel_parent' => $this->rel_parent,
+                    'rel_anchor' => $rel_anchor],[
+                    'rel_parent' => $this->rel_parent,
+                    'rel_anchor' => $rel_anchor,
+                    'language' => $language,
+                    'tag' => $tag,
+                    'value' => $value,
+            ]);
         }
 
-        // debugbar::info($locale_updateOrCreate);
-        return $locale_updateOrCreate;
-    }
-
-    public function show($id)
-    {
-        $search =
-            $this->db_locale
-            ->where('rel_parent', $this->rel_parent)
-            ->where('key', $id)
-            ->get()->all();
-
-        foreach ($search as $key) {
-            $tag_value[$key['language']] = $key['value'];
-            $locale[$key['tag']] = $tag_value;
-            // debugbar::info($locale);
-        };
-
-        // debugbar::info($locale);
         return $locale;
     }
 
-    public function index()
+    public function show($key)
     {
-        $search =
-            $this->db_locale
-            ->select('tag', 'value', 'key')
-            ->where('language', $this->language)
-            ->where('rel_parent', $this->rel_parent)
-            ->get()->all();
+        return DBLocale::getValues($this->rel_parent, $key)->pluck('value','rel_anchor')->all();   
+    }
 
-        foreach ($search as $key) {
+    public function delete($key)
+    {
+        if (DBLocale::getValues($this->rel_parent, $key)->count() > 0) {
 
-            $tag_value[$key['tag']] = $key['value'];
+            DBLocale::getValues($this->rel_parent, $key)->delete();   
+        }
+    }
 
-            $locale[$key['key']] = $tag_value;
+    public function getIdByLanguage($key){ 
+        return DBLocale::getIdByLanguage($this->rel_parent, $this->language, $key)->pluck('value','tag')->all();
+    }
 
+    public function getAllByLanguage(){ 
 
-            // debugbar::info($locale);
-        };
+        $items = DBLocale::getAllByLanguage($this->rel_parent, $this->language)->get()->groupBy('key');
 
-        // debugbar::info($locale);
-        return $locale;
+        $items =  $items->map(function ($item) {
+            return $item->pluck('value','tag');
+        });
+
+        return $items;
     }
 }
+    
+

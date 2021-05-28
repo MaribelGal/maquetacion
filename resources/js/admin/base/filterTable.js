@@ -6,8 +6,8 @@ const campoDateStart = document.getElementById("campo-date-start");
 const campoDateEnd = document.getElementById("campo-date-end");
 const selectorOrder = document.getElementById("selector-order");
 const selectorCategoria = document.getElementById("selector-categoria");
+const selectorParent = document.getElementById("selector-parent");
 const checkOrderDesAsc = document.getElementById("my-checkbox");
-
 const formularioFiltro = document.getElementById("filtro-formulario");
 
 export let renderizarFiltroTabla = () => {
@@ -19,14 +19,15 @@ export let renderizarFiltroTabla = () => {
             data.set('order_asc_desc', 'desc')
         }
 
-        // for (var pair of data.entries()) {
-        //     console.log(pair[0] + ', ' + pair[1]);
-        // }
+        for (var pair of data.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
 
         let filters = {};
         data.forEach(function (value, key) {
             filters[key] = value;
         });
+        
         let json = JSON.stringify(filters);
 
         let sendGetRequest = async () => {
@@ -46,6 +47,12 @@ export let renderizarFiltroTabla = () => {
         };
         sendGetRequest();
     }
+
+    if (selectorParent != null) {
+        selectorParent.addEventListener('change', () => {
+            filtrar();
+        });
+    };
 
     if (selectorCategoria != null) {
         selectorCategoria.addEventListener('change', () => {

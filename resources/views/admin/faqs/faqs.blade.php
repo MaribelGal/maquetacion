@@ -22,7 +22,7 @@ $filtros = ['category' => $faqs_categories, 'search' => true, 'date_start' => tr
 
         {{ csrf_field() }}
 
-        <input type="hidden" name="id" value="{{ isset($faq->id) ? $faq->id : '' }}">
+        <input type="hidden" name="id" value="{{isset($faq->id) ? $faq->id : ''}}">
 
 
         <div class="formulario-contenedor">
@@ -40,10 +40,19 @@ $filtros = ['category' => $faqs_categories, 'search' => true, 'date_start' => tr
                             <p class="tab-title"> Imagenes </p>
                         </div>
                     </div>
+                    <div class="formulario-tab-item-panelselector " id="tab-item-imagenes" data-tab="seo">
+                        <div>
+                            <p class="tab-title"> Seo </p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="formulario-tab-item">
-                    @include('admin.components.form_actions')
+                    @include('admin.components.form_actions', [
+                        'route'=> $route,
+                        'create' => 'create',
+                        'visible' => 'visible'
+                    ])
                 </div>
             </div>
 
@@ -58,7 +67,6 @@ $filtros = ['category' => $faqs_categories, 'search' => true, 'date_start' => tr
                                     id="formulario-contenido-panel-item-campo-name" name="name"
                                     placeholder="Inserta el nombre" value="{{ isset($faq->name) ? $faq->name : '' }}" />
                             </div>
-
                         </div>
 
                         <div class="formulario-contenido-panel-item grid-column-2 grid-row-1" id="item-categoria">
@@ -84,9 +92,9 @@ $filtros = ['category' => $faqs_categories, 'search' => true, 'date_start' => tr
                                     <div class="formulario-contenido-panel-item-campo">
                                         <input type="text"  
                                             class="formulario-contenido-panel-item-campo"
-                                            name="locale[titulo][{{$localization->alias}}]" 
+                                            name="seo[title.{{$localization->alias}}]" 
                                             placeholder="Inserta la pregunta"
-                                            value="{{isset($locale["titulo"][$localization->alias]) ? $locale["titulo"][$localization->alias]: ''}}" />
+                                            value="{{isset($seo["title.".$localization->alias]) ? $seo["title.".$localization->alias]: ''}}" />
                                     </div>
 
                                 </div>
@@ -94,10 +102,10 @@ $filtros = ['category' => $faqs_categories, 'search' => true, 'date_start' => tr
                                 <div class="formulario-contenido-panel-item grid-column-span-2 grid-row-4"
                                     id="item-descripcion">
                                     <div class="formulario-contenido-panel-item-campo" id="ckeditor">
-                                        <textarea type="text" name="locale[description][{{$localization->alias}}]"
+                                        <textarea type="text" name="locale[description.{{$localization->alias}}]"
                                             class="formulario-contenido-panel-item-campo-descripcion ckeditor"
                                             
-                                            placeholder="Inserta la respuesta">{{isset($locale["description"][$localization->alias]) ? $locale["description"][$localization->alias] : '' }}
+                                            placeholder="Inserta la respuesta">{{isset($locale["description".$localization->alias]) ? $locale["description".$localization->alias] : '' }}
                                           </textarea>
                                     </div>
                                 </div>
@@ -111,40 +119,58 @@ $filtros = ['category' => $faqs_categories, 'search' => true, 'date_start' => tr
 
                 <div class="formulario-contenido-panel " data-tab="imagenes">
                     @component('admin.components.form_locale')
-
                         @foreach ($localizations as $localization)
-
                             <div class="panel-locale">
-
                                 <div class="panel-locale-item contents {{ $loop->first ? 'active':''}}" data-locale="{{$localization->alias}}">
-                                    
-                                    {{-- <div class="formulario-contenido-panel-item" >
+                                    <div class="formulario-contenido-panel-item" >
                                         @include('admin.components.upload', [
                                             'type' => 'image', 
                                             'content' => 'featured', 
                                             'alias' => $localization->alias,
                                             'files' => $faq->image_featured_preview
                                         ])
-                                    </div> --}}
-
-                                    <div>Seleccion multiple:</div>
+                                    </div>
                                     <div class="formulario-contenido-panel-item images-container">
                                         @include('admin.components.upload', [
                                             'type' => 'images', 
                                             'content' => 'grid', 
                                             'alias' => $localization->alias,
-                                            'files' => $faq->images_grid_preview
+                                            'files' => $faq->image_grid_preview
                                         ])
-
                                     </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endcomponent
+                </div>
 
+                <div class="formulario-contenido-panel " data-tab="seo">
+                    @component('admin.components.form_locale')
+                        @foreach ($localizations as $localization)
+                        <div class="panel-locale">
+                            <div class="panel-locale-item contents {{ $loop->first ? 'active' : '' }} " data-locale="{{$localization->alias}}">
 
+                                <div class="formulario-contenido-panel-item grid-column-span-2 grid-row-3" id="item-keywords">
+                                    <div class="formulario-contenido-panel-item-campo">
+                                        <input type="text"  
+                                            class="formulario-contenido-panel-item-campo"
+                                            name="seo[keywords.{{$localization->alias}}]" 
+                                            placeholder="Inserta las keywords"
+                                            value="{{isset($seo["keywords.".$localization->alias]) ? $seo["keywords.".$localization->alias]: ''}}" />
+                                    </div>
                                 </div>
 
+                                <div class="formulario-contenido-panel-item grid-column-span-2 grid-row-4"
+                                    id="item-descripcion">
+                                    <div class="formulario-contenido-panel-item-campo" >
+                                        <textarea type="text" name="seo[description.{{$localization->alias}}]"
+                                            class="formulario-contenido-panel-item-campo-descripcion "
+                                            placeholder="Inserta la descripcion">{{isset($seo["description.".$localization->alias])?$seo["description.".$localization->alias] : '' }}</textarea>
+                                    </div>
+                                </div>
                             </div>
-
+                        </div>
                         @endforeach
-
                     @endcomponent
                 </div>
             </div>
@@ -159,8 +185,6 @@ $filtros = ['category' => $faqs_categories, 'search' => true, 'date_start' => tr
 
 
 @section('table')
-
-
     @isset($faqs)
         <div class="tabla-contenedor" id="tabla-faqs">
             <div class="tabla-alerta " id="alerta">
@@ -181,7 +205,6 @@ $filtros = ['category' => $faqs_categories, 'search' => true, 'date_start' => tr
             @if ($agent->isDesktop())
                 @include('admin.components.table_pagination', ['items' => $faqs])
             @endif
-
         </div>
     @endisset
 @endsection

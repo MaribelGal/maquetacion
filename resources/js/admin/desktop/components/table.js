@@ -1,7 +1,9 @@
 import { renderizarFormulario } from "../form/form";
 import { renderizarCkeditor } from "../ckeditor";
-import { renderizarDropImage } from "../components/dropImage";
+import { renderizarDropImage } from "../components/dropImage_collection";
+import { renderizarDropImage_single } from "../components/dropImage_single";
 import { renderizarUpdatedImage } from "./updatedImage";
+import { editTag } from "./editLocaleTagItem";
 
 
 const tabla = document.getElementById("tabla");
@@ -15,27 +17,29 @@ export let renderizarTabla = () => {
 
     botonesEditar.forEach(botonEditar => {
         botonEditar.addEventListener("click", () => {
-
-
             let url = botonEditar.dataset.url;
             console.log(url);
 
-            let enviarPeticionGet = async () => {
-                try {
-                    await axios.get(url).then(respuesta => {
-                        formulario.innerHTML = respuesta.data.form;
-                        
-                        renderizarFormulario();
-                        // renderizarCkeditor();
-                        renderizarDropImage();
-                        renderizarUpdatedImage();
-                    });
-                } catch (error) {
-                    console.log(error)
+            if (botonEditar.dataset.group == null) {
+                let enviarPeticionGet = async () => {
+                    try {
+                        await axios.get(url).then(respuesta => {
+                            formulario.innerHTML = respuesta.data.form;
+                            renderizarFormulario();
+                            // renderizarCkeditor();
+                            renderizarDropImage_single();
+                            renderizarDropImage();
+                            renderizarUpdatedImage();
+                        });
+                    } catch (error) {
+                        console.log(error)
+                    }
                 }
-            }
+                enviarPeticionGet();
 
-            enviarPeticionGet();
+            } else {
+                editTag(botonEditar);
+            }
         });
     });
 
@@ -75,17 +79,17 @@ export let renderizarTabla = () => {
                         tabla.innerHTML = respuesta.data.table;
                         renderizarTabla();
                     });
-                    
+
                 } catch (error) {
                     console.error(error);
                 }
             };
 
             enviarPeticionGet();
-            
+
         });
     });
-    
+
 };
 
 renderizarTabla();

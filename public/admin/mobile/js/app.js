@@ -1890,6 +1890,12 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 
 var tabla = document.getElementById("tabla");
 var campoInput = document.getElementById("campo-input-text");
@@ -1897,6 +1903,7 @@ var campoDateStart = document.getElementById("campo-date-start");
 var campoDateEnd = document.getElementById("campo-date-end");
 var selectorOrder = document.getElementById("selector-order");
 var selectorCategoria = document.getElementById("selector-categoria");
+var selectorParent = document.getElementById("selector-parent");
 var checkOrderDesAsc = document.getElementById("my-checkbox");
 var formularioFiltro = document.getElementById("filtro-formulario");
 var renderizarFiltroTabla = function renderizarFiltroTabla() {
@@ -1906,10 +1913,21 @@ var renderizarFiltroTabla = function renderizarFiltroTabla() {
 
     if (data.get('order_asc_desc') == null) {
       data.set('order_asc_desc', 'desc');
-    } // for (var pair of data.entries()) {
-    //     console.log(pair[0] + ', ' + pair[1]);
-    // }
+    }
 
+    var _iterator = _createForOfIteratorHelper(data.entries()),
+        _step;
+
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var pair = _step.value;
+        console.log(pair[0] + ', ' + pair[1]);
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
 
     var filters = {};
     data.forEach(function (value, key) {
@@ -1957,6 +1975,14 @@ var renderizarFiltroTabla = function renderizarFiltroTabla() {
 
     sendGetRequest();
   };
+
+  if (selectorParent != null) {
+    selectorParent.addEventListener('change', function () {
+      filtrar();
+    });
+  }
+
+  ;
 
   if (selectorCategoria != null) {
     selectorCategoria.addEventListener('change', function () {
@@ -2050,10 +2076,85 @@ var renderizarCkeditor = function renderizarCkeditor() {
 
 /***/ }),
 
-/***/ "./resources/js/admin/desktop/components/dropImage.js":
-/*!************************************************************!*\
-  !*** ./resources/js/admin/desktop/components/dropImage.js ***!
-  \************************************************************/
+/***/ "./resources/js/admin/desktop/components/blockParameters.js":
+/*!******************************************************************!*\
+  !*** ./resources/js/admin/desktop/components/blockParameters.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderBlockParameters": () => (/* binding */ renderBlockParameters)
+/* harmony export */ });
+var renderBlockParameters = function renderBlockParameters() {
+  var blockParameters = document.querySelectorAll('.block-parameters');
+
+  if (blockParameters) {
+    blockParameters.forEach(function (blockParameter) {
+      blockParameter.addEventListener("keydown", function () {
+        var parameters = blockParameter.value.match(/\{.*?\}/g);
+        blockParameter.dataset.url = blockParameter.value;
+        blockParameter.dataset.parameters = parameters;
+      });
+      blockParameter.addEventListener("keyup", function () {
+        var parameters = blockParameter.value.match(/\{.*?\}/g);
+        var previousParameters = blockParameter.dataset.parameters;
+
+        if (parameters) {
+          var parametersString = parameters.toString();
+        }
+
+        if (previousParameters == null && parameters == null) {
+          var isSame = true;
+        }
+
+        if (previousParameters != null && parameters == null) {
+          var isSame = false;
+        }
+
+        if (previousParameters != null && parameters != null) {
+          var isSame = parametersString.length == previousParameters.length && parameters.every(function (element, index) {
+            return element[index] === previousParameters[index];
+          });
+        }
+
+        if (!isSame) {
+          blockParameter.value = blockParameter.dataset.url;
+        }
+      });
+    });
+  }
+};
+
+/***/ }),
+
+/***/ "./resources/js/admin/desktop/components/buttonPress.js":
+/*!**************************************************************!*\
+  !*** ./resources/js/admin/desktop/components/buttonPress.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "buttonPress": () => (/* binding */ buttonPress)
+/* harmony export */ });
+var buttonPress = function buttonPress(element) {
+  element.addEventListener("mousedown", function () {
+    element.parentElement.classList.add("mousedown");
+  });
+  element.addEventListener("mouseup", function () {
+    element.parentElement.classList.remove("mousedown");
+  });
+};
+
+/***/ }),
+
+/***/ "./resources/js/admin/desktop/components/dropImage_collection.js":
+/*!***********************************************************************!*\
+  !*** ./resources/js/admin/desktop/components/dropImage_collection.js ***!
+  \***********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2063,10 +2164,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "appendInputFiles": () => (/* binding */ appendInputFiles),
 /* harmony export */   "resetDropImage": () => (/* binding */ resetDropImage)
 /* harmony export */ });
-// const dropZoneInputs = document.querySelectorAll(".drop-zone__input");
 var filesToUpload;
 var fileIdCounter;
-var fileIdCounterOnload;
 var renderizarDropImage = function renderizarDropImage() {
   var imagesContainers = document.querySelectorAll(".images-container");
   imagesContainers.forEach(function (imagesContainer) {
@@ -2074,7 +2173,6 @@ var renderizarDropImage = function renderizarDropImage() {
     var previewContainer = imagesContainer.querySelector(".preview");
     filesToUpload = {};
     fileIdCounter = 0;
-    fileIdCounterOnload = 0;
     var uploadElement = imagesContainer.querySelector(".upload");
     uploadElement.addEventListener("click", function (e) {
       inputElement.click();
@@ -2093,12 +2191,10 @@ var renderizarDropImage = function renderizarDropImage() {
             alt: "",
             title: ""
           };
-          console.log(filesToUpload);
           updateThumbnail(previewContainer, file, fileId);
         }
       }
 
-      console.log(filesToUpload);
       filesToUpload = renderizarAcciones(filesToUpload);
     });
     uploadElement.addEventListener("dragover", function (e) {
@@ -2124,30 +2220,25 @@ var renderizarDropImage = function renderizarDropImage() {
 
   function updateThumbnail(previewContainer, file, fileId) {
     var thumbnailElementPrototype = previewContainer.querySelector(".upload-thumb-prototype");
-    console.log(previewContainer);
     var thumbnailElement = thumbnailElementPrototype.cloneNode(true);
     var uploadEditPanel = thumbnailElement.querySelector(".upload-edit-panel");
     uploadEditPanel.dataset.fileId = fileId;
-    thumbnailElement.classList.replace("upload-thumb-prototype", "upload-thumb"); // thumbnailElement.appendChild(thumbnailElementDelete);
-
-    previewContainer.appendChild(thumbnailElement); // }
-
+    thumbnailElement.classList.replace("upload-thumb-prototype", "upload-thumb");
+    previewContainer.appendChild(thumbnailElement);
     thumbnailElement.dataset.label = file.name;
     thumbnailElement.dataset.fileid = fileId;
-    console.log(thumbnailElement.querySelector(".upload-edit-panel-image")); // thumbnailElementEditImage = thumbnailElement.querySelector(".upload-edit-panel-image");
-    // console.log(thumbnailElementEditImage);
 
     if (file.type.startsWith("image/")) {
       var reader = new FileReader();
       reader.readAsDataURL(file);
 
       reader.onload = function () {
-        thumbnailElement.style.backgroundImage = "url('".concat(reader.result, "')");
-        thumbnailElement.querySelector(".upload-edit-panel-image").style.backgroundImage = "url('".concat(reader.result, "')");
+        thumbnailElement.querySelector(".upload-thumb-image-item").src = reader.result;
+        thumbnailElement.querySelector(".upload-edit-panel-image-item").src = reader.result;
       };
     } else {
-      thumbnailElement.style.backgroundImage = null;
-      thumbnailElement.querySelector(".upload-edit-panel-image").style.backgroundImage = null;
+      thumbnailElement.querySelector(".upload-thumb-image-item").src = "";
+      thumbnailElement.querySelector(".upload-edit-panel-image-item").src = "";
     }
   }
 };
@@ -2158,23 +2249,28 @@ var renderizarAcciones = function renderizarAcciones(filesToUpload) {
   var editPanelUploadedElements = document.querySelectorAll(".upload-edit-panel");
   deleteUploadedElements.forEach(function (deleteUploadedElement) {
     var deleteButtonUploadedElements = deleteUploadedElement.querySelector(".upload-thumb-delete-button");
-    deleteButtonUploadedElements.addEventListener("click", function () {
+
+    var action_deleteButtonUploadedElements = function action_deleteButtonUploadedElements() {
       var uploadThumb = deleteUploadedElement.closest(".upload-thumb");
       var fileId = uploadThumb.dataset.fileid;
       delete filesToUpload[fileId];
       deleteUploadedElement.closest(".upload-thumb").remove();
-    });
+    };
+
+    deleteButtonUploadedElements.addEventListener("click", action_deleteButtonUploadedElements);
   });
   editUploadedElements.forEach(function (editUploadedElement) {
     var editButtonUploadedElements = editUploadedElement.querySelector(".upload-thumb-edit-button");
     var editPanelUploadedElement = editUploadedElement.querySelector(".upload-edit-panel");
-    editButtonUploadedElements.addEventListener("click", function () {
-      console.log("CLICK TOGGLE VISIBLE");
+
+    var action_editButtonUploadedElements = function action_editButtonUploadedElements() {
+      console.log(editButtonUploadedElements);
       editPanelUploadedElement.classList.toggle("visible");
-    });
+    };
+
+    editButtonUploadedElements.addEventListener("click", action_editButtonUploadedElements);
   });
   editPanelUploadedElements.forEach(function (editPanelUploadedElement) {
-    console.log(editPanelUploadedElement);
     var altUploadedElement = editPanelUploadedElement.querySelector(".upload-edit-panel-alt-input");
     var titleUploadedElement = editPanelUploadedElement.querySelector(".upload-edit-panel-alt-input");
     var saveUploadedElement = editPanelUploadedElement.querySelector(".upload-edit-panel-save");
@@ -2184,10 +2280,8 @@ var renderizarAcciones = function renderizarAcciones(filesToUpload) {
       var fileId = uploadThumb.dataset.fileid;
       filesToUpload[fileId].alt = altUploadedElement.value;
       filesToUpload[fileId].title = titleUploadedElement.value;
-      console.log(filesToUpload);
     });
     closeUploadedElement.addEventListener("click", function () {
-      console.log("CLICK TOGGLE VISIBLE");
       editPanelUploadedElement.classList.toggle("visible");
     });
   });
@@ -2203,10 +2297,8 @@ var appendInputFiles = function appendInputFiles(datosFormulario) {
     var alt = filesToUpload[files].alt;
     var title = filesToUpload[files].title;
     var alias = files.split(".")[0];
-    var content = files.split(".")[1]; // let fileId = alias + "." + content + "." + fileIdCounter;
-
+    var content = files.split(".")[1];
     var key = "images[" + content + "." + alias + "][" + alt + "." + counter + "." + title + "]";
-    console.log();
     datosFormulario.append(key, file);
   }
 
@@ -2217,6 +2309,440 @@ var resetDropImage = function resetDropImage() {
   uploadThumbs.forEach(function (uploadThumb) {// uploadThumb.remove();
   });
   renderizarDropImage();
+};
+
+/***/ }),
+
+/***/ "./resources/js/admin/desktop/components/dropImage_single.js":
+/*!*******************************************************************!*\
+  !*** ./resources/js/admin/desktop/components/dropImage_single.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderizarDropImage_single": () => (/* binding */ renderizarDropImage_single)
+/* harmony export */ });
+var renderizarDropImage_single = function renderizarDropImage_single() {
+  var inputElements = document.querySelectorAll(".upload-input-single");
+  inputElements.forEach(function (inputElement) {
+    var uploadElement = inputElement.closest(".upload-single");
+    uploadElement.addEventListener("click", function (e) {
+      inputElement.click();
+    });
+    inputElement.addEventListener("change", function (e) {
+      if (inputElement.files.length) {
+        updateThumbnail(uploadElement, inputElement.files);
+      }
+    });
+    uploadElement.addEventListener("dragover", function (e) {
+      e.preventDefault();
+      uploadElement.classList.add("upload-over-single");
+    });
+    ["dragleave", "dragend"].forEach(function (type) {
+      uploadElement.addEventListener(type, function (e) {
+        uploadElement.classList.remove("upload-over-single");
+      });
+    });
+    uploadElement.addEventListener("drop", function (e) {
+      e.preventDefault();
+
+      if (e.dataTransfer.files.length) {
+        inputElement.files = e.dataTransfer.files;
+        updateThumbnail(uploadElement, e.dataTransfer.files[0]);
+      }
+
+      uploadElement.classList.remove("upload-over-single");
+    });
+  });
+
+  function updateThumbnail(uploadElement, files) {
+    console.log(files.length);
+
+    var _loop = function _loop(index) {
+      var file = files[index];
+      console.log(files[index]);
+      var thumbnailElement = uploadElement.querySelector(".upload-thumb-image-item");
+      var inputElement = uploadElement.querySelector(".upload-input-single");
+
+      if (uploadElement.querySelector(".upload-prompt-single")) {
+        uploadElement.querySelector(".upload-prompt-single").remove();
+      } // if (!thumbnailElement) {
+      //     thumbnailElement = document.createElement("div");
+      //     thumbnailElement.classList.add("upload-thumb-single");
+      //     uploadElement.appendChild(thumbnailElement);
+      // }
+
+
+      thumbnailElement.dataset.label = file.name;
+
+      if (file.type.startsWith("image/")) {
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = function () {
+          thumbnailElement.src = reader.result;
+          inputElement.name = "images[" + inputElement.dataset.content + "." + inputElement.dataset.alias + "][.]";
+        };
+      } else {
+        thumbnailElement.src = null;
+      }
+    };
+
+    for (var index = 0; index < files.length; index++) {
+      _loop(index);
+    }
+  }
+
+  var imageSingle = document.querySelectorAll(".image-single");
+  imageSingle.forEach(function (imageSingle) {
+    var uploadActions_single = imageSingle.querySelector(".upload-actions-single");
+    var uploadThumbImage = imageSingle.querySelector(".upload-thumb-image-single");
+    var uploadSingle = imageSingle.querySelector(".upload-single");
+    var deleteUploadElement = uploadActions_single.querySelector(".upload-thumb-delete-single");
+    var editUploadElement = uploadActions_single.querySelector(".upload-thumb-edit-single");
+    var editPanelUploadElement = uploadActions_single.querySelector(".upload-edit-panel");
+    console.log(uploadActions_single);
+    console.log(deleteUploadElement);
+    var deleteButtonUploadElements = deleteUploadElement.querySelector(".upload-thumb-delete-button");
+    deleteButtonUploadElements.addEventListener("click", function () {
+      uploadThumbImage.querySelector(".upload-thumb-image-item").src = "";
+      uploadSingle.querySelector(".upload-input-single").value = null;
+    });
+    var editButtonUploadElements = editUploadElement.querySelector(".upload-thumb-edit-button");
+
+    var action_editButtonUploadElements = function action_editButtonUploadElements() {
+      console.log(editButtonUploadElements);
+      editPanelUploadElement.classList.toggle("visible");
+    };
+
+    editButtonUploadElements.addEventListener("click", action_editButtonUploadElements);
+    var altUploadedElement = editPanelUploadElement.querySelector(".upload-edit-panel-alt-input");
+    var titleUploadedElement = editPanelUploadElement.querySelector(".upload-edit-panel-alt-input");
+    var saveUploadedElement = editPanelUploadElement.querySelector(".upload-edit-panel-save");
+    var closeUploadedElement = editPanelUploadElement.querySelector(".upload-edit-panel-close");
+    saveUploadedElement.addEventListener("click", function () {
+      var inputElement = imageSingle.querySelector(".upload-input-single");
+      var uploadThumb = editPanelUploadElement.closest(".upload-thumb");
+      inputElement.name = "images[" + inputElement.dataset.content + "." + inputElement.dataset.alias + "][" + altUploadedElement.value + "." + titleUploadedElement.value + "]";
+      console.log(inputElement.name);
+    });
+    closeUploadedElement.addEventListener("click", function () {
+      editPanelUploadElement.classList.toggle("visible");
+    });
+  });
+};
+
+/***/ }),
+
+/***/ "./resources/js/admin/desktop/components/editLocaleTagItem.js":
+/*!********************************************************************!*\
+  !*** ./resources/js/admin/desktop/components/editLocaleTagItem.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "editTag": () => (/* binding */ editTag)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _form_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../form/form */ "./resources/js/admin/desktop/form/form.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var editTag = function editTag(editButton) {
+  var url = editButton.dataset.url;
+  var group = editButton.dataset.group;
+  var key = editButton.dataset.key;
+  var groupKey = {};
+  groupKey['group'] = group;
+  groupKey['key'] = key;
+  var json = JSON.stringify(groupKey);
+  console.log(json);
+  var forms = document.querySelectorAll(".admin-formulario");
+  forms.forEach(function (form) {
+    var sendGetRequest = /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return axios.get(url, {
+                  params: {
+                    groupKey: json
+                  }
+                }).then(function (response) {
+                  form.innerHTML = response.data.form;
+                  (0,_form_form__WEBPACK_IMPORTED_MODULE_1__.renderizarFormulario)();
+                });
+
+              case 3:
+                _context.next = 8;
+                break;
+
+              case 5:
+                _context.prev = 5;
+                _context.t0 = _context["catch"](0);
+                console.log("fallo");
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 5]]);
+      }));
+
+      return function sendGetRequest() {
+        return _ref.apply(this, arguments);
+      };
+    }();
+
+    sendGetRequest();
+  });
+};
+
+/***/ }),
+
+/***/ "./resources/js/admin/desktop/components/googleBot.js":
+/*!************************************************************!*\
+  !*** ./resources/js/admin/desktop/components/googleBot.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderGoogleBot": () => (/* binding */ renderGoogleBot)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./table */ "./resources/js/admin/desktop/components/table.js");
+/* harmony import */ var _notifications__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./notifications */ "./resources/js/admin/desktop/components/notifications.js");
+/* harmony import */ var _wait__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./wait */ "./resources/js/admin/desktop/components/wait.js");
+/* harmony import */ var _buttonPress__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./buttonPress */ "./resources/js/admin/desktop/components/buttonPress.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+
+
+var renderGoogleBot = function renderGoogleBot() {
+  var table = document.getElementById("tabla");
+  var pingGoogle = document.getElementById('ping-google');
+
+  if (pingGoogle) {
+    pingGoogle.addEventListener("click", function () {
+      var url = pingGoogle.dataset.url;
+
+      var sendEditRequest = /*#__PURE__*/function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.prev = 0;
+                  _context.next = 3;
+                  return axios.get(url).then(function (response) {
+                    (0,_notifications__WEBPACK_IMPORTED_MODULE_2__.showNotification)('success', response.data.message);
+                  });
+
+                case 3:
+                  _context.next = 8;
+                  break;
+
+                case 5:
+                  _context.prev = 5;
+                  _context.t0 = _context["catch"](0);
+                  console.error(_context.t0);
+
+                case 8:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, null, [[0, 5]]);
+        }));
+
+        return function sendEditRequest() {
+          return _ref.apply(this, arguments);
+        };
+      }();
+
+      sendEditRequest();
+    });
+    (0,_buttonPress__WEBPACK_IMPORTED_MODULE_4__.buttonPress)(pingGoogle);
+  }
+};
+
+/***/ }),
+
+/***/ "./resources/js/admin/desktop/components/localeSeo.js":
+/*!************************************************************!*\
+  !*** ./resources/js/admin/desktop/components/localeSeo.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderizarLocaleSeo": () => (/* binding */ renderizarLocaleSeo)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./table */ "./resources/js/admin/desktop/components/table.js");
+/* harmony import */ var _notifications__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./notifications */ "./resources/js/admin/desktop/components/notifications.js");
+/* harmony import */ var _wait__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./wait */ "./resources/js/admin/desktop/components/wait.js");
+/* harmony import */ var _buttonPress__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./buttonPress */ "./resources/js/admin/desktop/components/buttonPress.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+
+
+var renderizarLocaleSeo = function renderizarLocaleSeo() {
+  var table = document.getElementById("tabla");
+  var importSeo = document.getElementById('import-seo');
+
+  if (importSeo) {
+    importSeo.addEventListener("click", function () {
+      var url = importSeo.dataset.url;
+
+      var sendEditRequest = /*#__PURE__*/function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.prev = 0;
+                  _context.next = 3;
+                  return axios.get(url).then(function (response) {
+                    table.innerHTML = response.data.table;
+                    (0,_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                    (0,_notifications__WEBPACK_IMPORTED_MODULE_2__.showNotification)('success', response.data.message); // stopWait();
+                  });
+
+                case 3:
+                  _context.next = 8;
+                  break;
+
+                case 5:
+                  _context.prev = 5;
+                  _context.t0 = _context["catch"](0);
+                  console.error(_context.t0);
+
+                case 8:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, null, [[0, 5]]);
+        }));
+
+        return function sendEditRequest() {
+          return _ref.apply(this, arguments);
+        };
+      }();
+
+      sendEditRequest();
+    });
+    (0,_buttonPress__WEBPACK_IMPORTED_MODULE_4__.buttonPress)(importSeo);
+  }
+};
+
+/***/ }),
+
+/***/ "./resources/js/admin/desktop/components/localeTags.js":
+/*!*************************************************************!*\
+  !*** ./resources/js/admin/desktop/components/localeTags.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderizarLocaleTags": () => (/* binding */ renderizarLocaleTags)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./table */ "./resources/js/admin/desktop/components/table.js");
+/* harmony import */ var _notifications__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./notifications */ "./resources/js/admin/desktop/components/notifications.js");
+/* harmony import */ var _buttonPress__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./buttonPress */ "./resources/js/admin/desktop/components/buttonPress.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+
+var renderizarLocaleTags = function renderizarLocaleTags() {
+  var table = document.getElementById("tabla");
+  var importTags = document.getElementById('import-tags');
+
+  if (importTags) {
+    importTags.addEventListener("click", function () {
+      var url = importTags.dataset.url;
+
+      var sendImportTagsRequest = /*#__PURE__*/function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.prev = 0;
+                  _context.next = 3;
+                  return axios.get(url).then(function (response) {
+                    table.innerHTML = response.data.table;
+                    (0,_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                    (0,_notifications__WEBPACK_IMPORTED_MODULE_2__.showNotification)('success', response.data.message);
+                    console.log(response.data.table);
+                  });
+
+                case 3:
+                  _context.next = 8;
+                  break;
+
+                case 5:
+                  _context.prev = 5;
+                  _context.t0 = _context["catch"](0);
+                  console.error(_context.t0);
+
+                case 8:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, null, [[0, 5]]);
+        }));
+
+        return function sendImportTagsRequest() {
+          return _ref.apply(this, arguments);
+        };
+      }();
+
+      sendImportTagsRequest();
+    });
+    (0,_buttonPress__WEBPACK_IMPORTED_MODULE_3__.buttonPress)(importTags);
+  }
 };
 
 /***/ }),
@@ -2278,6 +2804,80 @@ function showNotification(type, messageText, setTimeOut) {
 
 /***/ }),
 
+/***/ "./resources/js/admin/desktop/components/sitemap.js":
+/*!**********************************************************!*\
+  !*** ./resources/js/admin/desktop/components/sitemap.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderSitemap": () => (/* binding */ renderSitemap)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wait__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./wait */ "./resources/js/admin/desktop/components/wait.js");
+/* harmony import */ var _buttonPress__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./buttonPress */ "./resources/js/admin/desktop/components/buttonPress.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+var renderSitemap = function renderSitemap() {
+  var createSitemap = document.getElementById('create-sitemap');
+  var sitemap = document.getElementById('sitemap');
+
+  if (createSitemap) {
+    createSitemap.addEventListener("click", function () {
+      var url = createSitemap.dataset.url;
+
+      var sendEditRequest = /*#__PURE__*/function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.prev = 0;
+                  _context.next = 3;
+                  return axios.get(url).then(function (response) {
+                    console.log(sitemap);
+                    sitemap.value = response.data.sitemap;
+                  });
+
+                case 3:
+                  _context.next = 8;
+                  break;
+
+                case 5:
+                  _context.prev = 5;
+                  _context.t0 = _context["catch"](0);
+                  console.error(_context.t0);
+
+                case 8:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, null, [[0, 5]]);
+        }));
+
+        return function sendEditRequest() {
+          return _ref.apply(this, arguments);
+        };
+      }();
+
+      sendEditRequest();
+    });
+    (0,_buttonPress__WEBPACK_IMPORTED_MODULE_2__.buttonPress)(createSitemap);
+  }
+};
+
+/***/ }),
+
 /***/ "./resources/js/admin/desktop/components/table.js":
 /*!********************************************************!*\
   !*** ./resources/js/admin/desktop/components/table.js ***!
@@ -2293,13 +2893,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _form_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../form/form */ "./resources/js/admin/desktop/form/form.js");
 /* harmony import */ var _ckeditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ckeditor */ "./resources/js/admin/desktop/ckeditor.js");
-/* harmony import */ var _components_dropImage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/dropImage */ "./resources/js/admin/desktop/components/dropImage.js");
-/* harmony import */ var _updatedImage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./updatedImage */ "./resources/js/admin/desktop/components/updatedImage.js");
+/* harmony import */ var _components_dropImage_collection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/dropImage_collection */ "./resources/js/admin/desktop/components/dropImage_collection.js");
+/* harmony import */ var _components_dropImage_single__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/dropImage_single */ "./resources/js/admin/desktop/components/dropImage_single.js");
+/* harmony import */ var _updatedImage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./updatedImage */ "./resources/js/admin/desktop/components/updatedImage.js");
+/* harmony import */ var _editLocaleTagItem__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./editLocaleTagItem */ "./resources/js/admin/desktop/components/editLocaleTagItem.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
 
 
 
@@ -2316,45 +2920,50 @@ var renderizarTabla = function renderizarTabla() {
       var url = botonEditar.dataset.url;
       console.log(url);
 
-      var enviarPeticionGet = /*#__PURE__*/function () {
-        var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  _context.prev = 0;
-                  _context.next = 3;
-                  return axios.get(url).then(function (respuesta) {
-                    formulario.innerHTML = respuesta.data.form;
-                    (0,_form_form__WEBPACK_IMPORTED_MODULE_1__.renderizarFormulario)(); // renderizarCkeditor();
+      if (botonEditar.dataset.group == null) {
+        var enviarPeticionGet = /*#__PURE__*/function () {
+          var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    _context.prev = 0;
+                    _context.next = 3;
+                    return axios.get(url).then(function (respuesta) {
+                      formulario.innerHTML = respuesta.data.form;
+                      (0,_form_form__WEBPACK_IMPORTED_MODULE_1__.renderizarFormulario)(); // renderizarCkeditor();
 
-                    (0,_components_dropImage__WEBPACK_IMPORTED_MODULE_3__.renderizarDropImage)();
-                    (0,_updatedImage__WEBPACK_IMPORTED_MODULE_4__.renderizarUpdatedImage)();
-                  });
+                      (0,_components_dropImage_single__WEBPACK_IMPORTED_MODULE_4__.renderizarDropImage_single)();
+                      (0,_components_dropImage_collection__WEBPACK_IMPORTED_MODULE_3__.renderizarDropImage)();
+                      (0,_updatedImage__WEBPACK_IMPORTED_MODULE_5__.renderizarUpdatedImage)();
+                    });
 
-                case 3:
-                  _context.next = 8;
-                  break;
+                  case 3:
+                    _context.next = 8;
+                    break;
 
-                case 5:
-                  _context.prev = 5;
-                  _context.t0 = _context["catch"](0);
-                  console.log(_context.t0);
+                  case 5:
+                    _context.prev = 5;
+                    _context.t0 = _context["catch"](0);
+                    console.log(_context.t0);
 
-                case 8:
-                case "end":
-                  return _context.stop();
+                  case 8:
+                  case "end":
+                    return _context.stop();
+                }
               }
-            }
-          }, _callee, null, [[0, 5]]);
-        }));
+            }, _callee, null, [[0, 5]]);
+          }));
 
-        return function enviarPeticionGet() {
-          return _ref.apply(this, arguments);
-        };
-      }();
+          return function enviarPeticionGet() {
+            return _ref.apply(this, arguments);
+          };
+        }();
 
-      enviarPeticionGet();
+        enviarPeticionGet();
+      } else {
+        (0,_editLocaleTagItem__WEBPACK_IMPORTED_MODULE_6__.editTag)(botonEditar);
+      }
     });
   });
   botonesEliminar.forEach(function (botonEliminar) {
@@ -2474,7 +3083,7 @@ var renderizarUpdatedImage = function renderizarUpdatedImage() {
     editSeoUploadedImage(uploadedThumb);
     closePanelSeo_UpdatedImage(uploadedThumb);
   });
-}; // renderizarUpdatedImage();
+};
 
 var showEditPanel_UpdatedImage = function showEditPanel_UpdatedImage(uploadedThumb) {
   var editButton_uploadedElement = uploadedThumb.querySelector(".uploaded-thumb-edit-button");
@@ -2489,9 +3098,6 @@ var deleteUploadedImage = function deleteUploadedImage(uploadedThumb) {
   uploadedThumb_deleteButton.addEventListener("click", function () {
     var url = uploadedThumb_deleteButton.dataset.route;
     var imageId = uploadedThumb.dataset.imageid;
-    console.log("click en delete");
-    console.log(url);
-    console.log(imageId);
 
     var sendImageDeleteRequest = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -2505,8 +3111,6 @@ var deleteUploadedImage = function deleteUploadedImage(uploadedThumb) {
                       'image': imageId
                     }
                   }).then(function (response) {
-                    // stopWait();
-                    // showMessage('success', response.data.message);
                     uploadedThumb.remove();
                   });
                 } catch (error) {}
@@ -2531,7 +3135,6 @@ var deleteUploadedImage = function deleteUploadedImage(uploadedThumb) {
 var editSeoUploadedImage = function editSeoUploadedImage(uploadedThumb) {
   var uploadedThumb_saveSeoButton = uploadedThumb.querySelector(".uploaded-edit-panel-save");
   uploadedThumb_saveSeoButton.addEventListener("click", function () {
-    // console.log("edit seo uploaded image CLICK");
     var imageId = uploadedThumb.dataset.imageid;
     var alt = uploadedThumb.querySelector(".uploaded-edit-panel-alt-input").value;
     var title = uploadedThumb.querySelector(".uploaded-edit-panel-title-input").value;
@@ -2577,7 +3180,6 @@ var closePanelSeo_UpdatedImage = function closePanelSeo_UpdatedImage(uploadedThu
   var closeButton_uploadedThumb = uploadedThumb.querySelector(".uploaded-edit-panel-close");
   var editPanelUploadedElement = uploadedThumb.querySelector(".uploaded-edit-panel");
   closeButton_uploadedThumb.addEventListener("click", function () {
-    console.log("CLICK TOGGLE VISIBLE");
     editPanelUploadedElement.classList.toggle("visible");
   });
 };
@@ -2626,12 +3228,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ckeditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ckeditor */ "./resources/js/admin/desktop/ckeditor.js");
 /* harmony import */ var _components_notifications__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/notifications */ "./resources/js/admin/desktop/components/notifications.js");
 /* harmony import */ var _components_wait__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/wait */ "./resources/js/admin/desktop/components/wait.js");
-/* harmony import */ var _components_dropImage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/dropImage */ "./resources/js/admin/desktop/components/dropImage.js");
-/* harmony import */ var _components_updatedImage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/updatedImage */ "./resources/js/admin/desktop/components/updatedImage.js");
-/* harmony import */ var _formTab__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./formTab */ "./resources/js/admin/desktop/form/formTab.js");
-/* harmony import */ var _formAction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./formAction */ "./resources/js/admin/desktop/form/formAction.js");
-/* harmony import */ var _formTabLocale__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./formTabLocale */ "./resources/js/admin/desktop/form/formTabLocale.js");
-/* harmony import */ var _formSave__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./formSave */ "./resources/js/admin/desktop/form/formSave.js");
+/* harmony import */ var _components_dropImage_collection__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/dropImage_collection */ "./resources/js/admin/desktop/components/dropImage_collection.js");
+/* harmony import */ var _components_dropImage_single__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/dropImage_single */ "./resources/js/admin/desktop/components/dropImage_single.js");
+/* harmony import */ var _components_localeTags__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/localeTags */ "./resources/js/admin/desktop/components/localeTags.js");
+/* harmony import */ var _components_localeSeo__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/localeSeo */ "./resources/js/admin/desktop/components/localeSeo.js");
+/* harmony import */ var _components_updatedImage__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/updatedImage */ "./resources/js/admin/desktop/components/updatedImage.js");
+/* harmony import */ var _formTab__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./formTab */ "./resources/js/admin/desktop/form/formTab.js");
+/* harmony import */ var _formAction__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./formAction */ "./resources/js/admin/desktop/form/formAction.js");
+/* harmony import */ var _formTabLocale__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./formTabLocale */ "./resources/js/admin/desktop/form/formTabLocale.js");
+/* harmony import */ var _formSave__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./formSave */ "./resources/js/admin/desktop/form/formSave.js");
+/* harmony import */ var _components_blockParameters__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../components/blockParameters */ "./resources/js/admin/desktop/components/blockParameters.js");
+/* harmony import */ var _components_googleBot__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../components/googleBot */ "./resources/js/admin/desktop/components/googleBot.js");
+/* harmony import */ var _components_sitemap__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../components/sitemap */ "./resources/js/admin/desktop/components/sitemap.js");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 
@@ -2664,109 +3272,123 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
+
+
+
+
 var tabla = document.getElementById("tabla"); //const formulario = document.getElementById("formulario");
 
 var renderizarFormulario = function renderizarFormulario() {
   var formularios = document.querySelectorAll(".admin-formulario");
   var botonGuardar = document.getElementById("boton-guardar-desktop");
-  botonGuardar.addEventListener("click", function (event) {
-    formularios.forEach(function (formulario) {
-      var datosFormulario = new FormData(formulario);
 
-      if (datosFormulario.get('visible') == null) {
-        datosFormulario.set('visible', 0);
-      }
+  if (botonGuardar) {
+    botonGuardar.addEventListener("click", function (event) {
+      formularios.forEach(function (formulario) {
+        var datosFormulario = new FormData(formulario);
 
-      if (ckeditors != 'null') {
-        Object.entries(ckeditors).forEach(function (_ref) {
-          var _ref2 = _slicedToArray(_ref, 2),
-              key = _ref2[0],
-              value = _ref2[1];
+        if (datosFormulario.get('visible') == null) {
+          datosFormulario.set('visible', 0);
+        }
 
-          datosFormulario.append(key, value.getData());
-        });
-      }
+        if (ckeditors != 'null') {
+          Object.entries(ckeditors).forEach(function (_ref) {
+            var _ref2 = _slicedToArray(_ref, 2),
+                key = _ref2[0],
+                value = _ref2[1];
 
-      datosFormulario = (0,_components_dropImage__WEBPACK_IMPORTED_MODULE_5__.appendInputFiles)(datosFormulario); // showDataForm(datosFormulario);
+            datosFormulario.append(key, value.getData());
+          });
+        }
 
-      var url = formulario.action;
+        datosFormulario = (0,_components_dropImage_collection__WEBPACK_IMPORTED_MODULE_5__.appendInputFiles)(datosFormulario);
+        showDataForm(datosFormulario);
+        var url = formulario.action;
 
-      var enviarPeticionPost = /*#__PURE__*/function () {
-        var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-          var errors, errorMessage;
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  (0,_components_wait__WEBPACK_IMPORTED_MODULE_4__.startWait)();
-                  _context.prev = 1;
-                  _context.next = 4;
-                  return axios.post(url, datosFormulario).then(function (respuesta) {
-                    // formulario.id.value = respuesta.data.id;
-                    formulario.innerHTML = respuesta.data.form;
-                    tabla.innerHTML = respuesta.data.table; // console.log(respuesta.data.form);
-
-                    (0,_components_wait__WEBPACK_IMPORTED_MODULE_4__.stopWait)();
-                    (0,_components_notifications__WEBPACK_IMPORTED_MODULE_3__.showNotification)("success", respuesta.data.message, 7000);
-                    renderizarFormulario();
-                    (0,_components_dropImage__WEBPACK_IMPORTED_MODULE_5__.resetDropImage)();
-                    (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
-                    (0,_components_updatedImage__WEBPACK_IMPORTED_MODULE_6__.renderizarUpdatedImage)();
-                  });
-
-                case 4:
-                  _context.next = 10;
-                  break;
-
-                case 6:
-                  _context.prev = 6;
-                  _context.t0 = _context["catch"](1);
-                  (0,_components_wait__WEBPACK_IMPORTED_MODULE_4__.stopWait)();
-
-                  if (_context.t0.response.status == '422') {
-                    errors = _context.t0.response.data.errors;
-                    errorMessage = '';
-                    Object.keys(errors).forEach(function (key) {
-                      errorMessage += '<div>' + errors[key] + '</div>';
+        var enviarPeticionPost = /*#__PURE__*/function () {
+          var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    (0,_components_wait__WEBPACK_IMPORTED_MODULE_4__.startWait)();
+                    _context.prev = 1;
+                    _context.next = 4;
+                    return axios.post(url, datosFormulario).then(function (respuesta) {
+                      // formulario.id.value = respuesta.data.id;
+                      formulario.innerHTML = respuesta.data.form;
+                      tabla.innerHTML = respuesta.data.table;
+                      (0,_components_wait__WEBPACK_IMPORTED_MODULE_4__.stopWait)();
+                      (0,_components_notifications__WEBPACK_IMPORTED_MODULE_3__.showNotification)("success", respuesta.data.message, 7000);
+                      renderizarFormulario();
+                      (0,_components_dropImage_collection__WEBPACK_IMPORTED_MODULE_5__.resetDropImage)();
+                      (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                      (0,_components_updatedImage__WEBPACK_IMPORTED_MODULE_9__.renderizarUpdatedImage)();
                     });
-                    console.log(errorMessage); // document.getElementById('item-error').innerHTML = errorMessage;
 
-                    (0,_components_notifications__WEBPACK_IMPORTED_MODULE_3__.showNotification)("error", errorMessage, 7000); // document.getElementById('error-container').classList.add('active');
-                    // document.getElementById('errors').innerHTML = errorMessage;
-                  }
+                  case 4:
+                    _context.next = 9;
+                    break;
 
-                case 10:
-                case "end":
-                  return _context.stop();
+                  case 6:
+                    _context.prev = 6;
+                    _context.t0 = _context["catch"](1);
+                    console.log(_context.t0); // stopWait();
+                    // if (error.response.status == '422') {
+                    //     let errors = error.response.data.errors;
+                    //     let errorMessage = '';
+                    //     Object.keys(errors).forEach(function (key) {
+                    //         errorMessage += '<div>' + errors[key] + '</div>';
+                    //     })
+                    //     console.log(errorMessage);
+                    //     // document.getElementById('item-error').innerHTML = errorMessage;
+                    //     showNotification("error", errorMessage, 7000);
+                    //     // document.getElementById('error-container').classList.add('active');
+                    //     // document.getElementById('errors').innerHTML = errorMessage;
+                    // }
+
+                  case 9:
+                  case "end":
+                    return _context.stop();
+                }
               }
-            }
-          }, _callee, null, [[1, 6]]);
-        }));
+            }, _callee, null, [[1, 6]]);
+          }));
 
-        return function enviarPeticionPost() {
-          return _ref3.apply(this, arguments);
-        };
-      }();
+          return function enviarPeticionPost() {
+            return _ref3.apply(this, arguments);
+          };
+        }();
 
-      enviarPeticionPost();
+        enviarPeticionPost();
+      });
     });
-  });
-  botonGuardar.addEventListener("mousedown", function () {
-    botonGuardar.parentElement.classList.add("mousedown");
-    console.log("pulsado");
-  });
-  botonGuardar.addEventListener("mouseup", function () {
-    botonGuardar.parentElement.classList.remove("mousedown");
-    console.log("levantado");
-  });
-  (0,_formTab__WEBPACK_IMPORTED_MODULE_7__.renderizarFormTab)();
-  (0,_formAction__WEBPACK_IMPORTED_MODULE_8__.renderizarFormAction)();
-  (0,_formTabLocale__WEBPACK_IMPORTED_MODULE_9__.renderizarFormTablocale)();
+    botonGuardar.addEventListener("mousedown", function () {
+      botonGuardar.parentElement.classList.add("mousedown");
+      console.log("pulsado");
+    });
+    botonGuardar.addEventListener("mouseup", function () {
+      botonGuardar.parentElement.classList.remove("mousedown");
+      console.log("levantado");
+    });
+  }
+
+  (0,_formTab__WEBPACK_IMPORTED_MODULE_10__.renderizarFormTab)();
+  (0,_formAction__WEBPACK_IMPORTED_MODULE_11__.renderizarFormAction)();
+  (0,_formTabLocale__WEBPACK_IMPORTED_MODULE_12__.renderizarFormTablocale)();
   (0,_ckeditor__WEBPACK_IMPORTED_MODULE_2__.renderizarCkeditor)();
+  (0,_components_localeTags__WEBPACK_IMPORTED_MODULE_7__.renderizarLocaleTags)();
+  (0,_components_localeSeo__WEBPACK_IMPORTED_MODULE_8__.renderizarLocaleSeo)();
+  (0,_components_blockParameters__WEBPACK_IMPORTED_MODULE_14__.renderBlockParameters)();
+  (0,_components_googleBot__WEBPACK_IMPORTED_MODULE_15__.renderGoogleBot)();
+  (0,_components_sitemap__WEBPACK_IMPORTED_MODULE_16__.renderSitemap)();
 };
 renderizarFormulario();
-(0,_components_dropImage__WEBPACK_IMPORTED_MODULE_5__.renderizarDropImage)();
-(0,_components_updatedImage__WEBPACK_IMPORTED_MODULE_6__.renderizarUpdatedImage)();
+(0,_components_dropImage_collection__WEBPACK_IMPORTED_MODULE_5__.renderizarDropImage)();
+(0,_components_dropImage_single__WEBPACK_IMPORTED_MODULE_6__.renderizarDropImage_single)();
+(0,_components_updatedImage__WEBPACK_IMPORTED_MODULE_9__.renderizarUpdatedImage)();
 
 var showDataForm = function showDataForm(datosFormulario) {
   var _iterator = _createForOfIteratorHelper(datosFormulario.entries()),
@@ -2807,60 +3429,63 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var renderizarFormAction = function renderizarFormAction() {
   var botonCrear = document.getElementById("boton-crear");
-  botonCrear.addEventListener("click", function () {
-    var url = botonCrear.dataset.url;
-    console.log(url);
-    formularios.forEach(function (formulario) {
-      var enviarPeticionGet = /*#__PURE__*/function () {
-        var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-          var errors, errorMessage;
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  _context.prev = 0;
-                  _context.next = 3;
-                  return axios.get(url).then(function (respuesta) {
-                    formulario.innerHTML = respuesta.data.form;
-                    renderizarFormulario();
-                    renderizarDropImage();
-                    renderizarCkeditor();
-                  });
 
-                case 3:
-                  _context.next = 8;
-                  break;
-
-                case 5:
-                  _context.prev = 5;
-                  _context.t0 = _context["catch"](0);
-
-                  if (_context.t0.response.status == '422') {
-                    errors = _context.t0.response.data.errors;
-                    errorMessage = '';
-                    Object.keys(errors).forEach(function (key) {
-                      errorMessage += '<div>' + errors[key] + '</div>';
+  if (botonCrear != null) {
+    botonCrear.addEventListener("click", function () {
+      var url = botonCrear.dataset.url;
+      console.log(url);
+      formularios.forEach(function (formulario) {
+        var enviarPeticionGet = /*#__PURE__*/function () {
+          var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+            var errors, errorMessage;
+            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    _context.prev = 0;
+                    _context.next = 3;
+                    return axios.get(url).then(function (respuesta) {
+                      formulario.innerHTML = respuesta.data.form;
+                      renderizarFormulario();
+                      renderizarDropImage();
+                      renderizarCkeditor();
                     });
-                    console.log(errorMessage);
-                    document.getElementById('item-error').innerHTML = errorMessage;
-                  }
 
-                case 8:
-                case "end":
-                  return _context.stop();
+                  case 3:
+                    _context.next = 8;
+                    break;
+
+                  case 5:
+                    _context.prev = 5;
+                    _context.t0 = _context["catch"](0);
+
+                    if (_context.t0.response.status == '422') {
+                      errors = _context.t0.response.data.errors;
+                      errorMessage = '';
+                      Object.keys(errors).forEach(function (key) {
+                        errorMessage += '<div>' + errors[key] + '</div>';
+                      });
+                      console.log(errorMessage);
+                      document.getElementById('item-error').innerHTML = errorMessage;
+                    }
+
+                  case 8:
+                  case "end":
+                    return _context.stop();
+                }
               }
-            }
-          }, _callee, null, [[0, 5]]);
-        }));
+            }, _callee, null, [[0, 5]]);
+          }));
 
-        return function enviarPeticionGet() {
-          return _ref.apply(this, arguments);
-        };
-      }();
+          return function enviarPeticionGet() {
+            return _ref.apply(this, arguments);
+          };
+        }();
 
-      enviarPeticionGet();
+        enviarPeticionGet();
+      });
     });
-  });
+  }
 };
 
 /***/ }),
@@ -3155,7 +3780,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tableSwipe__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tableSwipe */ "./resources/js/admin/mobile/components/tableSwipe.js");
 /* harmony import */ var _tableSwipe__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_tableSwipe__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _ckeditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ckeditor */ "./resources/js/admin/mobile/ckeditor.js");
-/* harmony import */ var _desktop_components_dropImage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../desktop/components/dropImage */ "./resources/js/admin/desktop/components/dropImage.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -3178,7 +3802,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var _require = __webpack_require__(/*! axios */ "./node_modules/axios/index.js"),
     axios = _require["default"];
-
 
 
 
@@ -3270,7 +3893,7 @@ var renderizarFormulario = function renderizarFormulario() {
   });
 };
 renderizarFormulario();
-(0,_desktop_components_dropImage__WEBPACK_IMPORTED_MODULE_3__.renderizarDropImage)(); // renderizarCkeditor();
+renderizarDropImage(); // renderizarCkeditor();
 
 /***/ }),
 

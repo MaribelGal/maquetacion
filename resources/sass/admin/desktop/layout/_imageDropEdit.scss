@@ -1,32 +1,99 @@
-.uploaded-thumn-img{
-    position: relative;
-}
-.upload-edit-panel, .uploaded-edit-panel{
-    display: none;
-}
-.upload-edit-panel.visible, .uploaded-edit-panel.visible {
-    position: absolute;
-    top: 20%;
-    color: red;
-    left: 20%;
-    border: solid;
+.upload-edit-panel,
+.uploaded-edit-panel {
+    // display: none;
+    // background-color: $fondo;
+    // display: flex;
+    // height: 80vh;
+    // justify-content: space-between;
+    // left: 10%;
+    // padding: 1em;
+    // position: fixed;
+    // top: -100vh;
+    // transition: top 0.3s;
+    // width: 80%;
     z-index: 3;
-    background-color: brown !important;
-    width: 70vw;
-    height: 70vh;
-    overflow: auto;
-    display: flex;
+    // border: hotpink 1px solid;
+    // background-color: $fondo;
+    position: fixed;
+    top: -100vh;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+
+    .upload-edit-panel-content,
+    .uploaded-edit-panel-content {
+        display: none;
+    }
 }
 
-.uploaded-edit-panel-image, .upload-edit-panel-image{
+.upload-edit-panel.visible,
+.uploaded-edit-panel.visible {
+    top: 0vh;
+    left: 0;
+    transition: top 0.3s;
+
+    .upload-edit-panel-content,
+    .uploaded-edit-panel-content {
+        display: block;
+        position: relative;
+        margin: 5vw;
+        padding: 1em;
+        background: $fondo;
+        @include neumorphism(0.5em, 20px, 10px);
+    }
+}
+
+.uploaded-edit-panel-image,
+.upload-edit-panel-image {
     background: no-repeat;
     background-size: contain;
     width: 100%;
     height: 100%;
-
+    img {
+        @include neumorphism(0.5em, 20px, 10px);
+        width: 80%;
+    }
+    margin-bottom: 1em;
+    text-align: center;
 }
 
-img {
-    width: 100%;
-    height: auto;
+.upload-edit-panel-fields,
+.uploaded-edit-panel-fields {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1em;
+}
+
+.upload-edit-panel-alt,
+.uploaded-edit-panel-alt,
+.upload-edit-panel-title,
+.uploaded-edit-panel-title {
+    overflow: hidden;
+    @include neumorphism(0.5em, 20px, 10px);
+    color: rgb(79, 79, 79);
+    height: 3em;
+}
+
+.upload-edit-panel-save,
+.uploaded-edit-panel-save,
+.upload-edit-panel-close,
+.uploaded-edit-panel-close {
+    width: max-content;
+    color: $colorPrincipal;
+}
+
+.upload-edit-panel-save,
+.uploaded-edit-panel-save {
+    cursor: pointer;
+    top: 1em;
+    right: 3em;
+    position: absolute;
+}
+.upload-edit-panel-close,
+.uploaded-edit-panel-close {
+    cursor: pointer;
+    top: 1em;
+    right: 1em;
+    position: absolute;
 }

@@ -1,12 +1,25 @@
 <div class="panel-tab-locale">
     <div class="tab-locale">
+        
         @foreach ($localizations as $localization)
-            <div class="tab-locale-item {{ $loop->first ? 'active': ''}}" data-locale="{{$localization->alias}}">
-                    <p>{{$localization->name}}</p>
-            </div>
+
+            @isset ($locale)
+                @isset($locale['id.' . $localization->alias])
+                    <div class="tab-locale-item {{ $loop->first ? 'active' : '' }}"
+                        data-locale="{{ $localization->alias }}">
+                        {{ $localization->name }}
+                    </div>
+                @endisset
+            @else
+                <div class="tab-locale-item {{ $loop->first ? 'active' : '' }}"
+                    data-locale="{{ $localization->alias }}">
+                    {{ $localization->name }}
+                </div>
+            @endif
+
         @endforeach
 
     </div>
 </div>
 
-{{$slot}}
+{{ $slot }}

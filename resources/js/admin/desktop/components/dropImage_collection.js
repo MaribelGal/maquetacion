@@ -1,8 +1,5 @@
-// const dropZoneInputs = document.querySelectorAll(".drop-zone__input");
 let filesToUpload;
 let fileIdCounter;
-let fileIdCounterOnload;
-
 
 export let renderizarDropImage = () => {
 
@@ -14,7 +11,7 @@ export let renderizarDropImage = () => {
 
         filesToUpload = {};
         fileIdCounter = 0;
-        fileIdCounterOnload = 0;
+
 
         let uploadElement = imagesContainer.querySelector(".upload");
 
@@ -41,12 +38,9 @@ export let renderizarDropImage = () => {
                         alt: "",
                         title: ""
                     };
-
-                    console.log(filesToUpload);
                     updateThumbnail(previewContainer, file, fileId);
                 }
             }
-            console.log(filesToUpload);
 
             filesToUpload = renderizarAcciones(filesToUpload);
         });
@@ -79,26 +73,17 @@ export let renderizarDropImage = () => {
     function updateThumbnail(previewContainer, file, fileId) {
 
         let thumbnailElementPrototype = previewContainer.querySelector(".upload-thumb-prototype");
-
-        console.log(previewContainer);
         let thumbnailElement = thumbnailElementPrototype.cloneNode(true);
-
         let uploadEditPanel = thumbnailElement.querySelector(".upload-edit-panel");
+
         uploadEditPanel.dataset.fileId = fileId;
 
         thumbnailElement.classList.replace("upload-thumb-prototype", "upload-thumb");
 
-        // thumbnailElement.appendChild(thumbnailElementDelete);
-
         previewContainer.appendChild(thumbnailElement);
-        // }
 
         thumbnailElement.dataset.label = file.name;
         thumbnailElement.dataset.fileid = fileId;
-
-        console.log(thumbnailElement.querySelector(".upload-edit-panel-image"));
-        // thumbnailElementEditImage = thumbnailElement.querySelector(".upload-edit-panel-image");
-        // console.log(thumbnailElementEditImage);
 
         if (file.type.startsWith("image/")) {
             let reader = new FileReader();
@@ -106,12 +91,13 @@ export let renderizarDropImage = () => {
             reader.readAsDataURL(file);
 
             reader.onload = () => {
-                thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
-                thumbnailElement.querySelector(".upload-edit-panel-image").style.backgroundImage = `url('${reader.result}')`;
+                thumbnailElement.querySelector(".upload-thumb-image-item").src = reader.result;
+                thumbnailElement.querySelector(".upload-edit-panel-image-item").src = reader.result;
+
             };
         } else {
-            thumbnailElement.style.backgroundImage = null;
-            thumbnailElement.querySelector(".upload-edit-panel-image").style.backgroundImage = null;
+            thumbnailElement.querySelector(".upload-thumb-image-item").src = "";
+            thumbnailElement.querySelector(".upload-edit-panel-image-item").src = "";
         }
 
     }
@@ -129,14 +115,16 @@ let renderizarAcciones = (filesToUpload) => {
 
         let deleteButtonUploadedElements = deleteUploadedElement.querySelector(".upload-thumb-delete-button");
 
-        deleteButtonUploadedElements.addEventListener("click", () => {
+        let action_deleteButtonUploadedElements = () => {
             let uploadThumb = deleteUploadedElement.closest(".upload-thumb");
             let fileId = uploadThumb.dataset.fileid;
 
             delete filesToUpload[fileId];
             deleteUploadedElement.closest(".upload-thumb").remove();
+        }
+  
+        deleteButtonUploadedElements.addEventListener("click", action_deleteButtonUploadedElements);
 
-        });
 
     });
 
@@ -144,16 +132,17 @@ let renderizarAcciones = (filesToUpload) => {
         let editButtonUploadedElements = editUploadedElement.querySelector(".upload-thumb-edit-button");
         let editPanelUploadedElement = editUploadedElement.querySelector(".upload-edit-panel");
 
-        editButtonUploadedElements.addEventListener("click", () => {
-            console.log("CLICK TOGGLE VISIBLE");
-            editPanelUploadedElement.classList.toggle("visible");
-        });
 
+        let action_editButtonUploadedElements = () => {
+            console.log(editButtonUploadedElements);
+            editPanelUploadedElement.classList.toggle("visible");
+        }
+
+        editButtonUploadedElements.addEventListener("click", action_editButtonUploadedElements);
     });
 
     editPanelUploadedElements.forEach(editPanelUploadedElement => {
 
-        console.log(editPanelUploadedElement);
         let altUploadedElement = editPanelUploadedElement.querySelector(".upload-edit-panel-alt-input");
         let titleUploadedElement = editPanelUploadedElement.querySelector(".upload-edit-panel-alt-input");
         let saveUploadedElement = editPanelUploadedElement.querySelector(".upload-edit-panel-save");
@@ -165,11 +154,9 @@ let renderizarAcciones = (filesToUpload) => {
 
             filesToUpload[fileId].alt = altUploadedElement.value;
             filesToUpload[fileId].title = titleUploadedElement.value;
-            console.log(filesToUpload);
         });
 
         closeUploadedElement.addEventListener("click", () => {
-            console.log("CLICK TOGGLE VISIBLE");
             editPanelUploadedElement.classList.toggle("visible");
         });
 
@@ -193,11 +180,8 @@ export let appendInputFiles = (datosFormulario) => {
         let alias = files.split(".")[0];
         let content = files.split(".")[1];
 
-        // let fileId = alias + "." + content + "." + fileIdCounter;
-
         let key = "images[" + content + "." + alias + "][" + alt + "." + (counter) + "." + title + "]";
 
-        console.log();
         datosFormulario.append(key, file);
     }
 
