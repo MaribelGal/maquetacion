@@ -15,8 +15,10 @@ class CreateTProductsStocks extends Migration
     {
         Schema::create('t_products_stocks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_product');
+            $table->unsignedBigInteger('product_id');
             $table->integer('quantity');
+            $table->boolean('visible')->default(1);
+            $table->boolean('active')->default(1);
             $table->timestamps();
         });
     }

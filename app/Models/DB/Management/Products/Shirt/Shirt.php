@@ -20,39 +20,34 @@ class Shirt extends DBModel
     protected $table = 't_shirts';
     // protected $with = ['category', 'images'];
 
-    public function type()
-    {
-        return $this->belongsTo(ShirtType::class);
-    }
-
     public function size()
     {
-        return $this->belongsTo(ShirtSize::class);
+        return $this->hasOne(ShirtSize::class);
     }
 
     public function sleeve()
     {
-        return $this->belongsTo(ShirtSleeve::class);
+        return $this->hasOne(ShirtSleeve::class);
     }
 
     public function neck()
     {
-        return $this->belongsTo(ShirtNeck::class);
+        return $this->hasOne(ShirtNeck::class);
     }
 
     public function pattern()
     {
-        return $this->belongsTo(ShirtPattern::class);
+        return $this->hasOne(ShirtPattern::class);
     }
 
     public function color()
     {
-        return $this->belongsTo(Color::class);
+        return $this->hasOne(Color::class);
     }
 
     public function brand()
     {
-        return $this->belongsTo(Brand::class);
+        return $this->hasOne(Brand::class);
     }
 
     public function tissues()

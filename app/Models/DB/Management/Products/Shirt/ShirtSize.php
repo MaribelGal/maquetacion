@@ -1,5 +1,6 @@
 <?php
-namespace App\Models\DB\shirt;
+
+namespace App\Models\DB\Management\Products\Shirt;
 
 use App\Models\DB\DBModel;
 
@@ -10,7 +11,7 @@ class ShirtSize extends DBModel
 
     public function shirts()
     {
-        return $this->hasMany(Shirt::class, 'id_shirt_size');
+        return $this->belongsTo(Shirt::class, 'id_shirt_size');
     }
 } 
 

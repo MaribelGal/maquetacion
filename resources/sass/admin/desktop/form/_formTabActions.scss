@@ -34,6 +34,7 @@
         height: 0;
         width: 0;
         visibility: hidden;
+        display: none;
         + .label-hidden {
             @include neumorphism(0.5em, 20px, 10px);
             cursor: pointer;

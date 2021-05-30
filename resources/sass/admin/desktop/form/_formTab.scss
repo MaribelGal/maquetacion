@@ -1,6 +1,15 @@
+#formulario-shirts-tissues{
+    display: none;
+    &.active {
+        display: flex;
+        flex-flow: column nowrap;
+    }
+}
+
+
 .formulario-tab {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     justify-content: space-between;
     align-content: stretch;
 }
@@ -8,5 +17,13 @@
 .formulario-tab-item {
     display: flex;
     align-items: center;
-    margin: 0 .5em;
+    margin: 0 0.5em;
+
+    &.tab-item-text {
+        flex-flow: row wrap;
+    }
+
+    &.tab-item-action {
+        flex-flow: row nowrap;
+    }
 }

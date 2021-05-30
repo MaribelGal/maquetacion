@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Models\DB\Management\Products;
+namespace App\Models\DB\Management\Products;
 
 use App\Models\DB\DBModel;
 

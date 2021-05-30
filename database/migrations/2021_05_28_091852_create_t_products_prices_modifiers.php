@@ -15,8 +15,10 @@ class CreateTProductsPricesModifiers extends Migration
     {
         Schema::create('t_products_prices_modifiers', function (Blueprint $table) {
             $table->id();
-            $table->string('modifier_name');
-            $table->unsignedBigInteger('id_modifier');
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('modifier_id');
+            $table->boolean('visible')->default(1);
+            $table->boolean('active')->default(1);
             $table->timestamps();
         });
     }

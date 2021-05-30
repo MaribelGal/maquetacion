@@ -15,9 +15,12 @@ class CreateTProductsPricesRents extends Migration
     {
         Schema::create('t_products_prices_rents', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_product');
-            $table->unsignedBigInteger('id_taxes');
+            $table->unsignedBigInteger('product_id');
+            $table->decimal('total_increases_sum',3,2);
+            $table->decimal('total_decreases_sum',3,2);
             $table->decimal('price_hour',9,2);
+            $table->boolean('visible')->default(1);
+            $table->boolean('active')->default(1);
             $table->timestamps();
         });
     }

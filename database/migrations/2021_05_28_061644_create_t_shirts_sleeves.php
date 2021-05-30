@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTTaxes extends Migration
+class CreateTShirtsSleeves extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateTTaxes extends Migration
      */
     public function up()
     {
-        Schema::create('t_taxes', function (Blueprint $table) {
+        Schema::create('t_shirts_sleeves', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->decimal('percentage',3,2);
+            $table->boolean('visible')->default(1);
+            $table->boolean('active')->default(1);
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateTTaxes extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_taxes');
+        Schema::dropIfExists('t_shirts_sleeves');
     }
 }

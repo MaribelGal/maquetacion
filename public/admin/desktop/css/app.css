@@ -1407,13 +1407,16 @@ select {
 #formulario {
   min-width: 50vw;
   margin: 1em;
-  display: contents;
-}
-
-.admin-formulario {
   border-radius: 0.5em;
   box-shadow: 0.2em 0.2em 0.3em #999999, -0.2em -0.2em 0.3em #ffffff;
   transform: all 10s;
+}
+#formulario.mousedown {
+  box-shadow: inset 5px 5px 10px #919191, inset -5px -5px 10px white;
+  transform: all 1s;
+}
+
+.admin-formulario {
   margin: 1em;
   padding: 1%;
   min-width: 25em;
@@ -1421,10 +1424,6 @@ select {
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
-}
-.admin-formulario.mousedown {
-  box-shadow: inset 5px 5px 10px #919191, inset -5px -5px 10px white;
-  transform: all 1s;
 }
 
 .formulario-contenedor {
@@ -1495,9 +1494,17 @@ select {
   min-height: 7em;
 }
 
+#formulario-shirts-tissues {
+  display: none;
+}
+#formulario-shirts-tissues.active {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
 .formulario-tab {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   justify-content: space-between;
   align-content: stretch;
 }
@@ -1506,6 +1513,12 @@ select {
   display: flex;
   align-items: center;
   margin: 0 0.5em;
+}
+.formulario-tab-item.tab-item-text {
+  flex-flow: row wrap;
+}
+.formulario-tab-item.tab-item-action {
+  flex-flow: row nowrap;
 }
 
 .formulario-tab-item-action {
@@ -1544,6 +1557,7 @@ select {
   height: 0;
   width: 0;
   visibility: hidden;
+  display: none;
 }
 .visible-checkbox input[type=checkbox] + .label-hidden {
   border-radius: 0.5em;

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTDiscounts extends Migration
+class CreateTPricesModifiers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateTDiscounts extends Migration
      */
     public function up()
     {
-        Schema::create('t_discounts', function (Blueprint $table) {
+        Schema::create('t_prices_modifiers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->enum('modifier',['inc', 'dec']);
             $table->decimal('percentage',3,2);
+            $table->boolean('visible')->default(1);
+            $table->boolean('active')->default(1);
             $table->timestamps();
         });
     }

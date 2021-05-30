@@ -15,13 +15,15 @@ class CreateTShirts extends Migration
     {
         Schema::create('t_shirts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_shirt_type');
-            $table->unsignedBigInteger('id_shirt_size');
-            $table->unsignedBigInteger('id_shirt_sleeve');
-            $table->unsignedBigInteger('id_shirt_neck');
-            $table->unsignedBigInteger('id_shirt_pattern');
-            $table->unsignedBigInteger('id_color');
-            $table->unsignedBigInteger('id_brand');
+            $table->string('name');
+            $table->unsignedBigInteger('shirt_size_id');
+            $table->unsignedBigInteger('shirt_sleeve_id');
+            $table->unsignedBigInteger('shirt_neck_id');
+            $table->unsignedBigInteger('shirt_pattern_id');
+            $table->unsignedBigInteger('color_id');
+            $table->unsignedBigInteger('brand_id');
+            $table->boolean('visible')->default(1);
+            $table->boolean('active')->default(1);
             $table->timestamps();
         });
     }

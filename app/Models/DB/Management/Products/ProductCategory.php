@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models\DB;
+namespace App\Models\DB\Management\Products;
 
+use app\Models\DB\DBModel;
 use app\Vendor\Product\Models\Product;
 
 class ProductCategory extends DBModel

@@ -8,8 +8,10 @@ use app\Models\DB\Management\Products\Shirt\ShirtTissue;
 
 class Tissue extends DBModel
 {
-
     protected $table = 't_tissues';
 
-
+    public function shirtTissue()
+    {
+        return $this->belongsTo(ShirtTissue::class);
+    }
 }

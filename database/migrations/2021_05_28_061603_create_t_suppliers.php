@@ -17,6 +17,8 @@ class CreateTSuppliers extends Migration
             $table->id();
             $table->string('name');
             $table->string('phone');
+            $table->boolean('visible')->default(1);
+            $table->boolean('active')->default(1);
             $table->timestamps();
         });
     }

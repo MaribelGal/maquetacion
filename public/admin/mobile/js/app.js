@@ -3664,7 +3664,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var renderizarFormTab = function renderizarFormTab() {
   var botonesTab = document.querySelectorAll(".formulario-tab-item-panelselector");
-  var panelesTab = document.querySelectorAll(".formulario-contenido-panel");
+  var panelesTab = document.querySelectorAll('*');
   botonesTab.forEach(function (botonTab) {
     botonTab.addEventListener("click", function () {
       botonesTab.forEach(function (botonTab) {

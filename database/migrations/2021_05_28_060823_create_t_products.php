@@ -15,8 +15,10 @@ class CreateTProducts extends Migration
     {
         Schema::create('t_products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_product_category');
-            $table->unsignedBigInteger('id_product_specific');
+            $table->unsignedBigInteger('product_category_id');
+            $table->unsignedBigInteger('product_specific_id');
+            $table->boolean('visible')->default(1);
+            $table->boolean('active')->default(1);
             $table->timestamps();
         });
     }

@@ -30,12 +30,60 @@ class ViewComposerServiceProvider extends ServiceProvider
             'App\Http\ViewComposers\Admin\FaqsCategories'
         );
 
-
         view()->composer([
             'admin.clientes.index'],
             'App\Http\ViewComposers\Admin\Countries'
         );
 
+        view()->composer([
+            'admin.shirts.index'],
+            'App\Http\ViewComposers\Admin\ProductsCategories',
+        );
+
+        view()->composer([
+            'admin.shirts.index'],
+            'App\Http\ViewComposers\Admin\Suppliers'
+        );
+
+        view()->composer([
+            'admin.shirts.index'],
+            'App\Http\ViewComposers\Admin\PricesModifiers'
+        );
+
+        view()->composer([
+            'admin.shirts.index'],
+            'App\Http\ViewComposers\Admin\ShirtsSizes'
+        );
+        view()->composer([
+            'admin.shirts.index'],
+            'App\Http\ViewComposers\Admin\ShirtsSleeves'
+        );
+        view()->composer([
+            'admin.shirts.index'],
+            'App\Http\ViewComposers\Admin\ShirtsNecks'
+        );
+        view()->composer([
+            'admin.shirts.index'],
+            'App\Http\ViewComposers\Admin\ShirtsPatterns'
+        );
+        view()->composer([
+            'admin.shirts.index'],
+            'App\Http\ViewComposers\Admin\ShirtsTissues'
+        );
+        view()->composer([
+            'admin.shirts.index'],
+            'App\Http\ViewComposers\Admin\Tissues'
+        );
+
+        view()->composer([
+            'admin.shirts.index'],
+            'App\Http\ViewComposers\Admin\Colors'
+        );
+
+        view()->composer([
+            'admin.shirts.index'],
+            'App\Http\ViewComposers\Admin\Brands'
+        );
 
         view()->composer([
             'admin.*'], 

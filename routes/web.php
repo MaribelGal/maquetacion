@@ -107,6 +107,17 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/tags', 'App\Http\Controllers\Admin\LocaleTagController@store')->name('tags_store');
 
 
+    Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+
+    Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+        'names' => [
+            'index' => 'shirts', 
+            'create' => 'shirts_create',
+            'store' => 'shirts_store', 
+            'destroy' => 'shirts_destroy',
+            'show' => 'shirts_show',
+        ]
+    ]);
 
 });
 

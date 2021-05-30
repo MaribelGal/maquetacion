@@ -15,11 +15,12 @@ class CreateTProductsPricesPurchases extends Migration
     {
         Schema::create('t_products_prices_purchases', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_product');
+            $table->unsignedBigInteger('product_id');
+            $table->decimal('total_increases_sum',3,2);
+            $table->decimal('total_decreases_sum',3,2);
             $table->decimal('price',9,2);
-            $table->decimal('total_taxes_sum',3,2);
-            $table->decimal('total_discounts_sum',3,2);
-            $table->decimal('total_price',9,2);
+            $table->boolean('visible')->default(1);
+            $table->boolean('active')->default(1);
             $table->timestamps();
         });
     }

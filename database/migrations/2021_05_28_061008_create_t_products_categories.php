@@ -16,7 +16,9 @@ class CreateTProductsCategories extends Migration
         Schema::create('t_products_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('parent_product_category');
+            $table->string('parent_product_category_id');
+            $table->boolean('visible')->default(1);
+            $table->boolean('active')->default(1);
             $table->timestamps();
         });
     }

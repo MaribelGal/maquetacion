@@ -1,6 +1,6 @@
 export let renderizarFormTab = () => {
     let botonesTab = document.querySelectorAll(".formulario-tab-item-panelselector");
-    let panelesTab = document.querySelectorAll(".formulario-contenido-panel");
+    let panelesTab = document.querySelectorAll('*');
 
     botonesTab.forEach(botonTab => {
         botonTab.addEventListener("click", () => {

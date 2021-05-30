@@ -15,9 +15,11 @@ class CreateTProductsCosts extends Migration
     {
         Schema::create('t_products_costs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_product');
-            $table->unsignedBigInteger('id_supplier');
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('supplier_id');
             $table->decimal('cost',9,2);
+            $table->boolean('visible')->default(1);
+            $table->boolean('active')->default(1);
             $table->timestamps();
         });
     }

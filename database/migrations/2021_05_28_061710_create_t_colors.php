@@ -16,6 +16,8 @@ class CreateTColors extends Migration
         Schema::create('t_colors', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->boolean('visible')->default(1);
+            $table->boolean('active')->default(1);
             $table->timestamps();
         });
     }
