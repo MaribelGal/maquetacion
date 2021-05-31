@@ -106,7 +106,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/tags', 'App\Http\Controllers\Admin\LocaleTagController@index')->name('tags');
     Route::post('/tags', 'App\Http\Controllers\Admin\LocaleTagController@store')->name('tags_store');
 
-
     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
 
     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
@@ -119,6 +118,8 @@ Route::group(['prefix' => 'admin'], function () {
         ]
     ]);
 
+    Route::post('/shirtsTissues', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtTissueController@store')->name('shirtsTissues_store');
+
 });
 
 Route::group(['prefix' => $localizationseo->setLocale(),
@@ -127,6 +128,10 @@ Route::group(['prefix' => $localizationseo->setLocale(),
 
     Route::get($localizationseo->transRoute('routes.front_faqs'), 'App\Http\Controllers\Front\FaqController@index')->name('front_faqs');
     Route::get($localizationseo->transRoute('routes.front_faq'), 'App\Http\Controllers\Front\FaqController@show')->name('front_faq');
+
+
+    Route::get($localizationseo->transRoute('routes.front_products'), 'App\Http\Controllers\Front\ProductController@index')->name('front_products');
+    Route::get($localizationseo->transRoute('routes.front_product'), 'App\Http\Controllers\Front\ProductController@show')->name('front_product');
 });
 
 

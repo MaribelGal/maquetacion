@@ -19,6 +19,6 @@ class ShirtTissue extends DBModel
         
     public function tissue()
     {
-        return $this->hasOne(Tissue::class);
+        return $this->belongsTo(Tissue::class, 'tissue_id');
     }
 } 

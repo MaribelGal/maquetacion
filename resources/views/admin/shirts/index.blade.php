@@ -1,3 +1,23 @@
+@php
+ Debugbar::info($shirts);
+ foreach ($shirts as $shirt) {
+    //  Debugbar::info($shirt->size);
+    //  Debugbar::info($shirt->sleeve);
+    //  Debugbar::info($shirt->neck);
+    //  Debugbar::info($shirt->pattern);
+    //  Debugbar::info($shirt->color);
+    //  Debugbar::info($shirt->brand);
+    //  Debugbar::info($shirt->tissues);
+
+    $a= $shirt->product->tissues;
+
+    foreach ($a as $b) {
+        Debugbar::info($b->tissue->name);
+
+    }
+ }
+@endphp
+
 @extends('admin.shirts.shirts')
 
 @section('tablerows')
@@ -6,8 +26,8 @@
             <div class="tabla-contenido-fila contents swipe-element " >
                 <div class="tabla-contenido-fila-campos contents swipe-front promote-layer grid-column-1">
                     <div class="tabla-celda grid-column-1 ">{{ $shirt_element->id }}</div>
-                    <div class="tabla-celda grid-column-2 ">{{ $shirt_element->titulo }}</div>
-                    <div class="tabla-celda grid-column-3 ">{{ $shirt_element->category->nombre }}</div>
+                    <div class="tabla-celda grid-column-2 ">{{ $shirt_element->name }}</div>
+                    {{-- <div class="tabla-celda grid-column-3 ">{{ $shirt_element->category->nombre }}</div> --}}
                     <div class="tabla-celda grid-column-4 ">{{ Carbon\Carbon::parse($shirt_element->created_at)->format('d-m-Y') }}</div>
                 </div>
 

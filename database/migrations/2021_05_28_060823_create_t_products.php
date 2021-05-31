@@ -15,6 +15,7 @@ class CreateTProducts extends Migration
     {
         Schema::create('t_products', function (Blueprint $table) {
             $table->id();
+            $table->string('product_specific_table');
             $table->unsignedBigInteger('product_category_id');
             $table->unsignedBigInteger('product_specific_id');
             $table->boolean('visible')->default(1);

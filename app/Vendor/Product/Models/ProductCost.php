@@ -8,6 +8,7 @@ use App\Models\DB\Management\Supplier;
 class ProductCost extends Model
 {
     protected $table = 't_products_costs';
+    protected $guarded = [];  
 
 
     public function supplier()

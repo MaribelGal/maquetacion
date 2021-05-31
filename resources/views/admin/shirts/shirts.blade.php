@@ -23,13 +23,14 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
         {{ csrf_field() }}
 
         <input type="hidden" name="id" value="{{isset($shirt->id) ? $shirt->id : ''}}">
+        {{-- <input type="hidden" name="product[id]" value="{{isset($product->id) ? $product->id : ''}}"> --}}
 
 
         <div class="formulario-contenedor">
 
             <div class="formulario-tab">
                 <div class="formulario-tab-item tab-item-text">
-                    <div class="formulario-tab-item-panelselector active" id="tab-item-texto" data-tab="texto">
+                    <div class="formulario-tab-item-panelselector tab-active" id="tab-item-texto" data-tab="texto">
                         <div>
                             <p class="tab-title">Texto</p>
                         </div>
@@ -70,13 +71,16 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
 
             <div class="formulario-contenido">
 
-                <div class="formulario-contenido-panel active" data-tab="texto">
+                <div class="formulario-contenido-panel tab-active" data-tab="texto">
                     <div class="panel-static">
                         <div class="formulario-contenido-panel-item grid-column-1 grid-row-1" id="item-name">
                             <div class="formulario-contenido-panel-item-campo">
-                                <input type="text" class="formulario-contenido-panel-item-campo"
-                                    id="formulario-contenido-panel-item-campo-name" name="name"
-                                    placeholder="Inserta el nombre" value="{{ isset($shirt->name) ? $shirt->name : '' }}" />
+                                <input type="text" 
+                                    class="formulario-contenido-panel-item-campo"
+                                    id="formulario-contenido-panel-item-campo-name" 
+                                    name="name"
+                                    placeholder="Inserta el nombre" 
+                                    value="{{ isset($shirt->name) ? $shirt->name : '' }}" />
                             </div>
                         </div>
 
@@ -86,8 +90,10 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
                                     <option hidden selected>-- Categoria --</option>
                                     @foreach ($products_categories as $product_category)
                                         <option value="{{ $product_category->id }}"
-                                            {{ $shirt->category_id == $product_category->id ? 'selected' : '' }}>
-                                            {{ $product_category->nombre }}
+                                            @isset($product)
+                                                {{ $product->product_category_id == $product_category->id ? 'selected' : '' }}>
+                                            @endisset
+                                            {{ $product_category->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -106,7 +112,6 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
                                             placeholder="Inserta el titulo"
                                             value="{{isset($seo["title.".$localization->alias]) ? $seo["title.".$localization->alias]: ''}}" />
                                     </div>
-
                                 </div>
 
                                 <div class="formulario-contenido-panel-item grid-column-span-2 grid-row-4"
@@ -134,42 +139,77 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
                                     class="formulario-contenido-panel-item-campo"
                                     id="formulario-contenido-panel-item-campo-cost" 
                                     name="product[cost]"
-                                    placeholder="Inserta el precio coste" 
-                                    value="{{ isset($shirt->name) ? $shirt->name : '' }}" />
+                                    placeholder="Precio coste" 
+                                    value="{{ isset($product) ? $product->cost->cost : '' }}" />
                             </div>
                         </div>
 
-                        <div class="formulario-contenido-panel-item grid-column-1 grid-row-2" id="item-price">
+                        <div class="formulario-contenido-panel-item grid-column-2 grid-row-2" id="item-price-pruchase">
                             <div class="formulario-contenido-panel-item-campo">
                                 <input type="number" 
                                     class="formulario-contenido-panel-item-campo"
-                                    id="formulario-contenido-panel-item-campo-price" 
-                                    name="product[price]"
-                                    placeholder="Inserta el precio (sin tasas)" 
-                                    value="{{ isset($shirt->name) ? $shirt->name : '' }}" />
+                                    id="formulario-contenido-panel-item-campo-price-purchase" 
+                                    name="product[price][purchase]"
+                                    placeholder="Precio de venta (sin tasas)" 
+                                    value="{{ isset($product) ? $product->price_purchase->price : '' }}" />
                             </div>
                         </div>
-                        <div class="formulario-contenido-panel-item grid-column-2 grid-row-2" id="item-stock">
+                        <div class="formulario-contenido-panel-item grid-column-1 grid-row-2" id="item-price-rent">
+                            <div class="formulario-contenido-panel-item-campo">
+                                <input type="number" 
+                                    class="formulario-contenido-panel-item-campo"
+                                    id="formulario-contenido-panel-item-campo-price-rent" 
+                                    name="product[price][rent]"
+                                    placeholder="Precio de alquiler (sin tasas)" 
+                                    value="{{ isset($product) ? $product->price_rent->price : '' }}" />
+                            </div>
+                        </div>
+                        <div class="formulario-contenido-panel-item grid-column-span-2 grid-row-3" id="item-stock">
                             <div class="formulario-contenido-panel-item-campo">
                                 <input type="number" 
                                     class="formulario-contenido-panel-item-campo"
                                     id="formulario-contenido-panel-item-campo-stock" 
                                     name="product[stock]"
-                                    placeholder="Inserta el stock" 
-                                    value="{{ isset($shirt->name) ? $shirt->name : '' }}" />
+                                    placeholder="Stock" 
+                                    value="{{ isset($product->stock->quantity) ? $product->stock->quantity : '' }}" />
                             </div>
                         </div>
 
-                        <div class="formulario-contenido-panel-item grid-column-span-2 grid-row-3" id="item-modificadores">
+                        <div class="formulario-contenido-panel-item grid-column-span-2 grid-row-4" id="item-modificadores">
                             <div class="formulario-contenido-panel-item-campo">
                                 <p>Selecciona los modificadores de precio a aplicar:</p>
                     
+                                <p>Alquiler: </p>
                                 @foreach ($prices_modifiers as $price_modifier)
                                     <label> {{ $price_modifier->name }}
-                                        <input type="checkbox" name="product[modifier.{{ $price_modifier->id }}]" value="{{ $price_modifier->id }}"> 
+                                        <input 
+                                        type="checkbox"
+                                        name="product[modifier][purchase][{{ $price_modifier->id }}]" 
+                                        value="{{ $price_modifier->id }}"
+                                        @isset($product)
+                                            @foreach ($product->price_modifiers_purchase as $modifier_purchase)
+                                                {{ $modifier_purchase->modifier_id == $price_modifier->id ? 'checked' : ''}}
+                                            @endforeach
+                                        @endisset
+                                        > 
                                     </label>
                                 @endforeach
 
+                                <p>Venta: </p>
+                                @foreach ($prices_modifiers as $price_modifier)
+                                    <label> {{ $price_modifier->name }}
+                                        <input 
+                                        type="checkbox" 
+                                        name="product[modifier][rent][{{ $price_modifier->id }}]" 
+                                        value="{{ $price_modifier->id }}"
+                                        @isset($product)
+                                            @foreach ($product->price_modifiers_rent as $modifier_rent)
+                                                {{ $modifier_rent->modifier_id == $price_modifier->id ? 'checked' : ''}}
+                                            @endforeach
+                                        @endisset
+                                        > 
+                                    </label>
+                                @endforeach
                             </div>
                         </div>
 
@@ -179,8 +219,10 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
                                     <option hidden selected>-- Proveedor --</option>
                                     @foreach ($suppliers as $supplier)
                                         <option value="{{ $supplier->id }}"
-                                            {{ $shirt->supplier_id == $supplier->id ? 'selected' : '' }}>
-                                            {{ $supplier->name }}
+                                            @isset($product)
+                                                {{ $product->cost->supplier_id == $supplier->id ? 'selected' : ''}}
+                                            @endisset
+                                            >{{ $supplier->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -333,9 +375,12 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
         
     </form>
 
-    <form class="caracteristicas-composicion" id="formulario-shirts-tissues" action="{{ route('shirts_store') }}" autocomplete="off" data-tab="caracteristicas">
+    <form class="admin-formulario-dependiente caracteristicas-composicion" id="formulario-shirts-tissues" action="{{ route('shirtsTissues_store') }}" autocomplete="off" data-tab="caracteristicas">
         {{ csrf_field() }}
-        <input type="hidden" name="id" value="{{isset($shirt->id) ? $shirt->id : ''}}">
+
+        <input type="hidden" name="id" value="">
+        <input type="hidden" name="id-parent" value="">
+
         <div class="formulario-contenedor">
             <div class="formulario-tab">
                 <div class="formulario-tab-item">
@@ -349,15 +394,15 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
         </div>
         <div class="formulario-contenido">
             <div class="formulario-contenido-panel active" data-tab="caracteristicas">
-                <div class="panel-static">
-                    <div class="formulario-contenido-panel-item grid-column-1 grid-row-1" id="item-composicon">
+                <div class="panel-static item-tissue-composition" >
+                    <div class="formulario-contenido-panel-item grid-column-1 grid-row-1">
                         <div class="formulario-contenido-panel-item-campo">
-                            <select name="tissue" id="tissue_id">
+                            <select name="tissue[0]" >
                                 <option hidden selected>-- Tejido --</option>
                                 @foreach ($tissues as $tisue)
                                     <option value="{{ $tisue->id }}"
                                         {{ $shirt->tissue_id == $tisue->id ? 'selected' : '' }}>
-                                        {{ $tisue->nombre }}
+                                        {{ $tisue->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -365,7 +410,27 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
                     </div> 
                     <div class="formulario-contenido-panel-item grid-column-2 grid-row-1" id="item-porcentage">
                         <div class="formulario-contenido-panel-item-campo">
-                            <input type="number" name="percentage" id="percentage_id"/>
+                            <input type="number" name="percentage[0]" />
+                        </div>
+                    </div>            
+                </div>
+                <div class="panel-static item-tissue-composition" >
+                    <div class="formulario-contenido-panel-item grid-column-1 grid-row-1">
+                        <div class="formulario-contenido-panel-item-campo">
+                            <select name="tissue[1]" >
+                                <option hidden selected>-- Tejido --</option>
+                                @foreach ($tissues as $tisue)
+                                    <option value="{{ $tisue->id }}"
+                                        {{ $shirt->tissue_id == $tisue->id ? 'selected' : '' }}>
+                                        {{ $tisue->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div> 
+                    <div class="formulario-contenido-panel-item grid-column-2 grid-row-1" id="item-porcentage">
+                        <div class="formulario-contenido-panel-item-campo">
+                            <input type="number" name="percentage[1]" />
                         </div>
                     </div>            
                 </div>

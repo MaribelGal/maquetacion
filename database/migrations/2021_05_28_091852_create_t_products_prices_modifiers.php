@@ -17,6 +17,7 @@ class CreateTProductsPricesModifiers extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('modifier_id');
+            $table->enum('sale_method',['rent', 'purchase']);
             $table->boolean('visible')->default(1);
             $table->boolean('active')->default(1);
             $table->timestamps();

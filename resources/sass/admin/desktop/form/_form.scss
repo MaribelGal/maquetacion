@@ -29,7 +29,7 @@
 
 .formulario-contenido-panel {
     display: none;
-    &.active {
+    &.tab-active {
         display: contents;
     }
 }

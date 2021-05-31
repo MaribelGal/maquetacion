@@ -1,6 +1,6 @@
 #formulario-shirts-tissues{
     display: none;
-    &.active {
+    &.tab-active {
         display: flex;
         flex-flow: column nowrap;
     }

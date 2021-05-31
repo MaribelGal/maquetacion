@@ -6,7 +6,8 @@ use App\Models\DB\DBModel;
 use App\Models\DB\Management\Products\Color;
 use App\Models\DB\Management\Brand;
 use App\Models\DB\Management\Products\Tissue;
-use app\Models\DB\Management\Products\Shirt\ShirtTissue;
+use App\Models\DB\Management\Products\Shirt\ShirtTissue;
+use App\Vendor\Product\Models\Product;
 
 use App\Vendor\Locale\Models\Locale;
 use App\Vendor\Locale\Models\LocaleSlugSeo;
@@ -22,32 +23,32 @@ class Shirt extends DBModel
 
     public function size()
     {
-        return $this->hasOne(ShirtSize::class);
+        return $this->belongsTo(ShirtSize::class, 'shirt_size_id');
     }
 
     public function sleeve()
     {
-        return $this->hasOne(ShirtSleeve::class);
+        return $this->belongsTo(ShirtSleeve::class, 'shirt_sleeve_id');
     }
 
     public function neck()
     {
-        return $this->hasOne(ShirtNeck::class);
+        return $this->belongsTo(ShirtNeck::class, 'shirt_neck_id');
     }
 
     public function pattern()
     {
-        return $this->hasOne(ShirtPattern::class);
+        return $this->belongsTo(ShirtPattern::class, 'shirt_pattern_id');
     }
 
     public function color()
     {
-        return $this->hasOne(Color::class);
+        return $this->belongsTo(Color::class, 'color_id');
     }
 
     public function brand()
     {
-        return $this->hasOne(Brand::class);
+        return $this->belongsTo(Brand::class, 'brand_id');
     }
 
     public function tissues()
@@ -55,6 +56,9 @@ class Shirt extends DBModel
         return $this->hasMany(ShirtTissue::class, 'id_shirt');
     }
 
+    public function product() {
+        return $this->hasOne(Product::class, 'product_specific_id')->where('product_specific_table', 'shirts');
+    }
 
     /// LOCALE + SEO + IMAGES
     public function locale()

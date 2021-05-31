@@ -6,19 +6,19 @@ export let renderizarFormTab = () => {
         botonTab.addEventListener("click", () => {
 
             botonesTab.forEach(botonTab => {
-                if (botonTab.classList.contains("active")) {
-                    botonTab.classList.remove("active");
+                if (botonTab.classList.contains("tab-active")) {
+                    botonTab.classList.remove("tab-active");
                 }
             })
 
-            botonTab.classList.add("active");
+            botonTab.classList.add("tab-active");
 
             panelesTab.forEach(panelTab => {
                 if (panelTab.dataset.tab == botonTab.dataset.tab) {
-                    panelTab.classList.add("active");
+                    panelTab.classList.add("tab-active");
 
-                } else if (panelTab.classList.contains("active")) {
-                    panelTab.classList.remove("active");
+                } else if (panelTab.classList.contains("tab-active")) {
+                    panelTab.classList.remove("tab-active");
                 }
 
             })

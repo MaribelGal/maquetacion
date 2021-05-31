@@ -3240,8 +3240,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_blockParameters__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../components/blockParameters */ "./resources/js/admin/desktop/components/blockParameters.js");
 /* harmony import */ var _components_googleBot__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../components/googleBot */ "./resources/js/admin/desktop/components/googleBot.js");
 /* harmony import */ var _components_sitemap__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../components/sitemap */ "./resources/js/admin/desktop/components/sitemap.js");
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -3252,13 +3250,15 @@ function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArra
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 
 
@@ -3282,87 +3282,15 @@ var tabla = document.getElementById("tabla"); //const formulario = document.getE
 
 var renderizarFormulario = function renderizarFormulario() {
   var formularios = document.querySelectorAll(".admin-formulario");
+  var formularios_dependientes = document.querySelectorAll(".admin-formulario-dependiente");
   var botonGuardar = document.getElementById("boton-guardar-desktop");
 
   if (botonGuardar) {
     botonGuardar.addEventListener("click", function (event) {
-      formularios.forEach(function (formulario) {
-        var datosFormulario = new FormData(formulario);
-
-        if (datosFormulario.get('visible') == null) {
-          datosFormulario.set('visible', 0);
-        }
-
-        if (ckeditors != 'null') {
-          Object.entries(ckeditors).forEach(function (_ref) {
-            var _ref2 = _slicedToArray(_ref, 2),
-                key = _ref2[0],
-                value = _ref2[1];
-
-            datosFormulario.append(key, value.getData());
-          });
-        }
-
-        datosFormulario = (0,_components_dropImage_collection__WEBPACK_IMPORTED_MODULE_5__.appendInputFiles)(datosFormulario);
-        showDataForm(datosFormulario);
-        var url = formulario.action;
-
-        var enviarPeticionPost = /*#__PURE__*/function () {
-          var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-              while (1) {
-                switch (_context.prev = _context.next) {
-                  case 0:
-                    (0,_components_wait__WEBPACK_IMPORTED_MODULE_4__.startWait)();
-                    _context.prev = 1;
-                    _context.next = 4;
-                    return axios.post(url, datosFormulario).then(function (respuesta) {
-                      // formulario.id.value = respuesta.data.id;
-                      formulario.innerHTML = respuesta.data.form;
-                      tabla.innerHTML = respuesta.data.table;
-                      (0,_components_wait__WEBPACK_IMPORTED_MODULE_4__.stopWait)();
-                      (0,_components_notifications__WEBPACK_IMPORTED_MODULE_3__.showNotification)("success", respuesta.data.message, 7000);
-                      renderizarFormulario();
-                      (0,_components_dropImage_collection__WEBPACK_IMPORTED_MODULE_5__.resetDropImage)();
-                      (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
-                      (0,_components_updatedImage__WEBPACK_IMPORTED_MODULE_9__.renderizarUpdatedImage)();
-                    });
-
-                  case 4:
-                    _context.next = 9;
-                    break;
-
-                  case 6:
-                    _context.prev = 6;
-                    _context.t0 = _context["catch"](1);
-                    console.log(_context.t0); // stopWait();
-                    // if (error.response.status == '422') {
-                    //     let errors = error.response.data.errors;
-                    //     let errorMessage = '';
-                    //     Object.keys(errors).forEach(function (key) {
-                    //         errorMessage += '<div>' + errors[key] + '</div>';
-                    //     })
-                    //     console.log(errorMessage);
-                    //     // document.getElementById('item-error').innerHTML = errorMessage;
-                    //     showNotification("error", errorMessage, 7000);
-                    //     // document.getElementById('error-container').classList.add('active');
-                    //     // document.getElementById('errors').innerHTML = errorMessage;
-                    // }
-
-                  case 9:
-                  case "end":
-                    return _context.stop();
-                }
-              }
-            }, _callee, null, [[1, 6]]);
-          }));
-
-          return function enviarPeticionPost() {
-            return _ref3.apply(this, arguments);
-          };
-        }();
-
-        enviarPeticionPost();
+      formularios.forEach(function (standalone_element) {
+        formularios_dependientes.forEach(function (dependant_element) {
+          saveAction(null, dependant_element, standalone_element);
+        });
       });
     });
     botonGuardar.addEventListener("mousedown", function () {
@@ -3404,6 +3332,103 @@ var showDataForm = function showDataForm(datosFormulario) {
   } finally {
     _iterator.f();
   }
+};
+
+var saveAction = function saveAction(id, dependant_element, standalone_element) {
+  console.log("Formularios por enviar");
+  console.log(dependant_element);
+  console.log(standalone_element);
+  var datosFormulario = new FormData(standalone_element);
+
+  if (datosFormulario.get('visible') == null) {
+    datosFormulario.set('visible', 0);
+  }
+
+  if (ckeditors != 'null') {
+    Object.entries(ckeditors).forEach(function (_ref) {
+      var _ref2 = _slicedToArray(_ref, 2),
+          key = _ref2[0],
+          value = _ref2[1];
+
+      datosFormulario.append(key, value.getData());
+    });
+  }
+
+  if (id) {
+    datosFormulario.set('id-parent', id);
+  }
+
+  datosFormulario = (0,_components_dropImage_collection__WEBPACK_IMPORTED_MODULE_5__.appendInputFiles)(datosFormulario);
+  showDataForm(datosFormulario);
+  var url = standalone_element.action;
+
+  var enviarPeticionPost = /*#__PURE__*/function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var errors, errorMessage;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              (0,_components_wait__WEBPACK_IMPORTED_MODULE_4__.startWait)();
+              _context.prev = 1;
+              _context.next = 4;
+              return axios.post(url, datosFormulario).then(function (respuesta) {
+                if (standalone_element.classList.contains('admin-formulario')) {
+                  if (dependant_element) {
+                    saveAction(respuesta.data.product_id, null, dependant_element);
+                  }
+
+                  standalone_element.parentElement.innerHTML = respuesta.data.form;
+                  tabla.innerHTML = respuesta.data.table;
+                  (0,_components_notifications__WEBPACK_IMPORTED_MODULE_3__.showNotification)("success", respuesta.data.message, 7000);
+                  renderizarFormulario();
+                  (0,_components_dropImage_collection__WEBPACK_IMPORTED_MODULE_5__.resetDropImage)();
+                  (0,_components_table__WEBPACK_IMPORTED_MODULE_1__.renderizarTabla)();
+                  (0,_components_updatedImage__WEBPACK_IMPORTED_MODULE_9__.renderizarUpdatedImage)();
+                } // if (standalone_element.classList.contains('admin-formulario-dependiente')) {
+                //     standalone_element.remove();
+                // };
+
+
+                (0,_components_wait__WEBPACK_IMPORTED_MODULE_4__.stopWait)();
+              });
+
+            case 4:
+              _context.next = 11;
+              break;
+
+            case 6:
+              _context.prev = 6;
+              _context.t0 = _context["catch"](1);
+              console.log(_context.t0);
+              (0,_components_wait__WEBPACK_IMPORTED_MODULE_4__.stopWait)();
+
+              if (_context.t0.response.status == '422') {
+                errors = _context.t0.response.data.errors;
+                errorMessage = '';
+                Object.keys(errors).forEach(function (key) {
+                  errorMessage += '<div>' + errors[key] + '</div>';
+                });
+                console.log(errorMessage); // document.getElementById('item-error').innerHTML = errorMessage;
+
+                (0,_components_notifications__WEBPACK_IMPORTED_MODULE_3__.showNotification)("error", errorMessage, 7000); // document.getElementById('error-container').classList.add('active');
+                // document.getElementById('errors').innerHTML = errorMessage;
+              }
+
+            case 11:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[1, 6]]);
+    }));
+
+    return function enviarPeticionPost() {
+      return _ref3.apply(this, arguments);
+    };
+  }();
+
+  enviarPeticionPost();
 };
 
 /***/ }),
@@ -3668,16 +3693,16 @@ var renderizarFormTab = function renderizarFormTab() {
   botonesTab.forEach(function (botonTab) {
     botonTab.addEventListener("click", function () {
       botonesTab.forEach(function (botonTab) {
-        if (botonTab.classList.contains("active")) {
-          botonTab.classList.remove("active");
+        if (botonTab.classList.contains("tab-active")) {
+          botonTab.classList.remove("tab-active");
         }
       });
-      botonTab.classList.add("active");
+      botonTab.classList.add("tab-active");
       panelesTab.forEach(function (panelTab) {
         if (panelTab.dataset.tab == botonTab.dataset.tab) {
-          panelTab.classList.add("active");
-        } else if (panelTab.classList.contains("active")) {
-          panelTab.classList.remove("active");
+          panelTab.classList.add("tab-active");
+        } else if (panelTab.classList.contains("tab-active")) {
+          panelTab.classList.remove("tab-active");
         }
       });
     });
