@@ -135,13 +135,15 @@ class ShirtController extends Controller
     }
 
     public function show(Shirt $shirt) {
-        $locale = $this->locale->show($shirt->id);
+        $product = $this->product->show($shirt->id)[0];
+
+        $locale = $this->locale->show($product->id);
         $seo = $this->localeSlugSeo->show($shirt->id);
-        $product = $this->product->show($shirt->id);
 
         $shirts = $this->shirt->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum);
 
-        debugbar::info($shirts);
+        debugbar::info($product);
+        debugbar::info($locale);
 
         $view = View::make('admin.shirts.index')
             ->with('product', $product)

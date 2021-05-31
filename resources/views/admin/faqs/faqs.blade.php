@@ -105,7 +105,7 @@ $filtros = ['category' => $faqs_categories, 'search' => true, 'date_start' => tr
                                         <textarea type="text" name="locale[description.{{$localization->alias}}]"
                                             class="formulario-contenido-panel-item-campo-descripcion ckeditor"
                                             
-                                            placeholder="Inserta la respuesta">{{isset($locale["description".$localization->alias]) ? $locale["description".$localization->alias] : '' }}
+                                            placeholder="Inserta la respuesta">{{isset($locale["description.".$localization->alias]) ? $locale["description.".$localization->alias] : '' }}
                                           </textarea>
                                     </div>
                                 </div>

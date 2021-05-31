@@ -4,6 +4,7 @@ namespace App\Vendor\Locale;
 
 use App\Vendor\Locale\Models\Locale as DBLocale;
 use App\Vendor\Locale\Models\LocaleLanguage;
+use Debugbar;
 
 class Locale
 {
@@ -58,6 +59,7 @@ class Locale
 
     public function show($key)
     {
+        Debugbar::info($this->rel_parent);
         return DBLocale::getValues($this->rel_parent, $key)->pluck('value','rel_anchor')->all();   
     }
 

@@ -1,21 +1,21 @@
 @php
- Debugbar::info($shirts);
- foreach ($shirts as $shirt) {
-    //  Debugbar::info($shirt->size);
-    //  Debugbar::info($shirt->sleeve);
-    //  Debugbar::info($shirt->neck);
-    //  Debugbar::info($shirt->pattern);
-    //  Debugbar::info($shirt->color);
-    //  Debugbar::info($shirt->brand);
-    //  Debugbar::info($shirt->tissues);
+//  Debugbar::info($shirts);
+//  foreach ($shirts as $shirt) {
+//     //  Debugbar::info($shirt->size);
+//     //  Debugbar::info($shirt->sleeve);
+//     //  Debugbar::info($shirt->neck);
+//     //  Debugbar::info($shirt->pattern);
+//     //  Debugbar::info($shirt->color);
+//     //  Debugbar::info($shirt->brand);
+//     //  Debugbar::info($shirt->tissues);
 
-    $a= $shirt->product->tissues;
+//     $a= $shirt->product->tissues;
 
-    foreach ($a as $b) {
-        Debugbar::info($b->tissue->name);
+//     foreach ($a as $b) {
+//         Debugbar::info($b->tissue->name);
 
-    }
- }
+//     }
+//  }
 @endphp
 
 @extends('admin.shirts.shirts')

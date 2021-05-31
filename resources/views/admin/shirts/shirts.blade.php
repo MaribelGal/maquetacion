@@ -8,6 +8,7 @@ unset($columnList[$activePosition], $columnList[$visiblePosition]);
 
 $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' => $columnList];
 
+
 @endphp
 
 @extends('admin.tabla_formulario')
@@ -23,7 +24,7 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
         {{ csrf_field() }}
 
         <input type="hidden" name="id" value="{{isset($shirt->id) ? $shirt->id : ''}}">
-        {{-- <input type="hidden" name="product[id]" value="{{isset($product->id) ? $product->id : ''}}"> --}}
+        <input type="hidden" name="product[id]" value="{{isset($product->id) ? $product->id : ''}}">
 
 
         <div class="formulario-contenedor">
@@ -91,9 +92,9 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
                                     @foreach ($products_categories as $product_category)
                                         <option value="{{ $product_category->id }}"
                                             @isset($product)
-                                                {{ $product->product_category_id == $product_category->id ? 'selected' : '' }}>
+                                                {{ $product->product_category_id == $product_category->id ? 'selected' : '' }}
                                             @endisset
-                                            {{ $product_category->name }}
+                                            >{{ $product_category->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -120,7 +121,7 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
                                         <textarea type="text" name="locale[description.{{$localization->alias}}]"
                                             class="formulario-contenido-panel-item-campo-descripcion ckeditor"
                                             placeholder="Inserta la descripcion"
-                                            >{{isset($locale["description".$localization->alias]) ? $locale["description".$localization->alias] : '' }}
+                                            >{{isset($locale["description.".$localization->alias]) ? $locale["description.".$localization->alias] : '' }}
                                           </textarea>
                                     </div>
                                 </div>
@@ -161,7 +162,7 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
                                     id="formulario-contenido-panel-item-campo-price-rent" 
                                     name="product[price][rent]"
                                     placeholder="Precio de alquiler (sin tasas)" 
-                                    value="{{ isset($product) ? $product->price_rent->price : '' }}" />
+                                    value="{{ isset($product) ? $product->price_rent->price_hour : '' }}" />
                             </div>
                         </div>
                         <div class="formulario-contenido-panel-item grid-column-span-2 grid-row-3" id="item-stock">
@@ -239,7 +240,7 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
                                     <option hidden selected>-- Talla --</option>
                                     @foreach ($shirts_sizes as $shirt_size)
                                         <option value="{{ $shirt_size->id }}"
-                                            {{ $shirt->size_id == $shirt_size->id ? 'selected' : '' }}>
+                                            {{ $shirt->shirt_size_id == $shirt_size->id ? 'selected' : '' }}>
                                             {{ $shirt_size->name }}
                                         </option>
                                     @endforeach
@@ -252,7 +253,7 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
                                     <option hidden selected>-- Mangas --</option>
                                     @foreach ($shirts_sleeves as $shirt_sleeve)
                                         <option value="{{ $shirt_sleeve->id }}"
-                                            {{ $shirt->sleeve_id == $shirt_sleeve->id ? 'selected' : '' }}>
+                                            {{ $shirt->shirt_sleeve_id == $shirt_sleeve->id ? 'selected' : '' }}>
                                             {{ $shirt_sleeve->name }}
                                         </option>
                                     @endforeach
@@ -265,7 +266,7 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
                                     <option hidden selected>-- Cuello --</option>
                                     @foreach ($shirts_necks as $shirt_neck)
                                         <option value="{{ $shirt_neck->id }}"
-                                            {{ $shirt->neck_id == $shirt_neck->id ? 'selected' : '' }}>
+                                            {{ $shirt->shirt_neck_id == $shirt_neck->id ? 'selected' : '' }}>
                                             {{ $shirt_neck->name }}
                                         </option>
                                     @endforeach
@@ -278,7 +279,7 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
                                     <option hidden selected>-- Estampado --</option>
                                     @foreach ($shirts_patterns as $shirt_pattern)
                                         <option value="{{ $shirt_pattern->id }}"
-                                            {{ $shirt->pattern_id == $shirt_pattern->id ? 'selected' : '' }}>
+                                            {{ $shirt->shirt_pattern_id == $shirt_pattern->id ? 'selected' : '' }}>
                                             {{ $shirt_pattern->name }}
                                         </option>
                                     @endforeach
@@ -394,45 +395,79 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
         </div>
         <div class="formulario-contenido">
             <div class="formulario-contenido-panel active" data-tab="caracteristicas">
-                <div class="panel-static item-tissue-composition" >
-                    <div class="formulario-contenido-panel-item grid-column-1 grid-row-1">
-                        <div class="formulario-contenido-panel-item-campo">
-                            <select name="tissue[0]" >
-                                <option hidden selected>-- Tejido --</option>
-                                @foreach ($tissues as $tisue)
-                                    <option value="{{ $tisue->id }}"
-                                        {{ $shirt->tissue_id == $tisue->id ? 'selected' : '' }}>
-                                        {{ $tisue->name }}
-                                    </option>
-                                @endforeach
-                            </select>
+                <div class="panel-static" >                            
+                    
+                    @isset($product)
+                        @foreach ($product->tissues as $product_tissue)
+                        <div class="item-tissue-composition grid">
+                            <div class="formulario-contenido-panel-item item-tissue-composition grid-column-1 grid-row-{{$loop->iteration}}">
+                                    <div class="formulario-contenido-panel-item-campo">
+                                        <select name="tissue[{{$loop->index}}]" >
+                                            <option hidden selected>-- Tejido --</option>
+                                            @foreach ($tissues as $tissue)
+                                                <option value="{{ $tissue->id }}"
+                                                    {{ $product_tissue->id == $tissue->id ? 'selected' : '' }}>
+                                                    {{ $tissue->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    
+                            </div>
+                            
+                            <div class="formulario-contenido-panel-item item-tissue-composition grid-column-2 grid-row-{{$loop->iteration}}">
+                                <div class="formulario-contenido-panel-item-campo">
+                                    <input type="number" name="percentage[{{$loop->index}}]" value="{{ $product_tissue->percentage_tissue }}"
+                                    />
+                                </div>
+                            </div>
                         </div>
-                    </div> 
-                    <div class="formulario-contenido-panel-item grid-column-2 grid-row-1" id="item-porcentage">
-                        <div class="formulario-contenido-panel-item-campo">
-                            <input type="number" name="percentage[0]" />
+                        @endforeach
+                                            
+                    @else
+                    <div class="item-tissue-composition grid">
+                       <div class="formulario-contenido-panel-item grid-column-1 grid-row-1">
+                            <div class="formulario-contenido-panel-item-campo">
+                                <select name="tissue[0]" >
+                                    <option hidden selected>-- Tejido --</option>
+                                    @foreach ($tissues as $tissue)
+                                        <option value="{{ $tissue->id }}"
+                                            {{ $shirt->tissue_id == $tissue->id ? 'selected' : '' }}>
+                                            {{ $tissue->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
+                        </div> 
+                        <div class="formulario-contenido-panel-item grid-column-2 grid-row-1">
+                            <div class="formulario-contenido-panel-item-campo">
+                                <input type="number" name="percentage[0]" />
+                            </div>
                         </div>
-                    </div>            
-                </div>
-                <div class="panel-static item-tissue-composition" >
-                    <div class="formulario-contenido-panel-item grid-column-1 grid-row-1">
-                        <div class="formulario-contenido-panel-item-campo">
-                            <select name="tissue[1]" >
-                                <option hidden selected>-- Tejido --</option>
-                                @foreach ($tissues as $tisue)
-                                    <option value="{{ $tisue->id }}"
-                                        {{ $shirt->tissue_id == $tisue->id ? 'selected' : '' }}>
-                                        {{ $tisue->name }}
-                                    </option>
-                                @endforeach
-                            </select>
+                    </div>
+                    <div class="item-tissue-composition grid">
+                        <div class="formulario-contenido-panel-item grid-column-1 grid-row-2">
+                            <div class="formulario-contenido-panel-item-campo">
+                                <select name="tissue[1]" >
+                                    <option hidden selected>-- Tejido --</option>
+                                    @foreach ($tissues as $tissue)
+                                        <option value="{{ $tissue->id }}"
+                                            {{ $shirt->tissue_id == $tissue->id ? 'selected' : '' }}>
+                                            {{ $tissue->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
+                        </div> 
+                        <div class="formulario-contenido-panel-item grid-column-2 grid-row-2">
+                            <div class="formulario-contenido-panel-item-campo">
+                                <input type="number" name="percentage[1]" />
+                            </div>
                         </div>
-                    </div> 
-                    <div class="formulario-contenido-panel-item grid-column-2 grid-row-1" id="item-porcentage">
-                        <div class="formulario-contenido-panel-item-campo">
-                            <input type="number" name="percentage[1]" />
-                        </div>
-                    </div>            
+                    </div>    
+                    @endisset
                 </div>
             </div>
         </div>

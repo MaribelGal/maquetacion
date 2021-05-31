@@ -26,7 +26,6 @@ class Product extends Model
 
     public function tissues() {
         return $this->hasMany(ShirtTissue::class, 'product_id');
-
     }
 
     public function cost(){
