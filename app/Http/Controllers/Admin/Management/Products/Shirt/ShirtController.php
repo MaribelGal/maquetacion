@@ -81,11 +81,11 @@ class ShirtController extends Controller
             'id' => request('id')
         ], [
             'name' => request('name'),
-            'shirt_size_id' => request('size'),
+            // 'shirt_size_id' => request('size'),
             'shirt_sleeve_id' => request('sleeve'),
             'shirt_neck_id' => request('neck'),
             'shirt_pattern_id' => request('pattern'),
-            'color_id' => request('color'),
+            // 'color_id' => request('color'),
             'brand_id' => request('brand'),
             'visible' => request('visible'),
             'active' => 1,
@@ -130,7 +130,7 @@ class ShirtController extends Controller
             'table' => $sections['table'],
             'tablerows' => $sections['tablerows'],
             'form' => $sections['form'],
-            'product_id' => $product->id
+            'product_id' => $shirt->id
         ]);
     }
 

@@ -417,6 +417,7 @@ ol, ul {
 
 .grid {
   display: grid;
+  gap: 0.5em;
 }
 
 .grid-row-1 {
@@ -528,6 +529,10 @@ img {
 
 .contents {
   display: contents;
+}
+
+.hidden {
+  display: none;
 }
 
 header {
@@ -1642,4 +1647,16 @@ select {
 }
 .panel-locale-item.active {
   display: contents;
+}
+
+.panel-variant-item {
+  display: none;
+}
+.panel-variant-item.variant-item_active {
+  display: inherit;
+}
+
+.panel-variant-navigate {
+  display: flex;
+  flex-flow: row nowrap;
 }

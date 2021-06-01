@@ -3391,9 +3391,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _formAction__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./formAction */ "./resources/js/admin/desktop/form/formAction.js");
 /* harmony import */ var _formTabLocale__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./formTabLocale */ "./resources/js/admin/desktop/form/formTabLocale.js");
 /* harmony import */ var _formSave__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./formSave */ "./resources/js/admin/desktop/form/formSave.js");
-/* harmony import */ var _components_blockParameters__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../components/blockParameters */ "./resources/js/admin/desktop/components/blockParameters.js");
-/* harmony import */ var _components_googleBot__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../components/googleBot */ "./resources/js/admin/desktop/components/googleBot.js");
-/* harmony import */ var _components_sitemap__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../components/sitemap */ "./resources/js/admin/desktop/components/sitemap.js");
+/* harmony import */ var _formVariant__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./formVariant */ "./resources/js/admin/desktop/form/formVariant.js");
+/* harmony import */ var _components_blockParameters__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../components/blockParameters */ "./resources/js/admin/desktop/components/blockParameters.js");
+/* harmony import */ var _components_googleBot__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../components/googleBot */ "./resources/js/admin/desktop/components/googleBot.js");
+/* harmony import */ var _components_sitemap__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../components/sitemap */ "./resources/js/admin/desktop/components/sitemap.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -3413,6 +3414,7 @@ function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symb
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 
 
 
@@ -3458,14 +3460,15 @@ var renderizarFormulario = function renderizarFormulario() {
   }
 
   (0,_formTab__WEBPACK_IMPORTED_MODULE_10__.renderizarFormTab)();
+  (0,_formVariant__WEBPACK_IMPORTED_MODULE_14__.renderizarFormVariant)();
   (0,_formAction__WEBPACK_IMPORTED_MODULE_11__.renderizarFormAction)();
   (0,_formTabLocale__WEBPACK_IMPORTED_MODULE_12__.renderizarFormTablocale)();
   (0,_ckeditor__WEBPACK_IMPORTED_MODULE_2__.renderizarCkeditor)();
   (0,_components_localeTags__WEBPACK_IMPORTED_MODULE_7__.renderizarLocaleTags)();
   (0,_components_localeSeo__WEBPACK_IMPORTED_MODULE_8__.renderizarLocaleSeo)();
-  (0,_components_blockParameters__WEBPACK_IMPORTED_MODULE_14__.renderBlockParameters)();
-  (0,_components_googleBot__WEBPACK_IMPORTED_MODULE_15__.renderGoogleBot)();
-  (0,_components_sitemap__WEBPACK_IMPORTED_MODULE_16__.renderSitemap)();
+  (0,_components_blockParameters__WEBPACK_IMPORTED_MODULE_15__.renderBlockParameters)();
+  (0,_components_googleBot__WEBPACK_IMPORTED_MODULE_16__.renderGoogleBot)();
+  (0,_components_sitemap__WEBPACK_IMPORTED_MODULE_17__.renderSitemap)();
 };
 renderizarFormulario();
 (0,_components_dropImage_collection__WEBPACK_IMPORTED_MODULE_5__.renderizarDropImage)();
@@ -3898,6 +3901,93 @@ var renderizarFormTablocale = function renderizarFormTablocale() {
         });
       });
     });
+  });
+};
+
+/***/ }),
+
+/***/ "./resources/js/admin/desktop/form/formVariant.js":
+/*!********************************************************!*\
+  !*** ./resources/js/admin/desktop/form/formVariant.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderizarFormVariant": () => (/* binding */ renderizarFormVariant)
+/* harmony export */ });
+var renderizarFormVariant = function renderizarFormVariant() {
+  var panelsVariants = document.querySelectorAll(".panel-variants");
+  panelsVariants.forEach(function (panelVariants) {
+    var templatePanelVariant = panelVariants.querySelector("#variant-template");
+    var nextButton = panelVariants.querySelector(".panel-variant-navigate-next");
+    var previusButton = panelVariants.querySelector(".panel-variant-navigate-previus");
+    var infoTotal = panelVariants.querySelector(".panel-variant-navigate-total");
+    var infoActual = panelVariants.querySelector(".panel-variant-navigate-actual");
+    nextButton.addEventListener("click", function () {
+      var itemsPanelVariant = panelVariants.querySelectorAll(".panel-variant-item");
+      var itemActive = selectActiveItem(itemsPanelVariant, "variant-item_active");
+
+      if (itemActive.dataset.variant == itemsPanelVariant.length) {
+        itemActive.classList.remove("variant-item_active");
+        var newItemPanelVariant = templatePanelVariant.cloneNode(true);
+        var actualNumber = itemsPanelVariant.length + 1;
+        actualizeNames(newItemPanelVariant, actualNumber);
+        newItemPanelVariant.removeAttribute("id");
+        newItemPanelVariant.classList.remove("hidden");
+        newItemPanelVariant.classList.add("panel-variant-item");
+        newItemPanelVariant.classList.add("grid");
+        newItemPanelVariant.classList.add("variant-item_active");
+        var att = document.createAttribute("data-variant");
+        att.value = actualNumber;
+        newItemPanelVariant.setAttributeNode(att);
+        itemActive.after(newItemPanelVariant);
+        infoTotal.textContent = "/" + actualNumber;
+        infoActual.textContent = actualNumber;
+      } else {
+        var nextItem = itemActive.nextSibling;
+        nextItem.classList.add("variant-item_active");
+        itemActive.classList.remove("variant-item_active");
+        infoActual.textContent = nextItem.dataset.variant;
+      }
+    });
+    previusButton.addEventListener("click", function () {
+      var itemsPanelVariant = panelVariants.querySelectorAll(".panel-variant-item");
+      var itemActive = selectActiveItem(itemsPanelVariant, "variant-item_active");
+
+      if (itemActive.dataset.variant == 1) {
+        itemActive.classList.remove("variant-item_active");
+        var lastItem = itemsPanelVariant[itemsPanelVariant.length - 1];
+        lastItem.classList.add("variant-item_active");
+        infoActual.textContent = lastItem.dataset.variant;
+      } else {
+        var previousItem = itemActive.previousSibling;
+        previousItem.classList.add("variant-item_active");
+        itemActive.classList.remove("variant-item_active");
+        infoActual.textContent = previousItem.dataset.variant;
+      }
+    });
+  });
+};
+
+var selectActiveItem = function selectActiveItem(itemsPanelVariant, classActive) {
+  var active;
+  itemsPanelVariant.forEach(function (itemPanelVariant) {
+    if (itemPanelVariant.classList.contains(classActive)) {
+      active = itemPanelVariant;
+    }
+  });
+  return active;
+};
+
+var actualizeNames = function actualizeNames(newItemPanelVariant, number) {
+  var itemsForRename = newItemPanelVariant.querySelectorAll(".rename-variant-item");
+  itemsForRename.forEach(function (itemForRename) {
+    var actualName = itemForRename.name;
+    var newName = actualName + "[" + number + "]";
+    itemForRename.setAttribute("name", newName);
+    itemForRename.classList.remove("rename-variant-item");
   });
 };
 

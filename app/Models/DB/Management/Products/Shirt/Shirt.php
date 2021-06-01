@@ -4,6 +4,7 @@ namespace App\Models\DB\Management\Products\Shirt;
 
 use App\Models\DB\DBModel;
 use App\Models\DB\Management\Products\Color;
+use app\Models\DB\Management\Products\Shirt\ShirtColor;
 use App\Models\DB\Management\Brand;
 use App\Models\DB\Management\Products\Tissue;
 use App\Models\DB\Management\Products\Shirt\ShirtTissue;
@@ -21,10 +22,7 @@ class Shirt extends DBModel
     protected $table = 't_shirts';
     // protected $with = ['category', 'images'];
 
-    public function size()
-    {
-        return $this->belongsTo(ShirtSize::class, 'shirt_size_id');
-    }
+
 
     public function sleeve()
     {
@@ -41,20 +39,27 @@ class Shirt extends DBModel
         return $this->belongsTo(ShirtPattern::class, 'shirt_pattern_id');
     }
 
-    public function color()
-    {
-        return $this->belongsTo(Color::class, 'color_id');
-    }
-
     public function brand()
     {
         return $this->belongsTo(Brand::class, 'brand_id');
     }
 
+
+
     public function tissues()
     {
-        return $this->hasMany(ShirtTissue::class, 'product_id');
+        return $this->hasMany(ShirtTissue::class, 'shirt_id');
     }
+
+    public function colors()
+    {
+        return $this->hasMany(ShirtColor::class, 'shirt_id');
+    }
+    public function sizes()
+    {
+        return $this->hasMany(ShirtSize::class, 'shirt_id');
+    }
+
 
     public function product() {
         return $this->hasOne(Product::class, 'product_specific_id')->where('product_specific_table', 'shirts');

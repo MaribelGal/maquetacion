@@ -16,10 +16,12 @@ import { renderizarFormTab } from "./formTab";
 import { renderizarFormAction } from "./formAction";
 import { renderizarFormTablocale } from "./formTabLocale";
 import { renderizarFormSave } from "./formSave";
+import { renderizarFormVariant } from "./formVariant";
 
 import { renderBlockParameters } from '../components/blockParameters';
 import { renderGoogleBot } from '../components/googleBot';
 import { renderSitemap } from '../components/sitemap';
+
 
 const tabla = document.getElementById("tabla");
 //const formulario = document.getElementById("formulario");
@@ -54,6 +56,7 @@ export let renderizarFormulario = () => {
     }
 
     renderizarFormTab();
+    renderizarFormVariant();
     renderizarFormAction();
     renderizarFormTablocale();
     renderizarCkeditor();

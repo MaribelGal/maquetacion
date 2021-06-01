@@ -14,9 +14,9 @@ class Tissue extends DBModel
 {
     protected $table = 't_tissues';
 
-    public function shirtTissue()
+    public function shirts()
     {
-        return $this->belongsTo(ShirtTissue::class);
+        return $this->hasMany(ShirtTissue::class, 'tissue_id');
     }
 
     

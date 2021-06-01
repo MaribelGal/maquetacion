@@ -41,11 +41,10 @@ class Product extends DBModel
         return $this->hasOne(Shirt::class);
     }
 
-
-    public function tissues()
-    {
-        return $this->hasMany(ShirtTissue::class, 'product_id');
-    }
+    // public function tissues()
+    // {
+    //     return $this->hasMany(ShirtTissue::class, 'product_id');
+    // }
 
     public function cost()
     {

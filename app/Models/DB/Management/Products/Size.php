@@ -6,16 +6,16 @@ use App\Models\DB\DBModel;
 use App\Vendor\Locale\Models\Locale;
 
 use App;
-use App\Models\DB\Management\Products\Shirt\ShirtColor;
+use App\Models\DB\Management\Products\Shirt\ShirtSize;
 
-class Color extends DBModel
+class Size extends DBModel
 {
 
-    protected $table = 't_colors';
+    protected $table = 't_sizes';
 
     public function shirts()
     {
-        return $this->hasMany(ShirtColor::class, 'color_id');
+        return $this->hasMany(ShirtSize::class, 'size_id');
     }
     
     public function locale()

@@ -1,0 +1,10 @@
+.panel-variant-item{
+    display:none;
+    &.variant-item_active{
+        display: inherit;
+    }
+}
+.panel-variant-navigate{
+    display:flex;
+    flex-flow: row nowrap;
+}
