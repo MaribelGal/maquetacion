@@ -11,6 +11,8 @@ use App\Vendor\Product\Models\ProductStock;
 
 use App\Models\DB\Management\PriceModifier;
 
+use App\Vendor\Product\ProductSpecific;
+
 use Debugbar;
 
 class Product {
@@ -21,7 +23,8 @@ class Product {
     protected $productPricePurchase;
     protected $productPriceRent;
     protected $productStock;
-    protected $PriceModifier;
+    protected $priceModifier;
+    protected $productSpecific;
 
     protected $total_increases_sum;
     protected $total_decreases_sum;
@@ -33,7 +36,8 @@ class Product {
         ProductPriceRent $productPriceRent, 
         ProductPriceModifier $productPriceModifier,
         ProductPricePurchase $productPricePurchase,
-        PriceModifier $priceModifier) 
+        PriceModifier $priceModifier,
+        ProductSpecific $productSpecific) 
     {
         $this->product = $product;
         $this->productCost = $productCost;
@@ -42,6 +46,7 @@ class Product {
         $this->productPriceRent = $productPriceRent;
         $this->productStock = $productStock;
         $this->priceModifier = $priceModifier;
+        $this->productSpecific = $productSpecific;
 
         $this->total_decreases_sum = [];
         $this->total_increases_sum = [];
@@ -94,12 +99,7 @@ class Product {
                     'active' => 1
                 ]);
 
-                
-
                 $mod = $this->priceModifier->find($modifier_id)->get();
-
-                Debugbar::info($mod[0]);
-
 
                 if ($mod[0]->modifier == 'inc') {
                     $this->total_increases_sum[$key_sale_method] += ($mod[0]->percentage - 1);
@@ -137,7 +137,14 @@ class Product {
     }
 
     public function show($specific_id){
-        return $this->product->where('product_specific_table', $this->table)->where('product_specific_id', $specific_id)->get();
+        $product = $this->product->where('product_specific_table', $this->table)->where('product_specific_id', $specific_id)->get();
+
+        return $product;
+    }
+
+    public function showSpecific($table){
+        $this->productSpecific->setTable($table);
+        return $this->productSpecific->specificModelProduct();
     }
 }
 

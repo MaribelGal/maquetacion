@@ -53,7 +53,7 @@ class Shirt extends DBModel
 
     public function tissues()
     {
-        return $this->hasMany(ShirtTissue::class, 'id_shirt');
+        return $this->hasMany(ShirtTissue::class, 'product_id');
     }
 
     public function product() {

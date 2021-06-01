@@ -3,8 +3,8 @@
 namespace App\Models\DB\Management\Products\Shirt;
 
 use App\Models\DB\DBModel;
-use app\Models\DB\Management\Products\Tissue;
-use app\Models\DB\Management\Products\Shirt\Shirt;
+use App\Models\DB\Management\Products\Tissue;
+use App\Models\DB\Management\Products\Shirt\Shirt;
 
 class ShirtTissue extends DBModel
 {

@@ -92,7 +92,7 @@ Route::group(['prefix' => 'admin'], function () {
         ]
     ]);
 
-    
+
     Route::get('/seo/sitemap', 'App\Http\Controllers\Admin\LocaleSeoController@getSitemaps')->name('create_sitemap');
     Route::get('/seo/import', 'App\Http\Controllers\Admin\LocaleSeoController@importSeo')->name('seo_import');
     Route::get('/seo/{key}', 'App\Http\Controllers\Admin\LocaleSeoController@edit')->name('seo_edit');
@@ -100,7 +100,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/seo', 'App\Http\Controllers\Admin\LocaleSeoController@store')->name('seo_store');
     Route::get('/ping-google', 'App\Http\Controllers\Admin\LocaleSeoController@pingGoogle')->name('ping_google');
 
-    Route::get('/tags/filter/{filters?}', 'App\Http\Controllers\Admin\LocaleTagController@filter')->name('tags_filter');    
+    Route::get('/tags/filter/{filters?}', 'App\Http\Controllers\Admin\LocaleTagController@filter')->name('tags_filter');
     Route::get('/tags/groupKey/{groupKey?}', 'App\Http\Controllers\Admin\LocaleTagController@show')->name('tags_show');
     Route::get('/tags/import', 'App\Http\Controllers\Admin\LocaleTagController@importTags')->name('tags_import');
     Route::get('/tags', 'App\Http\Controllers\Admin\LocaleTagController@index')->name('tags');
@@ -110,28 +110,30 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
         'names' => [
-            'index' => 'shirts', 
+            'index' => 'shirts',
             'create' => 'shirts_create',
-            'store' => 'shirts_store', 
+            'store' => 'shirts_store',
             'destroy' => 'shirts_destroy',
             'show' => 'shirts_show',
         ]
     ]);
 
     Route::post('/shirtsTissues', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtTissueController@store')->name('shirtsTissues_store');
-
 });
 
-Route::group(['prefix' => $localizationseo->setLocale(),
-              'middleware' => [ 'localize' ]
-            ], function () use ($localizationseo) {
+Route::group([
+    'prefix' => $localizationseo->setLocale(),
+    'middleware' => ['localize']
+], function () use ($localizationseo) {
 
-    Route::get($localizationseo->transRoute('routes.front_faqs'), 'App\Http\Controllers\Front\FaqController@index')->name('front_faqs');
-    Route::get($localizationseo->transRoute('routes.front_faq'), 'App\Http\Controllers\Front\FaqController@show')->name('front_faq');
 
 
     Route::get($localizationseo->transRoute('routes.front_products'), 'App\Http\Controllers\Front\ProductController@index')->name('front_products');
     Route::get($localizationseo->transRoute('routes.front_product'), 'App\Http\Controllers\Front\ProductController@show')->name('front_product');
+
+
+    Route::get($localizationseo->transRoute('routes.front_faqs'), 'App\Http\Controllers\Front\FaqController@index')->name('front_faqs');
+    Route::get($localizationseo->transRoute('routes.front_faq'), 'App\Http\Controllers\Front\FaqController@show')->name('front_faq');
 });
 
 

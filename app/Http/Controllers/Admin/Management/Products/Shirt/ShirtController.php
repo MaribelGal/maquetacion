@@ -98,9 +98,9 @@ class ShirtController extends Controller
         DebugBar::info($product);
 
 
-        // if(request('seo')){
-        //     $seo = $this->localeSlugSeo->store(request('seo'), $product->id, 'front_shirt');
-        // }
+        if(request('seo')){
+            $seo = $this->localeSlugSeo->store(request('seo'), $product->id, 'front_product');
+        }
 
         if (request('locale')) {
             $locale = $this->locale->store(request('locale'), $product->id);
@@ -138,7 +138,7 @@ class ShirtController extends Controller
         $product = $this->product->show($shirt->id)[0];
 
         $locale = $this->locale->show($product->id);
-        $seo = $this->localeSlugSeo->show($shirt->id);
+        $seo = $this->localeSlugSeo->show($product->id);
 
         $shirts = $this->shirt->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum);
 

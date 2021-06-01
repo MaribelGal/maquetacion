@@ -3,7 +3,9 @@
 namespace App\Models\DB\Management\Products;
 
 use App\Models\DB\DBModel;
+use App\Vendor\Locale\Models\Locale;
 
+use App;
 class Color extends DBModel
 {
 
@@ -12,5 +14,10 @@ class Color extends DBModel
     public function shirts()
     {
         return $this->hasMany(Shirt::class, 'id_color');
+    }
+    
+    public function locale()
+    {
+        return $this->hasMany(Locale::class, 'key')->where('rel_parent', 'colors')->where('language', App::getLocale());
     }
 } 

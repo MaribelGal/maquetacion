@@ -1,18 +1,19 @@
 @if ($type == 'image')
     <div class="image-single">
         <div class="upload-single grid">
-            @foreach ($files as $image)
-                @if ($image->language == $alias)
-                    <div class="upload-thumb-single grid-row-1 grid-column-1" data-label="{{ $image->filename }}"
-                        data-alias="{{ $image->language }}"
-                        style="background-image: url({{ Storage::url($image->path) }})">
-                    </div>
-                    <div class="upload-thumb-image-single grid-row-1 grid-column-1">
-                        <img class="upload-thumb-image-item" src="{{ isset($image->path)? Storage::url($image->path):'' }}" alt="">
-                    </div>
-                @endif
-            @endforeach
-
+            @isset($files)
+                @foreach ($files as $image)
+                    @if ($image->language == $alias)
+                        <div class="upload-thumb-single grid-row-1 grid-column-1" data-label="{{ $image->filename }}"
+                            data-alias="{{ $image->language }}"
+                            style="background-image: url({{ Storage::url($image->path) }})">
+                        </div>
+                        <div class="upload-thumb-image-single grid-row-1 grid-column-1">
+                            <img class="upload-thumb-image-item" src="{{ isset($image->path)? Storage::url($image->path):'' }}" alt="">
+                        </div>
+                    @endif
+                @endforeach
+            @endisset
             <span class="upload-prompt-single grid-row-1 grid-column-1">@lang('admin/upload.image')</span>
             <input class="upload-input-single grid-row-1 grid-column-1" type="file" data-content="{{ $content }}"
                 data-alias="{{ $alias }}">
@@ -91,6 +92,8 @@
             </div>
         </div>
 
+        @isset($files)
+            
         @if ($files->count() != 0)
 
             @foreach ($files as $image)
@@ -130,6 +133,7 @@
                 @endif
             @endforeach
         @endif
+        @endisset
 
 
     </div>
