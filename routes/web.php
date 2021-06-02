@@ -119,6 +119,8 @@ Route::group(['prefix' => 'admin'], function () {
     ]);
 
     Route::post('/shirtsTissues', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtTissueController@store')->name('shirtsTissues_store');
+
+    
 });
 
 Route::group([
@@ -132,9 +134,11 @@ Route::group([
     Route::get($localizationseo->transRoute('routes.front_product'), 'App\Http\Controllers\Front\ProductController@show')->name('front_product');
 
 
+
     Route::get($localizationseo->transRoute('routes.front_faqs'), 'App\Http\Controllers\Front\FaqController@index')->name('front_faqs');
     Route::get($localizationseo->transRoute('routes.front_faq'), 'App\Http\Controllers\Front\FaqController@show')->name('front_faq');
 });
+
 
 
 Route::post('/fingerprint', 'App\Http\Controllers\Front\FingerprintController@store')->name('front_fingerprint');

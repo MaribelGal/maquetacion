@@ -52,7 +52,7 @@ class ViewComposerServiceProvider extends ServiceProvider
 
         view()->composer([
             'admin.shirts.index'],
-            'App\Http\ViewComposers\Admin\ShirtsSizes'
+            'App\Http\ViewComposers\Admin\Sizes'
         );
         view()->composer([
             'admin.shirts.index'],

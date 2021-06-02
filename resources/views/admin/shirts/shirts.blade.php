@@ -24,7 +24,7 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
         {{ csrf_field() }}
 
         <input type="hidden" name="id" value="{{isset($shirt->id) ? $shirt->id : ''}}">
-        
+        <input type="hidden" name="product[product_group_id]" value="{{isset($product->id) ? $product->id : ''}}"/>
 
 
         <div class="formulario-contenedor">
@@ -196,9 +196,12 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
                     <div class="panel-variants"> VARIACIONES
                         <div class="hidden" id="variant-template">
                             <input type="hidden" name="product[id]" class="rename-variant-item" value="{{isset($product->id) ? $product->id : ''}}"/>
+
+                            <input type="hidden" name="product[specific][id]" class="rename-variant-item" value="{{isset($product->id) ? $product->id : ''}}"/>
+
                             <div class="formulario-contenido-panel-item grid-column-2 grid-row-1" >
                                 <div class="formulario-contenido-panel-item-campo">
-                                    <select name="product[specific][color]" class="rename-variant-item">
+                                    <select name="product[specific][col][color_id]" class="rename-variant-item">
                                         <option hidden selected>-- Color --</option>
                                         @foreach ($colors as $color)
                                             <option value="{{ $color->id }}"
@@ -211,12 +214,12 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
                             </div>                        
                             <div class="formulario-contenido-panel-item grid-column-1 grid-row-1" >
                                 <div class="formulario-contenido-panel-item-campo">
-                                    <select name="product[specific][size]" class="rename-variant-item">
+                                    <select name="product[specific][col][size_id]" class="rename-variant-item">
                                         <option hidden selected>-- Talla --</option>
-                                        @foreach ($shirts_sizes as $shirt_size)
-                                            <option value="{{ $shirt_size->id }}"
-                                                {{ $shirt->shirt_size_id == $shirt_size->id ? 'selected' : '' }}>
-                                                {{ $shirt_size->name }}
+                                        @foreach ($sizes as $size)
+                                            <option value="{{ $size->id }}"
+                                                {{ $shirt->shirt_size_id == $size->id ? 'selected' : '' }}>
+                                                {{ $size->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -318,9 +321,13 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
 
                             <input type="hidden" name="product[id][1]" value="{{isset($product->id) ? $product->id : ''}}"/>
 
+                            <input type="hidden" name="product[specific][id][1]" value="{{isset($product->id) ? $product->id : ''}}"/>
+
+                            
+
                             <div class="formulario-contenido-panel-item grid-column-2 grid-row-1" >
                                 <div class="formulario-contenido-panel-item-campo">
-                                    <select name="product[specific][color][1]" >
+                                    <select name="product[specific][col][color_id][1]" >
                                         <option hidden selected>-- Color --</option>
                                         @foreach ($colors as $color)
                                             <option value="{{ $color->id }}"
@@ -333,12 +340,12 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
                             </div>                        
                             <div class="formulario-contenido-panel-item grid-column-1 grid-row-1" >
                                 <div class="formulario-contenido-panel-item-campo">
-                                    <select name="product[specific][size][1]" >
+                                    <select name="product[specific][col][size_id][1]" >
                                         <option hidden selected>-- Talla --</option>
-                                        @foreach ($shirts_sizes as $shirt_size)
-                                            <option value="{{ $shirt_size->id }}"
-                                                {{ $shirt->shirt_size_id == $shirt_size->id ? 'selected' : '' }}>
-                                                {{ $shirt_size->name }}
+                                        @foreach ($sizes as $size)
+                                            <option value="{{ $size->id }}"
+                                                {{ $shirt->shirt_size_id == $size->id ? 'selected' : '' }}>
+                                                {{ $size->name }}
                                             </option>
                                         @endforeach
                                     </select>

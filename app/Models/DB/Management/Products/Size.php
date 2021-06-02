@@ -20,6 +20,6 @@ class Size extends DBModel
     
     public function locale()
     {
-        return $this->hasMany(Locale::class, 'key')->where('rel_parent', 'colors')->where('language', App::getLocale());
+        return $this->hasMany(Locale::class, 'key')->where('rel_parent', 'sizes')->where('language', App::getLocale());
     }
 } 

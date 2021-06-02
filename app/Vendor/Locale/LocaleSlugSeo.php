@@ -5,6 +5,8 @@ namespace App\Vendor\Locale;
 use App\Vendor\Locale\Models\LocaleSlugSeo as DBLocaleSlugSeo;
 use App\Vendor\Locale\Models\LocaleSeo as DBLocaleSeo;
 
+use Debugbar;
+
 class LocaleSlugSeo
 {
     protected $rel_parent;
@@ -100,6 +102,7 @@ class LocaleSlugSeo
     public function getIdByLanguage($slug){ 
 
         return  DBLocaleSlugSeo::getIdByLanguage($this->rel_parent, $this->language, $slug)->first();
+
     }
 
     public function getIdByKey($rel_parent, $language, $key){ 

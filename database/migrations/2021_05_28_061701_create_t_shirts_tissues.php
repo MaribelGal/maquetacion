@@ -16,7 +16,7 @@ class CreateTShirtsTissues extends Migration
         Schema::create('t_shirts_tissues', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tissue_id');
-            $table->unsignedBigInteger('shirt_id');
+            $table->unsignedBigInteger('product_id'); //shirt  model
             $table->integer('percentage_tissue');
             $table->boolean('visible')->default(1);
             $table->boolean('active')->default(1);

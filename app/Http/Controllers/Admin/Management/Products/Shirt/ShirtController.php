@@ -13,7 +13,8 @@ use App\Vendor\Locale\Locale;
 use App\Vendor\Locale\LocaleSlugSeo;
 use App\Vendor\Image\Image;
 use App\Vendor\Product\Product;
-use App\Models\DB\Management\Products\Shirt\Shirt;
+use App\Models\DB\Management\Products\Shirt\ShirtModel;
+
 use Debugbar;
 use Jenssegers\Agent\Agent;
 
@@ -27,7 +28,8 @@ class ShirtController extends Controller
     protected $agent;
     protected $paginationNum;
 
-    function __construct(Shirt $shirt, Agent $agent, Locale $locale, LocaleSlugSeo $localeSlugSeo, Image $image, Product $product){
+    function __construct(ShirtModel $shirt, Agent $agent, Locale $locale, LocaleSlugSeo $localeSlugSeo, Image $image, Product $product)
+    {
         $this->middleware('auth');
         $this->shirt = $shirt;
         $this->locale = $locale;
@@ -35,7 +37,7 @@ class ShirtController extends Controller
         $this->image = $image;
         $this->product = $product;
         $this->agent = $agent;
-        
+
 
         if ($this->agent->isMobile()) {
             $this->paginationNum = 6;
@@ -45,13 +47,14 @@ class ShirtController extends Controller
             $this->paginationNum = 3;
         }
 
-        $this->locale->setParent('products');
-        $this->localeSlugSeo->setParent('products');
+        $this->locale->setParent('products_groups');
+        $this->localeSlugSeo->setParent('products_groups');
         $this->image->setEntity('products');
         $this->product->setTable('shirts');
     }
 
-    public function index(){
+    public function index()
+    {
 
         $paginate = $this->shirt->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum);
 
@@ -73,12 +76,13 @@ class ShirtController extends Controller
         return $view;
     }
 
-    public function store() {
+    public function store()
+    {
 
         DebugBar::info(request());
 
-        $shirt = $this->shirt->updateOrCreate([
-            'id' => request('id')
+        $shirt_model = $this->shirt->updateOrCreate([
+            'id' => request('shirt_model_id')
         ], [
             'name' => request('name'),
             // 'shirt_size_id' => request('size'),
@@ -91,25 +95,47 @@ class ShirtController extends Controller
             'active' => 1,
         ]);
 
-        if (request('product')){
-            $product = $this->product->store(request('product'), $shirt->id, request('visible'));
+
+        DebugBar::info($shirt_model->id);
+
+        if (request('product')) {
+            $product = $this->product->store(
+                request('name'),
+                request('product'),
+                $shirt_model->id,
+                request('visible')
+            );
         }
 
-        DebugBar::info($product);
 
-
-        if(request('seo')){
-            $seo = $this->localeSlugSeo->store(request('seo'), $product->id, 'front_product');
+        if (request('seo')) {
+            $seo = $this->localeSlugSeo->store(request('seo'), $product['group']->id, 'front_product');
         }
 
         if (request('locale')) {
-            $locale = $this->locale->store(request('locale'), $product->id);
-        }
-        
-        if (request('images')) {
-            $images = $this->image->storeRequest(request('images'), 'webp', $product->id);
+            $locale = $this->locale->store(request('locale'), $product['group']->id);
         }
 
+        Debugbar::info('aquii');
+        Debugbar::info($product['item']);
+
+        $i = 1;
+        foreach ($product['item'] as $productItem) {
+            if (request('images')) {
+                $images = $this->image->storeRequest(request('images'), 'webp', $product['item'][$i]->id);
+            }
+            $i++;
+        }
+        // Debugbar::info(is_countable($product['item']));
+        // Debugbar::info(count($product['item']));
+
+        // for ($i=0; $i < count($product['item']); $i++) { 
+        //     Debugbar::info(count($product['item']));
+        //     if (request('images')) {
+        //         $images = $this->image->storeRequest(request('images'), 'webp', $product['item'][$i+1]->id);
+        //     }
+
+        // }
 
 
         if (request('id')) {
@@ -130,11 +156,12 @@ class ShirtController extends Controller
             'table' => $sections['table'],
             'tablerows' => $sections['tablerows'],
             'form' => $sections['form'],
-            'product_id' => $shirt->id
+            'product_id' => $shirt_model->id
         ]);
     }
 
-    public function show(Shirt $shirt) {
+    public function show(Shirt $shirt)
+    {
         $product = $this->product->show($shirt->id)[0];
 
         $locale = $this->locale->show($product->id);
@@ -165,5 +192,4 @@ class ShirtController extends Controller
 
         return $view;
     }
-
 }

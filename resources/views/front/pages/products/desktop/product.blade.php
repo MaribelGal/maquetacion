@@ -1,39 +1,25 @@
-@php
+{{-- @php
     use Debugbar;
+    Debugbar::info($products_specific);
+    foreach ($products_specific as $product_specific) {
+        Debugbar::info($product_specific->model);
+    }
+    // Debugbar::info($product);
+@endphp --}}
 
-    $table = $product->product_specific_table;
-    $id = $product->product_specific_id;
-    Debugbar::info($product->product_specific_table);
-    Debugbar::info($product->product_specific_id);
-    Debugbar::info($product->tissues);
-    Debugbar::info($product_specific->neck->locale);
-@endphp
-<div class="product grid">
+    
+@isset($product_specific)
+    
+<div class="product  grid">
 
     <div class="product-categories grid-column-span-2 grid-row-1">
-        Categoria/categoria/categoria
+        Categoria/categoria/categoria ??
     </div>
-    <div class="product-images grid-column-1 grid-row-2 grid">
-        <div class="product-images-featured grid-column-2 grid-column-span-3 grid-row-1">
-            @isset($product->image_featured_desktop->path)
-                <img 
-                src="{{Storage::url($product->image_featured_desktop->path)}}" 
-                alt="{{$product->image_featured_desktop->alt}}" 
-                title="{{$product->image_featured_desktop->title}}" />
-            @endif
-        </div>
-        <div class="product-images-grid grid-column-1 grid-row-1 grid">
 
-            @foreach ($product->image_grid_preview_lang as $item)
-                <div class="product-images-grid-item grid-column-1 grid-row-{{$loop->iteration}}">
-                    <img 
-                    src="{{Storage::url($item->path)}}" 
-                    alt="{{$item->alt}}" 
-                    title="{{$item->title}}" />
-                </div>
-            @endforeach
-            
-        </div>
+    <div class="product-images grid-column-1 grid-row-2 grid" id="product-images">
+        @include('front.pages.products.desktop.product_images', [
+            'product_specific'=> $product_specific,
+        ])
     </div>
 
     <div class="product-description grid-column-1 grid-row-3">
@@ -43,40 +29,30 @@
         </div>
     </div>
 
+
     <div class="product-detail grid-column-2 grid-row-2 grid-row-span-2">
-        <div class="product-brand">
-            <h4>{{$product_specific->brand->name}}</h4>
-        </div>
-        <div class="product-title">
-            <h3>{{isset($product->seo->title) ? $product->seo->title : ""}}</h3>
-        </div>
-        <div class="product-stock">
-            @if ($product->stock->quantity <= 5)
-                <p> ¡¡Solo quedan <span>{{$product->stock->quantity}}</span>!! <p>
-            @endif
-        </div>
-        <div class="product-variants-area">
-           
-        </div>
-        <div class="product-price"> 
-            @isset($price['discount'])
-                <div class="product-price-discount">
-                  <p> Descuento: {{$price['discount']}}% </p>
-                </div>
-                <div class="product-price-original">
-                    <p> Antes: {{$price['original']}} </p>
-                </div>
-                <div class="product-price-final">
-                    <p>Ahora: {{$price['final']}} con iva</p>
-                </div>
-            @else                 
-                <div class="product-price-final">
-                    <p> {{$price['final']}} con iva</p>
-                </div>
-            @endisset
 
+        @isset($product->seo->title)
+            <div class="product-title">
+                <h3>{{isset($product->seo->title) ? $product->seo->title : ""}}</h3>
+            </div>
+        @endisset
 
+        <div class="product-data" id="product-data">
+            @include('front.pages.products.desktop.product_data', [
+                'product_specific'=> $product_specific,
+            ])
         </div>
+
+        <div class="product-variants-area" 
+        id="product-variants-area"
+        data-url={{}}
+        >
+            @include('front.pages.products.desktop.product_variants', [
+                'product_specific'=> $product_specific,
+            ])
+        </div>
+
         <div class="product-pruchase-area grid">
             <div class="product-buy grid-column-span-2 grid-row-1">
                 Comprar
@@ -90,13 +66,17 @@
                 Lista de deseos
             </div>
         </div>
-        <div class="product-specifications-area">
+
+        <div class="product-specifications-area" id="product-specifications-area">
             <div class="product-specifications-area-title">Características</div>
             @include('front.pages.products.desktop.product_specifications', [
                 'product'=> $product,
                 'product_specific'=> $product_specific,
             ])
         </div>
+
     </div>
     
 </div>
+
+@endisset

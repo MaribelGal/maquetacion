@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTShirtsColors extends Migration
+class CreateTProductsGroups extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateTShirtsColors extends Migration
      */
     public function up()
     {
-        Schema::create('t_shirts_colors', function (Blueprint $table) {
+        Schema::create('t_products_groups', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('color_id');
-            $table->unsignedBigInteger('shirt_id');
+            $table->string('name');
             $table->boolean('visible')->default(1);
             $table->boolean('active')->default(1);
             $table->timestamps();
@@ -30,6 +29,6 @@ class CreateTShirtsColors extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_shirts_colors');
+        Schema::dropIfExists('t_products_groups');
     }
 }

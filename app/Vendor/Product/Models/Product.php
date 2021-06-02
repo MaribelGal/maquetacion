@@ -21,7 +21,6 @@ class Product extends DBModel
 {
     protected $table = 't_products';
 
-
     public function scopeGetProductSpecific($query, $product_specific_table, $product_specific_id)
     {
         $table = strval($product_specific_table);
@@ -29,7 +28,6 @@ class Product extends DBModel
             ->from('t_'.$table)
             ->where('id', $product_specific_id);
     }
-
 
     public function category()
     {
