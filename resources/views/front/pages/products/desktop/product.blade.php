@@ -46,7 +46,7 @@
 
         <div class="product-variants-area" 
         id="product-variants-area"
-        data-url={{}}
+        data-url="{{ route('shirtsTissues_store') }}"
         >
             @include('front.pages.products.desktop.product_variants', [
                 'product_specific'=> $product_specific,

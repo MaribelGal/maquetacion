@@ -84,40 +84,36 @@ class ProductController extends Controller
                     ->find($seo->key);
             }
 
-            $productGroup['locale'] = $productGroup->locale->pluck('value','tag');
+            $productGroup['locale'] = $productGroup->locale->pluck('value', 'tag');
 
-                $table = $productGroup->products[0]->product_specific_table;
+            $table = $productGroup->products[0]->product_specific_table;
 
-                $specific_model = $this->product->showSpecific($table);
+            $specific_model = $this->product->showSpecific($table);
 
-                $product_specific = $specific_model
-                    ->where('id', $productGroup->products[0]->product_specific_id)
-                    ->get()[0];
+            $product_specific = $specific_model
+                ->where('id', $productGroup->products[0]->product_specific_id)
+                ->get()[0];
 
-                $price_product = $productGroup->products[0]->price_purchase->price;
+            $price_product = $productGroup->products[0]->price_purchase->price;
 
-                $decreases = $productGroup->products[0]->price_purchase->total_decreases_sum;
-                $increases = $productGroup->products[0]->price_purchase->total_increases_sum;
+            $decreases = $productGroup->products[0]->price_purchase->total_decreases_sum;
+            $increases = $productGroup->products[0]->price_purchase->total_increases_sum;
 
-                
-                $price['final'] = round((($price_product*(1-($decreases)))*(1+($increases))), 2);
 
-                if($decreases > 0){
-                    $price['original'] = (($price_product*(1+($increases))));
-                    $price['discount'] = $decreases*100;
-                } 
+            $price['final'] = round((($price_product * (1 - ($decreases))) * (1 + ($increases))), 2);
 
-                $product_specific['price'] = $price;
-            
+            if ($decreases > 0) {
+                $price['original'] = (($price_product * (1 + ($increases))));
+                $price['discount'] = $decreases * 100;
+            }
+
+            $product_specific['price'] = $price;
 
 
             $view = View::make('front.pages.products.single')
                 ->with('product', $productGroup)
                 ->with('product_specific', $product_specific);
 
-
-            
-            
             return $view;
         } else {
             return response()->view('errors.404', [], 404);
@@ -126,7 +122,55 @@ class ProductController extends Controller
 
 
 
-    public function filterProductGroup(){
-        
+    public function filterProductGroup()
+    {
+        $product_specific;
+        /* intencion: reducir el productGroup con el nuevo filtro 
+            y pasar el primero del productGroup como productSpecific
+
+            ¿como se que filtro aplicar?
+
+            envio:
+            - dataset variant_name y su value 
+            - id del productGroup
+            
+            con el productgroup accedo a la tabla
+            pillo el modelo especifico 
+            
+            busco en el modelo las ids a traves del productGroup_product
+
+            where con id = id1 o id2 o id3
+
+            bucle: where variant_name = value1
+
+        */
+
+        $images = View::make('front.pages.products.desktop.product_images')
+            ->with('product', $productGroup)
+            ->with('product_specific', $product_specific);
+
+        $data = View::make('front.pages.products.desktop.product_data')
+            ->with('product', $productGroup)
+            ->with('product_specific', $product_specific);
+
+        $variants = View::make('front.pages.products.desktop.product_variants')
+            ->with('product', $productGroup)
+            ->with('product_specific', $product_specific);
+
+
+        if (request()->ajax()) {
+            
+            $imageSection = $images->render();
+            $dataSection = $data->render();
+            $variantsSection = $variants->render();
+
+            return response()->json([
+                'productImages' => $imageSection,
+                'productData' => $dataSection,
+                'productVariants' => $variantsSection
+            ]);
+        }
+
+        return $images;
     }
 }

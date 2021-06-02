@@ -7,18 +7,30 @@ let renderFilterProductGroup = () => {
 
     let variantsItems = document.querySelectorAll(".product-variant-item");
 
+    let variants = [];
+    let productGroup_id;
+
+
     variantsItems.forEach(variantItem => {
+
+        let nameVariant , valueVariant;
+        variants = [nameVariant, valueVariant] = [variantItem.dataset.variant.name, variantItem.value];
 
         variantItem.addEventListener("change", () => {
 
-            let url;
+            let url = variantsArea.dataset.url;
 
             let enviarPeticion = async () => {
                 try {
-                    await axios.get(url).then(respuesta => {
+                    await axios.get(url, {
+                        params: {
+                            variants,
+                            productGroup_id
+                        } } 
+                        ).then(respuesta => {
                         productData.innerHTML = respuesta.data.productData;
                         productImages.innerHTML = respuesta.data.productImages;
-                        // variantsArea.innerHTML = respuesta.data.variantsArea;
+                        // variantsArea.innerHTML = respuesta.data.productVariants;
 
                         renderFilterProductGroup();
                     })
