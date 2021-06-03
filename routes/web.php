@@ -128,11 +128,8 @@ Route::group([
     'middleware' => ['localize']
 ], function () use ($localizationseo) {
 
-
-
     Route::get($localizationseo->transRoute('routes.front_products'), 'App\Http\Controllers\Front\ProductController@index')->name('front_products');
     Route::get($localizationseo->transRoute('routes.front_product'), 'App\Http\Controllers\Front\ProductController@show')->name('front_product');
-
 
 
     Route::get($localizationseo->transRoute('routes.front_faqs'), 'App\Http\Controllers\Front\FaqController@index')->name('front_faqs');

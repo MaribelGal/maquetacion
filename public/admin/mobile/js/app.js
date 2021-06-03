@@ -3288,11 +3288,21 @@ var renderizarFormulario = function renderizarFormulario() {
   var botonGuardar = document.getElementById("boton-guardar-desktop");
 
   if (botonGuardar) {
-    botonGuardar.addEventListener("click", function (event) {
+    botonGuardar.addEventListener("click", function () {
       formularios.forEach(function (standalone_element) {
-        formularios_dependientes.forEach(function (dependant_element) {
-          saveAction(null, dependant_element, standalone_element);
-        });
+        console.log(standalone_element);
+
+        if (formularios_dependientes.length > 0) {
+          formularios_dependientes.forEach(function (dependant_element) {
+            console.log(dependant_element);
+            saveAction(null, dependant_element, standalone_element);
+          });
+        } else {
+          console.log('no dependant');
+          saveAction(null, null, standalone_element);
+        }
+
+        console.log(formularios_dependientes);
       });
     });
     botonGuardar.addEventListener("mousedown", function () {
@@ -3343,11 +3353,11 @@ var saveAction = function saveAction(id, dependant_element, standalone_element) 
   console.log(standalone_element);
   var datosFormulario = new FormData(standalone_element);
 
-  if (datosFormulario.get('visible') == null) {
-    datosFormulario.set('visible', 0);
+  if (datosFormulario.get("visible") == null) {
+    datosFormulario.set("visible", 0);
   }
 
-  if (ckeditors != 'null') {
+  if (ckeditors != "null") {
     Object.entries(ckeditors).forEach(function (_ref) {
       var _ref2 = _slicedToArray(_ref, 2),
           key = _ref2[0],
@@ -3358,7 +3368,7 @@ var saveAction = function saveAction(id, dependant_element, standalone_element) 
   }
 
   if (id) {
-    datosFormulario.set('id-parent', id);
+    datosFormulario.set("id-parent", id);
   }
 
   datosFormulario = (0,_components_dropImage_collection__WEBPACK_IMPORTED_MODULE_5__.appendInputFiles)(datosFormulario);
@@ -3376,7 +3386,7 @@ var saveAction = function saveAction(id, dependant_element, standalone_element) 
               _context.prev = 1;
               _context.next = 4;
               return axios.post(url, datosFormulario).then(function (respuesta) {
-                if (standalone_element.classList.contains('admin-formulario')) {
+                if (standalone_element.classList.contains("admin-formulario")) {
                   if (dependant_element) {
                     saveAction(respuesta.data.product_id, null, dependant_element);
                   }
@@ -3406,11 +3416,11 @@ var saveAction = function saveAction(id, dependant_element, standalone_element) 
               console.log(_context.t0);
               (0,_components_wait__WEBPACK_IMPORTED_MODULE_4__.stopWait)();
 
-              if (_context.t0.response.status == '422') {
+              if (_context.t0.response.status == "422") {
                 errors = _context.t0.response.data.errors;
-                errorMessage = '';
+                errorMessage = "";
                 Object.keys(errors).forEach(function (key) {
-                  errorMessage += '<div>' + errors[key] + '</div>';
+                  errorMessage += "<div>" + errors[key] + "</div>";
                 });
                 console.log(errorMessage); // document.getElementById('item-error').innerHTML = errorMessage;
 

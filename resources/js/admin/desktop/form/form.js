@@ -1,7 +1,7 @@
 import { renderizarTabla } from "../components/table";
 import { renderizarCkeditor } from "../ckeditor";
 import { showNotification } from "../components/notifications";
-import { startWait, stopWait } from '../components/wait';
+import { startWait, stopWait } from "../components/wait";
 
 import { appendInputFiles } from "../components/dropImage_collection";
 import { renderizarDropImage } from "../components/dropImage_collection";
@@ -18,31 +18,39 @@ import { renderizarFormTablocale } from "./formTabLocale";
 import { renderizarFormSave } from "./formSave";
 import { renderizarFormVariant } from "./formVariant";
 
-import { renderBlockParameters } from '../components/blockParameters';
-import { renderGoogleBot } from '../components/googleBot';
-import { renderSitemap } from '../components/sitemap';
-
+import { renderBlockParameters } from "../components/blockParameters";
+import { renderGoogleBot } from "../components/googleBot";
+import { renderSitemap } from "../components/sitemap";
 
 const tabla = document.getElementById("tabla");
 //const formulario = document.getElementById("formulario");
 
-
 export let renderizarFormulario = () => {
-
     let formularios = document.querySelectorAll(".admin-formulario");
-    let formularios_dependientes = document.querySelectorAll(".admin-formulario-dependiente");
+    let formularios_dependientes = document.querySelectorAll(
+        ".admin-formulario-dependiente"
+    );
     let botonGuardar = document.getElementById("boton-guardar-desktop");
 
     if (botonGuardar) {
-        botonGuardar.addEventListener("click", (event) => {
+        botonGuardar.addEventListener("click", () => {
+            formularios.forEach((standalone_element) => {
+                console.log(standalone_element);
 
-            formularios.forEach(standalone_element => {
-                formularios_dependientes.forEach(dependant_element => {
-                    saveAction(null, dependant_element, standalone_element);
-                });
+                
+                if (formularios_dependientes.length > 0) {
+                    formularios_dependientes.forEach((dependant_element) => {
+                        console.log(dependant_element);
+                        saveAction(null, dependant_element, standalone_element);
+                    });
+                } else {
+                    console.log('no dependant');
+                    saveAction(null, null, standalone_element);
+                }
+
+                console.log(formularios_dependientes);
             });
         });
-
 
         botonGuardar.addEventListener("mousedown", () => {
             botonGuardar.parentElement.classList.add("mousedown");
@@ -72,33 +80,31 @@ renderizarDropImage();
 renderizarDropImage_single();
 renderizarUpdatedImage();
 
-
 let showDataForm = (datosFormulario) => {
     for (var entrada of datosFormulario.entries()) {
         console.log(entrada[0] + ": " + entrada[1]);
     }
-}
+};
 
 let saveAction = (id, dependant_element, standalone_element) => {
-
     console.log("Formularios por enviar");
     console.log(dependant_element);
     console.log(standalone_element);
 
     let datosFormulario = new FormData(standalone_element);
 
-    if (datosFormulario.get('visible') == null) {
-        datosFormulario.set('visible', 0);
+    if (datosFormulario.get("visible") == null) {
+        datosFormulario.set("visible", 0);
     }
 
-    if (ckeditors != 'null') {
+    if (ckeditors != "null") {
         Object.entries(ckeditors).forEach(([key, value]) => {
             datosFormulario.append(key, value.getData());
         });
     }
 
     if (id) {
-        datosFormulario.set('id-parent', id);
+        datosFormulario.set("id-parent", id);
     }
 
     datosFormulario = appendInputFiles(datosFormulario);
@@ -108,21 +114,22 @@ let saveAction = (id, dependant_element, standalone_element) => {
     let url = standalone_element.action;
 
     let enviarPeticionPost = async () => {
-
         startWait();
 
         try {
-            await axios.post(url, datosFormulario).then(respuesta => {
-
-                if (standalone_element.classList.contains('admin-formulario')) {
-
+            await axios.post(url, datosFormulario).then((respuesta) => {
+                if (standalone_element.classList.contains("admin-formulario")) {
                     if (dependant_element) {
-                        saveAction(respuesta.data.product_id, null, dependant_element)
+                        saveAction(
+                            respuesta.data.product_id,
+                            null,
+                            dependant_element
+                        );
                     }
 
-                    standalone_element.parentElement.innerHTML = respuesta.data.form;
+                    standalone_element.parentElement.innerHTML =
+                        respuesta.data.form;
                     tabla.innerHTML = respuesta.data.table;
-
 
                     showNotification("success", respuesta.data.message, 7000);
 
@@ -138,18 +145,16 @@ let saveAction = (id, dependant_element, standalone_element) => {
 
                 stopWait();
             });
-
         } catch (error) {
             console.log(error);
             stopWait();
-            if (error.response.status == '422') {
-
+            if (error.response.status == "422") {
                 let errors = error.response.data.errors;
-                let errorMessage = '';
+                let errorMessage = "";
 
                 Object.keys(errors).forEach(function (key) {
-                    errorMessage += '<div>' + errors[key] + '</div>';
-                })
+                    errorMessage += "<div>" + errors[key] + "</div>";
+                });
 
                 console.log(errorMessage);
 
@@ -161,7 +166,6 @@ let saveAction = (id, dependant_element, standalone_element) => {
                 // document.getElementById('errors').innerHTML = errorMessage;
             }
         }
-    }
+    };
     enviarPeticionPost();
-
-}
+};

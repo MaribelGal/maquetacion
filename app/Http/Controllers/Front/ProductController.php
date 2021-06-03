@@ -35,17 +35,16 @@ class ProductController extends Controller
     {
         $seo = $this->locale_slug_seo->getByKey(Route::currentRouteName());
 
-
+        
         if ($this->agent->isDesktop()) {
-
             $products = $this->ProductGroup
-                ->with('image_featured_desktop')
+                ->with('products')
                 ->where('active', 1)
                 ->where('visible', 1)
                 ->get();
         } elseif ($this->agent->isMobile()) {
             $products = $this->ProductGroup
-                ->with('image_featured_mobile')
+                ->with('products')
                 ->where('active', 1)
                 ->where('visible', 1)
                 ->get();

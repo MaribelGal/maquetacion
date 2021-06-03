@@ -492,7 +492,7 @@ ol, ul {
 }
 
 body {
-  background-color: #e0e0e0;
+  background-color: #f9ebba;
   font-family: "Ubuntu", sans-serif;
   margin: 1%;
 }
@@ -840,4 +840,57 @@ header {
 
 .product-images-featured {
   justify-self: center;
+}
+
+.products {
+  margin: 5%;
+  display: grid;
+  color: #1e00b3;
+}
+
+.products-title {
+  grid-column: 1;
+  grid-row: 1;
+  background-color: #ffa200;
+  height: 30%;
+  border-radius: 2em;
+  text-align: center;
+  padding: 1em;
+  background: radial-gradient(circle at 10% 60%, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 0.2) 25%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.1) 75%, rgba(255, 255, 255, 0) 100%), radial-gradient(circle at 16% 28%, rgba(79, 79, 79, 0.08) 0%, rgba(79, 79, 79, 0.08) 25%, rgba(69, 69, 69, 0.08) 25%, rgba(69, 69, 69, 0.08) 50%, rgba(56, 56, 56, 0.08) 50%, rgba(56, 56, 56, 0.08) 75%, rgba(43, 43, 43, 0.08) 75%, rgba(43, 43, 43, 0.08) 100%), radial-gradient(circle at 51% 54%, rgba(179, 179, 179, 0.08) 0%, rgba(179, 179, 179, 0.08) 25%, rgba(120, 120, 120, 0.08) 25%, rgba(120, 120, 120, 0.08) 50%, rgba(61, 61, 61, 0.08) 50%, rgba(61, 61, 61, 0.08) 75%, rgba(5, 5, 5, 0.08) 75%, rgba(5, 5, 5, 0.08) 100%), linear-gradient(303deg, #ffa200, #ffa200);
+}
+
+.products-grid {
+  grid-column: 1;
+  grid-row: 1;
+  z-index: 1;
+  margin-top: 10%;
+  padding: 5%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 3em;
+}
+
+.product-item {
+  background-color: aliceblue;
+  padding: 2em;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 2em;
+  box-shadow: 2px 2px 3px #bfbfbf, -2px -2px 3px white;
+}
+.product-item.mousedown {
+  box-shadow: inset 2px 2px 3px #bfbfbf, inset -2px -2px 3px white;
+  transition: box-shadow 0.3s ease-in-out;
+}
+.product-item:hover img {
+  transform: scale(1.1);
+}
+
+.product-item-image-featured {
+  filter: drop-shadow(-0.1em 0.4em 0.4em rgba(0, 0, 0, 0.4)) drop-shadow(0.2em 0.4em 1.5em #ff9900);
+}
+
+.product-item-title {
+  font-weight: bold;
 }

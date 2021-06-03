@@ -2,6 +2,6 @@
 
 return array (
   'parent_section' => 'Productos español',
-  'title' => 'Estas son los productos',
+  'title' => 'Tienda',
   'title_description' => 'Descripción'
 );

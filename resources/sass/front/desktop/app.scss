@@ -12,9 +12,13 @@
 @import "layout/sidebar";
 @import "layout/form"; 
 @import "layout/panel"; 
-@import "layout/product"; 
-@import "layout/product_text"; 
-@import "layout/product_images"; 
-@import "layout/product_price_area"; 
-@import "layout/product_purchase_area"; 
-@import "layout/product_variant_area"; 
+
+
+@import "layout/product/product"; 
+@import "layout/product/product_text"; 
+@import "layout/product/product_images"; 
+@import "layout/product/product_price_area"; 
+@import "layout/product/product_purchase_area"; 
+@import "layout/product/product_variant_area"; 
+
+@import "layout/products/products"; 
