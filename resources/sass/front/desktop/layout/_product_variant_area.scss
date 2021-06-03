@@ -1,0 +1,24 @@
+.product-detail {
+    grid-row: 1 / span 2;
+}
+
+.product-specifications-area {
+    grid-row: 3 / span 2;
+    text-align: right;
+}
+
+.product-price {
+    display: flex;
+}
+
+.product-price-item {
+    margin: 0 0.5em;
+}
+
+.product-price-original {
+    text-decoration: line-through;
+}
+
+.product-images-featured {
+    justify-self: center;
+}

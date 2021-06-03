@@ -1,0 +1,24 @@
+.product-images {
+    display: contents;
+}
+
+.product-images-grid {
+    grid-row: 3 / span 2;
+    display: flex;
+    height: fit-content;
+}
+.product-images-grid-item {
+    width: 30%;
+    padding: 0.5em;
+    &:hover {
+        cursor: pointer;
+        background: hsla(0, 0%, 100%, 0.4);
+        border-radius: 0.5em;
+        img {
+            transform: scale(1.1);
+        }
+    }
+}
+.product-images-featured {
+    filter: drop-shadow(-0.5em 0.8em 0.5em hsla(0, 0%, 0%, 0.4));
+}

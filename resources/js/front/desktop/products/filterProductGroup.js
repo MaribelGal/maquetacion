@@ -1,36 +1,44 @@
 let renderFilterProductGroup = () => {
-    let variantsArea = document.getElementById("products-variants-area");
+    let variantsArea = document.getElementById("product-variants-area");
+    let variantsForm = document.getElementById("product-variants-form");
 
     let productData = document.getElementById("product-data");
     let productImages = document.getElementById("product-images");
 
+    let variantsItems = variantsForm.querySelectorAll(".product-variant-item");
 
-    let variantsItems = document.querySelectorAll(".product-variant-item");
+    let dataFormOld = new FormData(variantsForm);
 
-    let variants = [];
-    let productGroup_id;
-
+    let itemChanged;
 
     variantsItems.forEach(variantItem => {
+        let variantItemsData = variantItem.querySelectorAll(".product-variant-item-data");
 
-        let nameVariant , valueVariant;
-        variants = [nameVariant, valueVariant] = [variantItem.dataset.variant.name, variantItem.value];
+
+        variantItemsData.forEach(variantDataItem => {
+            variantDataItem.addEventListener("change", () => {
+                itemChanged = variantDataItem;
+            });
+        });
 
         variantItem.addEventListener("change", () => {
+            let url = variantsForm.action;
+            let dataForm = new FormData(variantsForm);
 
-            let url = variantsArea.dataset.url;
+            dataForm.append(itemChanged.dataset.variantName, itemChanged.value);
+
+            console.log(itemChanged);
+
+            for (var entrada of dataForm.entries()) {
+                console.log(entrada[0] + ": " + entrada[1]);
+            }
 
             let enviarPeticion = async () => {
                 try {
-                    await axios.get(url, {
-                        params: {
-                            variants,
-                            productGroup_id
-                        } } 
-                        ).then(respuesta => {
+                    await axios.post(url, dataForm).then(respuesta => {
                         productData.innerHTML = respuesta.data.productData;
                         productImages.innerHTML = respuesta.data.productImages;
-                        // variantsArea.innerHTML = respuesta.data.productVariants;
+                        variantsArea.innerHTML = respuesta.data.productVariants;
 
                         renderFilterProductGroup();
                     })
@@ -46,3 +54,9 @@ let renderFilterProductGroup = () => {
 };
 
 renderFilterProductGroup();
+
+let showDataForm = (datosFormulario) => {
+    for (var entrada of datosFormulario.entries()) {
+        console.log(entrada[0] + ": " + entrada[1]);
+    }
+}

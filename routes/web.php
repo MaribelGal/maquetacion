@@ -139,7 +139,7 @@ Route::group([
     Route::get($localizationseo->transRoute('routes.front_faq'), 'App\Http\Controllers\Front\FaqController@show')->name('front_faq');
 });
 
-Route::get('/products/filterProductGroup', 'App\Http\Controllers\Front\ProductController@filterProductGroup')->name('filter_productGroup');
+Route::post('/products/filterProductGroup', 'App\Http\Controllers\Front\ProductController@filterProductGroup')->name('filter_productGroup');
 
 Route::post('/fingerprint', 'App\Http\Controllers\Front\FingerprintController@store')->name('front_fingerprint');
 

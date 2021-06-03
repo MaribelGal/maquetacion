@@ -11,6 +11,7 @@ use App\Vendor\Locale\LocaleSlugSeo;
 use App\Vendor\Product\Models\ProductGroup;
 use App\Vendor\Product\Product;
 use Debugbar;
+use Schema;
 
 class ProductController extends Controller
 {
@@ -94,11 +95,14 @@ class ProductController extends Controller
                 ->where('id', $productGroup->products[0]->product_specific_id)
                 ->get()[0];
 
+            $product_specific_model = $product_specific->model_id;
+
+
+            //PENDIENTE MOVER A VENDOR PRODUCT Y AGREGAR CAMPO EN BD
             $price_product = $productGroup->products[0]->price_purchase->price;
 
             $decreases = $productGroup->products[0]->price_purchase->total_decreases_sum;
             $increases = $productGroup->products[0]->price_purchase->total_increases_sum;
-
 
             $price['final'] = round((($price_product * (1 - ($decreases))) * (1 + ($increases))), 2);
 
@@ -108,11 +112,49 @@ class ProductController extends Controller
             }
 
             $product_specific['price'] = $price;
+            //////////////////////////////////////////////////////////
 
+            $products_specifics = $specific_model->where('model_id', $product_specific_model)->get();
+
+            
+
+            
+
+            $columnList = Schema::getColumnListing($specific_model->getTable());
+            
+            $activePosition = array_search('active', $columnList, true);
+            $visiblePosition = array_search('visible', $columnList, true);
+            $modelPosition = array_search('model_id', $columnList, true);
+            $createdAtPosition = array_search('created_at', $columnList, true);
+            $updatedAtPosition = array_search('updated_at', $columnList, true);
+            $idPosition = array_search('id', $columnList, true);
+
+            unset(
+                $columnList[$activePosition],
+                $columnList[$modelPosition],
+                $columnList[$createdAtPosition],
+                $columnList[$updatedAtPosition],
+                $columnList[$idPosition],
+                $columnList[$visiblePosition]);
+
+
+            Debugbar::info($columnList);
+
+            $variants = [];
+
+            foreach ($columnList as $key => $value) {
+                $variants[$value] = $specific_model->distinct($value)->where('model_id', $product_specific_model)->pluck($value)->all();
+            }
+
+            Debugbar::info($variants);
 
             $view = View::make('front.pages.products.single')
                 ->with('product', $productGroup)
-                ->with('product_specific', $product_specific);
+                ->with('price', $price)
+                ->with('products_specifics', $products_specifics)
+                ->with('product_specific_model', $product_specific_model)
+                ->with('product_specific_table', $table)
+                ->with('variants', $variants);
 
             return $view;
         } else {
@@ -122,44 +164,78 @@ class ProductController extends Controller
 
 
 
-    public function filterProductGroup()
+    public function filterProductGroup(Request $request)
     {
-        $product_specific;
-        /* intencion: reducir el productGroup con el nuevo filtro 
-            y pasar el primero del productGroup como productSpecific
+        $productGroup = $this->ProductGroup->find(request('productGroup_id'));
 
-            ¿como se que filtro aplicar?
 
-            envio:
-            - dataset variant_name y su value 
-            - id del productGroup
+        $specific_model = $this->product->showSpecific(request('product_specific_table'));
+
+        $query = $specific_model->query();
+
+        $query->where('model_id', request('product_specific_model'));
+
+        foreach (request('variant') as $key => $value) {
+            $query->where($key, $value);
+        }
+
+        // Debugbar::info($query->get());
+        $columnList = Schema::getColumnListing($specific_model->getTable());
             
-            con el productgroup accedo a la tabla
-            pillo el modelo especifico 
-            
-            busco en el modelo las ids a traves del productGroup_product
+        $activePosition = array_search('active', $columnList, true);
+        $visiblePosition = array_search('visible', $columnList, true);
+        $modelPosition = array_search('model_id', $columnList, true);
+        $createdAtPosition = array_search('created_at', $columnList, true);
+        $updatedAtPosition = array_search('updated_at', $columnList, true);
+        $idPosition = array_search('id', $columnList, true);
 
-            where con id = id1 o id2 o id3
+        unset(
+            $columnList[$activePosition],
+            $columnList[$modelPosition],
+            $columnList[$createdAtPosition],
+            $columnList[$updatedAtPosition],
+            $columnList[$idPosition],
+            $columnList[$visiblePosition]);
 
-            bucle: where variant_name = value1
 
-        */
+        Debugbar::info($columnList);
+
+        $variants = [];
+
+        foreach ($columnList as $key => $value) {
+            $variants[$value] = $specific_model->distinct($value)->where('model_id', $product_specific_model)->pluck($value)->all();
+        }
+
+        Debugbar::info($variants);
+
+
+
+        $products_specifics = $query->get();
+        $product_specific_model = $products_specifics[0]->model_id;
+        $table = $productGroup->products[0]->product_specific_table;
+
 
         $images = View::make('front.pages.products.desktop.product_images')
             ->with('product', $productGroup)
-            ->with('product_specific', $product_specific);
+            ->with('products_specifics', $products_specifics)
+            ->with('product_specific_model', $product_specific_model)
+            ->with('product_specific_table', $table)->with('variants', $variants);
 
         $data = View::make('front.pages.products.desktop.product_data')
             ->with('product', $productGroup)
-            ->with('product_specific', $product_specific);
+            ->with('products_specifics', $products_specifics)
+            ->with('product_specific_model', $product_specific_model)
+            ->with('product_specific_table', $table)->with('variants', $variants);
 
         $variants = View::make('front.pages.products.desktop.product_variants')
             ->with('product', $productGroup)
-            ->with('product_specific', $product_specific);
+            ->with('products_specifics', $products_specifics)
+            ->with('product_specific_model', $product_specific_model)
+            ->with('product_specific_table', $table)->with('variants', $variants);
 
 
         if (request()->ajax()) {
-            
+
             $imageSection = $images->render();
             $dataSection = $data->render();
             $variantsSection = $variants->render();
