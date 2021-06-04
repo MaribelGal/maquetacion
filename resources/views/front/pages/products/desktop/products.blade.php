@@ -1,7 +1,7 @@
 <div class="products">
 
     <div class="products-title">
-        <h3>@lang('front/products.title')</h3>
+        <h1>@lang('front/products.title')</h1>
     </div>
 
     <div class="products-grid">

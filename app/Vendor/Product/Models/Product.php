@@ -21,28 +21,12 @@ class Product extends DBModel
 {
     protected $table = 't_products';
 
-    public function scopeGetProductSpecific($query, $product_specific_table, $product_specific_id)
-    {
-        $table = strval($product_specific_table);
-        return $query
-            ->from('t_'.$table)
-            ->where('id', $product_specific_id);
-    }
 
     public function category()
     {
         return $this->belongsTo(ProductCategory::class, 'product_category_id',);
     }
 
-    public function specific()
-    {
-        return $this->hasOne(Shirt::class);
-    }
-
-    // public function tissues()
-    // {
-    //     return $this->hasMany(ShirtTissue::class, 'product_id');
-    // }
 
     public function cost()
     {

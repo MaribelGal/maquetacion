@@ -1,14 +1,14 @@
 header {
-    background-color: $fondo ;
+    background-color: $grey-highlight ;
     position: sticky;
     top:0;
-    border-bottom: $gris solid .15em;
+    border-bottom: $grey solid .15em;
     display: grid;
     grid-template-columns: repeat(3,1fr);
     align-items: center;
     justify-content: space-between;
     z-index: 3;
-    color: $colorPrincipal;
+    color: $blue-dark;
     font-size: 1em;
     @include mayusEspaciado;
     margin: 2%;

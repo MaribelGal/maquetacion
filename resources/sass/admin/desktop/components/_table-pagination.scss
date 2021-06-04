@@ -1,0 +1,39 @@
+.table-pagination{
+
+    position: absolute;
+    bottom: 5vh;
+
+    .table-pagination-info{
+
+        display: flex;
+        justify-content: space-between;
+
+        .table-pagination-total{
+
+        }
+
+        .table-pagination-pages{}
+    }
+
+    .table-pagination-buttons{
+        
+        p{
+            margin: 0;
+        }
+
+        .table-pagination-button{
+
+            cursor: pointer;
+            margin-right: 1em;
+        }
+
+        .table-pagination-button:hover{
+            color: hsl(19, 100%, 50%);
+        }
+
+        .table-pagination-button.inactive{
+            color: hsl(0, 0%, 69%);
+        }
+    }
+}
+ 

@@ -22,6 +22,11 @@ import { renderBlockParameters } from "../components/blockParameters";
 import { renderGoogleBot } from "../components/googleBot";
 import { renderSitemap } from "../components/sitemap";
 
+import { renderNestedSortables } from '../components/sortable';
+import { renderMenuItems } from '../components/menuItems';
+import { renderSelects } from '../components/selects';
+
+
 const tabla = document.getElementById("tabla");
 //const formulario = document.getElementById("formulario");
 
@@ -37,7 +42,7 @@ export let renderizarFormulario = () => {
             formularios.forEach((standalone_element) => {
                 console.log(standalone_element);
 
-                
+
                 if (formularios_dependientes.length > 0) {
                     formularios_dependientes.forEach((dependant_element) => {
                         console.log(dependant_element);
@@ -73,6 +78,9 @@ export let renderizarFormulario = () => {
     renderBlockParameters();
     renderGoogleBot();
     renderSitemap();
+    renderMenuItems();
+    renderSelects(); 
+    renderNestedSortables();
 };
 
 renderizarFormulario();

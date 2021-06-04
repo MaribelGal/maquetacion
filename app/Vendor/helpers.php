@@ -47,13 +47,13 @@ if ( ! function_exists('remove_protocol'))
     }
 }
 
-// if ( ! function_exists('display_menu'))
-// {
-//     function display_menu($menu_name)
-//     {
-//         $menu = new FrontMenuController();
+if ( ! function_exists('display_menu'))
+{
+    function display_menu($menu_name, $type)
+    {
+        $menu = new FrontMenuController();
 
-//         return $menu->displayMenu($menu_name);
-//     }
-// }
+        return $menu->displayMenu($menu_name);
+    }
+}
 

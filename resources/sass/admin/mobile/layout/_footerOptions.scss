@@ -7,13 +7,13 @@
     height: 3em;
     display: flex;
     // @include neumorphism(2em, 20px, 10px);    
-    color: $colorPrincipal;
+    color: $blue-dark;
 }
 
 .footer-options-item{
     width: 50vw;
     text-align: center;
     @include neumorphism(0em, 20px, 10px);    
-    background-color:$fondo;
+    background-color:$grey-highlight;
     margin: 0.1em;
 }

@@ -1,0 +1,125 @@
+.messages-container{
+
+    position: fixed;
+    bottom: 5vh;
+	right: 3%;
+	width: 30%;
+	z-index: 2000;
+	
+	&.show{
+		@include translateXInScreen(0, 0.5s);
+	}
+
+	.message {
+		display: none;
+		text-align:left;
+		padding: 2em 0;
+		background-color:hsl(0, 0%, 100%);
+		border-radius: 4px;
+		max-width: 100%;
+		top: 0px;
+		position:relative;
+		box-shadow: 1px 7px 14px -5px rgba(0,0,0,0.2);
+
+		&.message.message-active{
+			display: block;
+		}
+
+		&:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 4px;
+			height: 100%;
+			border-top-left-radius: 4px;
+			border-bottom-left-radius: 4px;
+    	}
+
+		&.success .message-icon{
+			background-color: $message-success;
+		}
+		  
+		&.success:before{
+			background-color: $message-success;
+		}
+
+		&.info .message-icon{
+			background-color: $message-info;
+		}
+		  
+		&.info:before{
+			background-color: $message-info;
+		}
+
+		&.reorder .message-icon{
+			background-color: $message-info;
+		}
+		  
+		&.reorder:before{
+			background-color: $message-info;
+		}
+
+		&.error .message-icon{
+			background-color: $message-error;
+		}
+		  
+		&.error:before{
+			background-color: $message-error;
+		}
+
+		&.validation .message-icon{
+			background-color: $message-error;
+		}
+		  
+		&.validation:before{
+			background-color: $message-error;
+		}
+
+		.message-icon{
+			border-radius: 50%;
+			display: inline-block;
+			height: 1em;
+			left: 1.5em;
+			padding: 7px;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			width: 1em;
+
+			svg{
+				fill:#fff;
+			}
+		}
+
+		.message-content{
+
+			padding: 0 4em;
+			
+			.message-type {
+				color: hsl(0, 0%, 24%);
+				font-weight: 700;
+				margin-top: 0;
+				margin-bottom: 0.5em;
+			}
+	
+			.message-description {
+				font-size: 0.9em;
+				margin-top: 0;
+				margin-bottom: 0;
+				color: hsl(0, 0%, 53%);
+			}
+		}
+
+		.message-close {
+			cursor: pointer;
+			fill: hsl(0, 0%, 24%);
+			height: 1.5em;
+			position: absolute;
+			right: 1.5em;
+			top: 50%;
+			transform: translateY(-50%);
+			width: 1em;
+		}
+	}
+}

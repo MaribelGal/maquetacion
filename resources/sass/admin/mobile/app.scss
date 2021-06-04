@@ -4,6 +4,7 @@
 @import "./base/variables";
 @import "./base/mixins";
 
+
 @import "layout/master";
 
 @import "layout/header";
@@ -27,3 +28,13 @@
 
 
 @import "layout/swipe";  
+
+@import "components/form-buttons";
+@import "components/select";
+@import "components/table-filter";
+@import "components/modal-delete";
+@import "components/wait";
+@import "components/messages";
+@import "components/menu-nestable";
+@import "components/tabs";
+@import "components/locale-tabs";

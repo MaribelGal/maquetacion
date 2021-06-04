@@ -68,7 +68,7 @@ select {
                 left: 0.1em;
                 width: 1em;
                 height: 1em;
-                background-color: $colorPrincipal;
+                background-color: $blue-dark;
                 border-radius: 100%;
                 -webkit-transition: all 0.3s;
                 -o-transition: all 0.3s;
@@ -78,7 +78,7 @@ select {
         &:checked {
             + .label-hidden {
                 &:after {
-                    background-color: $colorPrincipal;
+                    background-color: $blue-dark;
                     left: calc(100% - 0.1em);
                     transform: translateX(-100%);
                 }

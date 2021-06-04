@@ -149,35 +149,35 @@
     	}
 
 		&.success .notification-icon{
-			background-color: $notification-success;
+			background-color: $message-success;
 		}
 		  
 		&.success:before{
-			background-color: $notification-success;
+			background-color: $message-success;
 		}
 
 		&.info .notification-icon{
-			background-color: $notification-info;
+			background-color: $message-info;
 		}
 		  
 		&.info:before{
-			background-color: $notification-info;
+			background-color: $message-info;
 		}
 
 		&.reorder .notification-icon{
-			background-color: $notification-info;
+			background-color: $message-info;
 		}
 		  
 		&.reorder:before{
-			background-color: $notification-info;
+			background-color: $message-info;
 		}
 
 		&.error .notification-icon{
-			background-color: $notification-error;
+			background-color: $message-error;
 		}
 		  
 		&.error:before{
-			background-color: $notification-error;
+			background-color: $message-error;
 		}
 
 		.notification-icon{

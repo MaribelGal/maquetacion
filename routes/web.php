@@ -32,6 +32,23 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/image/delete/{image?}', 'App\Vendor\Image\Image@destroy')->name('delete_image');
     Route::post('/image', 'App\Vendor\Image\Image@storeImageSeo')->name('store_image_seo');
 
+    Route::get('/menus/item/index/{language?}/{item?}', 'App\Http\Controllers\Admin\MenuItemController@index')->name('menus_item_index');
+    Route::get('/menus/item/create/{language?}', 'App\Http\Controllers\Admin\MenuItemController@create')->name('menus_item_create');
+    Route::delete('/menus/item/delete/{item?}', 'App\Http\Controllers\Admin\MenuItemController@destroy')->name('menus_item_destroy');
+    Route::get('/menus/item/edit/{item?}', 'App\Http\Controllers\Admin\MenuItemController@edit')->name('menus_item_edit');
+    Route::post('/menus/item/store', 'App\Http\Controllers\Admin\MenuItemController@store')->name('menus_item_store'); 
+    Route::post('/menus/item/reordermenu', 'App\Http\Controllers\Admin\MenuItemController@orderItem')->name('menus_reorder');
+    
+    Route::resource('menus', 'App\Http\Controllers\Admin\MenuController', [
+        'names' => [
+            'index' => 'menus',
+            'create' => 'menus_create',
+            'store' => 'menus_store',
+            'destroy' => 'menus_destroy',
+            'edit' => 'menus_edit',
+        ]
+    ]);
+    
     Route::resource('faqs_categorias', 'App\Http\Controllers\Admin\FaqCategoryController', [
 
         'names' => [

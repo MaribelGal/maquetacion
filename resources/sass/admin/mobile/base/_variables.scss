@@ -2,17 +2,8 @@
 $font-stack: "Ubuntu", sans-serif;
 $font-stack-condensed: "Ubuntu Condensed";
 
-
-$fondo: hsl(0, 0%, 88%);
-$gris: hsl(0, 0%, 68%);
- 
-
-$colorPrincipal: hsl(180, 25%, 25%);
-
-$spinner-color: hsl(0, 0%, 68%);
-  
-
 //colors
+
 $white: hsl(0, 0%, 100%);
 $black: hsl(0, 0%, 0%);
 $grey-highlight: hsl(0, 0%, 92%);
@@ -40,17 +31,16 @@ $interaction-color: $blue;
 $interaction-color-highlight: $blue-highlight;
 $interaction-text-color: $white;
 $label:$grey-solid;
-$notification-success: $green;
-$notification-info: $blue;
-$notification-error: $red-dark;
+$message-success: $green;
+$message-info: $blue; 
+$message-error: $red-dark;
 $modul-header-color: $grey;
 $modul-color: $white;
 $spinner-color: $blue-highlight;
 $sidebar-menu-color: $blue-dark;
-$sidebar-menu-text-color: $white;
+$sidebar-menu-text-color: $white; 
 $sidebar-submenu-color: $blue;
 
 
 //style
 $text-border: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
- 

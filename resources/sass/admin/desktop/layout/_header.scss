@@ -1,12 +1,12 @@
 header {
     position: relative;
-    border-bottom: $gris solid 0.15em;
+    border-bottom: $grey solid 0.15em;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
     justify-content: space-between;
     z-index: 3;
-    color: $colorPrincipal;
+    color: $blue-dark;
     font-size: 1.5em;
     @include mayusEspaciado;
 }
@@ -28,7 +28,7 @@ header {
     .header-botonera-item {
         margin-left: 1em;
         a {
-            color: $colorPrincipal;
+            color: $blue-dark;
             &:hover{
                 color: hsl(180, 17%, 39%)
             }
