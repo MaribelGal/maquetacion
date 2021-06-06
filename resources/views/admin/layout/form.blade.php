@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="formulario fullscreen" id="formulario">
+    <div class="form fullscreen" id="form">
         @yield('form')
     </div>
 

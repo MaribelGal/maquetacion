@@ -1,9 +1,7 @@
 @charset "utf-8";
 
-@import "./base/normalize";
-@import "./base/variables";
-@import "./base/mixins";
-@import "./base/gridTemplate";
+
+@import "../../base/gridTemplate";
 
 @import "../base/variables";
 @import "../base/mixins";
@@ -12,26 +10,11 @@
 @import "../base/typography";
 
 @import "layout/master";
-
-@import "layout/header";
-@import "layout/sidebar";
-@import "layout/filterForm";
-@import "layout/imageDrop"; 
-@import "layout/imageDrop_single"; 
-@import "layout/imageDropEdit"; 
-@import "layout/table"; 
-@import "layout/table_pagination"; 
-@import "layout/notifications"; 
-@import "layout/wait"; 
-
-@import "form/form";
-@import "form/formTab";
-@import "form/formTabActions";
-@import "form/formTabPanelSelector";
-@import "form/formLocaleTab";
-@import "form/formLocalePanel";
-@import "form/formVariant";
-
+@import "layout/topbar";
+@import "layout/table";
+@import "layout/form";
+@import "layout/portfolio";
+@import "layout/locale";
 
 @import "components/form-buttons";
 @import "components/modal-delete";

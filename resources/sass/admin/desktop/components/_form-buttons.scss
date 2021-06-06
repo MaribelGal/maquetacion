@@ -10,7 +10,7 @@
     &:hover{
 
         .store-button-icon{
-            fill: hsl(19, 100%, 50%);
+            fill: $interaction-color;
         }
     }
 
@@ -35,7 +35,7 @@
         svg{
 
             path{
-                fill: hsl(19, 100%, 50%);
+                fill: $interaction-color;
             }
         }
     }
@@ -59,7 +59,7 @@
     &:hover{
 
         .create-button-icon{
-            fill: hsl(19, 100%, 50%);
+            fill: $interaction-color;
         }
     }
 

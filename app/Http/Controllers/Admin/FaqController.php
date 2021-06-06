@@ -4,93 +4,73 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Admin\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Jenssegers\Agent\Agent;
 use App\Http\Requests\Admin\FaqRequest;
 use App\Vendor\Locale\Locale;
 use App\Vendor\Locale\LocaleSlugSeo;
 use App\Vendor\Image\Image;
-use App\Models\DB\Faq;
-use Debugbar;
-use Jenssegers\Agent\Agent;
+use App\Models\DB\Faq; 
 
 class FaqController extends Controller
 {
-    protected $faq;
-    protected $locale;
-    protected $localeSlugSeo;
-    protected $image;
     protected $agent;
-    protected $paginationNum;
+    protected $locale;
+    protected $locale_slug_seo;
+    protected $image;
+    protected $paginate;
+    protected $faq;
 
-    function __construct(Faq $faq, Agent $agent, Locale $locale, LocaleSlugSeo $localeSlugSeo, Image $image)
+    function __construct(Faq $faq, Agent $agent, Locale $locale, LocaleSlugSeo $locale_slug_seo, Image $image)
     {
         $this->middleware('auth');
-        $this->faq = $faq;
-        $this->locale = $locale;
-        $this->localeSlugSeo = $localeSlugSeo;
-        $this->image = $image;
         $this->agent = $agent;
+        $this->locale = $locale;
+        $this->locale_slug_seo = $locale_slug_seo;
+        $this->image = $image;
+        $this->faq = $faq;
+        $this->faq->visible = 1;
 
         if ($this->agent->isMobile()) {
-            $this->paginationNum = 6;
+            $this->paginate = 10;
         }
 
         if ($this->agent->isDesktop()) {
-            $this->paginationNum = 3;
+            $this->paginate = 6;
         }
 
         $this->locale->setParent('faqs');
-        $this->localeSlugSeo->setParent('faqs');
+        $this->locale_slug_seo->setParent('faqs');
         $this->image->setEntity('faqs');
     }
 
     public function index()
     {
-
-        $paginate = $this->faq->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum);
-
         $view = View::make('admin.faqs.index')
-            ->with('faq', $this->faq)
-            ->with('faqs', $paginate);
-
-        // $paginate->withPath('/admin/faqs');
-
-        if (request()->ajax()) {
-
-            $sections = $view->renderSections();
-
+        ->with('faq', $this->faq)
+        ->with('faqs', $this->faq->where('active', 1)
+        ->orderBy('created_at', 'desc')
+        ->paginate($this->paginate));
+    
+        if(request()->ajax()) {
+            
+            $sections = $view->renderSections(); 
+    
             return response()->json([
                 'table' => $sections['table'],
-                'tablerows' => $sections['tablerows'],
                 'form' => $sections['form'],
-            ]);
+            ]); 
         }
 
         return $view;
     }
 
-    public function indexJson()
-    {
-        if (!Auth::guard('web')->user()->canAtLeast(['faqs'])) {
-            return Auth::guard('web')->user()->redirectPermittedSection();
-        }
-
-        $query = $this->faq
-            ->with('category')
-            ->select('t_faq.*');
-
-        return $this->datatables->of($query)->toJson();
-    }
-
     public function create()
     {
-
         $view = View::make('admin.faqs.index')
-            ->with('faq', $this->faq)
-            ->renderSections();
+        ->with('faq', $this->faq)
+        ->renderSections();
 
         return response()->json([
             'form' => $view['form']
@@ -98,210 +78,170 @@ class FaqController extends Controller
     }
 
     public function store(FaqRequest $request)
-    {
-        DebugBar::info(request('seo'));
-        // DebugBar::info(request('images'));
-
+    {            
+                
         $faq = $this->faq->updateOrCreate([
-            'id' => request('id')
-        ], [
+            'id' => request('id')],[
             'name' => request('name'),
-            'visible' => request('visible'),
-            'category_id' => request('category_id'),
             'active' => 1,
+            'visible' => request('visible') == "true" ? 1 : 0 ,
+            'category_id' => request('category_id'),
         ]);
 
         if(request('seo')){
-            $seo = $this->localeSlugSeo->store(request('seo'), $faq->id, 'front_faq');
+            $seo = $this->locale_slug_seo->store(request('seo'), $faq->id, 'front_faq');
         }
 
-        if (request('locale')) {
+        if(request('locale')){
             $locale = $this->locale->store(request('locale'), $faq->id);
         }
 
-        
-        if (request('images')) {
-            $images = $this->image->storeRequest(request('images'), 'webp', $faq->id);
+        if(request('images')){
+            $images = $this->image->store(request('images'), $faq->id);
         }
 
-        if (request('id')) {
+        if (request('id')){
             $message = \Lang::get('admin/faqs.faq-update');
-        } else {
+        }else{
             $message = \Lang::get('admin/faqs.faq-create');
         }
 
-        $paginate = $this->faq->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum);
-
         $view = View::make('admin.faqs.index')
-            ->with('faq', $this->faq)
-            ->with('faqs', $paginate);
-
-        // $view = View::make('admin.faqs.index')
-        //     ->with('faqs', $this->faq->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum))
-        //     // ->with('faq', $this->faq)
-        //     // ->with('files', $images)
-        //     ->renderSections();
-
-        $sections = $view->renderSections();
+        ->with('faqs', $this->faq->where('active', 1)->orderBy('created_at', 'desc')->paginate($this->paginate))
+        ->with('faq', $this->faq)
+        ->renderSections();        
 
         return response()->json([
-            'table' => $sections['table'],
-            'tablerows' => $sections['tablerows'],
-            'form' => $sections['form'],
+            'table' => $view['table'],
+            'form' => $view['form'],
+            'message' => $message,
         ]);
-        
-        // return response()->json([
-        //     'table' => $view['table'],
-        //     'tablerows' => $view['tablerows'],
-        //     'form' => $view['form'],
-        //     'message' => $message,
-        //     // 'id' => $faq->id,
-        // ]);
     }
 
-    public function show(Faq $faq)
+    public function edit(Faq $faq)
     {
-        
         $locale = $this->locale->show($faq->id);
-        $seo = $this->localeSlugSeo->show($faq->id);
-
-        $faqs = $this->faq->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum);
-
-        debugbar::info($faqs);
+        $seo = $this->locale_slug_seo->show($faq->id);
 
         $view = View::make('admin.faqs.index')
-            ->with('locale', $locale)
-            ->with('seo', $seo)
-            ->with('faq', $faq)
-            ->with('faqs', $faqs);
+        ->with('locale', $locale)
+        ->with('seo', $seo)
+        ->with('faq', $faq)
+        ->with('faqs', $this->faq->where('active', 1)->orderBy('created_at', 'desc')->paginate($this->paginate));        
+        
+        if(request()->ajax()) {
 
-        if (request()->ajax()) {
-
-            $sections = $view->renderSections();
-
+            $sections = $view->renderSections(); 
+    
             return response()->json([
-                'form' => $sections['form'],
                 'table' => $sections['table'],
-                'tablerows' => $sections['tablerows'],
-            ]);
+                'form' => $sections['form'],
+            ]); 
         }
-
+                
         return $view;
     }
 
+    public function show(Faq $faq){
 
+        $view = View::make('admin.faqs.index')
+        ->with('faq', $faq)
+        ->with('faqs', $this->faq->where('active', 1)->orderBy('created_at', 'desc')->paginate($this->paginate))
+        ->renderSections();        
+
+        return response()->json([
+            'table' => $view['table'],
+            'form' => $view['form'],
+        ]);
+    }
 
     public function destroy(Faq $faq)
     {
+        $this->locale->delete($faq->id);
+        $this->locale_slug_seo->delete($faq->id);
+        $this->image->delete($faq->id);
         $faq->active = 0;
         $faq->save();
 
         $message = \Lang::get('admin/faqs.faq-delete');
 
         $view = View::make('admin.faqs.index')
-            ->with('faq', $this->faq)
-            ->with(
-                'faqs',
-                $this->faq->where('active', 1)
-                    ->orderBy('updated_at', 'desc')
-                    ->paginate($this->paginationNum)
-            )
-            ->renderSections();
+        ->with('faq', $this->faq)
+        ->with('faqs', $this->faq->where('active', 1)->orderBy('created_at', 'desc')->paginate($this->paginate))
+        ->renderSections();        
 
         return response()->json([
             'table' => $view['table'],
-            'tablerows' => $view['tablerows'],
             'form' => $view['form'],
             'message' => $message
         ]);
     }
 
-    public function reorderTable(Request $request)
-    {
-        $order = request('order');
+    public function filter(Request $request, $filters = null){
 
-        if (is_array($order)) {
-
-            foreach ($order as $index => $tableItem) {
-                $item = $this->faq->findOrFail($tableItem);
-                $item->order = $index + 1;
-                $item->save();
-            }
-        }
-    }
-
-
-    public function filter(Request $request, $filters = null)
-    {
         $filters = json_decode($request->input('filters'));
-
+        
         $query = $this->faq->query();
 
-        $query->where('t_faqs.active', 1);
-
-        if ($filters != null) {
+        if($filters != null){
 
             $query->when($filters->category_id, function ($q, $category_id) {
 
-                if ($category_id == 'all') {
+                if($category_id == 'all'){
                     return $q;
-                } else {
+                }
+                else{
                     return $q->where('category_id', $category_id);
                 }
             });
-
+    
             $query->when($filters->search, function ($q, $search) {
-
-                if ($search == null) {
+    
+                if($search == null){
                     return $q;
-                } else {
+                }
+                else {
                     return $q->where('t_faqs.name', 'like', "%$search%");
-                }
+                }   
             });
-
-            $query->when($filters->date_start, function ($q, $date_start) {
-
-                if ($date_start == null) {
+    
+            $query->when($filters->created_at_from, function ($q, $created_at_from) {
+    
+                if($created_at_from == null){
                     return $q;
-                } else {
-                    return $q->whereDate('t_faqs.created_at', '>=', date($date_start));
                 }
+                else {
+                    $q->whereDate('t_faqs.created_at', '>=', $created_at_from);
+                }   
             });
-
-            $query->when($filters->date_end, function ($q, $date_end) {
-
-                if ($date_end == null) {
+    
+            $query->when($filters->created_at_since, function ($q, $created_at_since) {
+    
+                if($created_at_since == null){
                     return $q;
-                } else {
-                    return $q->whereDate('t_faqs.created_at', '<=', date($date_end));
                 }
+                else {
+                    $q->whereDate('t_faqs.created_at', '<=', $created_at_since);
+                }   
             });
-
+    
             $query->when($filters->order, function ($q, $order) use ($filters) {
-
-                $order_asc_desc = ($filters->order_asc_desc == "desc") ? "desc" : "asc";
-
-                if ($order == "category_id") {
-                    $q->join('t_faq_categories', 't_faqs.category_id', '=', 't_faq_categories.id')
-                        ->where('t_faqs.active', 1);
-                }
-
-                return $q->orderBy($order,  $order_asc_desc);
+    
+                $q->orderBy($order, $filters->direction);
             });
         }
-
-        $faqs = $query
-            ->paginate($this->paginationNum)
-            ->appends(['filters' => json_encode($filters)]);
+    
+        $faqs = $query->where('t_faqs.active', 1)
+                ->orderBy('t_faqs.created_at', 'desc')
+                ->paginate($this->paginate)
+                ->appends(['filters' => json_encode($filters)]);   
 
         $view = View::make('admin.faqs.index')
-            ->with('faq', $this->faq)
             ->with('faqs', $faqs)
             ->renderSections();
 
         return response()->json([
             'table' => $view['table'],
-            'tablerows' => $view['tablerows'],
         ]);
     }
 }

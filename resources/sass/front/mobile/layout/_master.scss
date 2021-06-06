@@ -1,14 +1,17 @@
-body {
-    margin: 0;
+.wrapper{
+    background-color: $blue;
+    width: 100%;
+}
+
+.main-content{
+    background-color: $blue;
     display: flex;
-    flex-flow: column nowrap;
-    font-family: 'Open Sans',sans-serif;
-    background-color:  lightsteelblue;
-    font-size: 0.7em;
+    justify-content: space-between;
+    margin: 0 auto;
+    width: 100%;
 }
 
-svg {
-    width: 1em;
+.page-section{
+    min-height: 100vh;
+    width: 100%;
 }
-
-

@@ -1,10 +1,5 @@
 require('../../bootstrap');
+require('./faqs');
+require('./fingerprint');
+require('./inputHighlight');
 
-require('./components/header');
-require('./components/panel');
-require('./components/form');
-require('./components/fingerprint');
-
-
-
-require('./products/filterProductGroup');

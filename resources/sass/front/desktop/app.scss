@@ -1,24 +1,25 @@
 @charset "utf-8";
 
-@import "./base/normalize";
-@import "./base/variables";
-@import "./base/mixins";
-@import "./base/gridTemplate";
 
+@import "../../base/gridTemplate";
+
+@import "../base/variables";
+@import "../base/mixins";
+@import "../base/contents";
+@import "../base/normalize";
+@import "../base/typography";
 
 
 @import "layout/master";
+@import "layout/topbar";
 @import "layout/header";
-@import "layout/sidebar";
-@import "layout/form"; 
-@import "layout/panel"; 
+@import "layout/footer";
+@import "layout/bottombar";
 
 
-@import "layout/product/product"; 
-@import "layout/product/product_text"; 
-@import "layout/product/product_images"; 
-@import "layout/product/product_price_area"; 
-@import "layout/product/product_purchase_area"; 
-@import "layout/product/product_variant_area"; 
-
-@import "layout/products/products"; 
+@import "components/faqs";
+@import "components/login";
+@import "components/register";
+@import "components/errors";
+@import "components/menu";
+@import "components/page-header";

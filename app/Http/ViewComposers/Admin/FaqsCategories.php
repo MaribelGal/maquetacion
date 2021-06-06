@@ -3,11 +3,10 @@
 namespace App\Http\ViewComposers\Admin;
 
 use Illuminate\View\View;
-use App\Models\DB\FaqCategory ;
+use App\Models\DB\FaqCategory;
 
 class FaqsCategories
 {
-
     static $composed;
 
     public function __construct(FaqCategory $faqs_categories)
@@ -23,9 +22,10 @@ class FaqsCategories
             return $view->with('faqs_categories', static::$composed);
         }
 
-        static::$composed = $this->faqs_categories->where('active', 1)->orderBy('nombre', 'asc')->get();
+        static::$composed = $this->faqs_categories->where('active', 1)->orderBy('name', 'asc')->get();
 
         $view->with('faqs_categories', static::$composed);
 
     }
 }
+

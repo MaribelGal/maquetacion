@@ -8,7 +8,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Storage;
-use App\Vendor\Image\Models\Image;
 use App\Vendor\Image\Models\ImageResized;
 
 class DeleteImage implements ShouldQueue

@@ -1,0 +1,110 @@
+.faqs{
+    
+    margin: 5% auto;
+    width: 80%;
+
+    .faq{
+
+        width: 100%;
+
+        .faq-title-container{
+
+            border-bottom: 0.2em solid #253786;
+            display: flex;
+            height: 10vh;
+            width: 100%;
+
+            @include respond-to('lg') {
+                height: 6vh;
+            }
+
+            .faq-title{
+                margin: 1em;
+                width: 90%;
+            }
+
+            .faq-title h3{
+                color: #253786;
+                font-weight: 400;
+            }
+
+            .faq-plus {
+
+                width: 10%;
+                
+                .faq-plus-button {
+                    cursor: pointer;
+                    float: right;
+                    margin: 1em;
+                    @include plusMinus(1.5em, 0.2em, #253786);
+                }
+            }
+        }
+
+        .faq-description{
+
+            display: flex;
+            justify-content: space-between;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s;
+            width: 100%;
+
+            .faq-description-text{
+
+                width: 100%;
+
+                &.with-image{
+                    width: 60%;
+                }
+
+                p{
+                    color: $black;
+                    font-weight: 200;
+                    margin: 1em;
+                }
+            }
+
+            .faq-description-image{
+                width: 40%;
+                padding: 1em;
+            }
+
+            .faq-description-image{
+                padding: 1em;
+            }
+              
+        }
+    }
+
+    .faq.active{
+
+        .faq-description{
+            max-height: 70vh;
+        }
+    }
+    
+    .faqs-message{
+
+        margin: 2em 0;
+
+        p{
+            font-size: 0.9em;
+            font-weight: 400;
+            text-align: center;
+        }
+    }
+
+    .faqs-contact{ 
+    
+        margin: 0 auto;
+        width: 20%;
+
+        button{
+            @include gradientButton(#253786,#02A8B0, 1em);
+        }
+    }
+}
+
+
+

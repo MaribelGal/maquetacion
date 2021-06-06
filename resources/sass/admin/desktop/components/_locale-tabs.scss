@@ -1,9 +1,9 @@
 .locale-tabs{
-    background-color: hsl(0, 0%, 84%);
+    // background-color: hsl(0, 0%, 84%);
 }
 
 .locale-tabs-container{
-    background-color: hsl(0, 0%, 84%);
+    // background-color: hsl(0, 0%, 84%);
     display: flex;
     justify-content: space-between;
     margin-top: 1em;
@@ -14,7 +14,7 @@
     width: 100%;
 
     ul{
-        background-color: hsl(0, 0%, 84%);
+        // background-color: hsl(0, 0%, 84%);
         display: flex;
         margin: 0;
         padding: 0;
@@ -29,12 +29,12 @@
     }
 
     li:hover{
-        color: hsl(19, 100%, 50%);
+        color: $interaction-color;
     }
 
     li.locale-tab-active,
     li.locale-tab-active:hover{
-        background-color: hsl(183, 98%, 35%) ;
+        // background-color: hsl(183, 98%, 35%) ;
         color: $white;
     }
 }

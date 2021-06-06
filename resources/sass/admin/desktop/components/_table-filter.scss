@@ -1,11 +1,14 @@
 .table-filter{
 
-    background-color: hsl(0, 0%, 100%);
+    // background-color: hsl(0, 0%, 100%, 0.15);
     height: max-content;
     position: fixed;
     top: 10vh;
     width: 100%;
     z-index: 1003;
+
+    @include glassmorphism(hsl(0, 0%, 100%, 0.15), 15px);
+
 
     &.filter-active{
 
@@ -22,7 +25,7 @@
         width: 40%;
 
         form{
-            background-color: hsl(0, 0%, 100%);
+            // background-color: hsl(0, 0%, 100%);
             padding: 1em;
         }
     }
@@ -42,7 +45,7 @@
 
         &:hover{
             svg path{
-                fill: hsl(19, 100%, 50%);
+                fill: $interaction-color;
             }
         }
 
@@ -51,11 +54,11 @@
         }
 
         &.open-filter{
-            background-color: hsl(0, 0%, 69%);
+            // background-color: $text-color-dark-secondary;
         }
 
         &.apply-filter{
-            background-color: hsl(160, 51%, 33%);
+            background-color: $interaction-color;
         }
 
         svg{
@@ -64,7 +67,7 @@
             width: 1.5em;
 
             path{
-                fill: hsl(0, 0%, 100%);
+                fill: $text-color-dark-primary;
             }
         }
     }

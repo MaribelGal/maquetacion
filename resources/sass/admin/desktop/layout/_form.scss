@@ -1,0 +1,148 @@
+.form{
+	background-color: $panel-color-dark;
+	height: max-content;
+	width: 65%;
+
+	&.fullscreen{
+		width: 100%;
+	}
+
+	@include neumorphism(0.5em, 5px, 10px);
+	// @include neumorphism(0.5em, 1em, 0.5em);
+}
+
+.form-error{
+	opacity: 0;
+	transition: opacity 0.5s;
+	width: 100%;
+}
+
+.form-error.active{
+	opacity: 1;
+}
+
+.form-error p{
+	color: hsl(0, 100%, 50%);
+}
+
+.form-container{
+	
+	width: 100%;
+
+	#menu-item-form-container{
+		
+		padding: 0 2em;
+
+		.locale-tabs-container{
+
+			margin-top: 0;
+		}
+	}	
+}
+
+.form-group{
+	margin-bottom: 1em;
+	width: 100%;
+}
+
+.form-label{
+	margin-bottom: 0.5em;
+	width: 100%;
+}
+
+.form-label label{
+	color: $text-color-dark-secondary;
+	font-family: $font-stack;
+	font-weight: 600;
+	font-size: 1em;
+	transition: color 0.5s;
+}
+
+.form-label label span{
+
+	color: $interaction-color;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.form-label label.active{
+	color: $interaction-color;
+}
+
+.form-input{
+	width: 100%;
+}
+
+.form-input input, 
+.form-input textarea,
+.form-input select {
+    background-color: transparent;
+	border: none;
+	border-bottom: 1px solid $text-color-dark-secondary;
+	color: $text-color-dark-primary;
+	font-family: $font-stack;
+	// font-weight: 600;
+	padding: 0.2em 0;
+	width: 100%;
+}
+
+.form-input select, select:focus, select:active { 
+	outline: 0 !important; 
+}
+
+.form-input input:focus, .form-input textarea:focus{
+	outline: none;
+}
+
+.form-input .ck-editor__editable_inline {
+    min-height: 15vh;
+}
+
+.form-input textarea{
+	border: 1px solid $text-color-dark-secondary;
+	height: 20vh;
+	margin-top: 1em;
+}
+
+.form-input .ck-editor__editable{
+	background-color: transparent !important;
+	color: $text-color-dark-primary !important;
+}
+
+.form-footer{
+	display: flex;
+	justify-content: flex-end;
+	padding: 2em;
+}
+
+.form-submit {
+	margin-top: 1em;
+	padding: 0 2em;
+    width: max-content;
+}
+
+.form-submit button{
+
+	background-image: linear-gradient(to right, #253786 0%, #02A8B0 50%, #253786 100%);
+	border-radius: 1em;
+    border: none;
+    color: white;
+    font-size: 1.2em;
+	font-weight: 400;
+	letter-spacing: 0;
+	line-height: 0px;
+	min-width: 20%;
+	padding: 1em 2em;
+	transition: 0.5s;
+	text-decoration: none;
+    background-size: 200% auto;
+}
+
+.form-submit button:hover{
+    background-size: 100% auto;
+}
+
+.form-submit button:focus {
+	outline: 0;
+}
+

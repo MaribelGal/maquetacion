@@ -12,7 +12,7 @@
         @include("admin.layout.partials.styles")
     </head>
 
-    <body>
+    <body class="dark-mode">
         <div class="wrapper" id="app">
 
             @include('admin.components.wait')

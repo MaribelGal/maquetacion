@@ -25,21 +25,17 @@ class FaqRequest extends FormRequest
         return true;
     }
 
-    public function rules() 
+    public function rules()
     {
         return [
-            // 'locale.name->es' => 'required',
-            // 'locale.titulo->es' => 'required|min:2',
-            // 'locale.description->es' => 'required',
+            'name' => 'required',
         ];
     }
 
-    // public function messages()
-    // {
-    //     return [
-    //         'titulo.required' => 'El titulo es obligatorio',
-    //         'titulo.min' => 'El titulo debe tener mas de dos caracteres',
-    //         'description.required' => 'Debe añadir una descripción',
-    //     ];
-    // }
+    public function messages()
+    {
+        return [
+            'name.required' => 'El nombre es obligatorio',
+        ];
+    }
 }

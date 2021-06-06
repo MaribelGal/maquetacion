@@ -10,10 +10,8 @@ use App\Vendor\Locale\Manager;
 use App\Http\Controllers\Controller;
 use App\Vendor\Locale\Models\LocaleLanguage;
 use App\Vendor\Locale\Models\LocaleTag;
-use Debugbar;
 
-
-class LocaleTagController extends Controller
+class LocaleTagController extends Controller 
 {
     protected $agent;
     protected $locale_tag;
@@ -42,66 +40,62 @@ class LocaleTagController extends Controller
     public function index()
     {
         $tags = $this->locale_tag
-            ->select('group', 'key')
-            ->groupBy('group', 'key')
-            ->where('group', 'not like', 'admin/%')
-            ->where('group', 'not like', 'front/seo')
-            ->paginate($this->paginate);
+                ->select('group', 'key')
+                ->groupBy('group', 'key')
+                ->where('group', 'not like', 'admin/%')
+                ->where('group', 'not like', 'front/seo')
+                ->paginate($this->paginate);         
 
         $view = View::make('admin.tags.index')
             ->with('tags',  $tags)
             ->with('tag', $this->locale_tag);
+  
+        if(request()->ajax()) {
 
-        if (request()->ajax()) {
-
-            $sections = $view->renderSections();
-
+            $sections = $view->renderSections(); 
+    
             return response()->json([
                 'table' => $sections['table'],
                 'form' => $sections['form'],
-            ]);
+            ]); 
         }
 
         return $view;
     }
 
-    public function create()
-    {
-    }
-
     public function store(Request $request)
-    {
+    {    
+    
+        foreach (request('tag') as $rel_anchor => $value){
 
-        foreach (request('tag') as $keyLanguage => $valueLanguage) {
+            $rel_anchor = str_replace(['-', '_'], ".", $rel_anchor); 
+            $explode_rel_anchor = explode('.', $rel_anchor);
+            $language = end($explode_rel_anchor);
 
-            DebugBar::info($valueLanguage['value']);
-
-            $locale_tag = $this->locale_tag::updateOrCreate(
-                [
-                    'id' => $valueLanguage['id']
-                ],
-                [
-                    'value' => $valueLanguage['value'],
-                    'active' => 1
-                ]
-            );
+            $locale_tag = $this->locale_tag::updateOrCreate([
+                'language' => $language,
+                'group' => request('group'),
+                'key' => request('key')],[
+                'value' => $value,
+                'active' => 1
+            ]);
         }
-
-        $this->manager->exportTranslations(request('group'));
+        
+        $this->manager->exportTranslations(request('group'));   
 
         $tags = $this->locale_tag
-            ->select('group', 'key')
-            ->groupBy('group', 'key')
-            ->where('group', 'not like', 'admin/%')
-            ->where('group', 'not like', 'front/seo')
-            ->paginate($this->paginate);
+        ->select('group', 'key')
+        ->groupBy('group', 'key')
+        ->where('group', 'not like', 'admin/%')
+        ->where('group', 'not like', 'front/seo')
+        ->paginate($this->paginate);  
 
         $message = \Lang::get('admin/tags.tag-update');
 
         $view = View::make('admin.tags.index')
-            ->with('tags', $tags)
-            ->with('tag', $this->locale_tag)
-            ->renderSections();
+        ->with('tags', $tags)
+        ->with('tag', $this->locale_tag)
+        ->renderSections(); 
 
         return response()->json([
             'table' => $view['table'],
@@ -110,43 +104,39 @@ class LocaleTagController extends Controller
         ]);
     }
 
-    public function show(Request $request, $groupKey = null)
+    public function edit($group, $key)
     {
 
-        $groupKey = json_decode($request->input('groupKey'));
+        $tags = $this->locale_tag->where('key', $key)->where('group', str_replace('-', '/' , $group))->paginate($this->paginate); 
+        $tag = $tags->first();
 
-        $tags = $this->locale_tag->where('group', $groupKey->group)->where('key', $groupKey->key)->paginate($this->paginate)
-            ->appends(['groupKey' => json_encode($groupKey)]);
+        $languages = $this->language->get();
 
-        $locale = null;
+        foreach($languages as $language){
+            $locale = $tags->filter(function($item) use($language) {
+                return $item->language == $language->alias;
+            })->first();
 
-        $locale['group'] = $groupKey->group;
-
-        foreach ($tags as $tag) {
-            $locale['value.' . $tag->language] = empty($tag->value) ? '' : $tag->value;
-            $locale['id.' . $tag->language] = empty($tag->id) ? '' : $tag->id;
+            $tag['value.'. $language->alias] = empty($locale->value) ? '': $locale->value; 
         }
-
+        
         $view = View::make('admin.tags.index')
-            ->with('locale', $locale)
-            ->with('tags', $tags);
-
-        Debugbar::info($locale);
-
-        if (request()->ajax()) {
-            $sections = $view->renderSections();
-
+        ->with('tags', $tags)
+        ->with('tag', $tag);
+        
+        if(request()->ajax()) {
+            $sections = $view->renderSections(); 
+    
             return response()->json([
-                'layout' => $sections['content'],
+                'table' => $sections['table'],
                 'form' => $sections['form'],
-                'tablerows' => $sections['tablerows'],
-            ]);
+            ]); 
         }
-
+                
         return $view;
     }
 
-   public function filter(Request $request, $filters = null){
+    public function filter(Request $request, $filters = null){
 
         $filters = json_decode($request->input('filters'));
         
@@ -165,14 +155,8 @@ class LocaleTagController extends Controller
             });
     
             $query->when($filters->order, function ($q, $order) use ($filters) {
-                if($order == 'default'){
-                    $order = 'group';
-                }
-
-                $order_asc_desc = ($filters->order_asc_desc == "desc") ? "desc" : "asc";
-
-                $q->orderBy($order, $order_asc_desc);
-
+    
+                $q->orderBy($order, $filters->direction);
             });
         }
     

@@ -1,4 +1,6 @@
 require('../../bootstrap');
+require('./faqs');
+require('./fingerprint');
+require('./inputHighlight');
 
-require('./components/header');
-require('./components/panel');
+

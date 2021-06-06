@@ -1,8 +1,8 @@
 .upload-image,
 .upload-image-add{
     align-items: center;
-    border: 0.2em dashed hsl(183, 98%, 35%);
-    color: #cccccc;
+    border: 0.2em dashed $text-color-dark-primary;
+    color: $text-color-dark-secondary;
     cursor: pointer;
     display: flex;
     font-size: 1.2em;
@@ -34,7 +34,7 @@
 
 .upload-image-single:hover .upload-image-add,
 .upload-image-single:hover .upload-image{
-    border: 4px dashed hsl(19, 100%, 50%);
+    border: 4px dashed $interaction-color;
 }
 
 .upload-image-collection{
@@ -44,7 +44,7 @@
 
     .upload-image:hover,
     .upload-image-add:hover{
-        border: 4px dashed hsl(19, 100%, 50%);
+        border: 4px dashed $interaction-color;
     }
 
 }

@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Storage;
 use Jcupitt\Vips;
 use App\Vendor\Image\Models\ImageResized;
 use App\Vendor\Image\Models\ImageConfiguration;
-use Debugbar;
 
 class ProcessImage implements ShouldQueue
 {
@@ -24,8 +23,6 @@ class ProcessImage implements ShouldQueue
     protected $language;
     protected $disk;
     protected $path;
-    protected $alt;
-    protected $title;
     protected $filename;
     protected $content;
     protected $type;
@@ -34,8 +31,9 @@ class ProcessImage implements ShouldQueue
     protected $width;
     protected $quality;
     protected $file;
-    protected $format_conversion;
     protected $image_configuration_id;
+    protected $image_original_id;
+    protected $temporal_id;
 
     /**
      * Create a new job instance.
@@ -50,8 +48,6 @@ class ProcessImage implements ShouldQueue
         $language, 
         $disk,
         $path, 
-        $alt, 
-        $title, 
         $filename, 
         $content,
         $type,
@@ -60,7 +56,9 @@ class ProcessImage implements ShouldQueue
         $width,
         $quality,
         $file, 
-        $image_configuration_id
+        $image_configuration_id,
+        $image_original_id,
+        $temporal_id
     ){
         $this->entity_id = $entity_id;
         $this->entity = $entity;
@@ -69,8 +67,6 @@ class ProcessImage implements ShouldQueue
         $this->language = $language;
         $this->disk = $disk;
         $this->path = $path;
-        $this->alt = $alt;
-        $this->title = $title;
         $this->filename = $filename;
         $this->content = $content;
         $this->type = $type;
@@ -80,6 +76,8 @@ class ProcessImage implements ShouldQueue
         $this->quality = $quality;
         $this->file = $file;
         $this->image_configuration_id = $image_configuration_id;
+        $this->image_original_id = $image_original_id;
+        $this->temporal_id = $temporal_id;
     }
 
     /**
@@ -113,47 +111,23 @@ class ProcessImage implements ShouldQueue
             $size = filesize($path);
         }
         
-        
-        if($this->type == 'single'){
-
-            ImageResized::updateOrCreate([
-                'entity_id' => $this->entity_id,
-                'entity' => $this->entity,
-                'grid' => $this->grid,
-                'language' => $this->language,
-                'content' => $this->content],[
-                'path' => $this->disk . $this->path,
-                'alt' => $this->alt,
-                'title' => $this->title,
-                'filename' => $this->filename,
-                'mime_type' => $this->file_extension == "svg" ? 'image/'. $this->file_extension : 'image/'. $this->extension_conversion,
-                'size' => $size,
-                'width' => $this->width,
-				'height' => isset($height)? $height : null,
-                'quality' => $this->quality,
-                'image_configuration_id' => $this->image_configuration_id,
-            ]);
-        }
-
-        elseif($this->type == 'collection'){
-
-            ImageResized::create([
-                'entity_id' => $this->entity_id,
-                'entity' => $this->entity,
-                'grid' => $this->grid,
-                'language' => $this->language,
-                'content' => $this->content,
-                'path' => $this->disk . $this->path,
-                'alt' => $this->alt,
-                'title' => $this->title,
-                'filename' => $this->filename,
-                'mime_type' => $this->file_extension == "svg" ? 'image/'. $this->file_extension : 'image/'. $this->extension_conversion,
-                'size' => $size,
-                'width' => $this->width,
-                'height' => $height,
-                'quality' => $this->quality,
-                'image_configuration_id' => $this->image_configuration_id,
-            ]);
-        }
+        ImageResized::updateOrCreate([
+            'temporal_id' => $this->temporal_id,
+            'entity' => $this->entity,
+            'grid' => $this->grid,
+            'language' => $this->language,
+            'content' => $this->content],[
+            'entity_id' => $this->entity_id,
+            'path' => $this->disk . $this->path,
+            'filename' => $this->filename,
+            'mime_type' => $this->file_extension == "svg" ? 'image/'. $this->file_extension : 'image/'. $this->extension_conversion,
+            'size' => $size,
+            'width' => $this->width,
+            'height' => isset($height)? $height : null,
+            'quality' => $this->quality,
+            'temporal_id' => null,
+            'image_original_id' => $this->image_original_id,
+            'image_configuration_id' => $this->image_configuration_id,
+        ]);
     }
 }

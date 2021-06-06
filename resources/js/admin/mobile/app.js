@@ -1,12 +1,15 @@
 require('../../bootstrap');
-require('../base/filterTable');
+require('./fingerprint');
+require('./tracking');
+require('./topbarMenu');
+require('./crudTable');
+require('./bottombarMenu');
+require('./filterTable');
+require('./modalDelete');
 
 
 
-require('./components/form');
-require('./components/tableFormSelector');
 
-// require('./components/tableSwipe');
 
-require('./components/swipe');
-require('./components/table');
+
+

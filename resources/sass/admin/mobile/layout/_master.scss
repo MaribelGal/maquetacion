@@ -1,24 +1,19 @@
 
-body {
-    background-color: $grey-highlight;
-    font-family: $font-stack;
-    overflow: hidden;
+body{
+    background-color: $body-color;
+   
 }
 
-svg{
-    width: 2em;
+.wrapper {
+    height: 100vh;
+    overflow-y: hidden;
+    width: 100%;
 }
 
-.main{
-    display: flex;
-    flex-flow: column nowrap;
-}
+.main-content{
 
-
-.desktop, .disable {
-    display: none;
-}
-
-.content{
-    display: contents;
+    height: 75vh;
+    position: relative;
+    top: 10vh;
+    width: 100%;
 }

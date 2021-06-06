@@ -1,21 +1,16 @@
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-// import '../../../sass/admin/desktop/ck-editor/custom.css';
-
 require('@ckeditor/ckeditor5-build-classic/build/translations/es.js');
 
-window.ckeditors = [];
+export let renderCkeditor = () => {
 
-
-export let renderizarCkeditor = () => {
+    window.ckeditors = [];
 
     document.querySelectorAll('.ckeditor').forEach(ckeditor => {
-        
-        ClassicEditor.create(ckeditor, {
 
+        ClassicEditor.create(ckeditor, {
+            
             toolbar: {
                 items: [
-                    // 'heading',
-                    // '|',
                     'bold',
                     'italic',
                     'link',
@@ -26,21 +21,19 @@ export let renderizarCkeditor = () => {
                     'indent',
                     '|',
                     'blockQuote',
-                    // 'undo',
-                    // 'redo'
+                    'undo',
+                    'redo'
                 ]
             },
             language: 'es',
             licenseKey: '',
         })
-            .then(classicEditor => {
-                ckeditors[ckeditor.name] = classicEditor;
-            })
-
-            .catch(error => {
-                console.error(error);
-            });
-
+        .then( classicEditor => {
+            ckeditors[ckeditor.name] = classicEditor;
+        })
+        .catch( error => {
+            console.error(error);
+        } );
     });
-    
 }
+

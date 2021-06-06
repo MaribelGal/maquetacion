@@ -31,10 +31,33 @@ class ViewComposerServiceProvider extends ServiceProvider
         );
 
         view()->composer([
-            'admin.clientes.index'],
+            'admin.customers.index'],
             'App\Http\ViewComposers\Admin\Countries'
         );
 
+        view()->composer([
+            'admin.*'], 
+            'App\Http\ViewComposers\Admin\LocaleLanguage'
+        );
+
+        view()->composer(
+            'admin.tags.index', 
+            'App\Http\ViewComposers\Admin\LocaleGroups'
+        );
+
+        view()->composer([
+            'front.layout.partials.header_fixed',
+            'front.pages.login.index'],
+            'App\Http\ViewComposers\Front\Logo'
+        );
+
+        view()->composer(
+            'front.layout.partials.footer',
+            'App\Http\ViewComposers\Front\LogoLight'
+        );
+
+
+        
         view()->composer([
             'admin.shirts.index'],
             'App\Http\ViewComposers\Admin\ProductsCategories',
@@ -85,15 +108,6 @@ class ViewComposerServiceProvider extends ServiceProvider
             'App\Http\ViewComposers\Admin\Brands'
         );
 
-        view()->composer([
-            'admin.*'], 
-            'App\Http\ViewComposers\Admin\LocaleLanguage'
-        );
-
-        view()->composer(
-            'admin.tags.index', 
-            'App\Http\ViewComposers\Admin\LocaleGroups'
-        );
     }
 
     public function register()

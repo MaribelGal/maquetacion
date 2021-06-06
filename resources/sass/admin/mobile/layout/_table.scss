@@ -1,23 +1,97 @@
-.tabla-contenedor {
-    overflow: scroll;
-    height: 30vh;
-}
-
-.tabla-contenido{
+.table{
+    display: none;
+    height: max-content;
     position: relative;
+    transition: all 300ms ease-out;
+    width: 100%;
+
+    &.active{
+        display: block;
+    }
 }
 
-.tabla-contenido-fila{
-    width: 100%;
-    height: 6em;
+.table-row {
+    background-color: rgb(255, 255, 255);
+    border-bottom: 1px solid hsl(0, 0%, 73%);
+    border-top: 1px solid hsl(0, 0%, 73%);
+    min-height: 15vh;
+    position: relative;    
 }
-.tabla-contenido-fila-campos{
+
+.table-field-container{
+    background-color: white;
+    min-height: 15vh;
+    position: absolute;
+    -ms-touch-action: none;
+    touch-action: none;
     width: 100%;
-    height: 100%;
-    border: .1em solid $blue-dark;
-    padding: .5em 0;
-    background-color: $grey-highlight;
+    z-index: 999;
 }
-.tabla-contenido-fila-iconos{
+
+.table-field{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+
+    p{
+        font-weight: 600;
+        margin: 0;
+        margin-left: 0.5em;
+        margin-top: 0.5em;
+
+        span{
+            color: hsl(183, 98%, 35%);
+            margin-right: 0.5em;
+        }
+    }
+   
+}
+
+.table-icons-container{
+
+    position: absolute;
+    width: 100%;
+    z-index: 997;
+
+    .table-icons{
+
+        display: none;
+        min-height: 15vh;
+
+        svg{
+            height: 1.5em;
+            width: 1.5em;
     
+            path{
+                fill: hsl(0, 0%, 100%);
+            }
+        }
+    }
+
+    .table-icons#swipe-active{
+        display: block;
+    }
+
+    .table-icons.edit-button{
+
+       background-color: hsl(183, 98%, 35%);
+       text-align: left;
+
+        svg{
+            margin-left: 1em;
+            margin-top: 1em;
+        }
+
+    }
+    
+    .table-icons.delete-button{
+
+        background-color: hsl(0, 65%, 55%);
+        text-align: right;
+
+        svg{
+            margin-right: 1em;
+            margin-top: 1em;
+        }
+    }
 }

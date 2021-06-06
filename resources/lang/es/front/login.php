@@ -1,5 +1,6 @@
 <?php
 
-return [
-    'parent_section' => "LOGIN",
-];
+return array (
+  'login' => 'Entrar',
+  'register' => 'Registrarse',
+);

@@ -1,45 +1,66 @@
 //typography
-$font-stack: "Ubuntu", sans-serif;
-$font-stack-condensed: "Ubuntu Condensed";
+$font-stack: "Roboto", sans-serif;
+$font-stack-condensed: "Roboto Condensed";
+
+
 
 //colors
-$colorPrincipal: hsl(246, 68%, 15%);
-$fondo: hsl(0, 0%, 92%);
 $white: hsl(0, 0%, 100%);
 $black: hsl(0, 0%, 0%);
 $grey-highlight: hsl(0, 0%, 92%);
 $grey: hsl(0, 0%, 85%);
-$grey-solid: rgb(145, 145, 145);
+$grey-solid: hsl(0, 0%, 57%);
 $grey-dark: hsl(0, 0%, 28%);
 $blue-dark: hsl(246, 68%, 15%);
 $blue: hsl(205, 84%, 40%);
 $blue-highlight: hsl(197, 76%, 51%);
 $red: hsl(0, 100%, 74%);
 $red-dark: hsl(354, 71%, 58%);
-$white-pearl: hsl(210, 15%, 5%);
+$white-pearl: hsl(210, 8%, 95%);
 $green: hsl(108, 81%, 39%);
+
+$c: hsl(224, 14%, 22%);
+$q: hsl(316, 85%, 65%);
+$w: hsl(270, 78%, 65%);
+$e: hsl(0, 0%, 10%);
+$c: hsl(275, 60%, 62%);
 
 //elements colors
 $alert: $red-dark;
 $alert-highlight: $red;
+
 $body-color: $grey-highlight;
-$body-color-dark: $grey-dark;
+$body-color-dark: hsl(240, 12%, 19%);
+
+$panel-color-dark: hsl(224, 14%, 22%);
+
+$text-color-dark-primary: hsl(0, 0%, 100%);
+$text-color-dark-secondary: hsl(0, 0%, 57%);
+
+$color-icon-dark: hsl(270, 78%, 65%);
+
 $button-icon-color: $white;
 $button-color: $blue;
 $button-color-highlight: $blue-highlight;
+
 $errors: $red;
-$interaction-color: $blue;
+
+$interaction-color: hsl(270, 78%, 65%);
 $interaction-color-highlight: $blue-highlight;
 $interaction-text-color: $white;
+
 $label:$grey-solid;
+
 $message-success: $green;
 $message-info: $blue;
 $message-error: $red-dark;
+
 $modul-header-color: $grey;
 $modul-color: $white;
+
 $spinner-color: $blue-highlight;
 $sidebar-menu-color: $blue-dark;
-$sidebar-menu-text-color: $white; 
+$sidebar-menu-text-color: $white;
 $sidebar-submenu-color: $blue;
 
 

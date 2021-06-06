@@ -1852,12 +1852,6 @@ module.exports = {
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
-
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -1890,14 +1884,50 @@ window.requestAnimFrame = function () {
 
 /***/ }),
 
-/***/ "./resources/js/front/desktop/components/fingerprint.js":
-/*!**************************************************************!*\
-  !*** ./resources/js/front/desktop/components/fingerprint.js ***!
-  \**************************************************************/
+/***/ "./resources/js/front/desktop/faqs.js":
+/*!********************************************!*\
+  !*** ./resources/js/front/desktop/faqs.js ***!
+  \********************************************/
+/***/ (() => {
+
+var plusButtons = document.querySelectorAll('.faq-plus-button');
+var faqElements = document.querySelectorAll(".faq");
+plusButtons.forEach(function (plusButton) {
+  plusButton.addEventListener("click", function () {
+    var activeElements = document.querySelectorAll(".active");
+
+    if (plusButton.classList.contains("active")) {
+      plusButton.classList.remove("active");
+      activeElements.forEach(function (activeElement) {
+        activeElement.classList.remove("active");
+      });
+    } else {
+      activeElements.forEach(function (activeElement) {
+        activeElement.classList.remove("active");
+      });
+      plusButton.classList.add("active");
+      faqElements.forEach(function (faqElement) {
+        if (faqElement.dataset.content == plusButton.dataset.button) {
+          faqElement.classList.add("active");
+        } else {}
+      });
+    }
+  });
+});
+
+/***/ }),
+
+/***/ "./resources/js/front/desktop/fingerprint.js":
+/*!***************************************************!*\
+  !*** ./resources/js/front/desktop/fingerprint.js ***!
+  \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getFingerPrint": () => (/* binding */ getFingerPrint)
+/* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var clientjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! clientjs */ "./node_modules/clientjs/dist/client.min.js");
@@ -1910,6 +1940,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var client = new ClientJS();
+var getFingerPrint = function getFingerPrint() {
+  var fingerprint = {};
+  fingerprint['_token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  fingerprint['fingerprint_code'] = client.getFingerprint();
+  fingerprint['browser'] = client.getBrowser();
+  fingerprint['browser_version'] = client.getBrowserMajorVersion();
+  fingerprint['OS'] = client.getOS();
+  fingerprint['resolution'] = client.getCurrentResolution();
+  fingerprint['current_url'] = window.location.pathname;
+  return fingerprint;
+};
 
 var sendFingerprintRequest = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -1918,40 +1959,31 @@ var sendFingerprintRequest = /*#__PURE__*/function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            fingerprint = {};
-            fingerprint['_token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            fingerprint['fingerprint_code'] = client.getFingerprint();
-            fingerprint['browser'] = client.getBrowser();
-            fingerprint['browser_version'] = client.getBrowserMajorVersion();
-            fingerprint['OS'] = client.getOS();
-            fingerprint['resolution'] = client.getCurrentResolution();
-            fingerprint['current_url'] = window.location.pathname;
+            fingerprint = getFingerPrint();
             data = new FormData();
 
             for (key in fingerprint) {
               data.append(key, fingerprint[key]);
             }
 
-            _context.prev = 10;
-            _context.next = 13;
-            return axios.post('/fingerprint', data).then(function (response) {// console.log(response);
-            });
+            _context.prev = 3;
+            _context.next = 6;
+            return axios.post('/fingerprint', data).then(function (response) {});
 
-          case 13:
-            _context.next = 18;
+          case 6:
+            _context.next = 10;
             break;
 
-          case 15:
-            _context.prev = 15;
-            _context.t0 = _context["catch"](10);
-            console.log(_context.t0);
+          case 8:
+            _context.prev = 8;
+            _context.t0 = _context["catch"](3);
 
-          case 18:
+          case 10:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[10, 15]]);
+    }, _callee, null, [[3, 8]]);
   }));
 
   return function sendFingerprintRequest() {
@@ -1963,179 +1995,36 @@ sendFingerprintRequest();
 
 /***/ }),
 
-/***/ "./resources/js/front/desktop/components/form.js":
-/*!*******************************************************!*\
-  !*** ./resources/js/front/desktop/components/form.js ***!
-  \*******************************************************/
-/***/ (() => {
-
-
-
-/***/ }),
-
-/***/ "./resources/js/front/desktop/components/header.js":
-/*!*********************************************************!*\
-  !*** ./resources/js/front/desktop/components/header.js ***!
-  \*********************************************************/
-/***/ (() => {
-
-
-
-/***/ }),
-
-/***/ "./resources/js/front/desktop/components/panel.js":
-/*!********************************************************!*\
-  !*** ./resources/js/front/desktop/components/panel.js ***!
-  \********************************************************/
-/***/ (() => {
-
-var botonesDesplegable = document.querySelectorAll(".desplegable-boton");
-var desplegableDescripciones = document.querySelectorAll(".desplegable-descripcion");
-var desplegableIconos = document.querySelectorAll(".desplegable-icono");
-botonesDesplegable.forEach(function (botonDesplegable) {
-  botonDesplegable.addEventListener("click", function () {
-    desplegableDescripciones.forEach(function (desplegableDescripcion) {
-      if (desplegableDescripcion.dataset.faq_id == botonDesplegable.dataset.faq_id) {
-        if (desplegableDescripcion.classList.contains("activo")) {
-          desplegableDescripcion.classList.remove("activo");
-          botonDesplegable.querySelector(".desplegable-icono").classList.remove("activo");
-        } else {
-          desplegableDescripcion.classList.add("activo");
-          botonDesplegable.querySelector(".desplegable-icono").classList.add("activo");
-        }
-      }
-    }); // desplegableIconos.forEach(desplegableIcono => {
-    //     if (desplegableIcono.id == botonDesplegable.value) {
-    //         if (desplegableIcono.classList.contains("activo")) {
-    //             desplegableIcono.classList.remove("activo");
-    //             console.log(desplegableIcono.classList);
-    //         } else {
-    //             desplegableIcono.classList.add("activo");
-    //             console.log(desplegableIcono.classList);
-    //         }
-    //     }
-    // });
-  });
-});
-
-/***/ }),
-
-/***/ "./resources/js/front/desktop/products/filterProductGroup.js":
-/*!*******************************************************************!*\
-  !*** ./resources/js/front/desktop/products/filterProductGroup.js ***!
-  \*******************************************************************/
+/***/ "./resources/js/front/desktop/inputHighlight.js":
+/*!******************************************************!*\
+  !*** ./resources/js/front/desktop/inputHighlight.js ***!
+  \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-var renderFilterProductGroup = function renderFilterProductGroup() {
-  var variantsArea = document.getElementById("product-variants-area");
-  var variantsForm = document.getElementById("product-variants-form");
-  var productData = document.getElementById("product-data");
-  var productImages = document.getElementById("product-images");
-  var variantsItems = variantsForm.querySelectorAll(".product-variant-item");
-  var dataFormOld = new FormData(variantsForm);
-  var itemChanged;
-  variantsItems.forEach(function (variantItem) {
-    var variantItemsData = variantItem.querySelectorAll(".product-variant-item-data");
-    variantItemsData.forEach(function (variantDataItem) {
-      variantDataItem.addEventListener("change", function () {
-        itemChanged = variantDataItem;
-      });
-    });
-    variantItem.addEventListener("change", function () {
-      var url = variantsForm.action;
-      var dataForm = new FormData(variantsForm);
-      dataForm.append(itemChanged.dataset.variantName, itemChanged.value);
-      console.log(itemChanged);
-
-      var _iterator = _createForOfIteratorHelper(dataForm.entries()),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var entrada = _step.value;
-          console.log(entrada[0] + ": " + entrada[1]);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderInputHighlight": () => (/* binding */ renderInputHighlight)
+/* harmony export */ });
+var renderInputHighlight = function renderInputHighlight() {
+  var labels = document.querySelectorAll('.label-highlight');
+  var inputs = document.querySelectorAll('.input-highlight');
+  inputs.forEach(function (input) {
+    input.addEventListener('focusin', function () {
+      for (var i = 0; i < labels.length; i++) {
+        if (labels[i].htmlFor == input.name) {
+          labels[i].classList.add("active");
         }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
       }
-
-      var enviarPeticion = /*#__PURE__*/function () {
-        var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  _context.prev = 0;
-                  _context.next = 3;
-                  return axios.post(url, dataForm).then(function (respuesta) {
-                    productData.innerHTML = respuesta.data.productData;
-                    productImages.innerHTML = respuesta.data.productImages;
-                    variantsArea.innerHTML = respuesta.data.productVariants;
-                    renderFilterProductGroup();
-                  });
-
-                case 3:
-                  _context.next = 8;
-                  break;
-
-                case 5:
-                  _context.prev = 5;
-                  _context.t0 = _context["catch"](0);
-                  console.log(_context.t0);
-
-                case 8:
-                case "end":
-                  return _context.stop();
-              }
-            }
-          }, _callee, null, [[0, 5]]);
-        }));
-
-        return function enviarPeticion() {
-          return _ref.apply(this, arguments);
-        };
-      }();
-
-      enviarPeticion();
+    });
+    input.addEventListener('blur', function () {
+      for (var i = 0; i < labels.length; i++) {
+        labels[i].classList.remove("active");
+      }
     });
   });
 };
-
-renderFilterProductGroup();
-
-var showDataForm = function showDataForm(datosFormulario) {
-  var _iterator2 = _createForOfIteratorHelper(datosFormulario.entries()),
-      _step2;
-
-  try {
-    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-      var entrada = _step2.value;
-      console.log(entrada[0] + ": " + entrada[1]);
-    }
-  } catch (err) {
-    _iterator2.e(err);
-  } finally {
-    _iterator2.f();
-  }
-};
+renderInputHighlight();
 
 /***/ }),
 
@@ -20493,15 +20382,11 @@ var __webpack_exports__ = {};
   \*******************************************/
 __webpack_require__(/*! ../../bootstrap */ "./resources/js/bootstrap.js");
 
-__webpack_require__(/*! ./components/header */ "./resources/js/front/desktop/components/header.js");
+__webpack_require__(/*! ./faqs */ "./resources/js/front/desktop/faqs.js");
 
-__webpack_require__(/*! ./components/panel */ "./resources/js/front/desktop/components/panel.js");
+__webpack_require__(/*! ./fingerprint */ "./resources/js/front/desktop/fingerprint.js");
 
-__webpack_require__(/*! ./components/form */ "./resources/js/front/desktop/components/form.js");
-
-__webpack_require__(/*! ./components/fingerprint */ "./resources/js/front/desktop/components/fingerprint.js");
-
-__webpack_require__(/*! ./products/filterProductGroup */ "./resources/js/front/desktop/products/filterProductGroup.js");
+__webpack_require__(/*! ./inputHighlight */ "./resources/js/front/desktop/inputHighlight.js");
 })();
 
 /******/ })()

@@ -1,28 +1,15 @@
-body {
-    background-color: #f9ebba;
-    font-family: $font-stack;
-    margin:1%;
-
-}
-
-svg{
-    width: 2em;
-}
-
-img {
+.wrapper{
     width: 100%;
 }
 
-
-
-.mobile {
-    display: none;
+.main-content{
+    display: flex;
+    min-height: 80vh;
+    justify-content: space-between;
+    width: 100%;
 }
 
-.contents{
-    display: contents;
+.page-section{
+    min-height: 80vh;
+    width: 100%;
 }
-
-
-
-

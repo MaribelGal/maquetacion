@@ -1,9 +1,9 @@
 .tabs{
-    background-color: hsl(0, 0%, 84%);
+    // background-color: hsl(0, 0%, 84%);
 }
 
 .tabs-container{
-    background-color: hsl(0, 0%, 84%);
+    // background-color: hsl(0, 0%, 84%);
     display: flex;
     justify-content: space-between;
 }
@@ -13,7 +13,7 @@
     width: 100%;
 
     ul{
-        background-color: hsl(0, 0%, 84%);
+        // background-color: hsl(0, 0%, 84%);
         display: flex;
         margin: 0;
         padding: 0;
@@ -28,12 +28,12 @@
     }
 
     li:hover{
-        color: hsl(19, 100%, 50%);
+        color: $interaction-color;
     }
 
     li.tab-active,
     li.tab-active:hover{
-        background-color: hsl(183, 98%, 35%) ;
+        // background-color: hsl(183, 98%, 35%) ;
         color: $white;
     }
 }
@@ -90,16 +90,16 @@
         }
 
         .onoffswitch-inner:before {
-            background-color: $white;
-            color: hsl(183, 98%, 35%);
+            background-color: $body-color-dark;
+            color: $interaction-color;
             content: "ON";
             padding-left: 10px;
 
         }
 
         .onoffswitch-inner:after {
-            background-color: $white;
-            color: hsl(0, 0%, 50%);
+            background-color: $body-color-dark;
+            color: $text-color-dark-secondary;
             content: "OFF";
             padding-right: 10px;
             text-align: right;
@@ -120,7 +120,7 @@
         }
 
         .onoffswitch-switch:hover {
-            background: hsl(19, 100%, 50%);
+            background: $interaction-color;
         }
         
         .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
@@ -128,7 +128,7 @@
         }
         .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
             right: 0px;
-            background-color: hsl(183, 98%, 35%);
+            background-color: $interaction-color;
         }
     }
 }

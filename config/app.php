@@ -93,7 +93,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'es',
 
     /*
     |--------------------------------------------------------------------------
@@ -165,12 +165,14 @@ return [
         /*
          * Package Service Providers...
          */
+
         Jenssegers\Agent\AgentServiceProvider::class,
         App\Vendor\Locale\ManagerServiceProvider::class,
         App\Vendor\Locale\TranslationServiceProvider::class,
         App\Vendor\Locale\LocalizationSeoServiceProvider::class,
 
-
+        // Custom View Composers 
+        App\Providers\ViewComposerServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -180,13 +182,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
         App\Providers\AgentServiceProvider::class,
-
-
-        // Custom View Composers 
-        App\Providers\ViewComposerServiceProvider::class,
-
     ],
 
     /*
@@ -201,6 +197,8 @@ return [
     */
 
     'aliases' => [
+
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
@@ -238,7 +236,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Agent' => Jenssegers\Agent\Facades\Agent::class,
         'localizationseo' => App\Vendor\Locale\LocalizationSeo::class,
     ],
 

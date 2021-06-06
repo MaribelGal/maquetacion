@@ -1,52 +1,78 @@
+.table{
+    background-color: $panel-color-dark;
+    opacity: 1;
+    transition: all 0.2s;
+    width: 30%;
+    height: max-content;
+    color: $text-color-dark-primary;
+    padding: 1em;
+    &.table-hide{
+        opacity: 0;
+        transition: all 0.5s;
+    }
 
-.tabla {
-    display: contents;
-    min-width: 50vw;
-    flex-grow: 1;
-}
-.tabla-contenedor {
-    margin: 1em;
-    padding: 2%;
-    flex-grow: 1;
-    height: fit-content;
-    max-height: 90vh;
-    overflow: hidden;
-    @include neumorphism(1em, 10%, 20%);
-}
-
-.tabla-alerta {
-    display: none;
+    @include neumorphism(0.5em, 5px, 10px);
+    
 }
 
-.tabla-contenido {
-    display: grid;
+.table-row {
+    
+    border-bottom: 1px solid $text-color-dark-secondary;
+    border-top: 1px solid $text-color-dark-secondary;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5em;
 }
 
-.tabla-contenido-fila {
-    margin: 1em;
+.table-field-container{
+    width: 100%;
 }
 
-.tabla-contenido-fila-iconos {
-    // display: flex;
-    // justify-content: flex-end;
-}
-
-.tabla-contenido-fila-campos {
-    // display: contents;
-    // grid-template-columns: repeat(auto,1fr);
-    overflow: hidden;
-}
-
-.tabla-celda {
-    border-top: 0.1em solid rgba(0, 0, 0, 0.3);
+.table-field{
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 0 0.5em;
-    svg{
-        color: $colorPrincipal;
-        cursor: pointer;
-        &:hover{
-            color: hsl(180, 17%, 39%)
+    white-space: nowrap; 
+
+    p{
+        font-size: 0.8em;
+        margin: 0;
+        margin-right: 0.5em;
+
+        span{
+            color: $interaction-color;
+            font-weight: 600;
         }
     }
+}
+
+.table-icons-container{
+    
+    display: flex;
+    justify-content: space-around;
+    width: 20%;
+
+    @include respond-to('lg'){
+        width: 15%;
+    }
+}
+
+.table-icons{ 
+
+    &:hover{
+
+        cursor: pointer;
+    
+        path {
+            fill:  $interaction-color;
+        }
+    }
+
+    svg {
+
+        width: 2em;
+    
+        path{
+            fill: $text-color-dark-secondary;
+        }
+    }    
 }

@@ -5,8 +5,6 @@ namespace App\Vendor\Locale;
 use App\Vendor\Locale\Models\LocaleSlugSeo as DBLocaleSlugSeo;
 use App\Vendor\Locale\Models\LocaleSeo as DBLocaleSeo;
 
-use Debugbar;
-
 class LocaleSlugSeo
 {
     protected $rel_parent;
@@ -42,14 +40,12 @@ class LocaleSlugSeo
 
     public function store($seo, $key, $locale_key)
     {  
-
-        $locale_seo = $this->locale_seo->where('key', $locale_key)->first();
-
         foreach ($seo as $rel_anchor => $value){
 
             $rel_anchor = str_replace(['-', '_'], ".", $rel_anchor); 
             $explode_rel_anchor = explode('.', $rel_anchor);
             $language = end($explode_rel_anchor);
+            $locale_seo = $this->locale_seo->where('key', $locale_key)->where('language', $language)->first();
 
             $locale_slug_seo[] = $this->locale_slug_seo::updateOrCreate([
                 'language' => $language,
@@ -102,7 +98,6 @@ class LocaleSlugSeo
     public function getIdByLanguage($slug){ 
 
         return  DBLocaleSlugSeo::getIdByLanguage($this->rel_parent, $this->language, $slug)->first();
-
     }
 
     public function getIdByKey($rel_parent, $language, $key){ 

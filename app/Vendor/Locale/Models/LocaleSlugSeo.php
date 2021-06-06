@@ -4,7 +4,6 @@ namespace App\Vendor\Locale\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
-use Debugbar;
 
 class LocaleSlugSeo extends Model
 {
@@ -32,8 +31,7 @@ class LocaleSlugSeo extends Model
     }
 
     public function scopeGetIdByLanguage($query, $rel_parent, $language, $slug){
-
-
+        
         return $query->where('slug', $slug)
             ->where('language', $language)
             ->where('rel_parent', $rel_parent);

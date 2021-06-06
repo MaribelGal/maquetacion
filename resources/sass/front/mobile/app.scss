@@ -1,6 +1,18 @@
 @charset "utf-8";
 
 
+@import "../../base/gridTemplate";
+
+@import "../base/variables";
+@import "../base/mixins";
+@import "../base/contents";
+@import "../base/normalize";
+@import "../base/typography";
+
+
 @import "layout/master";
 @import "layout/header";
-@import "layout/panel";
+
+
+@import "components/faqs";
+@import "components/menu";

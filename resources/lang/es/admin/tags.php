@@ -1,9 +1,9 @@
 <?php
 
-return array (
-  'parent_section' => 'TAG es',
-  'tag-create' => 'TAG creada',
-  'tag-update' => 'TAG actualizada',
-  'tag-delete' => 'TAG eliminada',
- 
-);
+return [
+    'parent_section' => "Traducciones",
+    'tag-create' => "Traducción creada",
+    'tag-update' => "Traducción actualizada",
+    'tag-delete' => "Traducción eliminada",
+    'tag-import' => 'Archivos de traducciones importados a la base de datos'
+];

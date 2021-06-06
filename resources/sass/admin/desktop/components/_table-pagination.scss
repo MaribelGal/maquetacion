@@ -1,8 +1,5 @@
 .table-pagination{
 
-    position: absolute;
-    bottom: 5vh;
-
     .table-pagination-info{
 
         display: flex;
@@ -28,7 +25,7 @@
         }
 
         .table-pagination-button:hover{
-            color: hsl(19, 100%, 50%);
+            color: $interaction-color;
         }
 
         .table-pagination-button.inactive{

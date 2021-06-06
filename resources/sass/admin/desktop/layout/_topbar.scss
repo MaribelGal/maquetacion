@@ -1,0 +1,139 @@
+.topbar{
+	// background-image: linear-gradient(to right, #253786 0%, #02A8B0 50%, #253786 100%) !important;
+	background-color: $body-color-dark;
+	height: 100vh;
+	position: fixed;
+	top: -90vh;
+	transition: top 0.5s;
+	width: 100%;
+	z-index: 1005;
+
+	&.active{
+
+		top: 0;
+		 
+		.topbar-left{
+			opacity: 0;
+			width: 0;
+		}
+
+		.topbar-center{
+			opacity: 1;
+		}
+	}
+
+	.topbar-center{
+
+		height: 88vh;
+		opacity: 0;
+		width: 100%;
+
+		.topbar-menu ul li{
+			color: $text-color-dark-primary;
+			cursor: pointer;
+			font-size: 2em;
+			font-weight: 600;
+			padding: 0.5em;
+		}
+	}
+
+	.topbar-visible{
+
+		display: flex;
+		justify-content: space-between;
+		height: 10vh;
+		width: 100%;
+
+		.topbar-left{
+
+			display: flex;
+			margin-left: 3%;
+			width: max-content;
+	
+			.topbar-title{
+	
+				h4{
+					color: $text-color-dark-primary;
+					font-size: 2em;
+					margin: 0.2em 0;
+					
+					@include respond-to('lg'){
+						font-size: 3.5em;
+					}
+				}
+			}
+		}
+	
+		.topbar-right{
+	
+			display: flex;
+			justify-content: flex-end;
+			margin-right: 3%;
+			width: 5%;
+	
+			.topbar-menu-button{
+	
+				position: fixed;
+				width: 5%;
+				top: 0.5vh;
+	
+				#topbar-collapse-button {
+					border: 0;
+					background: transparent;
+					cursor: pointer;
+					margin-top: 0;
+					width: 100%;
+
+					@include respond-to('lg'){
+						margin-top: 2vh;
+					}
+				}
+	
+				#topbar-collapse-button.active{
+					margin-bottom: 45vh;
+				}
+			
+				#topbar-collapse-button:focus {
+					outline:0;
+				}
+			
+				#topbar-collapse-button span {
+					background: $color-icon-dark;
+					display: block;
+					height: 5px;
+					margin: 0 auto;
+					transition: all 0.6s cubic-bezier(0.810, -0.330, 0.345, 1.375);
+					width: 100%;
+	
+					@include respond-to('lg'){
+						height: 0.5em;
+						width: 80%;
+					}
+				}
+			
+				#topbar-collapse-button.active span:first-of-type {
+	
+					transform: rotate(45deg) translate(1.1em, 1.1em);
+	
+					@include respond-to('lg'){
+						transform: rotate(45deg) translate(1.4em, 1.4em);
+					}
+				}
+			
+				#topbar-collapse-button.active span:nth-of-type(2) {
+					opacity: 0;
+				}
+			
+				#topbar-collapse-button.active span:last-of-type {
+					transform: rotate(-45deg) translate(1px, -1px);
+				}
+		
+				#topbar-collapse-button span {
+					opacity: 1;
+					margin: 0.5em auto;
+					transform: none;
+				}
+			}
+		}
+	}
+}
