@@ -1,6 +1,5 @@
 #menu-item-modal{
-
-    background-color: hsl(0, 0%, 100%);
+    // background-color: hsl(0, 0%, 100%);
     height: max-content;
     justify-content: space-between;
     left: 35%;
@@ -10,11 +9,21 @@
     transition: top 0.3s;
     width: 30%;
     z-index: 3000;
+
+    @include glassmorphism(hsl(0, 0%, 100%, 0.15), 15px);
 }
 
 #menu-item-modal.modal-active{
     top: 20vh;
     transition: top 0.3s;
+}
+
+.custom-select-modal {
+    cursor: pointer;
+    background-color: red;
+    option {
+        background-color: $panel-color-dark !important;
+    }
 }
 
 .modal-menu-item-store-button{
@@ -27,7 +36,7 @@
     &:hover{
 
         .store-button-icon{
-            fill: hsl(19, 100%, 50%);
+            fill: $interaction-color;
         }
     }
 
@@ -37,7 +46,7 @@
         width: 2.4em; 
         
         .store-button-icon{
-            fill: hsl(0, 0%, 50%);
+            fill: $text-color-dark-secondary;
         } 
     }
 }
@@ -54,3 +63,4 @@
         text-decoration: underline;
     }
 }
+

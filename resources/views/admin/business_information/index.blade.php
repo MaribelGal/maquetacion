@@ -1,5 +1,7 @@
 @php
     $route = 'business_information';
+
+    Debugbar::info($business)
 @endphp
 
 @extends('admin.layout.form')
@@ -8,7 +10,7 @@
 
     <div class="form-container">
 
-        <form class="admin-form" id="business-information-form" action="{{route("business_information_store")}}" autocomplete="off">
+        <form class="admin-form" id="business_information-form" action="{{route("business_information_store")}}" autocomplete="off">
             
             {{ csrf_field() }}
 
@@ -119,8 +121,6 @@
                             
                             <div class="two-columns">
 
-                       
-
                                 <div class="form-group">
                                     <div class="form-label">
                                         <label for="name" class="label-highlight">Eslogan</label>
@@ -155,7 +155,7 @@
                                     </div>
                                     <div class="form-input">
                                         @include('admin.components.upload_image', [
-                                            'entity' => 'business-information',
+                                            'entity' => 'business_information',
                                             'type' => 'single', 
                                             'content' => 'logo', 
                                             'alias' => $localization->alias,
@@ -170,7 +170,7 @@
                                     </div>
                                     <div class="form-input">
                                         @include('admin.components.upload_image', [
-                                            'entity' => 'business-information',
+                                            'entity' => 'business_information',
                                             'type' => 'single', 
                                             'content' => 'logolight', 
                                             'alias' => $localization->alias,

@@ -58,6 +58,11 @@ class ViewComposerServiceProvider extends ServiceProvider
 
 
         
+
+
+
+
+        
         view()->composer([
             'admin.shirts.index'],
             'App\Http\ViewComposers\Admin\ProductsCategories',

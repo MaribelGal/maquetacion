@@ -1,14 +1,14 @@
 <?php
 
 return array (
-  'telephone' => '+34 648 49 27 83',
-  'email' => 'info@alizeboats.com',
+  'telephone' => '+34 666 55 44 33',
+  'email' => 'correo@correo.com',
   'province' => 'Illes Balears',
-  'poblation' => 'Can Pastilla',
-  'postalcode' => '07610',
-  'adress' => 'Carrer de Virgili, 27',
-  'slogan' => 'Alquiler de embarcaciones recreativas en Mallorca',
-  'instagram' => 'https://www.instagram.com/alizeboats/',
-  'facebook' => 'https://www.facebook.com/alizeboats/',
-  'twitter' => 'https://twitter.com/AlizeBoats',
+  'poblation' => 'Marratxí',
+  'postalcode' => '07141',
+  'adress' => 'Carrer xaxis, 0',
+  'slogan' => 'Camisetas en Mallorca',
+  'instagram' => 'https://www.instagram.com/',
+  'facebook' => 'https://www.facebook.com/',
+  'twitter' => 'https://twitter.com/',
 );

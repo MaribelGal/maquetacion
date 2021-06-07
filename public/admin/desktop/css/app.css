@@ -1237,7 +1237,6 @@ svg {
 }
 
 #menu-item-modal {
-  background-color: white;
   height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
@@ -1249,11 +1248,25 @@ svg {
   transition: top 0.3s;
   width: 30%;
   z-index: 3000;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 #menu-item-modal.modal-active {
   top: 20vh;
   transition: top 0.3s;
+}
+
+.custom-select-modal {
+  cursor: pointer;
+  background-color: red;
+}
+.custom-select-modal option {
+  background-color: #303440 !important;
 }
 
 .modal-menu-item-store-button {
@@ -1265,7 +1278,7 @@ svg {
   width: max-content;
 }
 .modal-menu-item-store-button:hover .store-button-icon {
-  fill: #ff5100;
+  fill: #a660eb;
 }
 .modal-menu-item-store-button svg {
   float: right;
@@ -1273,7 +1286,7 @@ svg {
   width: 2.4em;
 }
 .modal-menu-item-store-button svg .store-button-icon {
-  fill: gray;
+  fill: #919191;
 }
 
 .modal-menu-item-delete-button {

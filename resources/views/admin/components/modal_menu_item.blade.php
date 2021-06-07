@@ -29,7 +29,7 @@
                     </label>
                 </div>
                 <div class="form-input">
-                    <select id="menu-item-parent" class="form-control select-display">
+                    <select id="menu-item-parent custom-select-modal" class="form-control select-display">
                         <option disabled selected value style="display:none"></option>
                         <option id="custom_url" value="custom_url" @isset($menu_item){{$menu_item->custom_url != null ? 'selected':''}} @endisset>Personalizado</option>
                         <option id="section" value="section" @isset($menu_item){{$menu_item->locale_seo_id != null ? 'selected':''}} @endisset>Enlace a página</option>
@@ -58,7 +58,7 @@
                         </label>
                     </div>
                     <div class="form-input">
-                        <select id="menu-section" name="locale_seo_id" class="form-control primary-select-related">
+                        <select id="menu-section custom-select-modal" name="locale_seo_id" class="form-control primary-select-related">
                             <option disabled selected value style="display:none"></option>
                             @foreach($sections as $section)
                                 <option id="menu-section-option" value="{{$section->id}}" @isset($menu_item){{$menu_item->locale_seo_id == $section->id ? 'selected':''}} @endisset>{{$section->title}}</option>
@@ -77,8 +77,8 @@
                             Enlaces
                         </label>
                     </div>
-                    <div class="form-input">
-                        <select id="menu-links" name="locale_slug_seo_id"  class="form-control secondary-select-related">
+                    <div class="form-input"> 
+                        <select id="menu-links custom-select-modal" name="locale_slug_seo_id"  class="form-control secondary-select-related">
                             <option disabled selected value style="display:none"></option>
                             @foreach($links as $link)
                                 @if(!empty($link->locale_seo->language))
