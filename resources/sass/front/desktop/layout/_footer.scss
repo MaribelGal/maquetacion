@@ -1,5 +1,5 @@
 .footer{
-	background-color: #253786;
+	// background-color: #253786;
 	height: max-content;
 	margin-top: 0px;
 	padding: 5% 10%;
@@ -15,7 +15,7 @@
     top: 0;
     height: 20px;
     background-size: 40px 40px;
-    background-image: radial-gradient(circle at 20px -29px, transparent 40px, #FFF 41px);
+    // background-image: radial-gradient(circle at 20px -29px, transparent 40px, #FFF 41px);
     transform: rotate(180deg);
 }
 
@@ -27,12 +27,12 @@
     top: 0;
     height: 30px;
     background-size: 80px 40px;
-    background-image: radial-gradient(circle at 20px 52px, #FFF 40px, transparent 41px);
+    // background-image: radial-gradient(circle at 20px 52px, #FFF 40px, transparent 41px);
     transform: rotate(180deg);
 }
 
 .footer .footer-element-title{
-	color: white;
+	// color: white;
 	margin-bottom: 1.5em;
 }
 
@@ -41,14 +41,13 @@
 	margin-top: 2em;
 	
 	button{
-		@include gradientButton(#253786,#02A8B0, 1em);
+		@include gradientButton(#866625,#ff9c07, 1em);
 	}
 }
 
 .footer .footer-element-container{
-
 	p,a,h1,h2,h3,h4,h5{
-		color: white;
+		// color: white;
 		font-weight: 400;
 	}
 }
@@ -62,7 +61,7 @@
 		width: 1em;
 
 		path{
-			fill: white;
+			// fill: white;
 		}
 	}
 }

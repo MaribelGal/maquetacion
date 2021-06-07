@@ -108,7 +108,7 @@
         left: 5px;
         border-radius: 0;
         opacity: 1;
-        border: 0.2em solid green;
+        border: 0.2em solid rgb(79, 0, 128);
         border-top-color: transparent;
         border-left-color: transparent;
         -webkit-transform: rotate(45deg);
@@ -121,13 +121,18 @@
     }
 
     .form-submit {
-        margin: 3em auto;
-        width: 30%;
+
     }
 
     .form-submit button{
-
-        @include gradientButton(#253786,#02A8B0, 1.2em);
+        border: none;
+        border-radius: 0.5em;
+        background-color: #a660eb;
+       
+        color:white;
+        padding: 1em;
+        width: 100%;
+        // @include gradientButton(#253786,#02A8B0, 0.5em);
     }
 
 }

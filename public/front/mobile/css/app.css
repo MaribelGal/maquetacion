@@ -1,3 +1,11 @@
+.contents {
+  display: contents;
+}
+
+.flex {
+  display: flex;
+}
+
 .grid {
   display: grid;
   gap: 0.5em;
@@ -545,7 +553,7 @@ p, h1, h2, h3, h4, h5 {
 ======Typography======
 ======================*/
 h1, h2, h3, h4 {
-  font-family: "Roboto", sans-serif;
+  font-family: "Rubik", sans-serif;
 }
 
 h5, h6 {
@@ -553,7 +561,7 @@ h5, h6 {
 }
 
 a, td, p, button {
-  font-family: "Roboto", sans-serif;
+  font-family: "Rubik", sans-serif;
 }
 
 h2 {

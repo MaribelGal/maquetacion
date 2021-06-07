@@ -1,8 +1,39 @@
 .contact{
-    
-    margin: 5% auto;
-    width: 70%;
+    grid-column: 1;
+    grid-row: 1;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: min-content;
+    margin: 6em auto;
+    width: 80%;
+    padding: 1em;
+
+    background-color: aliceblue;
+    @include neumorphism(2em, 2px, 3px);
 }
+
+.contact-socials .socials-icons{
+    display: flex;
+    justify-content: space-around;
+    svg { width: 2em;} 
+    border-bottom: 1px solid black;
+}
+
+.social-icon:hover{
+    path{
+        fill: #1e00b3;
+    }
+}
+
+.contact-info{
+    justify-content: space-around;
+    border-top: 1px solid black;
+    padding-top: 0.5em;
+}
+
+.contact-info-element{
+    display:flex;
+}
+
 
 .contact .sidebar{
 

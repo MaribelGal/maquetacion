@@ -19,13 +19,12 @@
 }
 
 .header-fixed .header-container{
-
 	display: flex;
 	justify-content: space-between;
 	height: 100%;
 
 	.header-logo{
-		width: max-content;
+		width: 2em;
 		z-index: $z-index-logo;
 	}
 
@@ -34,14 +33,12 @@
 		width: max-content;
 		z-index: $z-index-logo;
 
-		.booking-button{
-			
-			margin: auto;
-			margin-left: 2em;
-
-			button{
-				@include gradientButton(#253786,#02A8B0, 1em);
-			}
+	}
+	
+	.header-cart{
+		display: flex;
+		svg{
+			width: 2em;;
 		}
 	}
 }

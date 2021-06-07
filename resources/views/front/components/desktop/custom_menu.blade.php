@@ -28,7 +28,8 @@
         @endif
 
         @if (!$item->children->isEmpty())
-            @include('front.components.desktop.custom_menu', ['items' => $item->children, 'innerLoop' => true])
+            @include('front.components.desktop.custom_menu', 
+            ['items' => $item->children, 'innerLoop' => true])
         @endif
 
         </li>

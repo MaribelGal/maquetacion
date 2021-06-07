@@ -1,3 +1,11 @@
+.contents {
+  display: contents;
+}
+
+.flex {
+  display: flex;
+}
+
 .grid {
   display: grid;
   gap: 0.5em;
@@ -545,7 +553,7 @@ p, h1, h2, h3, h4, h5 {
 ======Typography======
 ======================*/
 h1, h2, h3, h4 {
-  font-family: "Roboto", sans-serif;
+  font-family: "Rubik", sans-serif;
 }
 
 h5, h6 {
@@ -553,7 +561,7 @@ h5, h6 {
 }
 
 a, td, p, button {
-  font-family: "Roboto", sans-serif;
+  font-family: "Rubik", sans-serif;
 }
 
 h2 {
@@ -576,6 +584,10 @@ a:hover, a:focus {
   outline: none;
   text-decoration: none;
   outline-offset: 0;
+}
+
+body {
+  background-color: #ffecc2;
 }
 
 .wrapper {
@@ -705,9 +717,7 @@ a:hover, a:focus {
   height: 100%;
 }
 .header-fixed .header-container .header-logo {
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
+  width: 2em;
   z-index: 3000;
 }
 .header-fixed .header-container .header-menu {
@@ -717,28 +727,11 @@ a:hover, a:focus {
   width: max-content;
   z-index: 3000;
 }
-.header-fixed .header-container .header-menu .booking-button {
-  margin: auto;
-  margin-left: 2em;
+.header-fixed .header-container .header-cart {
+  display: flex;
 }
-.header-fixed .header-container .header-menu .booking-button button {
-  background-image: linear-gradient(to right, #253786 0%, #02A8B0 50%, #253786 100%);
-  background-size: 200% auto;
-  border-radius: 1.2em;
-  border: none;
-  color: white;
-  font-size: 1em;
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 0px;
-  min-width: 20%;
-  padding: 1.2em 2em;
-  transition: 0.5s;
-  text-decoration: none;
-  width: 100%;
-}
-.header-fixed .header-container .header-menu .booking-button button:hover {
-  background-size: 100% auto;
+.header-fixed .header-container .header-cart svg {
+  width: 2em;
 }
 
 .header-fixed .header-bar {
@@ -756,7 +749,6 @@ a:hover, a:focus {
 }
 
 .footer {
-  background-color: #253786;
   height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
@@ -774,7 +766,6 @@ a:hover, a:focus {
   top: 0;
   height: 20px;
   background-size: 40px 40px;
-  background-image: radial-gradient(circle at 20px -29px, transparent 40px, #FFF 41px);
   transform: rotate(180deg);
 }
 
@@ -786,12 +777,10 @@ a:hover, a:focus {
   top: 0;
   height: 30px;
   background-size: 80px 40px;
-  background-image: radial-gradient(circle at 20px 52px, #FFF 40px, transparent 41px);
   transform: rotate(180deg);
 }
 
 .footer .footer-element-title {
-  color: white;
   margin-bottom: 1.5em;
 }
 
@@ -799,7 +788,7 @@ a:hover, a:focus {
   margin-top: 2em;
 }
 .footer .booking-button button {
-  background-image: linear-gradient(to right, #253786 0%, #02A8B0 50%, #253786 100%);
+  background-image: linear-gradient(to right, #866625 0%, #ff9c07 50%, #866625 100%);
   background-size: 200% auto;
   border-radius: 1.2em;
   border: none;
@@ -819,7 +808,6 @@ a:hover, a:focus {
 }
 
 .footer .footer-element-container p, .footer .footer-element-container a, .footer .footer-element-container h1, .footer .footer-element-container h2, .footer .footer-element-container h3, .footer .footer-element-container h4, .footer .footer-element-container h5 {
-  color: white;
   font-weight: 400;
 }
 
@@ -830,10 +818,6 @@ a:hover, a:focus {
   height: 1em;
   width: 1em;
 }
-.footer .footer-element-icon svg path {
-  fill: white;
-}
-
 .footer .footer-socials-container {
   display: flex;
 }
@@ -1084,7 +1068,7 @@ a:hover, a:focus {
 }
 .login .login-form .form-label label {
   color: black;
-  font-family: "Roboto", sans-serif;
+  font-family: "Rubik", sans-serif;
   font-weight: 400;
   font-size: 1em;
   transition: color 0.5s;
@@ -1102,7 +1086,7 @@ a:hover, a:focus {
   border-radius: 0.3em;
   box-sizing: border-box;
   color: black;
-  font-family: "Roboto", sans-serif;
+  font-family: "Rubik", sans-serif;
   padding: 0.4em;
   width: 100%;
 }
@@ -1186,7 +1170,7 @@ a:hover, a:focus {
 }
 .register .register-form .form-label label {
   color: black;
-  font-family: "Roboto", sans-serif;
+  font-family: "Rubik", sans-serif;
   font-weight: 400;
   font-size: 1em;
   transition: color 0.5s;
@@ -1204,7 +1188,7 @@ a:hover, a:focus {
   border-radius: 0.3em;
   box-sizing: border-box;
   color: black;
-  font-family: "Roboto", sans-serif;
+  font-family: "Rubik", sans-serif;
   padding: 0.4em;
   width: 100%;
 }
@@ -1274,7 +1258,7 @@ a:hover, a:focus {
 }
 .error-container.active ul li {
   color: white;
-  font-family: "Roboto", sans-serif;
+  font-family: "Rubik", sans-serif;
   padding: 0.1em 0;
   list-style: none;
 }
@@ -1299,7 +1283,7 @@ a:hover, a:focus {
   font-size: 1em;
 }
 .menu-inline li:hover a h4 {
-  color: #00a7b0;
+  color: #ff6b09;
 }
 @media (min-width: 1920px) {
   .menu-inline li a h4 {
@@ -1331,49 +1315,70 @@ a:hover, a:focus {
   margin: 1em 0.5em;
 }
 
+.page-section {
+  display: grid;
+  margin: 5%;
+}
+
 .page-header {
-  background-color: #253786;
-  padding: 1em 0 3em 0;
-  position: relative;
-}
-
-.page-header:before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 20px;
-  background-size: 40px 40px;
-  background-image: radial-gradient(circle at 20px -29px, transparent 40px, #FFF 41px);
-}
-
-.page-header:after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 30px;
-  background-size: 80px 40px;
-  background-image: radial-gradient(circle at 20px 52px, #FFF 40px, transparent 41px);
-}
-
-.page-header .page-header-title {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 120rem;
+  grid-column: 1;
+  grid-row: 1;
+  background-color: #ffa200;
+  height: 30%;
+  border-radius: 2em;
   text-align: center;
-  width: calc(100% - 4rem);
+  padding: 1em;
+  background: radial-gradient(circle at 10% 60%, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 0.2) 25%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.1) 75%, rgba(255, 255, 255, 0) 100%), radial-gradient(circle at 16% 28%, rgba(79, 79, 79, 0.08) 0%, rgba(79, 79, 79, 0.08) 25%, rgba(69, 69, 69, 0.08) 25%, rgba(69, 69, 69, 0.08) 50%, rgba(56, 56, 56, 0.08) 50%, rgba(56, 56, 56, 0.08) 75%, rgba(43, 43, 43, 0.08) 75%, rgba(43, 43, 43, 0.08) 100%), radial-gradient(circle at 51% 54%, rgba(179, 179, 179, 0.08) 0%, rgba(179, 179, 179, 0.08) 25%, rgba(120, 120, 120, 0.08) 25%, rgba(120, 120, 120, 0.08) 50%, rgba(61, 61, 61, 0.08) 50%, rgba(61, 61, 61, 0.08) 75%, rgba(5, 5, 5, 0.08) 75%, rgba(5, 5, 5, 0.08) 100%), linear-gradient(303deg, #ffa200, #ffa200);
 }
-.page-header .page-header-title h2 {
-  color: white;
+
+.page-header-title {
+  text-align: center;
+}
+.page-header-title h2 {
+  color: #1e00b3;
   font-size: 2.5em;
 }
 
 .contact {
-  margin: 5% auto;
-  width: 70%;
+  grid-column: 1;
+  grid-row: 1;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: -webkit-min-content;
+  grid-template-rows: min-content;
+  margin: 6em auto;
+  width: 80%;
+  padding: 1em;
+  background-color: aliceblue;
+  border-radius: 2em;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5), -2px -2px 3px rgba(255, 255, 255, 0.2);
+  transform: all 10s;
+}
+.contact.mousedown {
+  box-shadow: inset 5px 5px 10px #919191, inset -5px -5px 10px white;
+  transform: all 1s;
+}
+
+.contact-socials .socials-icons {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid black;
+}
+.contact-socials .socials-icons svg {
+  width: 2em;
+}
+
+.social-icon:hover path {
+  fill: #1e00b3;
+}
+
+.contact-info {
+  justify-content: space-around;
+  border-top: 1px solid black;
+  padding-top: 0.5em;
+}
+
+.contact-info-element {
+  display: flex;
 }
 
 .contact .sidebar .contact-socials .contact-socials-title,
@@ -1464,7 +1469,7 @@ a:hover, a:focus {
 }
 .contact-form .form-label label {
   color: black;
-  font-family: "Roboto", sans-serif;
+  font-family: "Rubik", sans-serif;
   font-weight: 400;
   font-size: 1em;
   transition: color 0.5s;
@@ -1482,7 +1487,7 @@ a:hover, a:focus {
   border-radius: 0.3em;
   box-sizing: border-box;
   color: black;
-  font-family: "Roboto", sans-serif;
+  font-family: "Rubik", sans-serif;
   padding: 0.4em;
   width: 100%;
 }
@@ -1528,7 +1533,7 @@ a:hover, a:focus {
   left: 5px;
   border-radius: 0;
   opacity: 1;
-  border: 0.2em solid green;
+  border: 0.2em solid #4f0080;
   border-top-color: transparent;
   border-left-color: transparent;
   transform: rotate(45deg);
@@ -1537,28 +1542,13 @@ a:hover, a:focus {
   display: flex;
   justify-content: flex-end;
 }
-.contact-form .form-submit {
-  margin: 3em auto;
-  width: 30%;
-}
 .contact-form .form-submit button {
-  background-image: linear-gradient(to right, #253786 0%, #02A8B0 50%, #253786 100%);
-  background-size: 200% auto;
-  border-radius: 1.2em;
   border: none;
+  border-radius: 0.5em;
+  background-color: #a660eb;
   color: white;
-  font-size: 1.2em;
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 0px;
-  min-width: 20%;
-  padding: 1.2em 2em;
-  transition: 0.5s;
-  text-decoration: none;
+  padding: 1em;
   width: 100%;
-}
-.contact-form .form-submit button:hover {
-  background-size: 100% auto;
 }
 
 .about-us {

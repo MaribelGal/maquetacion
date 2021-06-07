@@ -1,3 +1,11 @@
+.contents {
+  display: contents;
+}
+
+.flex {
+  display: flex;
+}
+
 .grid {
   display: grid;
   gap: 0.5em;
@@ -1835,6 +1843,46 @@ svg {
 }
 .select-related.visible {
   display: grid;
+}
+
+select {
+  font-family: "Arial";
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+  padding: 10px 15px;
+  outline: 0;
+  border: 0px solid #000000;
+  border-radius: 0px;
+  background: #e6e6e6;
+  color: #7b7b7b;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+select:hover,
+select:focus {
+  color: #000000;
+  background: #cccccc;
+}
+
+select:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+select:hover,
+select:focua {
+  border-top-color: #000000;
+}
+
+select:disabled ~ .select_arrow {
+  border-top-color: #cccccc;
 }
 
 .upload-image,
