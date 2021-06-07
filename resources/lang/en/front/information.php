@@ -11,4 +11,9 @@ return array (
   'instagram' => 'https://www.instagram.com/',
   'facebook' => 'https://www.facebook.com/',
   'twitter' => 'https://twitter.com/',
+  'ourbusiness' => NULL,
+  'ourfleet' => '',
+  'ourproducts' => NULL,
+  'ourbussinesTitle' => NULL,
+  'ourproductsTitle' => NULL,
 );

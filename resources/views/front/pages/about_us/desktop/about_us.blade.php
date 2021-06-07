@@ -3,7 +3,7 @@
     <div class="two-columns">
         <div class="about-us-element">
             <div class="about-us-title">
-                <h3>@lang('front/about_us.ourbusiness-title')</h3>
+                <h3>@lang('front/information.ourbusinessTitle')</h3>
             </div>
             <div class="about-us-text">
                 @lang('front/information.ourbusiness')
@@ -13,11 +13,15 @@
         <div class="about-us-element">
             <div class="about-us-image">
                 @if($agent->isDesktop())
-                    <img src="{{Storage::url($business->image_our_business_desktop->path)}}" alt="{{$business->image_our_fleet_desktop->alt}}" title="{{$business->image_our_fleet_desktop->title}}">
+                @isset($business->image_our_business_desktop)
+                    <img src="{{Storage::url($business->image_our_business_desktop->path)}}" alt="{{$business->image_our_business_desktop->alt}}" title="{{$business->image_our_business_desktop->title}}">
+                @endisset
                 @endif
             
                 @if($agent->isMobile())
-                    <img src="{{Storage::url($business->image_our_business_mobile->path)}}" alt="{{$business->image_our_fleet_mobile->alt}}" title="{{$business->image_our_fleet_mobile->title}}">
+                {{-- @isset($business->$business->image_our_business_mobile) --}}
+                    <img src="{{Storage::url($business->image_our_business_mobile->path)}}" alt="{{$business->image_our_products_mobile->alt}}" title="{{$business->image_our_products_mobile->title}}">
+                    {{-- @endisset --}}
                 @endif
             </div>
         </div>
@@ -27,21 +31,27 @@
         <div class="about-us-element">
             <div class="about-us-image">
                 @if($agent->isDesktop())
-                    <img src="{{Storage::url($business->image_our_fleet_desktop->path)}}" alt="{{$business->image_our_fleet_desktop->alt}}" title="{{$business->image_our_fleet_desktop->title}}">
+                @isset($business->image_our_products_desktop)
+
+                    <img src="{{Storage::url($business->image_our_products_desktop->path)}}" alt="{{$business->image_our_products_desktop->alt}}" title="{{$business->image_our_products_desktop->title}}">
+                    @endisset
                 @endif
             
                 @if($agent->isMobile())
-                    <img src="{{Storage::url($business->image_our_fleet_mobile->path)}}" alt="{{$business->image_our_fleet_mobile->alt}}" title="{{$business->image_our_fleet_mobile->title}}">
+                @isset($business->image_our_products_mobile)
+
+                    <img src="{{Storage::url($business->image_our_products_mobile->path)}}" alt="{{$business->image_our_products_mobile->alt}}" title="{{$business->image_our_products_mobile->title}}">
+                    @endisset
                 @endif
             </div>
         </div>
 
         <div class="about-us-element">
             <div class="about-us-title">
-                <h3>@lang('front/about_us.ourfleet-title')</h3>
+                <h3>@lang('front/information.ourproductsTitle')</h3>
             </div>
             <div class="about-us-text">
-                @lang('front/information.ourfleet')
+                @lang('front/information.ourproducts')
             </div>
         </div>
     </div>

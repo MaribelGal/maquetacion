@@ -26,6 +26,9 @@
                         <li class="tab-item" data-tab="logo">
                             Logo
                         </li>
+                        <li class="tab-item" data-tab="presentation">
+                            Presentación
+                        </li>  
                         <li class="tab-item" data-tab="socials">
                             Redes
                         </li>       
@@ -239,7 +242,104 @@
                 @endcomponent
 
             </div>
+            <div class="tab-panel" data-tab="presentation">
 
+                @component('admin.components.locale', ['tab' => 'presentation'])
+
+                    @foreach ($localizations as $localization)
+
+                        <div class="locale-tab-panel {{ $loop->first ? 'locale-tab-active':'' }}" data-tab="presentation" data-localetab="{{$localization->alias}}">
+
+                            <div class="one-column">
+                                <div class="form-group">
+                                    <div class="form-label">
+                                        <label for="business" class="label-highlight">Eslogan</label>
+                                    </div>
+                                    <div class="form-input">
+                                        <input type="text" name="business[slogan.{{$localization->alias}}]" value="{{isset($business["slogan.$localization->alias"]) ? $business["slogan.$localization->alias"] : ''}}" class="input-highlight">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="two-columns">
+                                <div class="form-group">
+
+                                    <div class="form-label">
+                                        <label for="business" class="label-highlight">Titulo</label>
+                                    </div>
+                                    <div class="form-input">
+                                        <input type="text" 
+                                        name="business[ourbussinesTitle.{{$localization->alias}}]" 
+                                        value="{{isset($business["ourbussinesTitle.$localization->alias"]) ? $business["ourbussinesTitle.$localization->alias"] : ''}}" 
+                                        class="input-highlight">
+                                    </div>
+
+                                    <div class="form-label">
+                                        <label for="business" class="label-highlight">
+                                            Nuestra compañía
+                                        </label>
+                                    </div>
+                                    <div class="form-input">
+                                        <textarea class="ckeditor input-highlight" name="business[ourbusiness.{{$localization->alias}}]">{{isset($business["ourbusiness.$localization->alias"]) ? $business["ourbusiness.$localization->alias"] : ''}}</textarea>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="form-input">
+                                        @include('admin.components.upload_image', [
+                                            'entity' => 'business_information',
+                                            'type' => 'single', 
+                                            'content' => 'ourbusiness', 
+                                            'alias' => $localization->alias,
+                                            'files' => $business->images_our_business_preview
+                                        ])
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="two-columns">
+                                <div class="form-group">
+                                    <div class="form-input">
+                                        @include('admin.components.upload_image', [
+                                            'entity' => 'business_information',
+                                            'type' => 'single', 
+                                            'content' => 'ourproducts', 
+                                            'alias' => $localization->alias,
+                                            'files' => $business->images_our_products_preview
+                                        ])
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    
+                                <div class="form-label">
+                                    <label for="business" class="label-highlight">Titulo</label>
+                                </div>
+                                <div class="form-input">
+                                    <input type="text" 
+                                    name="business[ourproducts-title.{{$localization->alias}}]" 
+                                    value="{{isset($business["ourproductsTitle.$localization->alias"]) ? $business["ourproductsTitle.$localization->alias"] : ''}}" 
+                                    class="input-highlight">
+                                </div>
+
+                                    <div class="form-label">
+                                        <label for="business" class="label-highlight">
+                                            Nuestros productos
+                                        </label>
+                                    </div>
+                                    <div class="form-input">
+                                        <textarea class="ckeditor input-highlight" name="business[ourproducts.{{$localization->alias}}]">{{isset($business["ourproducts.$localization->alias"]) ? $business["ourproducts.$localization->alias"] : ''}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    @endforeach
+            
+                @endcomponent
+
+            </div>
         </form>
 
     </div>
