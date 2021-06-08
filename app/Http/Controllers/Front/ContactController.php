@@ -5,15 +5,17 @@ namespace App\Http\Controllers\Front;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Requests\Front\ContactRequest;
 use App\Http\Controllers\Controller;
 use Jenssegers\Agent\Agent;
 use App\Vendor\Locale\LocaleSlugSeo;
 use App\Models\DB\ContactLog;
+use App\Jobs\ContactEmail;
 
 class ContactController extends Controller
 {
     protected $agent;
-    protected $contact;
+    protected $contact_log;
     protected $locale_slug_seo;
 
     function __construct(Agent $agent, ContactLog $contact_log, LocaleSlugSeo $locale_slug_seo)
@@ -35,38 +37,21 @@ class ContactController extends Controller
         return $view;
     }
 
-    public function show($slug)
-    {      
-        $seo = $this->locale_slug_seo->getIdByLanguage($slug);
+    public function store(ContactRequest $request)
+    {        
+        $contact_log = $this->contact_log->create([
+            'fingerprint' => $request->cookie('fp') ? $request->cookie('fp') : '',
+            'name' => request('name'),
+            'email' => request('email'),
+            'message' => request('message'),
+        ]);
 
-        if(isset($seo->key)){
+        dispatch(new ContactEmail($contact_log))->onQueue('email');
 
-            if($this->agent->isDesktop()){
-                $faq = $this->faq
-                    ->with('image_featured_desktop')
-                    ->with('image_grid_desktop')
-                    ->where('active', 1)
-                    ->where('visible', 1)
-                    ->find($seo->key);
-            }
-            
-            elseif($this->agent->isMobile()){
-                $faq = $this->faq
-                    ->with('image_featured_mobile')
-                    ->with('image_grid_mobile')
-                    ->where('active', 1)
-                    ->where('visible', 1)
-                    ->find($seo->key);
-            }
+        $message = \Lang::get('front/contact.success');
 
-            $faq['locale'] = $faq->locale->pluck('value','tag');
-
-            $view = View::make('front.pages.faqs.single')->with('faq', $faq);
-
-            return $view;
-
-        }else{
-            return response()->view('errors.404', [], 404);
-        }
+        return response()->json([
+            'message' => $message
+        ]);
     }
 }
