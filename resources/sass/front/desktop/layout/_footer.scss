@@ -1,11 +1,14 @@
 .footer{
-	// background-color: #253786;
+	background-color: #662586a0;
 	height: max-content;
 	margin-top: 0px;
-	padding: 5% 10%;
+	padding: 1em 2em;
 	position: relative;
-	width: 80%;
+	border-top-left-radius: 1em;
+	border-top-right-radius: 1em;
 }
+
+
 
 .footer:before{
     content: "";
@@ -31,18 +34,16 @@
     transform: rotate(180deg);
 }
 
+.footer-container{
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
 .footer .footer-element-title{
 	// color: white;
 	margin-bottom: 1.5em;
-}
-
-.footer .booking-button{
-	
-	margin-top: 2em;
-	
-	button{
-		@include gradientButton(#866625,#ff9c07, 1em);
-	}
 }
 
 .footer .footer-element-container{
@@ -73,4 +74,20 @@
 .footer .footer-contact-item{
 	display: flex;
 	margin: 0.5em 0;
+}
+
+.footer .footer-logo{
+	position: absolute;
+    top: 1em;
+    right: 1em;
+}
+
+.footer-element.footer-contact{
+	width: 100%;
+	border-top: 1px solid black;
+	margin-top: 0.5em;
+}
+
+.footer-contact .footer-element-container{
+	justify-content: space-between;
 }

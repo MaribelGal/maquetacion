@@ -23,6 +23,7 @@
 
     <body>
         @include("front.layout.partials.topbar")
+        @include('front.layout.partials.rightbar')
         @include("front.layout.partials.header_fixed")
    
         <div class="wrapper" id="app">
@@ -30,6 +31,7 @@
                 @yield('content')
             </div>
         </div>
+        
         
         @include("front.layout.partials.footer")
         @include("front.layout.partials.bottombar")

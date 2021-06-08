@@ -11,7 +11,7 @@
 
     @if($agent->isDesktop())
         <div class="page-section">
-            @include("front.components.desktop.page_header")
+            @include("front.components.desktop.page_header", ['title' => trans('front/about_us.title')])
             @include("front.pages.about_us.desktop.about_us")
         </div>
     @endif

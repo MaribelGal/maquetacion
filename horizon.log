@@ -3561,3 +3561,4 @@ Horizon started successfully.
 [2021-06-07 11:31:40][a24cd040-a8b1-4e3a-8c13-ee738b0162a6] Processing: App\Jobs\DeleteTemporalImage
 [2021-06-07 11:31:40][a24cd040-a8b1-4e3a-8c13-ee738b0162a6] Processed:  App\Jobs\DeleteTemporalImage
 [2021-06-07 11:31:40][7616c7c3-fcb5-45f2-9d31-6b21374af572] Processed:  App\Jobs\ProcessImage
+Horizon started successfully.

@@ -1,24 +1,10 @@
 @php
-//  Debugbar::info($shirts);
-//  foreach ($shirts as $shirt) {
-//     //  Debugbar::info($shirt->size);
-//     //  Debugbar::info($shirt->sleeve);
-//     //  Debugbar::info($shirt->neck);
-//     //  Debugbar::info($shirt->pattern);
-//     //  Debugbar::info($shirt->color);
-//     //  Debugbar::info($shirt->brand);
-//     //  Debugbar::info($shirt->tissues);
-
-//     $a= $shirt->product->tissues;
-
-//     foreach ($a as $b) {
-//         Debugbar::info($b->tissue->name);
-
-//     }
-//  }
+    $route = 'shirts';
+    // $filters = ['category' => $products_categories, 'search' => true, 'created_at' => true ]; 
+    // $order = ['fecha de creación' => 'created_at', 'nombre' => 'name', 'categoría' => 'category_id'];
 @endphp
 
-@extends('admin.shirts.shirts')
+@extends('admin.layout.table_form')
 
 @section('tablerows')
     @isset($shirts)
@@ -52,4 +38,212 @@
             </div>
         @endforeach
     @endisset
+@endsection
+
+
+@section('form')
+
+    @isset($shirt)
+
+        <div class="form-container">
+            <form class="admin-form" id="faqs-form" action="{{route("shirts_store")}}" autocomplete="off">
+                
+                {{ csrf_field() }}
+
+                <input autocomplete="false" name="hidden" type="text" style="display:none;">
+
+                <input type="hidden" name="id" value="{{isset($shirt->id) ? $shirt->id : ''}}">
+                <input type="hidden" name="product[product_group_id]" value="{{isset($product->id) ? $product->id : ''}}"/>
+
+                <div class="tabs-container">
+                    <div class="tabs-container-menu">
+                        <ul>
+                            <li class="tab-item tab-active" data-tab="text">
+                                Texto
+                            </li>      
+                            <li class="tab-item" data-tab="images">
+                                Imágenes
+                            </li>
+                            <li class="tab-item" data-tab="seo">
+                                Seo
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tabs-container-buttons">
+                        
+                        @include('admin.components.form_buttons', ['route' => $route, 'visible' => $shirt->visible, 'create' => 'create'])
+                        
+                    </div>
+                </div>
+                
+                <div class="tab-panel tab-active" data-tab="text">
+                    <div class="two-columns">
+                        <div class="form-group">
+                            <div class="form-label">
+                                <label for="category_id" class="label-highlight">
+                                    Categoría 
+                                </label>
+                            </div>
+                            <div class="form-input">
+                                <select  name="product[category_id]" id="category_id" class="input-highlight">
+                                    <option hidden selected>-- Categoria --</option>
+                                    @foreach ($products_categories as $product_category)
+                                        <option value="{{ $product_category->id }}"
+                                            @isset($product)
+                                                {{ $product->product_category_id == $product_category->id ? 'selected' : '' }}
+                                            @endisset
+                                            >{{ $product_category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>                   
+                            </div>
+                        </div>
+            
+                        <div class="form-group">
+                            <div class="form-label">
+                                <label for="name" class="label-highlight">Nombre</label>
+                            </div>
+                            <div class="form-input">
+                                <input 
+                                type="text" 
+                                name="name" 
+                                value="{{isset($shirt->name) ? $shirt->name : ''}}"  
+                                class="input-highlight"  />
+                            </div>
+                        </div>
+                    </div>
+
+                    @component('admin.components.locale', ['tab' => 'content'])
+
+                        @foreach ($localizations as $localization)
+
+                            <div class="locale-tab-panel {{ $loop->first ? 'locale-tab-active':'' }}" data-tab="text" data-localetab="{{$localization->alias}}">
+
+                                <div class="one-column">
+                                    <div class="form-group">
+                                        <div class="form-label">
+                                            <label for="name" class="label-highlight">Título</label>
+                                        </div>
+                                        <div class="form-input">
+                                            <input type="text" name="seo[title.{{$localization->alias}}]" value="{{isset($seo["title.$localization->alias"]) ? $seo["title.$localization->alias"] : ''}}" class="input-highlight">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="one-column">
+                                    <div class="form-group">
+                                        <div class="form-label">
+                                            <label for="description" class="label-highlight">Descripción</label>
+                                        </div>
+                                        <div class="form-input">
+                                            <textarea class="ckeditor input-highlight" name="locale[description.{{$localization->alias}}]">{{isset($locale["description.$localization->alias"]) ? $locale["description.$localization->alias"] : ''}}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        @endforeach
+                
+                    @endcomponent
+                </div>
+
+                <div class="tab-panel" data-tab="images">
+
+                    @component('admin.components.locale', ['tab' => 'images'])
+
+                        @foreach ($localizations as $localization)
+
+                        <div class="locale-tab-panel {{ $loop->first ? 'locale-tab-active':'' }}" data-tab="images" data-localetab="{{$localization->alias}}">
+
+                            <div class="two-columns">
+                                <div class="form-group">
+                                    <div class="form-label">
+                                        <label for="name" class="label-highlight">Foto destacada</label>
+                                    </div>
+                                    <div class="form-input">
+                                        @include('admin.components.upload_image', [
+                                            'entity' => 'products',
+                                            'type' => 'single', 
+                                            'content' => 'featured', 
+                                            'alias' => $localization->alias,
+                                            'files' => isset($product->image_featured_preview) ? $product->image_featured_preview : null
+                                        ])
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-label">
+                                        <label for="name" class="label-highlight">Fotos grid</label>
+                                    </div>
+                                    <div class="form-input">
+                                        @include('admin.components.upload_image', [
+                                            'entity' => 'products',
+                                            'type' => 'collection', 
+                                            'content' => 'grid', 
+                                            'alias' => $localization->alias,
+                                            'files' => isset($product->image_featured_preview) ? $product->image_featured_preview : null
+                                        ])
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        @endforeach
+                
+                    @endcomponent
+
+                </div>
+
+                <div class="tab-panel" data-tab="seo">
+
+                    @component('admin.components.locale', ['tab' => 'seo'])
+
+                        @foreach ($localizations as $localization)
+
+                            <div class="locale-tab-panel {{ $loop->first ? 'locale-tab-active':'' }}" data-tab="seo" data-localetab="{{$localization->alias}}">
+
+                                <div class="one-column">
+                                    <div class="form-group">
+                                        <div class="form-label">
+                                            <label for="keywords" class="label-highlight">
+                                                Keywords 
+                                            </label>
+                                        </div>
+                                        <div class="form-input">
+                                            <input type="text" name="seo[keywords.{{$localization->alias}}]" value='{{isset($seo["keywords.$localization->alias"]) ? $seo["keywords.$localization->alias"] : ''}}' class="input-highlight">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="one-column">
+                                    <div class="form-group">
+                                        <div class="form-label">
+                                            <label for="description" class="label-highlight">
+                                                Descripción. 
+                                            </label>
+                                        </div>
+
+                                        <div class="form-input">
+                                            <textarea maxlength='160' class="input-highlight input-counter" name="seo[description.{{$localization->alias}}]">{{isset($seo["description.$localization->alias"]) ? $seo["description.$localization->alias"] : '' }}</textarea>
+                                            <p>Has escrito <span>0</span> caracteres de los 160 recomendados.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                                               
+                            </div>
+
+                        @endforeach
+                
+                    @endcomponent
+
+                </div>
+
+            </form>
+
+        </div>
+
+    @endif  
+
 @endsection

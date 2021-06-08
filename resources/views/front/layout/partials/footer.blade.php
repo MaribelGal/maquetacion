@@ -1,32 +1,31 @@
 <footer class="footer">
     <div class="footer-container">
-        <div class="four-columns">
             <div class="footer-element footer-logo">
                 @isset($logolight->path)
                     <a href="/"><img src="{{Storage::url($logolight->path)}}" alt="{{$logolight->alt}}" title="{{$logolight->title}}"></a>
                 @endisset
-
+{{-- 
                 <div class="booking-button">
                     <button>
                         @lang('front/footer.booking')
                     </button>
-                </div>
+                </div> --}}
             </div>
         
-            <div class="footer-element footer-menu">
-                <div class="footer-element-title">
+            <div class="footer-element footer-menu  flex">
+                {{-- <div class="footer-element-title">
                     <h4>@lang('front/footer.menu')</h4>
-                </div>
+                </div> --}}
                 <div class="footer-element-container">
-                    {{display_menu('principal','vertical')}}
+                    {{display_menu('principal','horizontal')}}
                 </div>
             </div>
 
-            <div class="footer-element footer-socials">
-                <div class="footer-element-title">
+            <div class="footer-element footer-socials ">
+                {{-- <div class="footer-element-title">
                     <h4>@lang('front/footer.socials')</h4>
-                </div>
-                <div class="footer-element-container footer-socials-container">
+                </div> --}}
+                <div class="footer-element-container footer-socials-container flex">
                     @if(trans('front/information.facebook' != null))
                         <div class="footer-element-icon">
                             <a href="{{trans('front/information.facebook')}}">
@@ -58,10 +57,10 @@
             </div>
 
             <div class="footer-element footer-contact">
-                <div class="footer-element-title">
+                {{-- <div class="footer-element-title">
                     <h4>@lang('front/footer.contact')</h4>
-                </div>
-                <div class="footer-element-container">
+                </div> --}}
+                <div class="footer-element-container flex">
 
                     @if(trans('front/information.adress') != null)
                         <div class="footer-element footer-contact-item">
@@ -105,10 +104,7 @@
                    
                 </div>
             </div>
-
-        </div>
        
     </div>
-
 </footer>
 

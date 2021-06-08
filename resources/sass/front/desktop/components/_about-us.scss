@@ -1,31 +1,56 @@
-.about-us{
+// .about-us{
 
-    margin: 5% auto;
-    width: 90%;
+//     margin: 5% auto;
+//     width: 90%;
 
-    .about-us-element{
+//     .about-us-element{
 
-        margin-bottom: 3em;
-        width: 45%;
+//         margin-bottom: 3em;
+//         width: 45%;
+
+//         .about-us-title{
+
+//             margin-bottom: 2em;
+
+//             h3{
+//                 font-size: 2em;
+//                 color:#00a9b1;
+//             }
+//         }
+
+//         .about-us-text{
+
+//             p{
+//                 margin: 1.5em 0;
+//             }
+//         }
+
+//     }
+
+// }
 
 
-        .about-us-title{
+.about-us-element {
+    padding: 2em;
+    background-color: aliceblue;
+    @include neumorphism(2em, 2px, 3px);
+}
 
-            margin-bottom: 2em;
-    
-            h3{
-                font-size: 2em;
-                color:#00a9b1;
-            }
-        }
-
-        .about-us-text{
-
-            p{
-                margin: 1.5em 0;
-            }
-        }
-
+.about-us-title {
+    h3 {
+        font-size: 2em;
+        // color: #00a9b1;
     }
+}
+
+.about-us-text {
     
+    p {
+        margin: 1.5em 0;text-align: justify;
+    }
+}
+
+.about-us-image{
+    float:right;
+    shape-outside: circle(50%);
 }

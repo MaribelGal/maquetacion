@@ -1,5 +1,7 @@
 .bottombar{
     // background-image: linear-gradient(to right, #253786 0%, #253786 50%, #253786 100%) !important;
+    background-color: $body-color-dark;
+    color: white;
     display: flex;
     justify-content: space-between;
     padding: 0 5%;

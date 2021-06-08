@@ -5,7 +5,7 @@
     
     <div class="bottombar-right">
         <div class="bottombar-element bottombar-copyright">
-            
+            Copyright
         </div>
         <div class="bottombar-element bottombar-menu">
             {{display_menu('legal', 'horizontal')}}
