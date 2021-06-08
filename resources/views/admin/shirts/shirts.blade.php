@@ -456,8 +456,52 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
                             <div class="panel-variant-navigate-total"></div>
                         </div>
                     </div>
-                </div>
 
+                    @component('admin.components.form_locale')
+                    @foreach ($localizations as $localization)
+                        <div class="panel-locale">
+                            <div class="panel-locale-item contents {{ $loop->first ? 'active':''}}" data-locale="{{$localization->alias}}">
+                                <div class="formulario-contenido-panel-item" >
+                                    
+                                    @isset($product)
+                                        @include('admin.components.upload', [
+                                            'type' => 'image', 
+                                            'content' => 'featured', 
+                                            'alias' => $localization->alias,
+                                            'files' =>$product->image_featured_preview
+                                        ])
+                                    @else
+                                        @include('admin.components.upload', [
+                                            'type' => 'image', 
+                                            'content' => 'featured', 
+                                            'alias' => $localization->alias,
+                                        ])
+                                    @endisset
+                                </div>
+                                <div class="formulario-contenido-panel-item images-container">
+                                    @isset($product)
+                                        @include('admin.components.upload', [
+                                            'type' => 'images', 
+                                            'content' => 'grid', 
+                                            'alias' => $localization->alias,
+                                            'files' => $product->image_grid_preview
+                                        ])
+                                    @else
+                                        @include('admin.components.upload', [
+                                            'type' => 'images', 
+                                            'content' => 'grid', 
+                                            'alias' => $localization->alias,
+                                        ])
+                                    @endisset
+
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @endcomponent
+
+                </div>
+{{-- 
                 <div class="formulario-contenido-panel " data-tab="imagenes">
                     @component('admin.components.form_locale')
                         @foreach ($localizations as $localization)
@@ -501,7 +545,7 @@ $filtros = ['search' => true, 'date_start' => true, 'date_end' => true, 'order' 
                             </div>
                         @endforeach
                     @endcomponent
-                </div>
+                </div> --}}
 
                 <div class="formulario-contenido-panel " data-tab="seo">
                     @component('admin.components.form_locale')
