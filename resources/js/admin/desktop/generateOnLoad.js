@@ -2,12 +2,15 @@ export let generateItem_OnLoad = () => {
     const templateItems = document.querySelectorAll(".generate-item-onload");
 
     templateItems.forEach(templateItem => {
+        
         templateItem.classList.remove("generate-item-onload");
         let newItem = generateItem(templateItem, 0, templateItem);
 
         newItem.removeAttribute('hidden');
-        newItem.classList.add("variant-item");
-        newItem.classList.add("variant-item_active");
+        
+        if(templateItem.dataset.tag){
+            newItem.classList.add(templateItem.dataset.tag);
+        }
     
     });
     
@@ -17,6 +20,10 @@ export let generateItem_OnLoad = () => {
 export let generateItem = (elementToDuplicate, itemNumber, elementBeforeLocation) => {
 
     let newItem = elementToDuplicate.cloneNode(true);
+
+    if(elementToDuplicate.dataset.tag){
+        newItem.classList.add(elementToDuplicate.dataset.tag);
+    }
 
     actualizeNames(newItem, itemNumber);
     newItem.removeAttribute("id");
