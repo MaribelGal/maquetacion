@@ -1,3 +1,5 @@
+const { generateItem_OnLoad } = require('./admin/desktop/generateOnLoad');
+
 window._ = require('lodash');
 
 window.axios = require('axios');
@@ -7,6 +9,8 @@ window.onload = function() {
     if(/iP(hone|ad)/.test(window.navigator.userAgent)) {
     document.body.addEventListener('touchstart', function() {}, false);
     }
+
+    generateItem_OnLoad();
 };
 
 window.requestAnimFrame = (function(){

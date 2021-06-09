@@ -8,8 +8,9 @@
 
 		margin: 0.5em; 
 
-		&.selected{
+		.menu-item.selected{
 
+			h4,
 			a h4{
 				color: $red;
 			}
@@ -18,12 +19,14 @@
 		cursor: pointer;
 		display: inline-flex;
 
+		span h4,
 		a h4{
 			color: #253786;
 			font-size: 1em;
 		}
 
-		&:hover a h4{
+		&:hover a h4,
+		&:hover span h4{
 			color: #ff6b09;
 		}
 

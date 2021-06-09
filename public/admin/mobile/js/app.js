@@ -1870,6 +1870,52 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/admin/desktop/generateOnLoad.js":
+/*!******************************************************!*\
+  !*** ./resources/js/admin/desktop/generateOnLoad.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "generateItem_OnLoad": () => (/* binding */ generateItem_OnLoad),
+/* harmony export */   "generateItem": () => (/* binding */ generateItem),
+/* harmony export */   "actualizeNames": () => (/* binding */ actualizeNames)
+/* harmony export */ });
+var generateItem_OnLoad = function generateItem_OnLoad() {
+  var templateItems = document.querySelectorAll(".generate-item-onload");
+  templateItems.forEach(function (templateItem) {
+    templateItem.classList.remove("generate-item-onload");
+    var newItem = generateItem(templateItem, 0, templateItem);
+    newItem.removeAttribute('hidden');
+    newItem.classList.add("variant-item");
+    newItem.classList.add("variant-item_active");
+  });
+};
+var generateItem = function generateItem(elementToDuplicate, itemNumber, elementBeforeLocation) {
+  var newItem = elementToDuplicate.cloneNode(true);
+  actualizeNames(newItem, itemNumber);
+  newItem.removeAttribute("id");
+  newItem.classList.remove("variant-template");
+  var att = document.createAttribute("data-variant");
+  att.value = itemNumber;
+  newItem.setAttributeNode(att);
+  elementBeforeLocation.after(newItem);
+  return newItem;
+};
+var actualizeNames = function actualizeNames(duplicatedElement, itemNumber) {
+  var itemsForRename = duplicatedElement.querySelectorAll(".rename-variant-item");
+  itemsForRename.forEach(function (itemForRename) {
+    var actualName = itemForRename.name;
+    var newName = actualName + "[" + itemNumber + "]";
+    itemForRename.setAttribute("name", newName);
+    itemForRename.classList.remove("rename-variant-item");
+  });
+};
+
+/***/ }),
+
 /***/ "./resources/js/admin/mobile/bottombarMenu.js":
 /*!****************************************************!*\
   !*** ./resources/js/admin/mobile/bottombarMenu.js ***!
@@ -3167,6 +3213,9 @@ var stopWait = function stopWait() {
   \***********************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
+var _require = __webpack_require__(/*! ./admin/desktop/generateOnLoad */ "./resources/js/admin/desktop/generateOnLoad.js"),
+    generateItem_OnLoad = _require.generateItem_OnLoad;
+
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -3175,6 +3224,8 @@ window.onload = function () {
   if (/iP(hone|ad)/.test(window.navigator.userAgent)) {
     document.body.addEventListener('touchstart', function () {}, false);
   }
+
+  generateItem_OnLoad();
 };
 
 window.requestAnimFrame = function () {

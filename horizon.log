@@ -3578,3 +3578,4 @@ Horizon started successfully.
 [2021-06-08 13:11:01][7783e1c5-3f9e-4891-ba21-8484b4d68a93] Processing: App\Jobs\ContactEmail
 [2021-06-08 13:11:01][60676576-29f4-4f59-b5df-43288c906630] Processed:  App\Jobs\ContactEmail
 [2021-06-08 13:11:02][7783e1c5-3f9e-4891-ba21-8484b4d68a93] Processed:  App\Jobs\ContactEmail
+Horizon started successfully.

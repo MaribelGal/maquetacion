@@ -17,15 +17,18 @@
 @import "layout/footer";
 @import "layout/bottombar";
 @import "layout/custom-scrollbar";
+@import "layout/modal_localization";
+@import "layout/wait";
 
 
 @import "components/faqs";
 @import "components/login";
 @import "components/register";
-@import "components/errors";
+@import "components/errors_form";
 @import "components/menu";
 @import "components/page-section";
 @import "components/page-header";
 @import "components/contact";
 @import "components/contact-form";
 @import "components/about-us";
+@import "components/localization";

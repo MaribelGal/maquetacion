@@ -10,9 +10,9 @@
 
         @include('front.components.desktop.login_form')
 
-        <div class="login-errors">
-            @include('front.components.desktop.errors')
-        </div>    
+        <div class="form-errors">
+            @include('front.components.desktop.form_errors')
+        </div>     
     </div>
 
 </div>

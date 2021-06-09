@@ -166,6 +166,8 @@ Route::post('/contacto', 'App\Http\Controllers\Front\ContactController@store')->
 
 Route::post('/products/filterProductGroup', 'App\Http\Controllers\Front\ProductController@filterProductGroup')->name('filter_productGroup');
 
+Route::get('/traduccion/{language}/{parent}/{slug?}', 'App\Http\Controllers\Front\LocalizationController@show')->name('front_localization');
+
 Route::group([
     'prefix' => $localizationseo->setLocale(),
     'middleware' => ['localize']

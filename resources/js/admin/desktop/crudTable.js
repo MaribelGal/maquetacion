@@ -16,6 +16,7 @@ import {renderBlockParameters} from './blockParameters';
 import {renderNestedSortables} from './sortable';
 import {renderMenuItems} from './menuItems';
 import {renderSelects} from './selects';
+import { renderVariantNavigate } from './variantDuplicate';
 
 const table = document.getElementById("table");
 const form = document.getElementById("form");
@@ -136,6 +137,7 @@ export let renderForm = () => {
     renderCkeditor();
     renderMenuItems();
     renderSelects();
+    renderVariantNavigate();
 };
 
 export let renderTable = () => {

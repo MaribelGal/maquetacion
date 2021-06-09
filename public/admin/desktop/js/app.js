@@ -1886,6 +1886,8 @@ __webpack_require__(/*! ./messages */ "./resources/js/admin/desktop/messages.js"
 
 __webpack_require__(/*! ./filterTable */ "./resources/js/admin/desktop/filterTable.js");
 
+__webpack_require__(/*! ./variantDuplicate */ "./resources/js/admin/desktop/variantDuplicate.js");
+
 /***/ }),
 
 /***/ "./resources/js/admin/desktop/blockParameters.js":
@@ -1998,6 +2000,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _sortable__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./sortable */ "./resources/js/admin/desktop/sortable.js");
 /* harmony import */ var _menuItems__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./menuItems */ "./resources/js/admin/desktop/menuItems.js");
 /* harmony import */ var _selects__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./selects */ "./resources/js/admin/desktop/selects.js");
+/* harmony import */ var _variantDuplicate__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./variantDuplicate */ "./resources/js/admin/desktop/variantDuplicate.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2015,6 +2018,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 
@@ -2180,6 +2184,7 @@ var renderForm = function renderForm() {
   (0,_ckeditor__WEBPACK_IMPORTED_MODULE_1__.renderCkeditor)();
   (0,_menuItems__WEBPACK_IMPORTED_MODULE_17__.renderMenuItems)();
   (0,_selects__WEBPACK_IMPORTED_MODULE_18__.renderSelects)();
+  (0,_variantDuplicate__WEBPACK_IMPORTED_MODULE_19__.renderVariantNavigate)();
 };
 var renderTable = function renderTable() {
   var editButtons = document.querySelectorAll(".edit-button");
@@ -2399,6 +2404,52 @@ var showFilterTable = function showFilterTable() {
   openFilter.classList.add('button-active');
 };
 renderFilterTable();
+
+/***/ }),
+
+/***/ "./resources/js/admin/desktop/generateOnLoad.js":
+/*!******************************************************!*\
+  !*** ./resources/js/admin/desktop/generateOnLoad.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "generateItem_OnLoad": () => (/* binding */ generateItem_OnLoad),
+/* harmony export */   "generateItem": () => (/* binding */ generateItem),
+/* harmony export */   "actualizeNames": () => (/* binding */ actualizeNames)
+/* harmony export */ });
+var generateItem_OnLoad = function generateItem_OnLoad() {
+  var templateItems = document.querySelectorAll(".generate-item-onload");
+  templateItems.forEach(function (templateItem) {
+    templateItem.classList.remove("generate-item-onload");
+    var newItem = generateItem(templateItem, 0, templateItem);
+    newItem.removeAttribute('hidden');
+    newItem.classList.add("variant-item");
+    newItem.classList.add("variant-item_active");
+  });
+};
+var generateItem = function generateItem(elementToDuplicate, itemNumber, elementBeforeLocation) {
+  var newItem = elementToDuplicate.cloneNode(true);
+  actualizeNames(newItem, itemNumber);
+  newItem.removeAttribute("id");
+  newItem.classList.remove("variant-template");
+  var att = document.createAttribute("data-variant");
+  att.value = itemNumber;
+  newItem.setAttributeNode(att);
+  elementBeforeLocation.after(newItem);
+  return newItem;
+};
+var actualizeNames = function actualizeNames(duplicatedElement, itemNumber) {
+  var itemsForRename = duplicatedElement.querySelectorAll(".rename-variant-item");
+  itemsForRename.forEach(function (itemForRename) {
+    var actualName = itemForRename.name;
+    var newName = actualName + "[" + itemNumber + "]";
+    itemForRename.setAttribute("name", newName);
+    itemForRename.classList.remove("rename-variant-item");
+  });
+};
 
 /***/ }),
 
@@ -3853,6 +3904,77 @@ function deleteThumbnail(imageId) {
 
 /***/ }),
 
+/***/ "./resources/js/admin/desktop/variantDuplicate.js":
+/*!********************************************************!*\
+  !*** ./resources/js/admin/desktop/variantDuplicate.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderVariantNavigate": () => (/* binding */ renderVariantNavigate)
+/* harmony export */ });
+/* harmony import */ var _generateOnLoad__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./generateOnLoad */ "./resources/js/admin/desktop/generateOnLoad.js");
+
+var renderVariantNavigate = function renderVariantNavigate() {
+  var variantsPanels = document.querySelectorAll(".variants-panel");
+  variantsPanels.forEach(function (variantsPanel) {
+    var templateItem = document.querySelector(".variant-template");
+    var nextButton = variantsPanel.querySelector(".variant-navigate-next");
+    var previusButton = variantsPanel.querySelector(".variant-navigate-previus");
+    var infoTotal = variantsPanel.querySelector(".variant-navigate-total");
+    var infoActual = variantsPanel.querySelector(".variant-navigate-actual");
+    nextButton.addEventListener("click", function () {
+      var variantItems = variantsPanel.querySelectorAll(".variant-item");
+      console.log(variantItems);
+      var itemActive = selectActiveItem(variantItems, "variant-item_active");
+      console.log(itemActive);
+      itemActive.classList.remove("variant-item_active");
+
+      if (itemActive.dataset.variant == variantItems.length - 1) {
+        var actualNumber = variantItems.length;
+        var newItem = (0,_generateOnLoad__WEBPACK_IMPORTED_MODULE_0__.generateItem)(templateItem, actualNumber, itemActive);
+        newItem.removeAttribute('hidden');
+        newItem.classList.add("variant-item_active");
+        infoTotal.textContent = "/" + actualNumber;
+        infoActual.textContent = actualNumber;
+      } else {
+        var nextItem = itemActive.nextSibling;
+        nextItem.classList.add("variant-item_active");
+        infoActual.textContent = nextItem.dataset.variant;
+      }
+    });
+    previusButton.addEventListener("click", function () {
+      var variantItems = variantsPanel.querySelectorAll(".variant-item");
+      var itemActive = selectActiveItem(variantItems, "variant-item_active");
+      itemActive.classList.remove("variant-item_active");
+
+      if (itemActive.dataset.variant == 0) {
+        var lastItem = variantItems[variantItems.length - 1];
+        lastItem.classList.add("variant-item_active");
+        infoActual.textContent = lastItem.dataset.variant + 1;
+      } else {
+        var previousItem = itemActive.previousSibling;
+        previousItem.classList.add("variant-item_active");
+        infoActual.textContent = previousItem.dataset.variant + 1;
+      }
+    });
+  });
+};
+
+var selectActiveItem = function selectActiveItem(variantItems, classActive) {
+  var active;
+  variantItems.forEach(function (itemPanelVariant) {
+    if (itemPanelVariant.classList.contains(classActive)) {
+      active = itemPanelVariant;
+    }
+  });
+  return active;
+};
+
+/***/ }),
+
 /***/ "./resources/js/admin/desktop/wait.js":
 /*!********************************************!*\
   !*** ./resources/js/admin/desktop/wait.js ***!
@@ -3901,6 +4023,9 @@ var stopOverlay = function stopOverlay() {
   \***********************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
+var _require = __webpack_require__(/*! ./admin/desktop/generateOnLoad */ "./resources/js/admin/desktop/generateOnLoad.js"),
+    generateItem_OnLoad = _require.generateItem_OnLoad;
+
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -3909,6 +4034,8 @@ window.onload = function () {
   if (/iP(hone|ad)/.test(window.navigator.userAgent)) {
     document.body.addEventListener('touchstart', function () {}, false);
   }
+
+  generateItem_OnLoad();
 };
 
 window.requestAnimFrame = function () {

@@ -46,7 +46,36 @@
     @isset($shirt)
 
         <div class="form-container">
-            <form class="admin-form" id="faqs-form" action="{{route("shirts_store")}}" autocomplete="off">
+
+            <div class="tabs-container">
+                <div class="tabs-container-menu">
+                    <ul>
+                        <li class="tab-item tab-active" data-tab="text">
+                            Texto
+                        </li> 
+                        <li class="tab-item" data-tab="model">
+                            Modelo
+                        </li>      
+                        {{-- <li class="tab-item" data-tab="images">
+                            Imágenes
+                        </li> --}}
+                        <li class="tab-item" data-tab="seo">
+                            Seo
+                        </li>
+                        <li class="tab-item" data-tab="variaciones">
+                            Variaciones
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="tabs-container-buttons">
+                    
+                    @include('admin.components.form_buttons', ['route' => $route, 'visible' => $shirt->visible, 'create' => 'create'])
+                    
+                </div>
+            </div>
+
+            <form class="admin-form" id="shirts-form" action="{{route("shirts_store")}}" autocomplete="off">
                 
                 {{ csrf_field() }}
 
@@ -54,28 +83,6 @@
 
                 <input type="hidden" name="id" value="{{isset($shirt->id) ? $shirt->id : ''}}">
                 <input type="hidden" name="product[product_group_id]" value="{{isset($product->id) ? $product->id : ''}}"/>
-
-                <div class="tabs-container">
-                    <div class="tabs-container-menu">
-                        <ul>
-                            <li class="tab-item tab-active" data-tab="text">
-                                Texto
-                            </li>      
-                            <li class="tab-item" data-tab="images">
-                                Imágenes
-                            </li>
-                            <li class="tab-item" data-tab="seo">
-                                Seo
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="tabs-container-buttons">
-                        
-                        @include('admin.components.form_buttons', ['route' => $route, 'visible' => $shirt->visible, 'create' => 'create'])
-                        
-                    </div>
-                </div>
                 
                 <div class="tab-panel tab-active" data-tab="text">
                     <div class="two-columns">
@@ -149,50 +156,86 @@
                     @endcomponent
                 </div>
 
-                <div class="tab-panel" data-tab="images">
-
-                    @component('admin.components.locale', ['tab' => 'images'])
-
-                        @foreach ($localizations as $localization)
-
-                        <div class="locale-tab-panel {{ $loop->first ? 'locale-tab-active':'' }}" data-tab="images" data-localetab="{{$localization->alias}}">
-
-                            <div class="two-columns">
-                                <div class="form-group">
-                                    <div class="form-label">
-                                        <label for="name" class="label-highlight">Foto destacada</label>
-                                    </div>
-                                    <div class="form-input">
-                                        @include('admin.components.upload_image', [
-                                            'entity' => 'products',
-                                            'type' => 'single', 
-                                            'content' => 'featured', 
-                                            'alias' => $localization->alias,
-                                            'files' => isset($product->image_featured_preview) ? $product->image_featured_preview : null
-                                        ])
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="form-label">
-                                        <label for="name" class="label-highlight">Fotos grid</label>
-                                    </div>
-                                    <div class="form-input">
-                                        @include('admin.components.upload_image', [
-                                            'entity' => 'products',
-                                            'type' => 'collection', 
-                                            'content' => 'grid', 
-                                            'alias' => $localization->alias,
-                                            'files' => isset($product->image_featured_preview) ? $product->image_featured_preview : null
-                                        ])
-                                    </div>
-                                </div>
+                <div class="tab-panel" data-tab="model">
+                        <div class="form-group">
+                            <div class="form-label">
+                                <label for="name" class="label-highlight">Mangas</label>
                             </div>
-
+                            <div class="form-input">
+                                <select name="sleeve" id="sleeve_id">
+                                    <option hidden selected>-- Mangas --</option>
+                                    @foreach ($shirts_sleeves as $shirt_sleeve)
+                                        <option value="{{ $shirt_sleeve->id }}"
+                                            {{ $shirt->shirt_sleeve_id == $shirt_sleeve->id ? 'selected' : '' }}>
+                                            {{ $shirt_sleeve->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
-                        @endforeach
-                
-                    @endcomponent
+
+
+
+                        <div class="form-group">
+                            <div class="form-label">
+                                <label for="name" class="label-highlight">Cuello</label>
+                            </div>
+                            <div class="form-input">
+                                <select name="neck" id="neck_id">
+                                    <option hidden selected>-- Cuello --</option>
+                                    @foreach ($shirts_necks as $shirt_neck)
+                                        <option value="{{ $shirt_neck->id }}"
+                                            {{ $shirt->shirt_neck_id == $shirt_neck->id ? 'selected' : '' }}>
+                                            {{ $shirt_neck->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-label">
+                                <label for="name" class="label-highlight">Estampado</label>
+                            </div>
+                            <div class="form-input">
+                                <select name="pattern" id="pattern_id">
+                                    <option hidden selected>-- Estampado --</option>
+                                    @foreach ($shirts_patterns as $shirt_pattern)
+                                        <option value="{{ $shirt_pattern->id }}"
+                                            {{ $shirt->shirt_pattern_id == $shirt_pattern->id ? 'selected' : '' }}>
+                                            {{ $shirt_pattern->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="form-label">
+                                <label for="name" class="label-highlight">Marca</label>
+                            </div>
+                            <div class="form-input">
+                                <select name="brand" id="brand_id">
+                                    <option hidden selected>-- Marca --</option>
+                                    @foreach ($brands as $brand)
+                                        <option value="{{ $brand->id }}"
+                                            {{ $shirt->brand_id == $brand->id ? 'selected' : '' }}>
+                                            {{ $brand->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                </div>
+
+
+                <div class="tab-panel" data-tab="images">
+
+
 
                 </div>
 
@@ -242,6 +285,120 @@
 
             </form>
 
+            
+            <div class="tab-panel" data-tab="variaciones">
+                panel de otro 
+
+                <div class="variants-panel">
+                    <div hidden class="generate-item-onload variant-template">
+                        <form 
+                        class="rename-variant-item admin-form" 
+                        action="{{route("shirts_store")}}" 
+                        autocomplete="off">
+                            {{ csrf_field() }}
+
+                            <input autocomplete="false" name="hidden" type="text" style="display:none;">
+
+                            <p>Formulario 1 de este panel</p>
+
+                            <div class="form-group">
+                                <div class="form-label">
+                                    <label for="name" class="label-highlight">Color</label>
+                                </div>
+                                <div class="form-input">
+                                        <select name="product[specific][col][color_id]" class="rename-variant-item">
+                                            <option hidden selected>-- Color --</option>
+                                            @foreach ($colors as $color)
+                                                <option value="{{ $color->id }}"
+                                                    {{ $shirt->color_id == $color->id ? 'selected' : '' }}>
+                                                    {{ $color->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-label">
+                                    <label for="name" class="label-highlight">Talla</label>
+                                </div>
+                                <div class="form-input">
+                                    <select name="product[specific][col][size_id]" class="rename-variant-item">
+                                        <option hidden selected>-- Talla --</option>
+                                        @foreach ($sizes as $size)
+                                            <option value="{{ $size->id }}"
+                                                {{ $shirt->shirt_size_id == $size->id ? 'selected' : '' }}>
+                                                {{ $size->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            @include('admin.components.form_product_info')
+
+                            @component('admin.components.locale', ['tab' => 'images'])
+
+                            @foreach ($localizations as $localization)
+
+                            <div class="locale-tab-panel {{ $loop->first ? 'locale-tab-active':'' }}" data-tab="images" data-localetab="{{$localization->alias}}">
+
+                                <div class="two-columns">
+                                    <div class="form-group">
+                                        <div class="form-label">
+                                            <label for="name" class="label-highlight">Foto destacada</label>
+                                        </div>
+                                        <div class="form-input">
+                                            @include('admin.components.upload_image', [
+                                                'entity' => 'products',
+                                                'type' => 'single', 
+                                                'content' => 'featured', 
+                                                'alias' => $localization->alias,
+                                                'files' => isset($product->image_featured_preview) ? $product->image_featured_preview : null
+                                            ])
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-label">
+                                            <label for="name" class="label-highlight">Fotos grid</label>
+                                        </div>
+                                        <div class="form-input">
+                                            @include('admin.components.upload_image', [
+                                                'entity' => 'products',
+                                                'type' => 'collection', 
+                                                'content' => 'grid', 
+                                                'alias' => $localization->alias,
+                                                'files' => isset($product->image_featured_preview) ? $product->image_featured_preview : null
+                                            ])
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            @endforeach
+                    
+                        @endcomponent
+                        </form>
+                    </div>
+                    
+
+                    <div class="variant-navigate">
+                        <div class="variant-navigate-previus">
+                            <svg  viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+                            </svg>
+                        </div>
+                        <div class="variant-navigate-next">
+                            <svg  viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+                            </svg>
+                        </div>
+                        <div class="variant-navigate-actual"></div>
+                        <div class="variant-navigate-total"></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     @endif  

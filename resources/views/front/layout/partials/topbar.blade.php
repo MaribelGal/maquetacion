@@ -33,7 +33,7 @@
         </div>
         
         <div class="topbar-element topbar-localization">
-
+            @include('front.components.desktop.localization')
         </div>
     </div>
 </div>
