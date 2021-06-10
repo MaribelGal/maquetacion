@@ -1476,8 +1476,8 @@ body {
   cursor: pointer;
   display: inline-flex;
 }
-.menu-inline li .menu-item.selected h4,
-.menu-inline li .menu-item.selected a h4 {
+.menu-inline li .menu-item.menu-item-selected h4,
+.menu-inline li .menu-item.menu-item-selected a h4 {
   color: #ff7a7a;
 }
 .menu-inline li span h4,

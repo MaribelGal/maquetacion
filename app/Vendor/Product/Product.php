@@ -31,6 +31,8 @@ class Product
 
     protected $total_increases_sum;
     protected $total_decreases_sum;
+    private $groupRequestM;
+    private $pro
 
     public function __construct(
         DBProduct $product,
@@ -62,133 +64,131 @@ class Product
         $this->table = $table;
     }
 
-    public function store(
-        $nameGroup,
-        $productRequest,
-        $idRequest,
-        $visibleRequest
-    ) {
-        $product['group'] = $this->productGroup->updateOrCreate([
-            'id' => $productRequest['product_group_id']
+    public function storeProductGroup($groupRequest, $visible) {
+        $productGroup = $this->productGroup->updateOrCreate([
+            'id' => $groupRequest['id']
         ], [
-            'name' => $nameGroup,
-            'visible' => $visibleRequest,
+            'category_id' => $groupRequest['category'],
+            'name' => $groupRequest['name'],
+            'visible' => $visible,
+            'active' => 1
+        ]);
+
+        return $productGroup;
+    }
+
+    public function storeProduct($productRequest){
+        $this->productSpecific->setTable($this->table);
+        $specificModel = $this->productSpecific->specificModelProduct();
+
+        $specificProduct = $specificModel->updateOrCreate([
+            'id' => $productRequest['specific']['id']
+        ], [
+            'model_id' => $productRequest['specific']['model_id'],
+            'visible' => $productRequest['visible'],
+            'active' => 1
+        ]);
+
+        foreach ($productRequest['specific']['col'] as $columnName => $value) {
+            $specificProduct = $specificModel->updateOrCreate([
+                'id' => $productRequest['specific']['id']
+            ], [
+                $columnName => $value,
+            ]);
+        }
+
+
+        $product['item'] = $this->product->updateOrCreate([
+            'id' => $productRequest['id']
+        ], [
+            'product_group_id' => $productRequest['group']->id,
+            'product_category_id' => $productRequest['category_id'],
+            'product_specific_table' => $this->table,
+            'product_specific_id' => $specificProduct->id,
+            'visible' => $productRequest['visible'],
             'active' => 1
         ]);
 
 
-        $this->productSpecific->setTable($this->table);
-        $specificModel = $this->productSpecific->specificModelProduct();
-       
+        $productCost = $this->productCost->updateOrCreate([
+            'product_id' => $product['item']->id,
+            'supplier_id' => $productRequest['supplier'],
+            'cost' => $productRequest['cost'],
+            'visible' => $productRequest['visible'],
+            'active' => 1
+        ]);
 
-        $i = 1;
-        foreach ($productRequest['id'] as $id) {
+        $productStock = $this->productStock->updateOrCreate([
+            'product_id' => $product['item']->id,
+            'quantity' => $productRequest['stock'],
+            'visible' => $productRequest['visible'],
+            'active' => 1
+        ]);
 
-            $specificProduct = $specificModel->updateOrCreate([
-                'id' => $productRequest['specific']['id'][$i]
-            ], [
-                'model_id' => $idRequest,
-                'visible' => $visibleRequest,
-                'active' => 1
-            ]);
+        foreach ($productRequest['modifier'] as $key_sale_method => $array_sale_method) {
 
-            $productRequest['specific']['id'][$i] = $specificProduct->id;
-            
-            foreach ($productRequest['specific']['col'] as $columnName => $arrayValues) {
-                $specificProduct = $specificModel->updateOrCreate([
-                    'id' => $productRequest['specific']['id'][$i]
-                ], [
-                    $columnName => $arrayValues[$i],
+            $this->total_increases_sum[$key_sale_method] = null;
+            $this->total_decreases_sum[$key_sale_method] = null;
+
+            foreach ($array_sale_method as $modifier_id) {
+
+                $productPriceModifier = $this->productPriceModifier->updateOrCreate([
+                    'product_id' => $product['item'][$i]->id,
+                    'modifier_id' => $modifier_id[$i],
+                    'sale_method' => $key_sale_method,
+                    'visible' => $visibleRequest,
+                    'active' => 1
                 ]);
+
+                $mod = $this->priceModifier->find($modifier_id[$i])->get();
+
+                if ($mod[0]->modifier == 'inc') {
+                    $this->total_increases_sum[$key_sale_method] += ($mod[0]->percentage - 1);
+                };
+
+                if ($mod[0]->modifier == 'dec') {
+                    $this->total_decreases_sum[$key_sale_method] += ($mod[0]->percentage - 1);
+                };
             }
 
-
-
-            $product['item'][$i] = $this->product->updateOrCreate([
-                'id' => $productRequest['id'][$i]
-            ], [
-                'product_group_id' => $product['group']->id,
-                'product_category_id' => $productRequest['category_id'],
-                'product_specific_table' => $this->table,
-                'product_specific_id' => $specificProduct->id,
-                'visible' => $visibleRequest,
-                'active' => 1
-            ]);
-
-
-            $productCost = $this->productCost->updateOrCreate([
-                'product_id' => $product['item'][$i]->id,
-                'supplier_id' => $productRequest['supplier'],
-                'cost' => $productRequest['cost'][$i],
-                'visible' => $visibleRequest,
-                'active' => 1
-            ]);
-
-            $productStock = $this->productStock->updateOrCreate([
-                'product_id' => $product['item'][$i]->id,
-                'quantity' => $productRequest['stock'][$i],
-                'visible' => $visibleRequest,
-                'active' => 1
-            ]);
-
-            foreach ($productRequest['modifier'] as $key_sale_method => $array_sale_method) {
-
-                $this->total_increases_sum[$key_sale_method] = null;
-                $this->total_decreases_sum[$key_sale_method] = null;
-
-                foreach ($array_sale_method as $modifier_id) {
-
-                    $productPriceModifier = $this->productPriceModifier->updateOrCreate([
-                        'product_id' => $product['item'][$i]->id,
-                        'modifier_id' => $modifier_id[$i],
-                        'sale_method' => $key_sale_method,
-                        'visible' => $visibleRequest,
-                        'active' => 1
-                    ]);
-
-                    $mod = $this->priceModifier->find($modifier_id[$i])->get();
-
-                    if ($mod[0]->modifier == 'inc') {
-                        $this->total_increases_sum[$key_sale_method] += ($mod[0]->percentage - 1);
-                    };
-
-                    if ($mod[0]->modifier == 'dec') {
-                        $this->total_decreases_sum[$key_sale_method] += ($mod[0]->percentage - 1);
-                    };
-                }
-
-                $this->total_increases_sum[$key_sale_method] += 1;
-                $this->total_decreases_sum[$key_sale_method] += 1;
-            }
-
-            $productPricePurchase = $this->productPricePurchase->updateOrCreate([
-                'product_id' => $product['item'][$i]->id,
-                'total_increases_sum' => $this->total_increases_sum['purchase'],
-                'total_decreases_sum' => $this->total_decreases_sum['purchase'],
-                'price' => $productRequest['price']['purchase'][$i],
-                'visible' => $visibleRequest,
-                'active' => 1
-            ]);
-
-            $productPriceRent = $this->productPriceRent->updateOrCreate([
-                'product_id' => $product['item'][$i]->id,
-                'total_increases_sum' => $this->total_increases_sum['rent'],
-                'total_decreases_sum' => $this->total_decreases_sum['rent'],
-                'price_hour' => $productRequest['price']['rent'][$i],
-                'visible' => $visibleRequest,
-                'active' => 1
-            ]);
-
-            // if ($productRequest['specific']) {
-            //     $this->productSpecific->storeSpecificProduct($i, $productRequest['specific'], $idRequest, $visibleRequest);
-            // }
-
-
-            $i++;
+            $this->total_increases_sum[$key_sale_method] += 1;
+            $this->total_decreases_sum[$key_sale_method] += 1;
         }
+
+
+        $productPricePurchase = $this->productPricePurchase->updateOrCreate([
+            'product_id' => $product['item'][$i]->id,
+            'total_increases_sum' => $this->total_increases_sum['purchase'],
+            'total_decreases_sum' => $this->total_decreases_sum['purchase'],
+            'price' => $productRequest['price']['purchase'][$i],
+            'visible' => $visibleRequest,
+            'active' => 1
+        ]);
+
+        $productPriceRent = $this->productPriceRent->updateOrCreate([
+            'product_id' => $product['item'][$i]->id,
+            'total_increases_sum' => $this->total_increases_sum['rent'],
+            'total_decreases_sum' => $this->total_decreases_sum['rent'],
+            'price_hour' => $productRequest['price']['rent'][$i],
+            'visible' => $visibleRequest,
+            'active' => 1
+        ]);
 
         return $product;
     }
+
+   private function storeProductPricePurchase()
+   {
+       $productPricePurchase = $this->productPricePurchase->updateOrCreate([
+            'product_id' => $product['item'][$i]->id,
+            'total_increases_sum' => $this->total_increases_sum['purchase'],
+            'total_decreases_sum' => $this->total_decreases_sum['purchase'],
+            'price' => $productRequest['price']['purchase'][$i],
+            'visible' => $visibleRequest,
+            'active' => 1
+        ]);
+   }
+
 
     public function show($specific_id)
     {

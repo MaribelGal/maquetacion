@@ -13,7 +13,7 @@ use App\Vendor\Locale\Locale;
 use App\Vendor\Locale\LocaleSlugSeo;
 use App\Vendor\Image\Image;
 use App\Vendor\Product\Product;
-use App\Models\DB\Management\Products\Shirt\ShirtModel;
+use App\Models\DB\Management\Products\Shirt\Shirt;
 
 use Debugbar;
 use Jenssegers\Agent\Agent;
@@ -28,7 +28,7 @@ class ShirtController extends Controller
     protected $agent;
     protected $paginationNum;
 
-    function __construct(ShirtModel $shirt, Agent $agent, Locale $locale, LocaleSlugSeo $localeSlugSeo, Image $image, Product $product)
+    function __construct(Shirt $shirt, Agent $agent, Locale $locale, LocaleSlugSeo $localeSlugSeo, Image $image, Product $product)
     {
         $this->middleware('auth');
         $this->shirt = $shirt;
@@ -78,64 +78,17 @@ class ShirtController extends Controller
 
     public function store()
     {
-
         DebugBar::info(request());
 
-        $shirt_model = $this->shirt->updateOrCreate([
-            'id' => request('shirt_model_id')
-        ], [
-            'name' => request('name'),
-            // 'shirt_size_id' => request('size'),
-            'shirt_sleeve_id' => request('sleeve'),
-            'shirt_neck_id' => request('neck'),
-            'shirt_pattern_id' => request('pattern'),
-            // 'color_id' => request('color'),
-            'brand_id' => request('brand'),
-            'visible' => request('visible'),
-            'active' => 1,
-        ]);
-
-
-        DebugBar::info($shirt_model->id);
-
         if (request('product')) {
-            $product = $this->product->store(
-                request('name'),
+            $product = $this->product->storeProduct(
                 request('product'),
-                $shirt_model->id,
-                request('visible')
             );
         }
 
-
-        if (request('seo')) {
-            $seo = $this->localeSlugSeo->store(request('seo'), $product['group']->id, 'front_product');
+        if (request('images')) {
+            $images = $this->image->store(request('images'), $product->id);
         }
-
-        if (request('locale')) {
-            $locale = $this->locale->store(request('locale'), $product['group']->id);
-        }
-
-        Debugbar::info('aquii');
-        Debugbar::info($product['item']);
-
-        $i = 1;
-        foreach ($product['item'] as $productItem) {
-            if (request('images')) {
-                $images = $this->image->storeRequest(request('images'), 'webp', $product['item'][$i]->id);
-            }
-            $i++;
-        }
-        // Debugbar::info(is_countable($product['item']));
-        // Debugbar::info(count($product['item']));
-
-        // for ($i=0; $i < count($product['item']); $i++) { 
-        //     Debugbar::info(count($product['item']));
-        //     if (request('images')) {
-        //         $images = $this->image->storeRequest(request('images'), 'webp', $product['item'][$i+1]->id);
-        //     }
-
-        // }
 
 
         if (request('id')) {
@@ -156,7 +109,7 @@ class ShirtController extends Controller
             'table' => $sections['table'],
             'tablerows' => $sections['tablerows'],
             'form' => $sections['form'],
-            'product_id' => $shirt_model->id
+            // 'product' => $shirt_model->id
         ]);
     }
 
