@@ -2426,12 +2426,19 @@ var generateItem_OnLoad = function generateItem_OnLoad() {
     templateItem.classList.remove("generate-item-onload");
     var newItem = generateItem(templateItem, 0, templateItem);
     newItem.removeAttribute('hidden');
-    newItem.classList.add("variant-item");
-    newItem.classList.add("variant-item_active");
+
+    if (templateItem.dataset.tag) {
+      newItem.classList.add(templateItem.dataset.tag);
+    }
   });
 };
 var generateItem = function generateItem(elementToDuplicate, itemNumber, elementBeforeLocation) {
   var newItem = elementToDuplicate.cloneNode(true);
+
+  if (elementToDuplicate.dataset.tag) {
+    newItem.classList.add(elementToDuplicate.dataset.tag);
+  }
+
   actualizeNames(newItem, itemNumber);
   newItem.removeAttribute("id");
   newItem.classList.remove("variant-template");
@@ -3927,37 +3934,43 @@ var renderVariantNavigate = function renderVariantNavigate() {
     var infoActual = variantsPanel.querySelector(".variant-navigate-actual");
     nextButton.addEventListener("click", function () {
       var variantItems = variantsPanel.querySelectorAll(".variant-item");
-      console.log(variantItems);
       var itemActive = selectActiveItem(variantItems, "variant-item_active");
       console.log(itemActive);
       itemActive.classList.remove("variant-item_active");
+      itemActive.toggleAttribute('hidden');
 
       if (itemActive.dataset.variant == variantItems.length - 1) {
         var actualNumber = variantItems.length;
         var newItem = (0,_generateOnLoad__WEBPACK_IMPORTED_MODULE_0__.generateItem)(templateItem, actualNumber, itemActive);
-        newItem.removeAttribute('hidden');
-        newItem.classList.add("variant-item_active");
-        infoTotal.textContent = "/" + actualNumber;
-        infoActual.textContent = actualNumber;
+        newItem.toggleAttribute('hidden');
+        infoTotal.textContent = "/" + (actualNumber + 1);
+        infoActual.textContent = actualNumber + 1;
       } else {
+        console.log('else');
         var nextItem = itemActive.nextSibling;
         nextItem.classList.add("variant-item_active");
-        infoActual.textContent = nextItem.dataset.variant;
+        nextItem.toggleAttribute('hidden');
+        console.log(nextItem);
+        infoActual.textContent = Number(nextItem.dataset.variant) + 1;
       }
     });
     previusButton.addEventListener("click", function () {
       var variantItems = variantsPanel.querySelectorAll(".variant-item");
+      console.log(variantItems);
       var itemActive = selectActiveItem(variantItems, "variant-item_active");
       itemActive.classList.remove("variant-item_active");
+      itemActive.toggleAttribute('hidden');
 
       if (itemActive.dataset.variant == 0) {
         var lastItem = variantItems[variantItems.length - 1];
         lastItem.classList.add("variant-item_active");
-        infoActual.textContent = lastItem.dataset.variant + 1;
+        lastItem.toggleAttribute('hidden');
+        infoActual.textContent = variantItems.length;
       } else {
         var previousItem = itemActive.previousSibling;
         previousItem.classList.add("variant-item_active");
-        infoActual.textContent = previousItem.dataset.variant + 1;
+        previousItem.toggleAttribute('hidden');
+        infoActual.textContent = Number(previousItem.dataset.variant) + 1;
       }
     });
   });

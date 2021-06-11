@@ -1864,12 +1864,19 @@ var generateItem_OnLoad = function generateItem_OnLoad() {
     templateItem.classList.remove("generate-item-onload");
     var newItem = generateItem(templateItem, 0, templateItem);
     newItem.removeAttribute('hidden');
-    newItem.classList.add("variant-item");
-    newItem.classList.add("variant-item_active");
+
+    if (templateItem.dataset.tag) {
+      newItem.classList.add(templateItem.dataset.tag);
+    }
   });
 };
 var generateItem = function generateItem(elementToDuplicate, itemNumber, elementBeforeLocation) {
   var newItem = elementToDuplicate.cloneNode(true);
+
+  if (elementToDuplicate.dataset.tag) {
+    newItem.classList.add(elementToDuplicate.dataset.tag);
+  }
+
   actualizeNames(newItem, itemNumber);
   newItem.removeAttribute("id");
   newItem.classList.remove("variant-template");

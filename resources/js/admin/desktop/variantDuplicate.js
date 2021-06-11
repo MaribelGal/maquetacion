@@ -17,26 +17,31 @@ export let renderVariantNavigate = () => {
         nextButton.addEventListener("click", () => {
             let variantItems = variantsPanel.querySelectorAll(".variant-item");
 
-
-            console.log(variantItems);
             let itemActive = selectActiveItem(variantItems, "variant-item_active"); 
 
             console.log(itemActive);
+
             itemActive.classList.remove("variant-item_active");
-            
+            itemActive.toggleAttribute('hidden');
+
             if (itemActive.dataset.variant == (variantItems.length-1)) {
                 let actualNumber = variantItems.length;
                 let newItem = generateItem(templateItem, actualNumber, itemActive);
 
-                newItem.removeAttribute('hidden');
-                newItem.classList.add("variant-item_active");
+                newItem.toggleAttribute('hidden');
 
-                infoTotal.textContent = "/" + (actualNumber);
-                infoActual.textContent = actualNumber;    
+                infoTotal.textContent = "/" + (actualNumber+1);
+                infoActual.textContent = actualNumber+1;    
             } else {
+                console.log('else');
+                
                 let nextItem = itemActive.nextSibling;
                 nextItem.classList.add("variant-item_active");
-                infoActual.textContent = nextItem.dataset.variant;
+                nextItem.toggleAttribute('hidden');
+
+                console.log(nextItem);
+
+                infoActual.textContent = Number(nextItem.dataset.variant)+1;
             }
 
         });
@@ -44,20 +49,25 @@ export let renderVariantNavigate = () => {
 
         previusButton.addEventListener("click", () => {
             let variantItems = variantsPanel.querySelectorAll(".variant-item");
-
+            
+            console.log(variantItems);
             let itemActive = selectActiveItem(variantItems, "variant-item_active");
             itemActive.classList.remove("variant-item_active");
+            itemActive.toggleAttribute('hidden');
 
-   
             if(itemActive.dataset.variant == 0) {
                 let lastItem = variantItems[variantItems.length-1];
                 lastItem.classList.add("variant-item_active");
-                infoActual.textContent = lastItem.dataset.variant+1;
+                lastItem.toggleAttribute('hidden');
+
+                infoActual.textContent = variantItems.length;
 
             } else {
                 let previousItem = itemActive.previousSibling;
                 previousItem.classList.add("variant-item_active");
-                infoActual.textContent = previousItem.dataset.variant+1;
+                previousItem.toggleAttribute('hidden');
+                
+                infoActual.textContent = Number(previousItem.dataset.variant)+1;
             }
 
 

@@ -958,6 +958,10 @@ svg {
   outline: 0;
 }
 
+.variant-navigate {
+  display: flex;
+}
+
 .portfolio .pagination {
   display: flex;
   margin: 0;
