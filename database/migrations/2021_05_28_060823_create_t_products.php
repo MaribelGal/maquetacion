@@ -17,7 +17,6 @@ class CreateTProducts extends Migration
             $table->id();
             $table->unsignedBigInteger('product_group_id');
             $table->string('product_specific_table');
-            $table->unsignedBigInteger('product_category_id');
             $table->unsignedBigInteger('product_specific_id');
             $table->boolean('visible')->default(1);
             $table->boolean('active')->default(1);

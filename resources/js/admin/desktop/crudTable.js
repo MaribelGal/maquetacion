@@ -24,6 +24,7 @@ const form = document.getElementById("form");
 export let renderForm = () => {
 
     let forms = document.querySelectorAll(".admin-form");
+    let form_area = document.getElementById("form");
     let storeButton = document.getElementById("store-button");
     let createButton = document.getElementById("create-button");
 
@@ -68,6 +69,7 @@ export let renderForm = () => {
                 let data = new FormData(form);
                 let url = form.action;
     
+                
                 if( ckeditors != 'null'){
     
                     Object.entries(ckeditors).forEach(([key, value]) => {
@@ -75,6 +77,11 @@ export let renderForm = () => {
                     });
                 }
     
+                for (var entrada of data.entries()) {
+                    console.log(entrada[0] + ": " + entrada[1]);
+                }
+
+
                 let sendPostRequest = async () => {
     
                     startWait();
@@ -87,7 +94,7 @@ export let renderForm = () => {
                             }
                             
                             table.innerHTML = response.data.table;
-                            form.innerHTML = response.data.form;
+                            form_area.innerHTML = response.data.form;
     
                             stopWait();
                             showMessage('success', response.data.message);

@@ -114,7 +114,7 @@ Route::group(['prefix' => 'admin'], function () {
     ]);
 
 
-    Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    Route::post('/shirtmodel','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model');
     
     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
 

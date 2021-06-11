@@ -18,7 +18,7 @@ use App\Models\DB\Management\Products\Shirt\ShirtModel;
 use Debugbar;
 use Jenssegers\Agent\Agent;
 
-class ShirtController extends Controller
+class ShirtModelController extends Controller
 {
     protected $shirtModel;
     protected $locale;
@@ -38,7 +38,6 @@ class ShirtController extends Controller
         $this->product = $product;
         $this->agent = $agent;
 
-
         if ($this->agent->isMobile()) {
             $this->paginationNum = 6;
         }
@@ -56,9 +55,9 @@ class ShirtController extends Controller
 
     public function store()
     {
-        DebugBar::info(request());
+        // DebugBar::info(request());
 
-        $shirt_model = $this->shirt->updateOrCreate([
+        $shirt_model = $this->shirtModel->updateOrCreate([
             'id' => request('shirt_model_id')
         ], [
             'name' => request('name'),
@@ -66,19 +65,22 @@ class ShirtController extends Controller
             'shirt_neck_id' => request('neck'),
             'shirt_pattern_id' => request('pattern'),
             'brand_id' => request('brand'),
-            'visible' => request('visible'),
+            'visible' => request('visible') == "true" ? 1 : 0 ,
             'active' => 1,
         ]);
 
-        DebugBar::info($shirt_model->id);
 
         if (request('productGroup')) {
             $productGroup = $this->product->storeProductGroup(
                 request('productGroup'),
+                request('category_id'),
+                request('name'),
                 request('visible')
             );
         }
 
+        // DebugBar::info($productGroup);
+        // DebugBar::info(request());
 
         if (request('seo')) {
             $seo = $this->localeSlugSeo->store(request('seo'), $productGroup->id, 'front_product');
@@ -95,20 +97,19 @@ class ShirtController extends Controller
             $message = \Lang::get('admin/shirts.shirt-create');
         }
 
-        $paginate = $this->shirt->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum);
+        $paginate = $this->shirtModel->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum);
 
         $view = View::make('admin.shirts.index')
-            ->with('shirt', $this->shirt)
+            ->with('shirt', $this->shirtModel)
             ->with('shirts', $paginate);
 
         $sections = $view->renderSections();
 
         return response()->json([
             'table' => $sections['table'],
-            'tablerows' => $sections['tablerows'],
             'form' => $sections['form'],
-            'product_id' => $shirt_model->id,
-            'productGroup_id' => $productGroup->id
+            // 'product_id' => $shirt_model->id,
+            // 'productGroup_id' => $productGroup->id
         ]);
     }
    

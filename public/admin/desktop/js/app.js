@@ -2001,6 +2001,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _menuItems__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./menuItems */ "./resources/js/admin/desktop/menuItems.js");
 /* harmony import */ var _selects__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./selects */ "./resources/js/admin/desktop/selects.js");
 /* harmony import */ var _variantDuplicate__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./variantDuplicate */ "./resources/js/admin/desktop/variantDuplicate.js");
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2042,6 +2044,7 @@ var table = document.getElementById("table");
 var form = document.getElementById("form");
 var renderForm = function renderForm() {
   var forms = document.querySelectorAll(".admin-form");
+  var form_area = document.getElementById("form");
   var storeButton = document.getElementById("store-button");
   var createButton = document.getElementById("create-button");
 
@@ -2108,6 +2111,20 @@ var renderForm = function renderForm() {
           });
         }
 
+        var _iterator = _createForOfIteratorHelper(data.entries()),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var entrada = _step.value;
+            console.log(entrada[0] + ": " + entrada[1]);
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+
         var sendPostRequest = /*#__PURE__*/function () {
           var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
             var errors, errorMessage;
@@ -2124,7 +2141,7 @@ var renderForm = function renderForm() {
                       }
 
                       table.innerHTML = response.data.table;
-                      form.innerHTML = response.data.form;
+                      form_area.innerHTML = response.data.form;
                       (0,_wait__WEBPACK_IMPORTED_MODULE_2__.stopWait)();
                       (0,_messages__WEBPACK_IMPORTED_MODULE_3__.showMessage)('success', response.data.message);
                       renderTable();

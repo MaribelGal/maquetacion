@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTShirtsTissues extends Migration
+class CreateTModelsTissues extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateTShirtsTissues extends Migration
      */
     public function up()
     {
-        Schema::create('t_shirts_tissues', function (Blueprint $table) {
+        Schema::create('t_models_tissues', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tissue_id');
-            $table->unsignedBigInteger('product_id'); //shirt  model
+            $table->unsignedBigInteger('model_id'); 
             $table->integer('percentage_tissue');
             $table->boolean('visible')->default(1);
             $table->boolean('active')->default(1);
@@ -31,6 +31,6 @@ class CreateTShirtsTissues extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_shirts_tissues');
+        Schema::dropIfExists('t_model_tissues');
     }
 }

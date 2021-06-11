@@ -4,6 +4,7 @@ namespace App\Vendor\Locale;
 
 use App\Vendor\Locale\Models\LocaleSlugSeo as DBLocaleSlugSeo;
 use App\Vendor\Locale\Models\LocaleSeo as DBLocaleSeo;
+use Debugbar;
 
 class LocaleSlugSeo
 {

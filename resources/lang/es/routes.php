@@ -5,4 +5,6 @@ return array (
   'front_faq' => 'preguntas-frecuentes/{slug}',
   'front_contact' => 'contacto',
   'front_about_us' => 'sobre-nosotros',
+  'front_products' => 'productos',
+  'front_product' => 'producto/{slug}',
 );

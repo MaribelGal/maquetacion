@@ -2,11 +2,13 @@
     $route = 'shirts';
     // $filters = ['category' => $products_categories, 'search' => true, 'created_at' => true ]; 
     // $order = ['fecha de creación' => 'created_at', 'nombre' => 'name', 'categoría' => 'category_id'];
+
+    // Debugbar::info($shirt->model_id);
 @endphp
 
 @extends('admin.layout.table_form')
 
-@section('tablerows')
+@section('table')
     @isset($shirts)
         @foreach ($shirts as $shirt_element)
             <div class="tabla-contenido-fila contents swipe-element " >
@@ -62,9 +64,11 @@
                         <li class="tab-item" data-tab="seo">
                             Seo
                         </li>
-                        <li class="tab-item" data-tab="variaciones">
-                            Variaciones
-                        </li>
+                        @isset($shirt->model_id)
+                            <li class="tab-item" data-tab="variaciones">
+                                Variaciones
+                            </li>
+                        @endisset
                     </ul>
                 </div>
                 
@@ -75,14 +79,14 @@
                 </div>
             </div>
 
-            <form class="admin-form" id="shirts-form" action="{{route("shirts_store")}}" autocomplete="off">
+            <form class="admin-form" id="shirts-form" action="{{route("store_shirt_model")}}" autocomplete="off">
                 
                 {{ csrf_field() }}
 
                 <input autocomplete="false" name="hidden" type="text" style="display:none;">
 
                 <input type="hidden" name="id" value="{{isset($shirt->id) ? $shirt->id : ''}}">
-                <input type="hidden" name="product[product_group_id]" value="{{isset($product->id) ? $product->id : ''}}"/>
+                <input type="hidden" name="productGroup[id]" value="{{isset($product->id) ? $product->id : ''}}"/>
                 
                 <div class="tab-panel tab-active" data-tab="text">
                     <div class="two-columns">
@@ -93,7 +97,7 @@
                                 </label>
                             </div>
                             <div class="form-input">
-                                <select  name="product[category_id]" id="category_id" class="input-highlight">
+                                <select  name="productGroup[category_id]"  class="input-highlight">
                                     <option hidden selected>-- Categoria --</option>
                                     @foreach ($products_categories as $product_category)
                                         <option value="{{ $product_category->id }}"
@@ -285,33 +289,34 @@
 
             </form>
 
+            @isset($shirt->model_id)
             
-            <div class="tab-panel" data-tab="variaciones">
-              
+                <div class="tab-panel" data-tab="variaciones">
 
+                    <div class="variants-panel">
+                        
+                        <div class="variant-navigate">
+                            <div class="variant-navigate-previus">
+                                <svg  viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+                                </svg>
+                            </div>
+                            <div class="variant-navigate-next">
+                                <svg  viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+                                </svg>
+                            </div>
+                            <div class="variant-navigate-actual"></div>
+                            <div class="variant-navigate-total"></div>
+                        </div>
 
-                <div class="variants-panel">
-                    
-                    <div class="variant-navigate">
-                        <div class="variant-navigate-previus">
-                            <svg  viewBox="0 0 24 24">
-                                <path fill="currentColor" d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
-                            </svg>
-                        </div>
-                        <div class="variant-navigate-next">
-                            <svg  viewBox="0 0 24 24">
-                                <path fill="currentColor" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
-                            </svg>
-                        </div>
-                        <div class="variant-navigate-actual"></div>
-                        <div class="variant-navigate-total"></div>
+                        @include('admin.components.shirt_variant_template')
                     </div>
-
-                    @include('admin.components.shirt_variant_template')
                 </div>
-            </div>
-        </div>
+            
 
+            @endisset
+        </div>
     @endif  
 
 @endsection

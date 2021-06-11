@@ -3579,3 +3579,1316 @@ Horizon started successfully.
 [2021-06-08 13:11:01][60676576-29f4-4f59-b5df-43288c906630] Processed:  App\Jobs\ContactEmail
 [2021-06-08 13:11:02][7783e1c5-3f9e-4891-ba21-8484b4d68a93] Processed:  App\Jobs\ContactEmail
 Horizon started successfully.
+Horizon started successfully.
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/vagrant/code/maquetacion/routes/web.php:119
+    115▕ 
+    116▕ 
+    117▕     Route::post('/shirt/model','App\Http\Controllers\Admin\Management\Products\Shirt\ShirtModelController@store')->name('store_shirt_model')
+    118▕     
+  ➜ 119▕     Route::get('/shirts/filter/{filters?}', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController@filter')->name('shirts_filter');
+    120▕ 
+    121▕ 
+    122▕     Route::resource('shirts', 'App\Http\Controllers\Admin\Management\Products\Shirt\ShirtController', [
+    123▕         'names' => [
+
+      [2m+3 vendor frames [22m
+  4   /home/vagrant/code/maquetacion/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+Horizon started successfully.

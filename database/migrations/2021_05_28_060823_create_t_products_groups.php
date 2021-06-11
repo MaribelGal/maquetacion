@@ -16,6 +16,7 @@ class CreateTProductsGroups extends Migration
         Schema::create('t_products_groups', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->unsignedBigInteger('category_id');
             $table->boolean('visible')->default(1);
             $table->boolean('active')->default(1);
             $table->timestamps();

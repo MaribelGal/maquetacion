@@ -31,8 +31,8 @@ class Product
 
     protected $total_increases_sum;
     protected $total_decreases_sum;
-    private $groupRequestM;
-    private $pro
+    
+    private $groupRequest;
 
     public function __construct(
         DBProduct $product,
@@ -64,13 +64,17 @@ class Product
         $this->table = $table;
     }
 
-    public function storeProductGroup($groupRequest, $visible) {
+    public function storeProductGroup(
+        $productGroup,
+        $name,
+        $visible
+        ) {
         $productGroup = $this->productGroup->updateOrCreate([
-            'id' => $groupRequest['id']
+            'id' => $productGroup['id']
         ], [
-            'category_id' => $groupRequest['category'],
-            'name' => $groupRequest['name'],
-            'visible' => $visible,
+            'category_id' => $productGroup['category_id'],
+            'name' => $name,
+            'visible' => $visible == "true" ? 1 : 0 ,
             'active' => 1
         ]);
 

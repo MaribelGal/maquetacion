@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Models\DB\Management\Products\Shirt;
+namespace App\Models\DB\Management\Products;
 
 use App\Models\DB\DBModel;
 use App\Models\DB\Management\Products\Tissue;
 use App\Models\DB\Management\Products\Shirt\Shirt;
 
-class ShirtTissue extends DBModel
+class ModelTissue extends DBModel
 {
 
-    protected $table = 't_shirts_tissues';
+    protected $table = 't_models_tissues';
     
 
     public function shirt()
