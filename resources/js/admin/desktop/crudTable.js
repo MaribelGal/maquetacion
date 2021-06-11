@@ -167,7 +167,7 @@ export let renderTable = () => {
     
                     try {
                         await axios.get(url).then(response => {
-                            form.innerHTML = response.data.form;
+                            form_area.innerHTML = response.data.form;
                             renderForm();
                         });
                         
@@ -212,7 +212,7 @@ export let renderTable = () => {
                             table.innerHTML = response.data.table;
                         }
 
-                        form.innerHTML = response.data.form;
+                        form_area.innerHTML = response.data.form;
                         modalDelete.classList.remove('modal-active');
                         renderTable();
                         renderForm();

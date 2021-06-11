@@ -2224,7 +2224,7 @@ var renderTable = function renderTable() {
                     _context3.prev = 0;
                     _context3.next = 3;
                     return axios.get(url).then(function (response) {
-                      form.innerHTML = response.data.form;
+                      form_area.innerHTML = response.data.form;
                       renderForm();
                     });
 
@@ -2284,7 +2284,7 @@ var renderTable = function renderTable() {
                       table.innerHTML = response.data.table;
                     }
 
-                    form.innerHTML = response.data.form;
+                    form_area.innerHTML = response.data.form;
                     modalDelete.classList.remove('modal-active');
                     renderTable();
                     renderForm();
