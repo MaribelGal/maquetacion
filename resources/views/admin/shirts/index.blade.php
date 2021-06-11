@@ -2,51 +2,47 @@
     $route = 'shirts';
     // $filters = ['category' => $products_categories, 'search' => true, 'created_at' => true ]; 
     // $order = ['fecha de creación' => 'created_at', 'nombre' => 'name', 'categoría' => 'category_id'];
+    Debugbar::info($shirts);
 
-    // Debugbar::info($shirt->model_id);
+    foreach ($shirts as $shirt_element) {
+        Debugbar::info($shirt_element);
+    }
+
 @endphp
 
 @extends('admin.layout.table_form')
 
 @section('table')
     @isset($shirts)
-        @foreach ($shirts as $shirt_element)
-            <div class="tabla-contenido-fila contents swipe-element " >
-                <div class="tabla-contenido-fila-campos contents swipe-front promote-layer grid-column-1">
-                    <div class="tabla-celda grid-column-1 ">{{ $shirt_element->id }}</div>
-                    <div class="tabla-celda grid-column-2 ">{{ $shirt_element->name }}</div>
-                    {{-- <div class="tabla-celda grid-column-3 ">{{ $shirt_element->category->nombre }}</div> --}}
-                    <div class="tabla-celda grid-column-4 ">{{ Carbon\Carbon::parse($shirt_element->created_at)->format('d-m-Y') }}</div>
-                </div>
-
-                <div class="tabla-contenido-fila-iconos contents">
-                    <div class=" tabla-celda swipe-back swipe-delete boton-eliminar grid-column-5" id="swipe-delete"
-                        data-url="{{ route('shirts_destroy', ['shirt' => $shirt_element->id]) }}">
-
-                        <svg viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                                d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
-                        </svg>
+        <div id="table-container">
+            @foreach ($shirts as $shirt_element)
+                <div class="table-row swipe-element">
+                    <div class="table-field-container swipe-front">
+                        <div class="table-field"><p><span>Clave:</span> {{$shirt_element->key}}</p></div>
+                    </div>    
+                    <div class="table-icons-container swipe-back">
+                        <div class="table-icons edit-button right-swipe" data-url="{{route('shirts_store', ['shirt' => $shirt_element->id])}}">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
+                            </svg>
+                        </div> 
                     </div>
 
-                    <div class=" tabla-celda swipe-back swipe-edit boton-editar grid-column-6" id="swipe-edit"
-                        data-url="{{ route('shirts_show', ['shirt' => $shirt_element->id]) }}">
+                    <div class="table-icons delete-button left-swipe" data-url="{{route('shirts_destroy', ['shirt' => $shirt_element->id])}}">
                         <svg viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                                d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" />
+                            <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
                         </svg>
                     </div>
-                </div>
-            </div>
-        @endforeach
+            @endforeach
+        </div>
     @endisset
 @endsection
 
 
+
 @section('form')
 
-    @isset($shirt)
-
+    @isset($shirts)
         <div class="form-container">
 
             <div class="tabs-container">
@@ -58,35 +54,38 @@
                         <li class="tab-item" data-tab="model">
                             Modelo
                         </li>      
-                        {{-- <li class="tab-item" data-tab="images">
-                            Imágenes
-                        </li> --}}
+
                         <li class="tab-item" data-tab="seo">
                             Seo
                         </li>
-                        @isset($shirt->model_id)
+                        @isset($shirtModel)
                             <li class="tab-item" data-tab="variaciones">
                                 Variaciones
                             </li>
                         @endisset
+                        
                     </ul>
                 </div>
                 
                 <div class="tabs-container-buttons">
                     
-                    @include('admin.components.form_buttons', ['route' => $route, 'visible' => $shirt->visible, 'create' => 'create'])
+                    @include('admin.components.form_buttons', [
+                        'route' => $route, 
+                        'visible' => isset($shirtModel) ? $shirtModel->visible : 1, 
+
+                        'create' => 'create'])
                     
                 </div>
             </div>
 
-            <form class="admin-form" id="shirts-form" action="{{route("store_shirt_model")}}" autocomplete="off">
+            <form class="admin-form" id="shirtsmodel-form" action="{{route("store_shirt_model")}}" autocomplete="off">
                 
                 {{ csrf_field() }}
 
                 <input autocomplete="false" name="hidden" type="text" style="display:none;">
 
-                <input type="hidden" name="id" value="{{isset($shirt->id) ? $shirt->id : ''}}">
-                <input type="hidden" name="productGroup[id]" value="{{isset($product->id) ? $product->id : ''}}"/>
+                <input type="hidden" name="id" value="{{isset($shirtModel->id) ? $shirtModel->id : ''}}">
+                <input type="hidden" name="productGroup[id]" value="{{isset($productGroup->id) ? $productGroup->id : ''}}"/>
                 
                 <div class="tab-panel tab-active" data-tab="text">
                     <div class="two-columns">
@@ -101,8 +100,8 @@
                                     <option hidden selected>-- Categoria --</option>
                                     @foreach ($products_categories as $product_category)
                                         <option value="{{ $product_category->id }}"
-                                            @isset($product)
-                                                {{ $product->product_category_id == $product_category->id ? 'selected' : '' }}
+                                            @isset($productGroup)
+                                                {{ $productGroup->category_id == $product_category->id ? 'selected' : '' }}
                                             @endisset
                                             >{{ $product_category->name }}
                                         </option>
@@ -119,7 +118,7 @@
                                 <input 
                                 type="text" 
                                 name="name" 
-                                value="{{isset($shirt->name) ? $shirt->name : ''}}"  
+                                value="{{isset($shirtModel->name) ? $shirtModel->name : ''}}"  
                                 class="input-highlight"  />
                             </div>
                         </div>
@@ -170,16 +169,16 @@
                                     <option hidden selected>-- Mangas --</option>
                                     @foreach ($shirts_sleeves as $shirt_sleeve)
                                         <option value="{{ $shirt_sleeve->id }}"
-                                            {{ $shirt->shirt_sleeve_id == $shirt_sleeve->id ? 'selected' : '' }}>
-                                            {{ $shirt_sleeve->name }}
+                                            @isset($shirtModel)
+                                                {{ $shirtModel->shirt_sleeve_id == $shirt_sleeve->id ? 'selected' : '' }}
+                                            @endisset
+
+                                            >{{ $shirt_sleeve->name }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-
-
-
 
                         <div class="form-group">
                             <div class="form-label">
@@ -190,8 +189,10 @@
                                     <option hidden selected>-- Cuello --</option>
                                     @foreach ($shirts_necks as $shirt_neck)
                                         <option value="{{ $shirt_neck->id }}"
-                                            {{ $shirt->shirt_neck_id == $shirt_neck->id ? 'selected' : '' }}>
-                                            {{ $shirt_neck->name }}
+                                            @isset($shirtModel)
+                                            {{ $shirtModel->shirt_neck_id == $shirt_neck->id ? 'selected' : '' }}
+                                            @endisset
+                                            >{{ $shirt_neck->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -207,8 +208,11 @@
                                     <option hidden selected>-- Estampado --</option>
                                     @foreach ($shirts_patterns as $shirt_pattern)
                                         <option value="{{ $shirt_pattern->id }}"
-                                            {{ $shirt->shirt_pattern_id == $shirt_pattern->id ? 'selected' : '' }}>
-                                            {{ $shirt_pattern->name }}
+
+                                            @isset($shirtModel)
+                                            {{ $shirtModel->shirt_pattern_id == $shirt_pattern->id ? 'selected' : '' }}
+                                            @endisset
+                                            >{{ $shirt_pattern->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -226,8 +230,10 @@
                                     <option hidden selected>-- Marca --</option>
                                     @foreach ($brands as $brand)
                                         <option value="{{ $brand->id }}"
-                                            {{ $shirt->brand_id == $brand->id ? 'selected' : '' }}>
-                                            {{ $brand->name }}
+                                            @isset($shirtModel)
+                                            {{ $shirtModel->brand_id == $brand->id ? 'selected' : '' }}
+                                            @endisset
+                                            >{{ $brand->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -236,12 +242,6 @@
 
                 </div>
 
-
-                <div class="tab-panel" data-tab="images">
-
-
-
-                </div>
 
                 <div class="tab-panel" data-tab="seo">
 
@@ -289,34 +289,32 @@
 
             </form>
 
-            @isset($shirt->model_id)
-            
-                <div class="tab-panel" data-tab="variaciones">
-
-                    <div class="variants-panel">
-                        
-                        <div class="variant-navigate">
-                            <div class="variant-navigate-previus">
-                                <svg  viewBox="0 0 24 24">
-                                    <path fill="currentColor" d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
-                                </svg>
-                            </div>
-                            <div class="variant-navigate-next">
-                                <svg  viewBox="0 0 24 24">
-                                    <path fill="currentColor" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
-                                </svg>
-                            </div>
-                            <div class="variant-navigate-actual"></div>
-                            <div class="variant-navigate-total"></div>
+            @isset($shirtModel)
+            <div class="tab-panel" data-tab="variaciones">
+                <div class="variants-panel">                    
+                    <div class="variant-navigate">
+                        <div class="variant-navigate-previus">
+                            <svg  viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+                            </svg>
                         </div>
-
-                        @include('admin.components.shirt_variant_template')
+                        <div class="variant-navigate-next">
+                            <svg  viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+                            </svg>
+                        </div>
+                        <div class="variant-navigate-actual"></div>
+                        <div class="variant-navigate-total"></div>
                     </div>
-                </div>
-            
 
-            @endisset
+                    @include('admin.components.shirt_variant_template')
+                </div>
+            </div>
+
         </div>
     @endif  
+        </div>
+    @endif  
+
 
 @endsection

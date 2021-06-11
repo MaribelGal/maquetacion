@@ -81,7 +81,7 @@ class Product
         return $productGroup;
     }
 
-    public function storeProduct($productRequest){
+    public function storeProduct($productRequest, $visibleRequest){
         $this->productSpecific->setTable($this->table);
         $specificModel = $this->productSpecific->specificModelProduct();
 

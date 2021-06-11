@@ -5,7 +5,6 @@ export let renderVariantNavigate = () => {
 
     variantsPanels.forEach(variantsPanel => {
         let templateItem = document.querySelector(".variant-template");
-
         
         let nextButton = variantsPanel.querySelector(".variant-navigate-next");
         let previusButton = variantsPanel.querySelector(".variant-navigate-previus");

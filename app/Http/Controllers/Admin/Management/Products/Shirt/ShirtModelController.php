@@ -73,7 +73,6 @@ class ShirtModelController extends Controller
         if (request('productGroup')) {
             $productGroup = $this->product->storeProductGroup(
                 request('productGroup'),
-                request('category_id'),
                 request('name'),
                 request('visible')
             );
@@ -100,8 +99,10 @@ class ShirtModelController extends Controller
         $paginate = $this->shirtModel->where('active', 1)->orderBy('updated_at', 'desc')->paginate($this->paginationNum);
 
         $view = View::make('admin.shirts.index')
+            ->with('shirtModel', $shirt_model)
             ->with('shirt', $this->shirtModel)
-            ->with('shirts', $paginate);
+            ->with('shirts', $paginate)
+            ->with('productGroup', $productGroup);
 
         $sections = $view->renderSections();
 
@@ -113,4 +114,5 @@ class ShirtModelController extends Controller
         ]);
     }
    
+    
 }

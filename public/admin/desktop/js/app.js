@@ -2001,6 +2001,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _menuItems__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./menuItems */ "./resources/js/admin/desktop/menuItems.js");
 /* harmony import */ var _selects__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./selects */ "./resources/js/admin/desktop/selects.js");
 /* harmony import */ var _variantDuplicate__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./variantDuplicate */ "./resources/js/admin/desktop/variantDuplicate.js");
+/* harmony import */ var _generateOnLoad__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./generateOnLoad */ "./resources/js/admin/desktop/generateOnLoad.js");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -2020,6 +2021,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 
@@ -2097,6 +2099,7 @@ var renderForm = function renderForm() {
 
   if (storeButton) {
     storeButton.addEventListener("click", function (event) {
+      event.preventDefault();
       forms.forEach(function (form) {
         var data = new FormData(form);
         var url = form.action;
@@ -2140,6 +2143,7 @@ var renderForm = function renderForm() {
                         form.id.value = response.data.id;
                       }
 
+                      console.log(url);
                       table.innerHTML = response.data.table;
                       form_area.innerHTML = response.data.form;
                       (0,_wait__WEBPACK_IMPORTED_MODULE_2__.stopWait)();
@@ -2202,6 +2206,7 @@ var renderForm = function renderForm() {
   (0,_menuItems__WEBPACK_IMPORTED_MODULE_17__.renderMenuItems)();
   (0,_selects__WEBPACK_IMPORTED_MODULE_18__.renderSelects)();
   (0,_variantDuplicate__WEBPACK_IMPORTED_MODULE_19__.renderVariantNavigate)();
+  (0,_generateOnLoad__WEBPACK_IMPORTED_MODULE_20__.generateItem_OnLoad)();
 };
 var renderTable = function renderTable() {
   var editButtons = document.querySelectorAll(".edit-button");
@@ -2454,9 +2459,9 @@ var generateItem = function generateItem(elementToDuplicate, itemNumber, element
 
   if (elementToDuplicate.dataset.tag) {
     newItem.classList.add(elementToDuplicate.dataset.tag);
-  }
+  } // actualizeNames(newItem, itemNumber);
 
-  actualizeNames(newItem, itemNumber);
+
   newItem.removeAttribute("id");
   newItem.classList.remove("variant-template");
   var att = document.createAttribute("data-variant");

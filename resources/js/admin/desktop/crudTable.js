@@ -17,6 +17,7 @@ import {renderNestedSortables} from './sortable';
 import {renderMenuItems} from './menuItems';
 import {renderSelects} from './selects';
 import { renderVariantNavigate } from './variantDuplicate';
+import { generateItem_OnLoad } from './generateOnLoad';
 
 const table = document.getElementById("table");
 const form = document.getElementById("form");
@@ -63,7 +64,7 @@ export let renderForm = () => {
     if(storeButton){
 
         storeButton.addEventListener("click", (event) => {
-    
+            event.preventDefault();
             forms.forEach(form => { 
                 
                 let data = new FormData(form);
@@ -92,7 +93,7 @@ export let renderForm = () => {
                             if(response.data.id){
                                 form.id.value = response.data.id;
                             }
-                            
+                            console.log(url);
                             table.innerHTML = response.data.table;
                             form_area.innerHTML = response.data.form;
     
@@ -145,6 +146,7 @@ export let renderForm = () => {
     renderMenuItems();
     renderSelects();
     renderVariantNavigate();
+    generateItem_OnLoad();
 };
 
 export let renderTable = () => {

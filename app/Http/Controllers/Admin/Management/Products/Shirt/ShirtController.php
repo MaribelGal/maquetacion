@@ -113,7 +113,7 @@ class ShirtController extends Controller
         ]);
     }
 
-    public function show(Shirt $shirt)
+    public function edit(Shirt $shirt)
     {
         $product = $this->product->show($shirt->id)[0];
 
@@ -139,7 +139,6 @@ class ShirtController extends Controller
             return response()->json([
                 'form' => $sections['form'],
                 'table' => $sections['table'],
-                'tablerows' => $sections['tablerows'],
             ]);
         }
 

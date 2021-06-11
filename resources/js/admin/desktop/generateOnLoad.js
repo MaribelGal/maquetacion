@@ -25,7 +25,7 @@ export let generateItem = (elementToDuplicate, itemNumber, elementBeforeLocation
         newItem.classList.add(elementToDuplicate.dataset.tag);
     }
 
-    actualizeNames(newItem, itemNumber);
+    // actualizeNames(newItem, itemNumber);
     newItem.removeAttribute("id");
     newItem.classList.remove("variant-template");
     let att = document.createAttribute("data-variant");

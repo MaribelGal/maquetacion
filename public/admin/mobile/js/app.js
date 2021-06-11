@@ -1900,9 +1900,9 @@ var generateItem = function generateItem(elementToDuplicate, itemNumber, element
 
   if (elementToDuplicate.dataset.tag) {
     newItem.classList.add(elementToDuplicate.dataset.tag);
-  }
+  } // actualizeNames(newItem, itemNumber);
 
-  actualizeNames(newItem, itemNumber);
+
   newItem.removeAttribute("id");
   newItem.classList.remove("variant-template");
   var att = document.createAttribute("data-variant");
